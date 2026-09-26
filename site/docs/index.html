@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation · Maple Harness docs</title>
+<meta name="description" content="Maple Harness is a coding agent for GitHub Copilot&#x27;s models, Claude and models on your own machine, with a proxy that holds your sign-ins, and a phone page for driving a session from anywhere. These p">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="documentation">Documentation <a class="anchor" href="#documentation" aria-label="Link to this heading">#</a></h1>
+<p>Maple Harness is a coding agent for GitHub Copilot's models, Claude and models on your own machine, with a
+proxy that holds your sign-ins, and a phone page for driving a session from anywhere. These pages cover
+installing it, signing in, connecting models, and using it from your phone.</p>
+<h2 id="start-here">Start here <a class="anchor" href="#start-here" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>I want to…</th><th>Read</th></tr></thead><tbody><tr><td>Install it, update it or remove it</td><td><a href="install.html">Install</a></td></tr><tr><td>Get a first session running</td><td><a href="getting-started.html">Getting started</a></td></tr><tr><td>Sign in to GitHub Copilot or Claude</td><td><a href="sign-in.html">Signing in</a></td></tr><tr><td>Understand the proxy and its setup page</td><td><a href="proxy.html">The proxy</a></td></tr><tr><td>Use Ollama, LM Studio, oMLX, Lemonade, Unsloth or any OpenAI-compatible server</td><td><a href="endpoints.html">Connect a model server</a></td></tr><tr><td>Point Claude Code, OpenCode or another tool at my models</td><td><a href="endpoints.html#use-your-models-from-other-tools">Connect a model server</a></td></tr><tr><td>Choose or switch models, or let it choose</td><td><a href="models.html">Models</a></td></tr><tr><td>Control a session from my phone</td><td><a href="remote-control.html">Remote control</a></td></tr><tr><td>Hand jobs to helper agents, or make my own</td><td><a href="subagents.html">Subagents</a></td></tr><tr><td>Give another tool this project's knowledge</td><td><a href="mcp.html">MCP server</a></td></tr><tr><td>Keep the proxy running in the background</td><td><a href="services.html">Running as a service</a></td></tr><tr><td>Fix something</td><td><a href="troubleshooting.html">Troubleshooting</a></td></tr><tr><td>Know what it can touch and how to keep it safe</td><td><a href="security.html">Security</a></td></tr><tr><td>Read the licence</td><td><a href="license.html">Licence</a></td></tr></tbody></table></div>
+<p>Downloads and release notes are on the
+<a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener noreferrer">releases page</a>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

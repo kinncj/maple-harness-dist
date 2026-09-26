@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subagents · Maple Harness docs</title>
+<meta name="description" content="A subagent is a second session that the main one hands a small, self-contained job to: &quot;find where the retry logic lives&quot;, &quot;review this diff&quot;, &quot;plan the change&quot;. It has its own instructions, its own l">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="subagents">Subagents <a class="anchor" href="#subagents" aria-label="Link to this heading">#</a></h1>
+<p>A subagent is a second session that the main one hands a small, self-contained job to: "find where the retry
+logic lives", "review this diff", "plan the change". It has its own instructions, its own list of tools and
+optionally its own model. It does not see your conversation, and only its final report comes back, so a long
+search stays out of the main conversation.</p>
+<h2 id="the-ones-you-already-have">The ones you already have <a class="anchor" href="#the-ones-you-already-have" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Name</th><th>What it does</th></tr></thead><tbody><tr><td><code>general-purpose</code></td><td>Takes any self-contained task. Has the same tools as the main session</td></tr><tr><td><code>explore</code></td><td>Reads and searches the project and answers questions about it. Cannot change anything</td></tr><tr><td><code>plan</code></td><td>Studies the code and returns a step-by-step plan. Cannot change anything</td></tr></tbody></table></div>
+<p>The model uses them by itself when a job fits. To run one yourself, type <code>@</code> and the name, then the job:</p>
+<pre><code class="language-text">@explore where is the retry logic, and what limits it?</code></pre>
+<p>Press Tab after the <code>@</code> to complete a name. <code>/agent explore where is the retry logic?</code> does the same.</p>
+<h2 id="watching-them-work">Watching them work <a class="anchor" href="#watching-them-work" aria-label="Link to this heading">#</a></h2>
+<p>While a subagent runs, a small list appears under the input box:</p>
+<pre><code class="language-text">  ● main
+  ◯ explore  reading the retry code                    31s · ↓ 339.6k tokens
+  ! plan     waiting for your approval                 12s · ↓ 1.2k tokens</code></pre>
+<p><code>◯</code> is running, <code>!</code> is waiting for you, <code>✓</code> finished, <code>✗</code> failed or stopped. Press the down arrow from an empty
+input box (or <code>ctrl+t</code> from anywhere) to move into the list, then:</p>
+<ul><li>the arrow keys choose between <code>main</code> and a subagent;</li><li><strong>Enter</strong> on a subagent shows what it is doing, live and read-only (<strong>Esc</strong> goes back);</li><li><strong>x</strong>, then <strong>y</strong>, stops the chosen subagent;</li><li><strong>c</strong> folds the list into a count on the status line ("2 agents").</li></ul>
+<p>When a subagent needs your approval to write a file or run a command, the question comes to you like any other,
+with the subagent's name in it. Nothing is approved for you. A subagent can never do more than the main session
+is allowed to do.</p>
+<p>On the phone page, an <strong>agents</strong> button in the status row opens the same list.</p>
+<h2 id="make-your-own">Make your own <a class="anchor" href="#make-your-own" aria-label="Link to this heading">#</a></h2>
+<p>Type <code>/agents</code>. You see every agent with where it lives, and can view, create, edit or delete them. Creating
+one asks where it should live (this project, or all your projects), a name, a description (this is what tells
+the model when to use it), which tools it may use (all, read-only, or a list you tick), which model, a turn
+limit, and its instructions. It writes an ordinary file, and the new agent works straight away.</p>
+<p>The file is the same format Claude Code uses, so you can also write it by hand in <code>.claude/agents/</code> in a project
+or <code>~/.claude/agents/</code> for yourself:</p>
+<pre><code class="language-markdown">---
+name: reviewer
+description: Reviews a diff for bugs. Use after a change is made.
+tools: read_file, grep
+model: gpt-4.1
+maxTurns: 12
+---
+You review code. Report real bugs first, with the file and line, and nothing else.</code></pre>
+<p>If a project agent and one of yours share a name, the project's is used. Either one replaces a built-in of the
+same name.</p>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Setting</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td><code>harness.subagents.max_parallel</code></td><td><code>3</code></td><td>How many run at the same time when the model hands out several jobs at once</td></tr><tr><td><code>harness.subagents.max_turns</code></td><td><code>50</code></td><td>The most turns any one subagent may take</td></tr></tbody></table></div>
+<p>When the model gives out several jobs in one message they run together, and their reports come back in the order
+they were asked. Each subagent's tokens count in your session's total.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

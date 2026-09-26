@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kinncj.github.io/maple-harness-dist/sitemap.xml

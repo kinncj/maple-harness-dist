@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing a model · Maple Harness docs</title>
+<meta name="description" content="Switch models at any time inside the agent:">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="choosing-a-model">Choosing a model <a class="anchor" href="#choosing-a-model" aria-label="Link to this heading">#</a></h1>
+<p>Switch models at any time inside the agent:</p>
+<pre><code>/model              pick from a list
+/model gpt-4.1      switch directly
+/model auto         let the agent choose for each message</code></pre>
+<p>Which models appear depends on what you have configured: the ones your Copilot plan allows, the ones your
+Anthropic key can call, and whatever your local servers have loaded. The agent also shows how much of the
+model's context is used, in the status bar. <code>/context</code> shows the figures.</p>
+<h2 id="automatic-choice">Automatic choice <a class="anchor" href="#automatic-choice" aria-label="Link to this heading">#</a></h2>
+<p><code>/model auto</code> chooses a model for each message from your current provider's own ranking of its models, and
+tells you what it chose and why. For example, the status bar reads <code>gpt-4.1 (auto: heavy)</code> and the first
+message prints a line such as <code>model: auto → gpt-4.1 (heavy; no powerful model on this account; used
+versatile)</code>.</p>
+<p><strong>It works inside one provider at a time and never switches between them.</strong> If you are on a Copilot model,
+each message picks among Copilot's models. If you are on an Ollama model, it stays in Ollama. Moving between
+a cloud model and a local one changes cost, privacy and capability, so that stays your decision: use
+<code>/model &lt;name&gt;</code>.</p>
+<ul><li><strong>Providers with a ranking.</strong> GitHub Copilot labels each model powerful, versatile or lightweight, and
+auto uses those labels. An account with no powerful model (Copilot's free plan) sends heavy work to the
+best model it has.</li><li><strong>Providers without one.</strong> Ollama, LM Studio, oMLX and Apple's on-device model publish no ranking, so there
+is nothing to choose between and auto keeps your model. To rank a local provider's models yourself, add
+<code>category: powerful</code>, <code>versatile</code> or <code>lightweight</code> to each model in <code>config.yaml</code>.</li><li><strong>Choose it yourself.</strong> <code>harness.auto_model_map</code> pins the model used for heavy, medium and light work:
+<pre><code class="language-yaml">harness:
+  auto_model_map:
+    heavy: gpt-5-mini
+    medium: gpt-4.1
+    light: claude-haiku-4.5</code></pre>
+<p>It is one map, and every model in it must belong to the provider you are currently on; an entry for
+another provider is ignored with a notice.</p></li></ul>
+<p><code>maple-harness doctor</code> shows what auto would use on your account.</p>
+<h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
+<p>Set the model the agent starts with in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">harness:
+  default_model: gpt-4.1
+  auto_model: false      # true starts every session in automatic mode</code></pre>
+<p>If the configured model is not one your proxy serves, the agent starts on the first usable model it does
+serve and prints a one-line note listing the real names.</p>
+<h2 id="effort-and-thinking">Effort and thinking <a class="anchor" href="#effort-and-thinking" aria-label="Link to this heading">#</a></h2>
+<pre><code>/effort             list the levels this model accepts
+/thinking off       spend no reasoning tokens
+/plan               read-only mode: the answer is a plan</code></pre>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

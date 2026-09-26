@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started · Maple Harness docs</title>
+<meta name="description" content="A first session in three steps.">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="getting-started">Getting started <a class="anchor" href="#getting-started" aria-label="Link to this heading">#</a></h1>
+<p>A first session in three steps.</p>
+<h2 id="1-start-the-proxy">1. Start the proxy <a class="anchor" href="#1-start-the-proxy" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-proxy serve</code></pre>
+<p>The proxy is the one program that talks to models and keeps your sign-ins. The agent starts it for you if
+nothing is listening, so you can skip this step, but running it yourself lets you watch what it does. On
+first run it looks for Ollama and Apple's on-device model and writes a working starter configuration.</p>
+<p>It opens three local addresses:</p>
+<div class="tablewrap"><table><thead><tr><th>Address</th><th>What it is</th></tr></thead><tbody><tr><td><code>http://127.0.0.1:11539</code></td><td>The <strong>setup page</strong>: sign in, add models, make access tokens</td></tr><tr><td><code>http://127.0.0.1:11535/v1</code></td><td>An OpenAI-compatible API for your models</td></tr><tr><td><code>http://127.0.0.1:11537</code></td><td>An Anthropic-compatible API for your models</td></tr></tbody></table></div>
+<h2 id="2-sign-in-or-add-a-model">2. Sign in or add a model <a class="anchor" href="#2-sign-in-or-add-a-model" aria-label="Link to this heading">#</a></h2>
+<p>Open <code>http://127.0.0.1:11539</code> and either sign in to GitHub Copilot, save an Anthropic API key, or add a
+local model server. Or do it from the terminal:</p>
+<pre><code class="language-sh">maple-harness auth login github-copilot
+maple-harness auth login claude</code></pre>
+<p>Details for each are in <a href="sign-in.html">Signing in</a> and <a href="endpoints.html">Connect a model server</a>.</p>
+<h2 id="3-start-the-agent">3. Start the agent <a class="anchor" href="#3-start-the-agent" aria-label="Link to this heading">#</a></h2>
+<p>Go to a project directory and run:</p>
+<pre><code class="language-sh">maple-harness</code></pre>
+<p>Type what you want done. Useful first commands:</p>
+<div class="tablewrap"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>/model</code></td><td>Choose a model from the list, or <code>/model auto</code> to let the agent choose per message</td></tr><tr><td><code>/help</code></td><td>List every command</td></tr><tr><td><code>/remote</code></td><td>Share this session with your phone (<a href="remote-control.html">Remote control</a>)</td></tr><tr><td><code>/sandbox</code></td><td>See whether shell commands are contained</td></tr><tr><td><code>/clear</code></td><td>Start over</td></tr></tbody></table></div>
+<p>By default the agent <strong>asks before it writes a file or runs a command</strong>. Answer with the keys shown. Rules
+in your configuration can allow or deny specific tools; a <code>deny</code> rule always wins. The flag <code>--yolo</code> allows
+everything you would otherwise be asked about (deny rules still apply), so use it only in a throwaway
+checkout or a container.</p>
+<p>If something does not work, run <code>maple-harness doctor</code>. It checks the install and says how to fix each
+problem.</p>
+<h2 id="where-things-are-kept">Where things are kept <a class="anchor" href="#where-things-are-kept" aria-label="Link to this heading">#</a></h2>
+<p>Everything lives in <code>~/.config/maple-harness/</code> (<code>%APPDATA%\maple-harness</code> on Windows): the configuration
+file <code>config.yaml</code>, saved sessions, memory notes, and your sign-ins. Sign-ins are kept in your system
+keyring where there is one, not in the configuration file.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

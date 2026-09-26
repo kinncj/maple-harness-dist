@@ -1,0 +1,43 @@
+/* Shared by every generated documentation page. Tokens match the landing page. */
+:root{--bg:#FAF6F2;--surface:#F1EAE3;--ink:#231A16;--muted:#5E504A;--line:#DCCFC6;--accent:#B23A1B;--link:#A5330F;--on-accent:#fff;--code-bg:#F1EAE3;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141010;--surface:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;--accent:#E4572E;--link:#F08A66;--on-accent:#140E0B;--code-bg:#1E1816;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#141010;--surface:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;--accent:#E4572E;--link:#F08A66;--on-accent:#140E0B;--code-bg:#1E1816;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--on-accent);padding:8px 12px;border-radius:8px;z-index:10}
+.skip:focus{left:8px}
+a{color:var(--link);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center}
+.top nav{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.top nav a{color:var(--ink);text-decoration:none;font-weight:600}
+.top nav a:hover{color:var(--link);text-decoration:underline}
+.theme{display:inline-grid;place-items:center;font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;width:36px;height:36px;cursor:pointer}
+.doc{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+.doc h1{font-size:2rem;line-height:1.2;margin:.6em 0 .4em}
+.doc h2{font-size:1.45rem;margin:2em 0 .5em;padding-top:.6em;border-top:1px solid var(--line)}
+.doc h3{font-size:1.15rem;margin:1.6em 0 .4em}
+.doc h4,.doc h5,.doc h6{font-size:1rem;margin:1.4em 0 .3em}
+.anchor{visibility:hidden;margin-left:.3em;text-decoration:none;color:var(--muted);font-weight:400}
+h1:hover .anchor,h2:hover .anchor,h3:hover .anchor,h4:hover .anchor,.anchor:focus{visibility:visible}
+code{font:.9em var(--mono);background:var(--code-bg);padding:.12em .35em;border-radius:5px}
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;line-height:1.5}
+pre code{background:none;padding:0;font-size:.85rem}
+pre.plain{white-space:pre-wrap;font:.85rem var(--mono)}
+blockquote{margin:1em 0;padding:.1em 1em;border-left:4px solid var(--accent);color:var(--muted)}
+hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+img{max-width:100%;height:auto}
+.tablewrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;min-width:100%;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:.45em .75em;vertical-align:top;text-align:left}
+th{background:var(--surface)}
+li.task{list-style:none;margin-left:-1.3em}
+.align-center{text-align:center}.align-right{text-align:right}
+.nolink{border-bottom:1px dotted var(--muted)}
+.foot{margin-top:3em;padding-top:1em;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+/* Long inline code (a path, a header name) wraps instead of widening the page on a phone. */
+p code,li code,td code{overflow-wrap:anywhere}

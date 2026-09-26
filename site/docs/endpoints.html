@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect a model server · Maple Harness docs</title>
+<meta name="description" content="Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio, vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editin">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="connect-a-model-server">Connect a model server <a class="anchor" href="#connect-a-model-server" aria-label="Link to this heading">#</a></h1>
+<p>Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio,
+vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editing the
+configuration file.</p>
+<h2 id="from-the-setup-page">From the setup page <a class="anchor" href="#from-the-setup-page" aria-label="Link to this heading">#</a></h2>
+<ol><li>Open <code>http://127.0.0.1:11539</code> and choose <strong>Add provider</strong>.</li><li>Pick the type. The usual address for that server is filled in.</li><li>Press <strong>Detect models</strong> to list what the server has loaded, then save.</li></ol>
+<p>It applies immediately. No restart is needed.</p>
+<h2 id="by-hand">By hand <a class="anchor" href="#by-hand" aria-label="Link to this heading">#</a></h2>
+<p>Add a provider to <code>~/.config/maple-harness/config.yaml</code>:</p>
+<pre><code class="language-yaml">providers:
+  - id: ollama
+    type: ollama
+    base_url: http://127.0.0.1:11434/v1
+    optional: true
+    models:
+      - id: qwen3-coder
+        alias: local
+        supports_tools: true</code></pre>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>id</code></td><td>A name for this provider</td></tr><tr><td><code>type</code></td><td>What kind of server it is (table below)</td></tr><tr><td><code>base_url</code></td><td>The server's address <strong>including</strong> <code>/v1</code> (Lemonade uses <code>/api/v1</code>)</td></tr><tr><td><code>optional: true</code></td><td>If the server is not running, skip it instead of failing to start. Good for anything auto-detected</td></tr><tr><td><code>models[].id</code></td><td>The model's name as the server knows it</td></tr><tr><td><code>models[].alias</code></td><td>A short name you can use in <code>/model</code> and in other tools</td></tr><tr><td><code>models[].supports_tools</code></td><td>Whether the model can call tools, which the agent needs</td></tr><tr><td><code>models[].context_window</code></td><td>Usually leave this out: the proxy asks the server. Set it only if the server does not say</td></tr><tr><td><code>api_key</code></td><td>For servers that need one (see below)</td></tr></tbody></table></div>
+<h2 id="types-and-their-usual-addresses">Types and their usual addresses <a class="anchor" href="#types-and-their-usual-addresses" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th><code>type</code></th><th>Server</th><th>Address</th></tr></thead><tbody><tr><td><code>ollama</code></td><td>Ollama</td><td><code>http://127.0.0.1:11434/v1</code></td></tr><tr><td><code>lmstudio</code></td><td>LM Studio</td><td><code>http://127.0.0.1:1234/v1</code></td></tr><tr><td><code>omlx</code></td><td>oMLX (Apple silicon)</td><td><code>http://127.0.0.1:8000/v1</code></td></tr><tr><td><code>lemonade</code></td><td>Lemonade Server (AMD)</td><td><code>http://127.0.0.1:13305/api/v1</code></td></tr><tr><td><code>unsloth</code></td><td>Unsloth Studio (expects an API key)</td><td><code>http://127.0.0.1:8888/v1</code></td></tr><tr><td><code>openai-compatible</code></td><td>Anything else that speaks the OpenAI API</td><td>you set it</td></tr><tr><td><code>apple-foundation-models</code></td><td>Apple's on-device model (macOS 26, Apple silicon)</td><td>none</td></tr></tbody></table></div>
+<p>GitHub Copilot and Anthropic are signed in, not addressed: see <a href="sign-in.html">Signing in</a>.</p>
+<h2 id="api-keys">API keys <a class="anchor" href="#api-keys" aria-label="Link to this heading">#</a></h2>
+<p>If a server needs a key, do not paste it into the file. Refer to it:</p>
+<pre><code class="language-yaml">providers:
+  - id: my-server
+    type: openai-compatible
+    base_url: https://models.example.com/v1
+    api_key: ${env:MY_SERVER_KEY}        # read from an environment variable
+    # api_key: ${secret:my-server-key}   # or from your system keyring</code></pre>
+<p>A key you type on the setup page is stored in the keyring for you.</p>
+<h2 id="use-your-models-from-other-tools">Use your models from other tools <a class="anchor" href="#use-your-models-from-other-tools" aria-label="Link to this heading">#</a></h2>
+<p>Any tool that speaks the OpenAI or Anthropic API can use the proxy. Point it at the proxy's addresses:</p>
+<pre><code class="language-sh"># Claude Code, against one of your models
+ANTHROPIC_BASE_URL=http://127.0.0.1:11537 ANTHROPIC_MODEL=local claude
+
+# anything OpenAI-compatible
+OPENAI_BASE_URL=http://127.0.0.1:11535/v1</code></pre>
+<p><code>local</code> is the alias from the example above. You can list your models at <code>http://127.0.0.1:11535/v1/models</code>.
+To give a tool a fixed name for a model, add it under <code>model_aliases:</code> in the configuration.</p>
+<p>Tools on <strong>other machines</strong> need an access token: see
+<a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>.</p>
+<h2 id="check-it">Check it <a class="anchor" href="#check-it" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">curl http://127.0.0.1:11535/v1/models          # your models
+maple-harness doctor                           # checks the install and each provider</code></pre>
+<p>If <strong>Detect models</strong> finds nothing, the server is usually not running or the address is missing its <code>/v1</code>.
+See <a href="troubleshooting.html">Troubleshooting</a>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install · Maple Harness docs</title>
+<meta name="description" content="Maple Harness is two programs: maple-harness (the agent, also available as cch) and maple-proxy (which holds your sign-ins and talks to the models, also ccp). On Apple silicon there is a third, a smal">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="install">Install <a class="anchor" href="#install" aria-label="Link to this heading">#</a></h1>
+<p>Maple Harness is two programs: <code>maple-harness</code> (the agent, also available as <code>cch</code>) and <code>maple-proxy</code>
+(which holds your sign-ins and talks to the models, also <code>ccp</code>). On Apple silicon there is a third, a small
+helper for Apple's on-device model. The installer fetches all of them.</p>
+<h2 id="one-line">One line <a class="anchor" href="#one-line" aria-label="Link to this heading">#</a></h2>
+<p>macOS and Linux:</p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
+<p>Windows (PowerShell):</p>
+<pre><code class="language-powershell">irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</code></pre>
+<p>No account or token is needed. The installer detects your system, downloads the release, checks every
+file against the release's <code>SHA256SUMS</code>, and refuses to install anything that does not match. To read it
+first, <a href="https://github.com/kinncj/maple-harness-dist/blob/main/install.sh" rel="noopener noreferrer">open it on GitHub</a>.</p>
+<p>By default it installs to <code>/usr/local/bin</code>. To choose another place, or a specific release:</p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash -s -- --install-location ~/.local/bin
+MAPLEHARNESS_VERSION=v1.0.0 curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
+<p>Check it worked:</p>
+<pre><code class="language-sh">maple-harness version
+maple-proxy version</code></pre>
+<h2 id="platforms">Platforms <a class="anchor" href="#platforms" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>System</th><th>Agent and proxy</th><th>Apple on-device model</th></tr></thead><tbody><tr><td>macOS, Apple silicon</td><td>yes</td><td>yes (macOS 26 or newer)</td></tr><tr><td>macOS, Intel</td><td>yes</td><td>no</td></tr><tr><td>Linux, amd64 and arm64</td><td>yes</td><td>no</td></tr><tr><td>Windows, amd64</td><td>yes (less tested)</td><td>no</td></tr></tbody></table></div>
+<p>Linux packages (<code>.deb</code>, <code>.rpm</code>, <code>.apk</code>) are attached to stable releases, and there is a Homebrew tap
+(<code>brew install kinncj/tap/maple-harness</code>) once the first stable release is out.</p>
+<h2 id="optional-contain-the-shell-bubblewrap">Optional: contain the shell (bubblewrap) <a class="anchor" href="#optional-contain-the-shell-bubblewrap" aria-label="Link to this heading">#</a></h2>
+<p>The agent can run the commands its shell tool executes inside a sandbox. On macOS that is built in. On
+Linux it needs bubblewrap, which is <strong>optional</strong>: without it the shell still works, uncontained.</p>
+<div class="tablewrap"><table><thead><tr><th>System</th><th>Command</th></tr></thead><tbody><tr><td>Arch, Manjaro</td><td><code>sudo pacman -S bubblewrap</code></td></tr><tr><td>Debian, Ubuntu</td><td><code>sudo apt install bubblewrap</code></td></tr><tr><td>Fedora, RHEL</td><td><code>sudo dnf install bubblewrap</code></td></tr><tr><td>openSUSE</td><td><code>sudo zypper install bubblewrap</code></td></tr><tr><td>Alpine</td><td><code>sudo apk add bubblewrap</code></td></tr></tbody></table></div>
+<p>Run <code>/sandbox</code> inside the agent, or <code>maple-harness doctor</code>, to see whether it works on your machine.</p>
+<h2 id="update">Update <a class="anchor" href="#update" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-harness update --check     # is there a newer release?
+maple-harness update             # install it
+maple-proxy update               # the proxy updates itself the same way</code></pre>
+<h2 id="uninstall">Uninstall <a class="anchor" href="#uninstall" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">rm -f /usr/local/bin/maple-{harness,proxy,sidecar} /usr/local/bin/{cch,ccp}
+rm -rf ~/.config/maple-harness     # your config, sign-ins, notes and saved sessions</code></pre>
+<p>The second line deletes your configuration, stored sign-ins, memory notes and saved sessions. Skip it if you
+plan to reinstall.</p>
+<h2 id="next">Next <a class="anchor" href="#next" aria-label="Link to this heading">#</a></h2>
+<p><a href="getting-started.html">Getting started</a>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

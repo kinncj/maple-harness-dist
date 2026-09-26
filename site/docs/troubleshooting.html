@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting · Maple Harness docs</title>
+<meta name="description" content="Start with the checker. It looks at your configuration, the proxy, sign-ins, ports, remote control and the sandbox, and says what to do about each problem it finds:">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h1>
+<p>Start with the checker. It looks at your configuration, the proxy, sign-ins, ports, remote control and the
+sandbox, and says what to do about each problem it finds:</p>
+<pre><code class="language-sh">maple-harness doctor                      # add --fix to repair file permissions and stale files
+maple-harness doctor --report bug.txt     # a redacted bundle to attach when you ask for help</code></pre>
+<p>Two commands inside a session answer most of the rest:</p>
+<pre><code>/proxy      where the proxy is, whether it answers, how many models it serves
+/context    what the model can see: window size and how full it is</code></pre>
+<p><code>maple-proxy serve --logs=true</code> shows every request and the reason behind every failed one.</p>
+<h2 id="the-proxy">The proxy <a class="anchor" href="#the-proxy" aria-label="Link to this heading">#</a></h2>
+<p><strong>The agent says the proxy is unreachable.</strong> Nothing answers at the configured address. <code>/proxy</code> shows where
+the agent is looking, and <code>/proxy start</code> starts one. This usually means <code>server.openai_compat</code> in
+<code>config.yaml</code> differs from where a proxy was started.</p>
+<p><strong>The setup page at <code>127.0.0.1:11539</code> does not load.</strong> Check the proxy is running. <code>server.webui</code> in
+<code>config.yaml</code> sets its address, and an empty value turns the page off. The page only listens on this machine;
+from another device, use <a href="remote-control.html">remote control</a>.</p>
+<p><strong>Port already in use.</strong> The defaults are 11535, 11537 and 11539. Find what holds one with
+<code>lsof -i :11539</code>, then stop it or change the address under <code>server:</code> in <code>config.yaml</code>.</p>
+<h2 id="signing-in">Signing in <a class="anchor" href="#signing-in" aria-label="Link to this heading">#</a></h2>
+<p><strong>Copilot sign-in never finishes.</strong> Open the link it printed and enter the code within ten minutes, then run
+<code>maple-harness auth login github-copilot</code> again. A <code>403</code> means the account has no Copilot seat, or the grant
+was revoked; signing in again is the first thing to try.</p>
+<p><strong>"This account has no chat models enabled for Copilot".</strong> The account is signed in but nothing it lists is
+usable. On an organisation's seat, check the Copilot policies your organisation set.</p>
+<p><strong>Copilot: <code>model_not_supported</code>.</strong> The free plan does not let an account call most models by name; they are
+served through auto mode. Signing in configures this for you, so run <code>maple-harness auth login github-copilot</code>
+again to refresh, and only the models that work are written. Remove any model you added by hand that fails
+this way.</p>
+<p><strong>Anthropic: "credit balance too low".</strong> The key is valid and the account has no API credit. Add credit under
+Plans and Billing in the Anthropic Console. API credit is separate from a claude.ai or Claude Code
+subscription, which is not an API key.</p>
+<p><strong>Anthropic: "rejected that API key".</strong> Anthropic refused the key, so nothing was stored. Check it was copied
+whole and belongs to an account with API access.</p>
+<p><strong>The quota meter is missing.</strong> It appears only when the current model's provider has a metered account. It is
+absent for local models. Sign in first, and note that before the first request only what is left is known.</p>
+<h2 id="models">Models <a class="anchor" href="#models" aria-label="Link to this heading">#</a></h2>
+<p><strong>The context window shows 0, or history is trimmed too early.</strong> A window of 0 means unknown. Leave
+<code>context_window</code> out of <code>config.yaml</code> so the proxy asks the server, and check <code>/context</code>. If the server
+reports nothing, set it by hand.</p>
+<p><strong>A local model repeats itself or stops without finishing.</strong> Small models do this. Use them for scoped work,
+such as a function, a file or a fix, start a fresh session per task, and use <code>/compress</code> when one grows long.</p>
+<p><strong>Detect models finds nothing.</strong> The address must include the API prefix (<code>/v1</code>, or <code>/api/v1</code> for Lemonade),
+and the server must be running. Choose the matching type in the picker so its usual address is filled in.</p>
+<h2 id="installing-and-updating">Installing and updating <a class="anchor" href="#installing-and-updating" aria-label="Link to this heading">#</a></h2>
+<p><strong><code>checksum mismatch</code>.</strong> The installer stops and leaves the existing files untouched. A truncated download is
+the usual cause; run it again.</p>
+<p><strong><code>permission denied</code> writing to <code>/usr/local/bin</code>.</strong> Use <code>--install-location ~/.local/bin</code>, or run the installer
+with <code>sudo</code>.</p>
+<p><strong>macOS says a downloaded binary cannot be opened.</strong> Binaries downloaded by hand are not notarised yet.
+Right-click and choose Open, or use the installer, which avoids this.</p>
+<h2 id="remote-control">Remote control <a class="anchor" href="#remote-control" aria-label="Link to this heading">#</a></h2>
+<p><strong>The phone cannot reach the address.</strong> Check both devices are on the same Tailscale network (or the same
+local network for a LAN address) and that a firewall is not blocking port 11541.</p>
+<p><strong>Pairing shows a link that does not load.</strong> The gateway may have stopped. <code>/remote pair</code> starts it again; or
+run <code>maple-harness gateway start</code>.</p>
+<p><strong>A phone lists sessions but <code>+ New session</code> is refused.</strong> No folder is allowed yet:
+<code>maple-harness gateway workspaces add &lt;dir&gt;</code>.</p>
+<p><strong>A session does not appear in the phone's list.</strong> Share it with <code>/remote</code> in that session.</p>
+<p><strong>The gateway or proxy is gone after a reboot.</strong> Install them as services:
+<code>maple-harness service install</code>. See <a href="services.html">Running as a service</a>.</p>
+<p><strong>Notifications do not arrive with the page closed.</strong> That needs a trusted HTTPS certificate; see
+<a href="remote-control.html#recommended-setup-tailscale">Remote control</a>. <code>maple-harness doctor</code> says which certificate
+the gateway is using.</p>
+<p><strong><code>429</code> from the proxy on another machine.</strong> Requests from other machines are rate-limited. Slow down, or ask
+the owner to raise <code>server.rate_limit</code> in <code>config.yaml</code>.</p>
+<h2 id="the-shell-sandbox">The shell sandbox <a class="anchor" href="#the-shell-sandbox" aria-label="Link to this heading">#</a></h2>
+<p><strong><code>/sandbox</code> says bubblewrap is missing, or installed but not working.</strong> It is optional; the install command for
+your system is in <a href="install.html#optional-contain-the-shell-bubblewrap">Install</a>. "Installed but does not work"
+usually means unprivileged user namespaces are blocked, for example in a container. Until it works, commands
+run uncontained.</p>
+<p><strong>A command fails inside a shared session because it has no network.</strong> While a session is shared for remote
+control, the shell has no network unless you allow it: <code>/sandbox network allow</code>, or set
+<code>harness.sandbox.network: allow</code> in <code>config.yaml</code>.</p>
+<p><strong><code>sh: fork: Resource temporarily unavailable</code>.</strong> Fixed in current builds; update with <code>maple-harness update</code>
+and restart the agent.</p>
+<h2 id="disk-space">Disk space <a class="anchor" href="#disk-space" aria-label="Link to this heading">#</a></h2>
+<p>The configuration directory (<code>~/.config/maple-harness</code>) holds saved sessions, memory notes and logs. To see how
+much it uses and clear old sessions, run <code>maple-harness cleanup --help</code>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

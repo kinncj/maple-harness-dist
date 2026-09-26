@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signing in · Maple Harness docs</title>
+<meta name="description" content="You can sign in from the terminal or from the proxy&#x27;s setup page at http://127.0.0.1:11539. Either way, the proxy holds the credential and the agent only asks it for models. Signing in twice updates o">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="signing-in">Signing in <a class="anchor" href="#signing-in" aria-label="Link to this heading">#</a></h1>
+<p>You can sign in from the terminal or from the proxy's setup page at <code>http://127.0.0.1:11539</code>. Either way,
+the proxy holds the credential and the agent only asks it for models. Signing in twice updates one provider
+rather than adding another.</p>
+<pre><code class="language-sh">maple-harness auth login github-copilot    # a browser sign-in
+maple-harness auth login claude            # an Anthropic API key
+maple-harness auth logout claude
+maple-proxy auth status                    # what is signed in</code></pre>
+<h2 id="github-copilot">GitHub Copilot <a class="anchor" href="#github-copilot" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-harness auth login github-copilot</code></pre>
+<p>The command prints a code and a link. Open the link, enter the code, and approve. The agent then asks
+Copilot which models your plan allows and configures exactly those.</p>
+<ul><li><strong>Free plan.</strong> It works, including Copilot's auto mode. The setup page shows how many chats you have left
+and when they reset, and the status bar in the agent shows the same.</li><li><strong>Paid and organisation plans.</strong> The page and the status bar show your plan's allowance where Copilot
+reports one.</li><li><strong>No models listed.</strong> Some accounts have no chat models enabled. Enable them in your Copilot settings on
+GitHub, then sign in again.</li></ul>
+<h2 id="claude-anthropic-api-key">Claude (Anthropic API key) <a class="anchor" href="#claude-anthropic-api-key" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-harness auth login claude</code></pre>
+<p>It asks for an API key (typed hidden), checks it with Anthropic, and configures the models that key can
+call. You can also paste it into the <strong>Anthropic (Claude)</strong> card on the setup page.</p>
+<p>A claude.ai or Claude Code subscription is <strong>not</strong> an API key and cannot be used here. Create a key in the
+Anthropic Console. An account with no credit will sign in but its requests will fail with a "credit balance
+too low" message until you add credit.</p>
+<h2 id="where-the-credentials-are-kept">Where the credentials are kept <a class="anchor" href="#where-the-credentials-are-kept" aria-label="Link to this heading">#</a></h2>
+<p>Keys and sign-ins go in your operating system's keyring (Keychain on macOS, the Secret Service on Linux).
+The configuration file holds only a reference such as <code>${secret:anthropic-key}</code>, never the key, so it is
+safe to paste into an issue. Without a keyring they fall back to a private file, and the proxy tells you.
+<code>maple-proxy secrets status</code> shows where each one is stored, never its value.</p>
+<p>Next: <a href="models.html">choose a model</a>, or <a href="endpoints.html">connect a local model server</a>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Give other tools this project&#x27;s knowledge (MCP) · Maple Harness docs</title>
+<meta name="description" content="maple-harness mcp serve lets any tool that speaks MCP (Claude Code, OpenCode, another Maple Harness) read this project&#x27;s notes and code map, the same ones the agent uses.">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="give-other-tools-this-projects-knowledge-mcp">Give other tools this project's knowledge (MCP) <a class="anchor" href="#give-other-tools-this-projects-knowledge-mcp" aria-label="Link to this heading">#</a></h1>
+<p><code>maple-harness mcp serve</code> lets any tool that speaks MCP (Claude Code, OpenCode, another Maple Harness) read
+this project's notes and code map, the same ones the agent uses.</p>
+<p>Build the index once from the project directory:</p>
+<pre><code class="language-sh">maple-harness graph reindex</code></pre>
+<p>Then connect a tool. A client normally launches the server itself.</p>
+<h2 id="claude-code">Claude Code <a class="anchor" href="#claude-code" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">claude mcp add maple-knowledge -- maple-harness mcp serve</code></pre>
+<p>or in the project's <code>.mcp.json</code>:</p>
+<pre><code class="language-json">{
+  "mcpServers": {
+    "maple-knowledge": {
+      "command": "maple-harness",
+      "args": ["mcp", "serve"]
+    }
+  }
+}</code></pre>
+<p>Add <code>"--read-only"</code> to the arguments to withhold the tools that write notes.</p>
+<h2 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h2>
+<p>In <code>opencode.json</code>:</p>
+<pre><code class="language-json">{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "maple-knowledge": {
+      "type": "local",
+      "command": ["maple-harness", "mcp", "serve"],
+      "enabled": true
+    }
+  }
+}</code></pre>
+<h2 id="another-maple-harness">Another Maple Harness <a class="anchor" href="#another-maple-harness" aria-label="Link to this heading">#</a></h2>
+<p>In <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">harness:
+  mcp_servers:
+    - name: knowledge
+      command: maple-harness
+      args: ["mcp", "serve", "--project", "/path/to/other/project"]</code></pre>
+<h2 id="using-mcp-servers-from-the-agent">Using MCP servers from the agent <a class="anchor" href="#using-mcp-servers-from-the-agent" aria-label="Link to this heading">#</a></h2>
+<p>The agent can use MCP servers too, from the <code>harness.mcp_servers</code> list or a project's <code>.mcp.json</code>. Their
+tools ask for approval like any other tool. A server that runs as a program on your machine runs with your
+permissions, so add only servers you trust. A server reached over the network needs <code>https</code> unless it is on
+this machine.</p>
+<p>The project is the directory the server is launched in, or <code>--project DIR</code>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

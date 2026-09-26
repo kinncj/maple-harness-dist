@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The proxy and its setup page · Maple Harness docs</title>
+<meta name="description" content="Contents: What it listens on · The setup page · Settings you may want (caching, fallbacks, guards, budgets, limits) · Using it from another machine · Other useful commands">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="the-proxy-and-its-setup-page">The proxy and its setup page <a class="anchor" href="#the-proxy-and-its-setup-page" aria-label="Link to this heading">#</a></h1>
+<p><strong>Contents:</strong> <a href="#what-it-listens-on">What it listens on</a> · <a href="#the-setup-page">The setup page</a> ·
+<a href="#settings-you-may-want">Settings you may want</a> (<a href="#prompt-caching">caching</a>, <a href="#fallbacks">fallbacks</a>,
+<a href="#guards">guards</a>, <a href="#daily-budgets">budgets</a>, <a href="#limits-and-hosts-restart-required">limits</a>) ·
+<a href="#using-it-from-another-machine">Using it from another machine</a> · <a href="#other-useful-commands">Other useful commands</a></p>
+<p><code>maple-proxy</code> is the program that holds your sign-ins and talks to the models. The agent uses it, and so can
+any other tool that speaks the OpenAI or Anthropic API. Start it with:</p>
+<pre><code class="language-sh">maple-proxy serve</code></pre>
+<p>It stays in the foreground. Add <code>--logs=true</code> to watch requests, <code>--logs=/path/to.log</code> to keep a record, or
+<code>--logs=stdout</code> when something else (systemd, launchd) is capturing output. To keep it running in the
+background, see <a href="services.html">Running as a service</a>.</p>
+<h2 id="what-it-listens-on">What it listens on <a class="anchor" href="#what-it-listens-on" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Address</th><th>What it is</th><th>Who may use it</th></tr></thead><tbody><tr><td><code>127.0.0.1:11539</code></td><td>The setup page</td><td>This machine only. It refuses to listen anywhere else</td></tr><tr><td><code>127.0.0.1:11535</code></td><td>OpenAI-compatible API (<code>/v1</code>)</td><td>This machine; other machines only with an access token</td></tr><tr><td><code>127.0.0.1:11537</code></td><td>Anthropic-compatible API</td><td>This machine; other machines only with an access token</td></tr></tbody></table></div>
+<p>The addresses and ports are in the <code>server:</code> section of <code>config.yaml</code>. The proxy picks up changes to its
+providers and settings without a restart.</p>
+<h2 id="the-setup-page">The setup page <a class="anchor" href="#the-setup-page" aria-label="Link to this heading">#</a></h2>
+<p>Open <code>http://127.0.0.1:11539</code> on the machine running the proxy. From there you can:</p>
+<ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key. See <a href="sign-in.html">Signing in</a>.</li><li><strong>Add model servers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any OpenAI-compatible
+server), press <strong>Detect models</strong>, and save. See <a href="endpoints.html">Connect a model server</a>.</li><li><strong>See your Copilot allowance</strong>: the plan, how many chats are left, and when they reset.</li><li><strong>Manage remote access</strong>: switch remote control on, pair a phone with a short code or a link, choose what
+each device may do, choose the folders a phone may start sessions in, and revoke a device at any time. See
+<a href="remote-control.html">Remote control</a>.</li><li><strong>Read recent activity</strong>: sign-ins, token changes and remote switches.</li></ul>
+<p>Keys and sign-ins you enter here are stored in your system keyring, not in the configuration file.</p>
+<h2 id="settings-you-may-want">Settings you may want <a class="anchor" href="#settings-you-may-want" aria-label="Link to this heading">#</a></h2>
+<p>Everything below is a card under <strong>Proxy settings</strong> on the setup page. Each control has a one-line
+explanation and a link back here. You do not need to edit any file.</p>
+<p>When you change something, nothing is written yet. Press <strong>Review changes</strong> to see exactly what will change in
+<code>config.yaml</code>, then <strong>Save settings</strong>, or <strong>Revert</strong> to throw the edits away. The page checks every value with
+the same rules the proxy uses when it starts, and points at the field that is wrong. Saved settings apply to
+the very next request, with no restart, except the ones marked <em>restart required</em>.</p>
+<h3 id="prompt-caching">Prompt caching <a class="anchor" href="#prompt-caching" aria-label="Link to this heading">#</a></h3>
+<p>Long conversations resend the same beginning on every turn. With caching on, backends that support it charge
+much less for that repeated part. It is a switch per provider; it appears only for backends where it can be
+controlled (Claude through the Anthropic API or through Copilot). Other backends cache on their own, or not
+at all, and the page says so. The default is on. In the file: <code>prompt_cache: auto</code> or <code>off</code> on a provider.</p>
+<h3 id="fallbacks">Fallbacks <a class="anchor" href="#fallbacks" aria-label="Link to this heading">#</a></h3>
+<p>A fallback tells the proxy what to try when a model cannot answer: its account is out of chats or credit, the
+backend is overloaded, or it is unreachable. Pick the model, then add the fallbacks in the order to try them;
+move them with the arrows. A model cannot fall back to itself, and a name can be listed once.</p>
+<p>A fallback happens only before any output has been sent, and only for failures another backend could fix. Bad
+credentials and malformed requests are never retried elsewhere, and a fallback's own fallbacks are not
+followed. Nothing falls back unless you add a rule. Responses from a fallback carry an <code>X-Maple-Served-By</code>
+header naming what answered. In the file: <code>model_fallbacks</code>.</p>
+<h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>Context guard</strong>: for tools that do not know a model's window. <em>Off</em> sends the request as is,
+<em>Truncate</em> drops the oldest turns until it fits, and <em>Refuse</em> rejects it with a plain error.
+In the file: <code>context_guard</code>.</li><li><strong>Repeat guard</strong>: stops a reply that has collapsed into repeating itself. Off by default. In the file:
+<code>degenerate_guard</code>.</li></ul>
+<h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
+<p>For each provider you can set a limit on requests per day, on the AI units a day, or both; leave a box empty
+for no limit on that measure. Days are UTC, and today's use is shown next to each limit. When a provider
+reaches its limit, requests for it are refused, or handed to its fallback if you set one. In the file:
+<code>budgets</code>.</p>
+<h3 id="limits-and-hosts-restart-required">Limits and hosts (restart required) <a class="anchor" href="#limits-and-hosts-restart-required" aria-label="Link to this heading">#</a></h3>
+<p>These are read when the proxy starts, so after saving, stop and start <code>maple-proxy</code> for them to apply.</p>
+<ul><li><strong>Rate limit</strong>: how many requests one client may make. The default is off for this machine and on,
+conservatively, for other machines. You can force it on or off and set the requests per minute, the burst,
+how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
+<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budgets are counted from it, so set it if you use
+budgets and want the counts to survive a restart.</li></ul>
+<p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
+<pre><code class="language-yaml">model_fallbacks:
+  cloud: [local]            # cloud and local are model aliases (see Connect a model server)
+context_guard: truncate     # off | truncate | error
+degenerate_guard: true
+budgets:
+  - provider: anthropic
+    max_requests_per_day: 150
+    max_ai_units_per_day: 20
+server:
+  allowed_hosts: [box.tailnet-name.ts.net]
+  rate_limit:
+    requests_per_minute: 120
+    burst: 20
+    max_concurrent: 4
+  usage_ledger: /home/you/.config/maple-harness/usage.jsonl</code></pre>
+<p>Saving from the setup page rewrites <code>config.yaml</code> in its standard form, so comments you added by hand are not
+kept. Keys are never in it: they stay in your system keyring, and the file holds only a reference.</p>
+<h2 id="using-it-from-another-machine">Using it from another machine <a class="anchor" href="#using-it-from-another-machine" aria-label="Link to this heading">#</a></h2>
+<p>By default only this machine can reach the model APIs. To let another machine on your network use them, set
+the listen address and create an <strong>access token</strong> with the <code>proxy</code> scope on the setup page:</p>
+<pre><code class="language-yaml">server:
+  openai_compat: 0.0.0.0:11535
+  anthropic_compat: 0.0.0.0:11537
+  allowed_hosts: [my-box.local]     # the name other machines use to reach it</code></pre>
+<p>The proxy refuses to start on a non-loopback address until such a token exists, and callers send it as
+<code>Authorization: Bearer &lt;token&gt;</code>. Requests from other machines are rate-limited. The setup page itself never
+listens beyond this machine.</p>
+<h2 id="other-useful-commands">Other useful commands <a class="anchor" href="#other-useful-commands" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-proxy auth status         # what is signed in
+maple-proxy secrets status      # where each secret is stored (never its value)
+maple-proxy audit tail          # who did what: token changes, refused requests
+maple-proxy update              # install a newer release</code></pre>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>
