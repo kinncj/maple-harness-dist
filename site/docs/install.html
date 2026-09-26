@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Install · Maple Harness docs</title>
-<meta name="description" content="Maple Harness is two programs: maple-harness (the agent, also available as cch) and maple-proxy (which holds your sign-ins and talks to the models, also ccp). On Apple silicon there is a third, a smal">
+<meta name="description" content="Maple Harness is two programs: maple-harness (the agent, also available as mpl) and maple-proxy (which holds your sign-ins and talks to the models, also mplp). On Apple silicon there is a third, a sma">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../docs/docs.css">
@@ -18,8 +18,8 @@
 <main id="main" class="doc">
 <article>
 <h1 id="install">Install <a class="anchor" href="#install" aria-label="Link to this heading">#</a></h1>
-<p>Maple Harness is two programs: <code>maple-harness</code> (the agent, also available as <code>cch</code>) and <code>maple-proxy</code>
-(which holds your sign-ins and talks to the models, also <code>ccp</code>). On Apple silicon there is a third, a small
+<p>Maple Harness is two programs: <code>maple-harness</code> (the agent, also available as <code>mpl</code>) and <code>maple-proxy</code>
+(which holds your sign-ins and talks to the models, also <code>mplp</code>). On Apple silicon there is a third, a small
 helper for Apple's on-device model. The installer fetches all of them.</p>
 <h2 id="one-line">One line <a class="anchor" href="#one-line" aria-label="Link to this heading">#</a></h2>
 <p>macOS and Linux:</p>
@@ -49,7 +49,7 @@ Linux it needs bubblewrap, which is <strong>optional</strong>: without it the sh
 maple-harness update             # install it
 maple-proxy update               # the proxy updates itself the same way</code></pre>
 <h2 id="uninstall">Uninstall <a class="anchor" href="#uninstall" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">rm -f /usr/local/bin/maple-{harness,proxy,sidecar} /usr/local/bin/{cch,ccp}
+<pre><code class="language-sh">rm -f /usr/local/bin/maple-{harness,proxy,sidecar} /usr/local/bin/{mpl,mplp}
 rm -rf ~/.config/maple-harness     # your config, sign-ins, notes and saved sessions</code></pre>
 <p>The second line deletes your configuration, stored sign-ins, memory notes and saved sessions. Skip it if you
 plan to reinstall.</p>

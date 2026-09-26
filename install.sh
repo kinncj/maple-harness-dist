@@ -478,7 +478,7 @@ done
 # Short aliases
 # --------------------------------------------------------------------------
 # The full names are what releases, self-update and the docs use; these are
-# for typing. Symlinks rather than copies so `cch update` updates the one
+# for typing. Symlinks rather than copies so `mpl update` updates the one
 # real binary, and a stale alias can't diverge from it.
 link_alias() {
   alias_name="$1"
@@ -490,8 +490,14 @@ link_alias() {
     info "note: could not create the ${alias_name} alias in ${bindir}"
   fi
 }
-link_alias cch maple-harness
-link_alias ccp maple-proxy
+# The short names were once cch and ccp. Remove those old links, only when they point at ours.
+for old in cch ccp; do
+  if [ -L "${bindir}/${old}" ]; then
+    case "$(readlink "${bindir}/${old}")" in maple-harness|maple-proxy) rm -f "${bindir}/${old}" ;; esac
+  fi
+done
+link_alias mpl maple-harness
+link_alias mplp maple-proxy
 
 # --------------------------------------------------------------------------
 # Licence and third-party notices
@@ -557,14 +563,18 @@ install_herdr_shim() {
 printf '\n%sInstalled%s\n' "$BOLD" "$RESET"
 for bin in "${BINARIES[@]}"; do
   if [ -x "${bindir}/${bin}" ]; then
-    printf '  %-32s %s\n' "$bin" "$("${bindir}/${bin}" version 2>/dev/null | head -n1 || echo 'installed')"
+    # The sidecar is a server: it ignores its arguments and never exits, so it is not asked for a version.
+    case "$bin" in
+      maple-sidecar) printf '  %-32s %s\n' "$bin" "installed" ;;
+      *) printf '  %-32s %s\n' "$bin" "$("${bindir}/${bin}" version 2>/dev/null </dev/null | head -n1 || echo 'installed')" ;;
+    esac
   fi
 done
 
 case ":${PATH}:" in
   *":${bindir}:"*)
     # shellcheck disable=SC2016  # backticks here are prose, not a subshell
-    printf '\n%sRun `maple-harness` (or `cch`) to get started.%s\n\n' "$DIM" "$RESET"
+    printf '\n%sRun `maple-harness` (or `mpl`) to get started.%s\n\n' "$DIM" "$RESET"
     ;;
   *)
     printf '\n%s!%s %s is not on your PATH. Add it:\n\n' "$RED" "$RESET" "$bindir"
