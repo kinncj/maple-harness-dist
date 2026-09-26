@@ -226,7 +226,8 @@ function Get-Asset {
 # answers 404. In that case install the newest release of any kind, and say so.
 if ($Version -eq 'latest') {
     try {
-        Invoke-WebRequest -Uri "https://github.com/$Repo/releases/latest" -Method Head -UseBasicParsing | Out-Null
+        # The web page redirects to the release list when there is no stable release; the API answers 404.
+        Invoke-RestMethod -Uri "$ApiBase/repos/$Repo/releases/latest" -UseBasicParsing | Out-Null
     } catch {
         try {
             $newest = Invoke-RestMethod -Uri "$ApiBase/repos/$Repo/releases?per_page=1" -UseBasicParsing

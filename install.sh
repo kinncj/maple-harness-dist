@@ -232,12 +232,16 @@ fetch() {
 NOTE=""
 resolve_latest() {
   [ "$VERSION" = "latest" ] || return 0
-  curl -fsSLI -o /dev/null "${PUBLIC_BASE}/${REPO}/releases/latest" 2>/dev/null && return 0
+  # The web page /releases/latest redirects to the list of releases when there is no stable one
+  # (and answers 200), so ask the API, which answers 404.
   local listing tag
   if [ -n "${GITHUB_TOKEN:-}" ]; then
+    curl -fsSL -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "Accept: application/vnd.github+json" \
+      -o /dev/null "${API}/repos/${REPO}/releases/latest" 2>/dev/null && return 0
     listing=$(curl -fsSL -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "Accept: application/vnd.github+json" \
       "${API}/repos/${REPO}/releases?per_page=1" 2>/dev/null) || return 0
   else
+    curl -fsSL -H "Accept: application/vnd.github+json" -o /dev/null "${API}/repos/${REPO}/releases/latest" 2>/dev/null && return 0
     listing=$(curl -fsSL -H "Accept: application/vnd.github+json" \
       "${API}/repos/${REPO}/releases?per_page=1" 2>/dev/null) || return 0
   fi
@@ -250,7 +254,8 @@ resolve_latest() {
 resolve_latest
 
 printf '\n%sMapleHarness%s\n' "$BOLD" "$RESET"
-printf '%s%s %s (%s/%s)%s\n\n' "$DIM" "$REPO" "$VERSION" "$os" "$arch" "$RESET"[ -z "$NOTE" ] || info "$NOTE"
+printf '%s%s %s (%s/%s)%s\n\n' "$DIM" "$REPO" "$VERSION" "$os" "$arch" "$RESET"
+[ -z "$NOTE" ] || info "$NOTE"
 
 # --------------------------------------------------------------------------
 # Download
