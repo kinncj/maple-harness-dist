@@ -227,8 +227,30 @@ fetch() {
     -o "$2" "${API}/repos/${REPO}/releases/assets/${id}"
 }
 
+# GitHub's "latest release" never includes pre-releases, so until there is a stable release
+# it answers 404. In that case install the newest release of any kind, and say so.
+NOTE=""
+resolve_latest() {
+  [ "$VERSION" = "latest" ] || return 0
+  curl -fsSLI -o /dev/null "${PUBLIC_BASE}/${REPO}/releases/latest" 2>/dev/null && return 0
+  local listing tag
+  if [ -n "${GITHUB_TOKEN:-}" ]; then
+    listing=$(curl -fsSL -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "Accept: application/vnd.github+json" \
+      "${API}/repos/${REPO}/releases?per_page=1" 2>/dev/null) || return 0
+  else
+    listing=$(curl -fsSL -H "Accept: application/vnd.github+json" \
+      "${API}/repos/${REPO}/releases?per_page=1" 2>/dev/null) || return 0
+  fi
+  tag=$(printf '%s' "$listing" | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1)
+  if [ -n "$tag" ]; then
+    VERSION="$tag"
+    NOTE="there is no stable release yet, so this installs the newest pre-release, ${tag}"
+  fi
+}
+resolve_latest
+
 printf '\n%sMapleHarness%s\n' "$BOLD" "$RESET"
-printf '%s%s %s (%s/%s)%s\n\n' "$DIM" "$REPO" "$VERSION" "$os" "$arch" "$RESET"
+printf '%s%s %s (%s/%s)%s\n\n' "$DIM" "$REPO" "$VERSION" "$os" "$arch" "$RESET"[ -z "$NOTE" ] || info "$NOTE"
 
 # --------------------------------------------------------------------------
 # Download

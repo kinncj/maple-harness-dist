@@ -222,6 +222,23 @@ function Get-Asset {
         -Headers $download -OutFile $Destination -UseBasicParsing
 }
 
+# GitHub's "latest release" never includes pre-releases, so until there is a stable release it
+# answers 404. In that case install the newest release of any kind, and say so.
+if ($Version -eq 'latest') {
+    try {
+        Invoke-WebRequest -Uri "https://github.com/$Repo/releases/latest" -Method Head -UseBasicParsing | Out-Null
+    } catch {
+        try {
+            $newest = Invoke-RestMethod -Uri "$ApiBase/repos/$Repo/releases?per_page=1" -UseBasicParsing
+            $first = @($newest)[0]
+            if ($first -and $first.tag_name) {
+                $Version = $first.tag_name
+                Write-Info "there is no stable release yet, so this installs the newest pre-release, $Version"
+            }
+        } catch { }
+    }
+}
+
 try {
     Write-Host ''
     Write-Host 'MapleHarness'
