@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using it with herdr · Maple Harness docs</title>
+<meta name="description" content="herdr hosts terminal sessions for coding agents and shows, for each pane, whether the agent in it is working, waiting for you, or idle. Maple Harness works with it without any setup.">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="using-it-with-herdr">Using it with herdr <a class="anchor" href="#using-it-with-herdr" aria-label="Link to this heading">#</a></h1>
+<p><a href="https://herdr.dev" rel="noopener noreferrer">herdr</a> hosts terminal sessions for coding agents and shows, for each pane, whether the agent
+in it is working, waiting for you, or idle. Maple Harness works with it without any setup.</p>
+<h2 id="what-you-need-to-do">What you need to do <a class="anchor" href="#what-you-need-to-do" aria-label="Link to this heading">#</a></h2>
+<p>Nothing. Start <code>maple-harness</code> (or <code>mpl</code>) inside a herdr pane and the pane labels itself <code>maple-harness</code> and shows
+its state as it changes:</p>
+<div class="tablewrap"><table><thead><tr><th>State</th><th>What it means</th></tr></thead><tbody><tr><td>working</td><td>a turn is running</td></tr><tr><td>blocked</td><td>it is waiting for you to approve a tool call</td></tr><tr><td>idle</td><td>it is waiting for your next message</td></tr></tbody></table></div>
+<p>The harness tells herdr itself, over herdr's local socket, and clears the label when it exits, so a pane is never
+left labelled by an agent that has gone. On a machine without herdr nothing happens and nothing is printed.</p>
+<p>Tested with herdr 0.9.0. Other versions should work, because it only uses herdr's public socket, but
+they haven't been tried.</p>
+<h2 id="if-the-pane-does-not-pick-it-up">If the pane does not pick it up <a class="anchor" href="#if-the-pane-does-not-pick-it-up" aria-label="Link to this heading">#</a></h2>
+<ol><li>Check that you started the harness from a shell <strong>inside</strong> the herdr pane (not a separate terminal window).</li><li>If herdr uses a non-default socket, make sure <code>HERDR_SOCKET_PATH</code> points at it in the environment the harness
+inherits. By default it looks in <code>~/.config/herdr/herdr.sock</code>.</li><li>Run <code>maple-harness version</code> to confirm you are on a current build, then start a new session.</li></ol>
+<h2 id="the-terminal-signals-with-or-without-herdr">The terminal signals, with or without herdr <a class="anchor" href="#the-terminal-signals-with-or-without-herdr" aria-label="Link to this heading">#</a></h2>
+<p>Independently of herdr, the harness sets the window title and the terminal's progress indicator on every change of
+state, and sends a notification when a turn finishes or needs a decision. Terminals that do not support one of these
+ignore it.</p>
+<div class="tablewrap"><table><thead><tr><th>State</th><th>Window title</th><th>Progress indicator</th></tr></thead><tbody><tr><td>idle</td><td><code>● MapleHarness</code></td><td>cleared</td></tr><tr><td>working</td><td><code>✳ MapleHarness — working</code></td><td>busy</td></tr><tr><td>needs approval</td><td><code>⏸ MapleHarness — needs approval</code></td><td>warning</td></tr><tr><td>done</td><td><code>✓ MapleHarness — done</code></td><td>cleared</td></tr><tr><td>failed</td><td><code>✗ MapleHarness — failed</code></td><td>error</td></tr></tbody></table></div>
+<p>WezTerm, Ghostty and Windows Terminal show the progress indicator on the tab. Any terminal shows the title.</p>
+<h2 id="the-detection-manifest-advanced">The detection manifest (advanced) <a class="anchor" href="#the-detection-manifest-advanced" aria-label="Link to this heading">#</a></h2>
+<p>herdr can also classify a pane from a detection manifest. Most people do not need this, because the harness reports
+its own state. If you want the manifest anyway, <code>maple-harness herdr-manifest</code> prints it, and
+<code>maple-harness herdr-manifest --id &lt;name&gt;</code> writes a different agent id into it. Whether your herdr version loads
+manifests for agents it does not ship with depends on the version, and this path has not been tested beyond herdr
+0.7 and 0.9.</p>
+<h2 id="turning-the-installers-herdr-step-off">Turning the installer's herdr step off <a class="anchor" href="#turning-the-installers-herdr-step-off" aria-label="Link to this heading">#</a></h2>
+<p>The installer needs to install nothing for herdr. <code>--no-herdr</code> is accepted and ignored, so older install commands
+keep working.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>
