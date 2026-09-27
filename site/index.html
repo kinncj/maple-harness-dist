@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maple Harness · a coding agent for Copilot's models and your own machine</title>
-<meta name="description" content="Maple Harness is a coding agent that works with GitHub Copilot's models and with models on your own machine. On the same task and model it finished 2.85× faster for a sixth of the cost of Copilot's own CLI. Control it from your phone.">
+<meta name="description" content="Maple Harness is a coding agent that works with GitHub Copilot's models and with models on your own machine. It shows where your tokens go, keeps prompts cache-friendly, and can be controlled from your phone.">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://kinncj.github.io/maple-harness-dist/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Maple Harness">
 <meta property="og:title" content="Maple Harness: a coding agent for Copilot's models and your own machine">
-<meta property="og:description" content="2.85× faster and 6.2× cheaper than Copilot's own CLI on the same task and model. Local models, remote control from your phone, a sandboxed shell.">
+<meta property="og:description" content="A coding agent for Copilot's models and your own machine. Prompt caching you can see, local models, remote control from your phone and a sandboxed shell.">
 <meta property="og:url" content="https://kinncj.github.io/maple-harness-dist/">
 <meta property="og:image" content="https://kinncj.github.io/maple-harness-dist/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="Maple Harness: a coding agent for Copilot's models and your own machine">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Maple Harness">
-<meta name="twitter:description" content="A coding agent for Copilot's models and your own machine. 2.85× faster, 6.2× cheaper than Copilot's own CLI on one measured task.">
+<meta name="twitter:description" content="A coding agent for Copilot's models and your own machine. See where your tokens go with /cost and the proxy's Cache card.">
 <meta name="twitter:image" content="https://kinncj.github.io/maple-harness-dist/img/og.png">
 <script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
 <style>
@@ -102,17 +102,22 @@ section h2::before{content:"";display:inline-block;width:6px;height:1em;backgrou
 .diagram{background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:16px 18px;overflow-x:auto;font:.8rem/1.45 var(--mono);margin:24px 0 0}
 
 /* numbers */
-.stats{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));margin:0 0 24px;padding:0;list-style:none}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}
-.stat b{display:block;font-size:2.2rem;line-height:1.1;color:var(--accent)}
-:root[data-theme=dark] .stat b,:root:not([data-theme=light]) .stat b{color:var(--link)}
-.stat span{color:var(--muted);font-size:.93rem}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 table{border-collapse:collapse;width:100%;min-width:520px;font-size:.96rem}
 th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
 thead th{background:var(--surface)}
 caption{text-align:left;padding:10px 14px;color:var(--muted);font-size:.9rem;caption-side:bottom}
+
+.subhead{margin:32px 0 12px;font-size:1.15rem}
+@media (max-width:640px){
+  .findings{min-width:0}
+  .findings thead{display:none}
+  .findings tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+  .findings tr:last-child{border-bottom:0}
+  .findings th[scope=row],.findings td{display:block;border:0;padding:4px 14px}
+  .findings td[data-label]::before{content:attr(data-label);display:block;font:600 .72rem var(--mono);color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+}
 
 /* screenshots */
 .shots{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));align-items:start}
@@ -139,6 +144,7 @@ ul.plain li{margin:.3em 0}
 .licence p{margin:.4em 0}
 footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:.93rem}
 footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-between}
+footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
 #copied{position:absolute;left:-9999px}
 @media (max-width:560px){body{font-size:16px}section{padding:40px 0}.top nav a.hide-sm{display:none}}
 </style>
@@ -151,7 +157,8 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
     <nav aria-label="Main">
       <a class="hide-sm" href="#what">What it is</a>
       <a class="hide-sm" href="#features">Features</a>
-      <a class="hide-sm" href="#numbers">Numbers</a>
+      <a class="hide-sm" href="#tokens">Tokens</a>
+      <a class="hide-sm" href="#numbers">Example</a>
       <a class="hide-sm" href="#remote">Remote</a>
       <a class="hide-sm" href="#security">Security</a>
       <a href="#install">Install</a>
@@ -166,7 +173,7 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
   <div class="hero">
     <img class="logo" src="img/logo.svg" alt="Maple Harness" width="520" height="132">
     <h1>A coding agent for Copilot's models and your own machine</h1>
-    <p class="lede">The same model, the same task, the same machine: <strong>2.85× faster and 6.2× cheaper</strong> than Copilot's own CLI in the measured run. Local models through Ollama, LM Studio, oMLX or Apple's on-device model. Drive it from your phone.</p>
+    <p class="lede">A coding agent that works with GitHub Copilot's models and with models on your own machine, and shows you where your tokens go, so you can see what a task costs and why. Local models through Ollama, LM Studio, oMLX or Apple's on-device model. Drive it from your phone.</p>
 
     <div class="cmd">
       <div style="flex:1;min-width:0"><span class="label">macOS and Linux</span>
@@ -216,7 +223,7 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
       <li class="card"><h3>Asks before it acts</h3><p>A permission engine asks before writing a file or running a command. <code>deny</code> rules are absolute. Sessions are saved and resumable.</p></li>
       <li class="card"><h3>Remembers your project</h3><p>Plain Markdown notes that live with your project, open in any editor, and that the agent can search, so a small model does not start from nothing each time.</p></li>
       <li class="card"><h3>Copilot, Claude and local</h3><p>Sign in from the terminal or the proxy's page. Free-plan Copilot works, including auto mode, with a live quota meter. Any OpenAI-compatible server works too.</p></li>
-      <li class="card"><h3>Built to spend less</h3><p>Prompt caching, fallback to another model when an account runs out, a guard for context overflow, and daily budgets. All in the proxy, so every client that uses it benefits.</p></li>
+      <li class="card"><h3>Built to spend less</h3><p>Prompt caching you can see: <code>/cost</code> and the proxy's Cache card show the hit rate, tokens read and written, and AI units per request. Fallback to another model when an account runs out, daily budgets, a guard that stops a model repeating itself, a guard for context overflow, and optional trimming of old tool output. All in the proxy, so every client that uses it benefits.</p></li>
       <li class="card"><h3>Auto model choice</h3><p>Picks a model per turn from your current provider's own ranking, tells you what it chose and why, and lets you pin heavy, medium and light work to models you name.</p></li>
       <li class="card"><h3>Big tasks, checked</h3><p>A large request becomes a checklist whose items are verified before they are called done.</p></li>
       <li class="card"><h3>Easy to keep running</h3><p><code>doctor</code> checks the install and says how to fix what is wrong. <code>service install</code> keeps the proxy and gateway running. Notifications reach your phone or desktop when a session needs you.</p></li>
@@ -224,30 +231,67 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
   </div>
 </section>
 
+<section id="tokens">
+  <div class="wrap">
+    <h2>Fewer tokens, checked against the bill</h2>
+    <p class="sub">Tools that shrink one part of a run often change how the agent behaves, and the bill is for the whole run. Independent measurements of popular token-saving tools show how far an advertised saving can be from the result. They are other people's measurements, of other tools, on other models and workloads: they are here for context, not as a claim about Maple.</p>
+    <div class="tablewrap">
+      <table class="findings">
+        <caption>Independent findings, each in its own source's scope. Sources: JetBrains AI blog (Denis Shiryaev, July 2026) and Code Pointer (Yongkyun Lee, June 2026).</caption>
+        <thead><tr><th scope="col">Tool</th><th scope="col">Advertised</th><th scope="col">What was measured</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">rtk, a filter for shell command output</th>
+            <td data-label="Advertised">60&ndash;90% fewer tokens</td>
+            <td data-label="What was measured">In JetBrains' benchmark (86 tasks, 425 billed trials, Claude Code with <code>claude-sonnet-5</code>): at low reasoning effort a median +7.6% cost per task (p=0.004) and +13.8% more turns (p=0.03); new input tokens +3.2%, not significant (p=0.23). At high effort +0.1%, not significant (p=0.99). Quality was indistinguishable. JetBrains' conclusion: no token saving.</td>
+            <td data-label="Source"><a href="https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/" rel="noopener">JetBrains: rtk</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Caveman-style prompting, asking the model to answer in shorthand</th>
+            <td data-label="Advertised">65% fewer tokens</td>
+            <td data-label="What was measured">In JetBrains' study (about 240 billed trials, <code>claude-sonnet-5</code>, low effort): output tokens &minus;8.5%, quality not significantly different (p=0.82). A first 10-task run had shown about &minus;30%, which faded as the sample grew. JetBrains calls a high-single-digit percentage the realistic ceiling.</td>
+            <td data-label="Source"><a href="https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/" rel="noopener">JetBrains: Caveman</a></td>
+          </tr>
+          <tr>
+            <th scope="row">rtk again, from recorded sessions</th>
+            <td data-label="Advertised">Per-command savings of 60&ndash;99%</td>
+            <td data-label="What was measured">An analysis of 500 recorded Claude Code sessions, not a controlled trial: the advertised per-command savings came to about 0.5% of total spend, because most tool output never passes through the shell hook and re-reading cached context is cheap.</td>
+            <td data-label="Source"><a href="https://codepointer.dev/p/cutting-llm-token-costs-with-rtk" rel="noopener">Code Pointer: rtk</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Maple does not put a filter between your commands and the model, and does not ask the model to talk in shorthand. Very large outputs are cut at a limit, with a note saying so.</p>
+
+    <h3 class="subhead">How we approach it</h3>
+    <ul class="grid">
+      <li class="card"><h3>Efficiency</h3><p>Pay less for the same work. Keep requests in a shape the provider can cache, and show the receipts: hit rate, tokens read and written, and AI units per request.</p></li>
+      <li class="card"><h3>Efficacy</h3><p>Do not cut what the model sees or does. Check its work with compiler and test feedback right after each edit, so fewer turns are wasted.</p></li>
+      <li class="card"><h3>Effectiveness</h3><p>Stop waste, not work. Notice when a model is going in circles, and keep the model you chose when it fits the job.</p></li>
+    </ul>
+    <p class="note">We measure whole tasks, not single commands, and count our own costs too. <code>/cost</code> and the Cache card let you check us. <a href="docs/proof.html">How to check it yourself</a>, and <a href="docs/saving-tokens.html">where your spend goes</a>.</p>
+  </div>
+</section>
+
 <section id="numbers">
   <div class="wrap">
-    <h2>Measured against the Copilot CLI</h2>
-    <p class="sub">Both agents, the same specification, the same model (<code>gpt-6-sol</code>), the same machine. The figures come from each side's own accounting, and wall time is taken from outside the process.</p>
-    <ul class="stats">
-      <li class="stat"><b>2.85×</b><span>faster: 17m 16s against 49m 13s</span></li>
-      <li class="stat"><b>6.2×</b><span>cheaper: 188.00 AI units against 1,165.66</span></li>
-      <li class="stat"><b>98%</b><span>of input served from cache (6,504.1k of 6,585.8k tokens)</span></li>
-      <li class="stat"><b>977</b><span>AI units saved on one task, 84% less</span></li>
-    </ul>
+    <h2>One measured example</h2>
+    <p class="sub"><strong>One task, one run each, September 2026, <code>gpt-6-sol</code>.</strong> Results vary from run to run and task to task, so measure your own: <code>/cost</code> and the proxy's Cache card show where your spend goes.</p>
     <div class="tablewrap">
       <table>
-        <caption>One task, <code>gpt-6-sol</code>. Both runs produced every required document, a clean tree and passing checks.</caption>
+        <caption>Both agents were given the same specification, the same model and the same machine. Each side's figures come from its own accounting, and wall time is taken from outside the process. Both runs produced every required document, a clean tree and passing checks.</caption>
         <thead><tr><th scope="col"></th><th scope="col">Maple Harness</th><th scope="col">Copilot CLI</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Wall time</th><td><b>17m 16s</b></td><td>49m 13s</td></tr>
-          <tr><th scope="row">AI units</th><td><b>188.00</b></td><td>1,165.66</td></tr>
+          <tr><th scope="row">Wall time</th><td>17m 16s</td><td>49m 13s</td></tr>
+          <tr><th scope="row">AI units</th><td>188.00</td><td>1,165.66</td></tr>
+          <tr><th scope="row">Input served from cache</th><td>6,504.1k of 6,585.8k tokens</td><td>not reported</td></tr>
           <tr><th scope="row">Turns</th><td>142</td><td>not reported</td></tr>
           <tr><th scope="row">Files produced</th><td>65</td><td>57</td></tr>
           <tr><th scope="row">Commits</th><td>5, clean tree</td><td>6, clean tree</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">One task on one model is one data point, not a law: your results will differ with the task and the model.</p>
+    <p class="note">The Copilot CLI's report gives the AI-unit total and the wall time but not the token breakdown, so only those two rows are directly comparable.</p>
   </div>
 </section>
 
@@ -258,7 +302,7 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
     <div class="shots">
       <figure style="grid-column:1/-1">
         <div class="frame"><img src="img/terminal.webp" width="1400" height="788" loading="lazy" alt="The terminal interface in a real session: test output and a git commit from a bash tool call, the /context report, the input box and the status bar showing mode, context, model and tokens."></div>
-        <figcaption>A real session, from the measured run above. Personal details are blurred.</figcaption>
+        <figcaption>A real session, from the example above: its <code>/context</code> report and status bar. Personal details are blurred.</figcaption>
       </figure>
     </div>
   </div>
@@ -411,6 +455,10 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
       <li class="card"><h3><a href="docs/endpoints.html">Connect a model server</a></h3><p>Ollama, LM Studio, oMLX, Lemonade, Unsloth or any OpenAI-compatible server, and other tools.</p></li>
       <li class="card"><h3><a href="docs/models.html">Models</a></h3><p>Switching models, and letting the agent choose.</p></li>
       <li class="card"><h3><a href="docs/remote-control.html">Remote control</a></h3><p>Your phone, with Tailscale: pairing, notifications and new sessions.</p></li>
+      <li class="card"><h3><a href="docs/proxy-settings.html">Proxy reference</a></h3><p>Every proxy setting, setup-page card, command and response header.</p></li>
+      <li class="card"><h3><a href="docs/commands.html">Commands and keys</a></h3><p>Every slash command, key, mode and shell command of the harness.</p></li>
+      <li class="card"><h3><a href="docs/configuration.html">Harness configuration</a></h3><p>Every <code>config.yaml</code> setting, with defaults and trade-offs.</p></li>
+      <li class="card"><h3><a href="docs/three-es.html">Which setting for which goal</a></h3><p>Spend less, keep quality, stop runaways: the settings that serve each.</p></li>
       <li class="card"><h3><a href="docs/troubleshooting.html">Troubleshooting</a></h3><p>What to try when something is not working, starting with <code>doctor</code>.</p></li>
       <li class="card"><h3><a href="docs/security.html">Security</a></h3><p>What it does to keep you safe, and what you should do.</p></li>
     </ul>
@@ -434,6 +482,7 @@ footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-bet
   <div class="wrap">
     <span>Copyright © 2026 Kinn Coelho Juliao. All rights reserved.</span>
     <span><a href="https://github.com/kinncj/maple-harness-dist" rel="noopener">Releases on GitHub</a> · <a href="docs/index.html">Docs</a> · <a href="docs/license.html">Licence</a></span>
+    <span class="signature">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></span>
   </div>
 </footer>
 <span id="copied" role="status" aria-live="polite"></span>

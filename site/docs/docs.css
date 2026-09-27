@@ -38,6 +38,7 @@ li.task{list-style:none;margin-left:-1.3em}
 .align-center{text-align:center}.align-right{text-align:right}
 .nolink{border-bottom:1px dotted var(--muted)}
 .foot{margin-top:3em;padding-top:1em;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+.foot .sig{display:block;margin-top:.45em;font-size:.86rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 /* Long inline code (a path, a header name) wraps instead of widening the page on a phone. */
 p code,li code,td code{overflow-wrap:anywhere}

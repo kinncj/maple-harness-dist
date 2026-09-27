@@ -27,7 +27,7 @@ maple-harness doctor --report bug.txt     # a redacted bundle to attach when you
 /context    what the model can see: window size and how full it is</code></pre>
 <p><code>maple-proxy serve --logs=true</code> shows every request and the reason behind every failed one.</p>
 <p><strong>Contents</strong></p>
-<ul><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li></ul>
+<ul><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#cost">Cost</a></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li></ul>
 <h2 id="the-proxy">The proxy <a class="anchor" href="#the-proxy" aria-label="Link to this heading">#</a></h2>
 <p><strong>The agent says the proxy is unreachable.</strong> Nothing answers at the configured address. <code>/proxy</code> shows where
 the agent is looking, and <code>/proxy start</code> starts one. This usually means <code>server.openai_compat</code> in
@@ -78,6 +78,20 @@ the provider's cache, and where the input goes. A request marked "low cache hit"
 cache was lost: a new model starts with a cold cache. To keep it, use <code>/model fixed</code> (or pick a model and leave
 <code>/model auto</code> off), and try a lower reasoning effort with <code>/effort low</code> on models that think a lot. Long histories
 already keep their model in <code>/model auto</code>.</p>
+<h3 id="the-agent-keeps-retrying-the-same-failing-command">The agent keeps retrying the same failing command <a class="anchor" href="#the-agent-keeps-retrying-the-same-failing-command" aria-label="Link to this heading">#</a></h3>
+<p>When the same problem fails again and again, Maple Harness steps in. After three similar failures it adds a note
+to the result telling the model to stop trying variations, say what it is assuming, check that with a cheap
+read-only command, and choose a different approach. After six, it ends the turn with a summary of what was tried
+and the last error, and asks you for guidance: tell it what to try, or say <code>continue</code>.</p>
+<p>Only the <em>same</em> failure counts. A different failing test each time is progress and is left alone, and a test that
+fails twice and then passes is not counted. A <code>--prompt</code> run that stops this way exits with status 3, so a script
+can tell it from success (0) and from an error (1). A phone or desktop notification says "Needs guidance".</p>
+<p>A failing command's long output (a full test report) is shortened to the start, the lines that say what failed,
+and the end; the exit status is always kept, and the whole output is saved to a temporary file whose path is shown.</p>
+<p>To change or turn this off, in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">harness:
+  loop_guard: { mode: stop, warn_after: 3, stop_after: 6 }   # mode: off | warn | stop
+  tool_output: { failed_max_lines: 120 }                      # 0 keeps failing output whole</code></pre>
 <h2 id="installing-and-updating">Installing and updating <a class="anchor" href="#installing-and-updating" aria-label="Link to this heading">#</a></h2>
 <p><strong><code>checksum mismatch</code>.</strong> The installer stops and leaves the existing files untouched. A truncated download is
 the usual cause; run it again.</p>
@@ -115,7 +129,8 @@ and restart the agent.</p>
 much it uses and clear old sessions, run <code>maple-harness cleanup --help</code>.</p>
 </article>
 <footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a>
+<span class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></span></footer>
 </main>
 <script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
 function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}

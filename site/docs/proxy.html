@@ -89,6 +89,14 @@ figures). Each response that is not streamed also carries <code>X-Maple-Cache</c
 <p>Only counts and labels are kept, in memory and, if you set a usage log, in that file. No prompt, answer or file
 content is recorded. A provider that reports no cache figures at all (most local servers) shows as not applicable
 rather than as a miss.</p>
+<h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
+<p>Below the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and what they cost, today
+and in the last hour. Every figure is tagged <strong>measured</strong> (a count of tokens or requests) or <strong>estimated</strong> (a value
+in AI units, which comes from prices the proxy learns from your own requests), and an estimate says what it rests
+on. Costs are counted too, so the net can be negative, and the card then says so and shows which technique lost.
+The proxy always takes the reading that reports less saving, and it does not value anything until it has seen enough
+of your requests to know what a token costs. <code>maple-proxy savings</code> prints the same in a terminal, and <code>/savings</code> in
+the harness shows what the harness itself did in a session.</p>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
 <p>For each provider you can set a limit on requests per day, on the AI units a day, or both; leave a box empty
 for no limit on that measure. Days are UTC, and today's use is shown next to each limit. When a provider
@@ -129,6 +137,15 @@ the listen address and create an <strong>access token</strong> with the <code>pr
 <p>The proxy refuses to start on a non-loopback address until such a token exists, and callers send it as
 <code>Authorization: Bearer &lt;token&gt;</code>. Requests from other machines are rate-limited. The setup page itself never
 listens beyond this machine.</p>
+<h2 id="check-the-cache-yourself">Check the cache yourself <a class="anchor" href="#check-the-cache-yourself" aria-label="Link to this heading">#</a></h2>
+<p>Providers cache the start of a request that they have seen recently, and reading from that cache costs a fraction of
+processing it again. Whether that is working for your account and your model is easy to see:</p>
+<pre><code>maple-proxy cache probe --model gpt-5-mini --yes</code></pre>
+<p>It sends the same small request twice, a few seconds apart, through the running proxy, and prints what each call
+reported: prompt tokens, tokens read from the cache, tokens written to it, and AI units. It says so plainly when a
+model reports no cache figures, in which case the cache may not be visible from here. Without <code>--yes</code> it sends nothing
+and only says what it would send (two requests of about 6,000 tokens, which may spend a few AI units). <code>--tokens</code>
+changes the size (1,500 to 50,000) and <code>--wait</code> the pause between the two calls. Nothing it prints contains a key.</p>
 <h2 id="other-useful-commands">Other useful commands <a class="anchor" href="#other-useful-commands" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">maple-proxy auth status         # what is signed in
 maple-proxy secrets status      # where each secret is stored (never its value)
@@ -136,7 +153,8 @@ maple-proxy audit tail          # who did what: token changes, refused requests
 maple-proxy update              # install a newer release</code></pre>
 </article>
 <footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a>
+<span class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></span></footer>
 </main>
 <script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
 function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}

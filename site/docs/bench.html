@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measure it yourself · Maple Harness docs</title>
+<meta name="description" content="maple-harness bench answers one question on your own work: does a setting change what a task costs, and does the result stay as good? It replays the same tasks under different settings (&quot;arms&quot;), sever">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="measure-it-yourself">Measure it yourself <a class="anchor" href="#measure-it-yourself" aria-label="Link to this heading">#</a></h1>
+<p><code>maple-harness bench</code> answers one question on your own work: does a setting change what a task costs, and does the
+result stay as good? It replays the same tasks under different settings ("arms"), several times each, in fresh
+directories, and compares the arms task by task with the uncertainty shown.</p>
+<p>It is an advanced command. It runs the real agent, so a run takes real time and, against a metered provider, real
+money. It never spends anything unless you confirm, and it stops at the budget you set.</p>
+<p><strong>Contents:</strong> <a href="#try-it-without-spending">Try it without spending</a> · <a href="#run-it-for-real">Run it for real</a> · <a href="#write-your-own-tasks">Write your own tasks</a> · <a href="#compare-another-tool-on-the-same-model">Compare another tool on the same model</a> · <a href="#read-the-results">Read the results</a> · <a href="#what-is-recorded">What is recorded</a></p>
+<h2 id="try-it-without-spending">Try it without spending <a class="anchor" href="#try-it-without-spending" aria-label="Link to this heading">#</a></h2>
+<pre><code>maple-harness bench init-demo ./demo      # writes two tiny tasks you can read and edit
+maple-harness bench run --suite demo --arms baseline,lsp-off --proxy 127.0.0.1:11535</code></pre>
+<p>With no <code>--yes</code> the command prints the plan (how many runs, in what arms) and an estimate of the cost from earlier
+runs of the same suite, or says the cost is unknown. Nothing is run and nothing is spent.</p>
+<h2 id="run-it-for-real">Run it for real <a class="anchor" href="#run-it-for-real" aria-label="Link to this heading">#</a></h2>
+<pre><code>maple-harness bench run --suite ./mytasks --arms baseline,auto-model \
+    --proxy 127.0.0.1:11535 --model gpt-5-mini --k 3 --budget-ai-units 40 --yes</code></pre>
+<ul><li><code>--k 3</code> runs every task three times under every arm. Three is the least that says anything about variation.</li><li><code>--budget-ai-units</code> (or <code>--budget-tokens</code>) is required with <code>--yes</code>. The bench stops before the run that would pass
+it, judged by the average cost so far. One run that costs far more than the average can still pass the cap, so set
+it with room.</li><li>The order of the runs is shuffled with a seed that is recorded, so an arm is not always first and time of day does
+not favour one setting.</li><li>The proxy must already be running: a bench never starts one.</li><li>Press Ctrl-C to stop. What was done so far is recorded and can be reported, and the report says it is partial.</li></ul>
+<p><code>maple-harness bench arms</code> lists the arms that ship with it. Some change the harness (for example turning language
+server feedback off, or letting Maple choose the model). Some change the proxy (trimming old tool output); for those
+run a second proxy with that setting and pass its address with <code>--proxy-for trim-on=127.0.0.1:12345</code>.</p>
+<h2 id="write-your-own-tasks">Write your own tasks <a class="anchor" href="#write-your-own-tasks" aria-label="Link to this heading">#</a></h2>
+<p>A suite is a folder:</p>
+<pre><code>mytasks/
+  suite.yaml                  optional: a name, and arms of your own
+  tasks/
+    fix-parser/
+      task.yaml
+      files/                  copied into a fresh directory before every run</code></pre>
+<p><code>task.yaml</code>:</p>
+<pre><code class="language-yaml">prompt: &gt;-
+  The tests in parser_test.go fail. Fix parser.go so they pass. Do not change the tests.
+verify: go test ./...          # exit status 0 means the result is acceptable
+timeout_seconds: 600           # optional
+expect_files: [parser.go]      # optional: must exist afterwards</code></pre>
+<p>Instead of <code>files/</code> a task can name a repository and a commit to check out (<code>repo:</code> and <code>commit:</code>). Source files that
+a build would otherwise pick up as part of its own project can carry a <code>.tmpl</code> suffix, which is removed on copy. A task
+without <code>verify</code> has no check, and its quality is then only "did it finish".</p>
+<p>An arm of your own goes in <code>suite.yaml</code>:</p>
+<pre><code class="language-yaml">arms:
+  - name: no-diagnostics
+    description: language server feedback off
+    config: {harness: {lsp: off}}</code></pre>
+<p><code>config</code> is merged into the harness's <code>config.yaml</code> for that arm.</p>
+<h2 id="compare-another-tool-on-the-same-model">Compare another tool on the same model <a class="anchor" href="#compare-another-tool-on-the-same-model" aria-label="Link to this heading">#</a></h2>
+<p>An arm can be another program instead of a change to this one. It gets the same tasks, in the same fresh directories, with
+the same check, so the comparison is like for like. The example below runs GitHub Copilot CLI (checked against 1.0.88)
+against a model you host yourself, next to Maple Harness on the same model.</p>
+<pre><code class="language-yaml">arms:
+  - name: maple
+    description: this program, through a proxy in front of the same model
+    config:
+      harness: {default_model: "${env:MAPLE_BENCH_LOCAL_MODEL}"}
+  - name: copilot-cli
+    kind: command
+    command: ["copilot", "-p", "{prompt}", "--allow-all-tools", "--allow-all-paths", "-s"]
+    version_command: ["copilot", "--version"]
+    env:
+      COPILOT_PROVIDER_BASE_URL: "${env:MAPLE_BENCH_LOCAL_URL}"
+      COPILOT_PROVIDER_TYPE: openai
+      COPILOT_MODEL: "${env:MAPLE_BENCH_LOCAL_MODEL}"
+      COPILOT_PROVIDER_MAX_PROMPT_TOKENS: "222822"     # window, minus the longest reply, minus a margin
+      COPILOT_PROVIDER_MAX_OUTPUT_TOKENS: "32768"</code></pre>
+<ul><li><strong>No shell.</strong> The command is a list of arguments; <code>{prompt}</code> is replaced by the task (or use <code>prompt_via: stdin</code>).
+<code>${env:NAME}</code> is replaced from your environment, and a name that is not set stops the bench before it spends anything,
+naming the variable.</li><li><strong>A fresh <code>HOME</code> for every run</strong>, so the tool cannot read your settings or keep state between runs. It also gets the
+bench's own temporary configuration folders.</li><li><strong>Success is the task's check and nothing else.</strong> The tool's exit status is recorded but decides nothing: a tool that
+exits cleanly without doing the work fails, and one that exits with an error after doing the work passes.</li><li><strong>Give both arms the same limits.</strong> In the example the model window is 262,144 tokens and a reply may be 32,768, so the
+prompt limit for the other tool is 222,822 (262,144 - 32,768 - a margin). On the Maple side, set the same two numbers
+on the model in the proxy's provider entry (<code>context_window: 262144</code>, <code>max_output_tokens: 32768</code>). A difference in
+limits, or in sampling, is a difference in results.</li><li><strong>Settings from a program.</strong> If a small program of yours prints the settings for the tool, <code>env_from</code> reads them once:
+<pre><code class="language-yaml">- name: copilot-cli
+  kind: command
+  command: ["copilot", "-p", "{prompt}", "--allow-all-tools", "--allow-all-paths", "-s"]
+  env_from: ["rtx", "env", "copilot"]        # prints lines such as  export COPILOT_MODEL=...</code></pre>
+<p>Only names starting with <code>COPILOT_</code>, <code>OPENAI_</code>, <code>LLM_</code> or <code>ANTHROPIC_</code> are taken (add more with <code>env_prefixes:</code>);
+everything else the program prints is thrown away unread. Entries in <code>env:</code> win over imported ones. The values are
+used and never written down: the results record the imported <em>names</em> and a short hash of the values, and names that
+contain KEY, TOKEN or SECRET are marked as hidden on screen. For a Maple arm, the imported names can be used in its
+<code>config:</code> the same way (<code>"${env:MAPLE_BENCH_LOCAL_MODEL}"</code>).</p></li><li><strong>Sampling.</strong> The temperature and related settings each arm ran with are recorded, and the plan warns when arms differ.</li></ul>
+<h3 id="counting-on-the-model-server">Counting on the model server <a class="anchor" href="#counting-on-the-model-server" aria-label="Link to this heading">#</a></h3>
+<p>Measured in AI units or the tool's own tokens, two programs cannot be compared, because one may report nothing. If your
+model server is vLLM, point the bench at its metrics and it reads the server's own counters around every run:</p>
+<pre><code>maple-harness bench run --suite mytasks --arms maple,copilot-cli --k 3 \
+  --server-metrics "$MAPLE_BENCH_LOCAL_URL" --budget-minutes 120 --yes</code></pre>
+<p>Before each run it checks that the server is idle (nothing running or waiting). If it is not idle after the wait, the run
+is marked contaminated: it stays in the raw files, and is left out of the statistics. Per run it records the change in
+prompt tokens, how many were computed and how many were already in the server's cache, generated tokens and requests.
+The report shows these as <strong>server-counted (local model)</strong> and never adds them to AI units. Nothing else may use the
+server while the bench runs.</p>
+<h3 id="a-check-for-a-person-too">A check for a person, too <a class="anchor" href="#a-check-for-a-person-too" aria-label="Link to this heading">#</a></h3>
+<p>Tests can pass on something that does not work. A task may add <code>verify_browser: check.py</code> (a script in the task folder;
+<code>.js</code> runs with node, <code>.py</code> with python, <code>.sh</code> with sh). It runs after the tests, gets the working directory and the
+machine's numeric network address in <code>MAPLE_BENCH_LAN_IP</code>, and is typically a Playwright script that opens the app the way
+a person would. The report gives two pass rates, one for the tests and one for the browser, and does not blend them.</p>
+<h2 id="read-the-results">Read the results <a class="anchor" href="#read-the-results" aria-label="Link to this heading">#</a></h2>
+<pre><code>maple-harness bench report results/mytasks/20260927T120000Z
+maple-harness bench report results/mytasks/20260927T120000Z --json report.json</code></pre>
+<p>The report shows, for each arm, the median with a 95% interval; then each arm against the baseline, task by task: the
+change (negative means it used less), its interval, a p-value, and how many tasks it won, lost and tied; then the
+pass rate, so that a cheaper arm that fails more is visible; then the total each arm cost including failed runs and
+retries. With few tasks the intervals are wide. A difference inside its interval is not a finding.</p>
+<h2 id="what-is-recorded">What is recorded <a class="anchor" href="#what-is-recorded" aria-label="Link to this heading">#</a></h2>
+<p>Each run records tokens, cache reads and writes, AI units, requests, retries, tool calls, wall time, files changed,
+and whether the check passed. No prompt text, file contents or credentials are recorded, and paths are removed from
+error messages unless you pass <code>--anonymize=false</code>.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a>
+<span class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></span></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

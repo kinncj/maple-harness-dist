@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seeing and reducing what a task costs · Maple Harness docs</title>
+<meta name="description" content="Long agent tasks spend most of their money re-reading a growing conversation on every turn. This page shows you where your spend goes, what the numbers mean, and a few habits that keep it down. It mak">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="seeing-and-reducing-what-a-task-costs">Seeing and reducing what a task costs <a class="anchor" href="#seeing-and-reducing-what-a-task-costs" aria-label="Link to this heading">#</a></h1>
+<p>Long agent tasks spend most of their money re-reading a growing conversation on every turn. This page shows you
+where your spend goes, what the numbers mean, and a few habits that keep it down. It makes no promise about how
+much you will save: that depends on your tasks and your models, so measure your own.</p>
+<h2 id="see-where-your-spend-goes">See where your spend goes <a class="anchor" href="#see-where-your-spend-goes" aria-label="Link to this heading">#</a></h2>
+<ul><li><p><strong>In the agent:</strong> <code>/cost</code> shows the session's totals, the most recent requests with their cache hit rate, any
+retries, and roughly where the input went (instructions, tool descriptions, your messages, tool output).
+<code>/context</code> shows the window and what has been spent so far, including helper agents.</p></li><li><p><strong>In the proxy:</strong> the <strong>Cache</strong> card on the setup page (<code>http://127.0.0.1:11539/</code>) shows the hit rate, tokens read
+and written, AI units, a table per model and per tool, and the moments the cache stopped helping, with the likely
+reason. <code>maple-proxy cache</code> prints the same in a terminal (<code>--recent</code> lists the last requests, <code>--json</code> gives the
+raw figures).</p></li><li><p><strong>On your own account:</strong> <code>maple-proxy cache probe --model &lt;name&gt; --yes</code> sends the same small request twice and shows
+what each call cost, so you can see the cache work (or not) on your model. See
+<a href="proxy.html#check-the-cache-yourself">Check the cache yourself</a>.</p></li><li><p><strong>Across whole tasks:</strong> <code>maple-harness bench</code> replays your tasks under different settings, several times each, with a
+spending cap. See <a href="bench.html">Measure it yourself</a>, and <a href="proof.html">how to check it yourself</a>.</p></li></ul>
+<h2 id="what-the-numbers-mean">What the numbers mean <a class="anchor" href="#what-the-numbers-mean" aria-label="Link to this heading">#</a></h2>
+<p><strong>Hit rate.</strong> The share of a request's input that the provider served from its cache instead of processing again.
+A long task with a stable start should sit high; it drops when something early in the request changes.</p>
+<p><strong>Tokens written and read.</strong> The first time the provider sees a stretch of your conversation it stores it, which is
+a write. Later requests that begin with the same stretch read it back. On a provider we measured, writing cost about
+twelve times as much as reading, so the cost of a long task is mostly the reading, repeated every turn, and the
+best lever is a shorter conversation, not a smaller reply.</p>
+<p><strong>AI units.</strong> What Copilot charges per request, shown next to the tokens. Different models have very different
+prices for the same tokens, which is why choosing the model matters more than most other settings.</p>
+<h2 id="habits-that-keep-costs-down">Habits that keep costs down <a class="anchor" href="#habits-that-keep-costs-down" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Keep one model for a long task.</strong> Switching models mid-task starts the provider's cache over, and the whole
+conversation is written again. <code>/model auto</code> keeps your model when it fits the job for this reason.</li><li><strong>Start a new task in a new session.</strong> A fresh session starts with a small conversation. Carrying an old,
+finished task into a new one means paying to re-read it on every turn.</li><li><strong>Let helper agents do the noisy searching.</strong> A subagent's long search stays out of your main conversation, so
+the main one stays small. See <a href="subagents.html">Subagents</a>.</li><li><strong>Use trimming only if you understand the trade.</strong> The proxy can replace very old, very large tool output with a
+short placeholder once a conversation is long. It is a setting on the proxy's <strong>Guards</strong> card and it is <strong>off by
+default</strong>: trimming rewrites part of the conversation, which costs one cache write each time it happens, and a
+model may ask again for something that was trimmed. Turn it on for a long task if the Cache card shows the cost is
+mostly re-reading, and check the result on your own work.</li><li><strong>Read the Cache card when a bill surprises you.</strong> It shows whether the cache was hit, and when and why it stopped.</li></ul>
+<h2 id="what-we-do-not-do">What we do not do <a class="anchor" href="#what-we-do-not-do" aria-label="Link to this heading">#</a></h2>
+<p>Maple does not put a filter between your commands and the model, and does not ask the model to talk in shorthand.
+Very large outputs are cut at a limit, with a note saying so.</p>
+<h2 id="what-others-have-measured">What others have measured <a class="anchor" href="#what-others-have-measured" aria-label="Link to this heading">#</a></h2>
+<p>These are other people's measurements of other tools, on other models and workloads. They are here for context,
+not as a claim about Maple.</p>
+<ul><li><strong>rtk</strong>, a filter for shell command output that advertises 60 to 90% fewer tokens. In
+<a href="https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/" rel="noopener noreferrer">JetBrains' benchmark</a> (Denis Shiryaev, July
+2026; 86 tasks, 425 billed trials, Claude Code with <code>claude-sonnet-5</code>) it showed, at low reasoning effort, a median
++7.6% cost per task (p=0.004) and +13.8% more turns (p=0.03), with new input tokens +3.2%, which was not
+significant. At high effort it was +0.1%, not significant. Quality was indistinguishable, and JetBrains' conclusion
+was that it produced no token saving.</li><li><strong>Caveman-style prompting</strong>, which asks the model to answer in shorthand and advertises 65% fewer tokens. In
+<a href="https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/" rel="noopener noreferrer">JetBrains' study</a> (about 240
+billed trials, <code>claude-sonnet-5</code>, low effort) output tokens fell by 8.5% with no significant difference in quality
+(p=0.82). A first 10-task run had shown about 30%, which faded as the sample grew, and JetBrains calls a
+high-single-digit percentage the realistic ceiling.</li><li><strong>rtk again, from recorded sessions.</strong> <a href="https://codepointer.dev/p/cutting-llm-token-costs-with-rtk" rel="noopener noreferrer">An analysis</a>
+(Yongkyun Lee, June 2026) of 500 recorded Claude Code sessions, which is not a controlled trial, found that the
+advertised per-command savings came to about 0.5% of total spend, because most tool output never passes through
+the shell hook and re-reading cached context is cheap.</li></ul>
+<p>We measure whole tasks, not single commands, and count our own costs too. <code>/cost</code> and the Cache card let you check
+us.</p>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="three-es.html">Which setting for which goal</a> · <a href="proxy-settings.html">Proxy reference</a> · <a href="configuration.html">Harness configuration</a> · <a href="proxy.html">The proxy</a> · <a href="models.html">Models</a> · <a href="subagents.html">Subagents</a> · <a href="troubleshooting.html">Troubleshooting</a></p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a>
+<span class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></span></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>
