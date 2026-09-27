@@ -63,6 +63,28 @@ header naming what answered. In the file: <code>model_fallbacks</code>.</p>
 you fix it by hand. A fallback here means the proxy can try another one automatically, mid-task, with nothing
 for the client to do differently — list a second account or a second model and it takes over on its own. See
 <a href="sign-in.html#more-than-one-account">adding a second GitHub Copilot or Anthropic account</a> to set one up.</p>
+<h3 id="auto-mode-at-the-proxy">Auto mode at the proxy <a class="anchor" href="#auto-mode-at-the-proxy" aria-label="Link to this heading">#</a></h3>
+<p><code>model_aliases</code> and <code>model_fallbacks</code> together give you a name that is not a real model — request it and the
+proxy decides what actually answers, today and after you change your mind later, with no change needed on
+whatever asked for it:</p>
+<pre><code class="language-yaml">model_aliases:
+  auto-heavy: gpt-6-sol
+  auto-medium: gpt-6-sol-mini
+  auto-light: gpt-5-mini
+model_fallbacks:
+  auto-heavy: [claude-opus-5-5]
+  auto-medium: [claude-sonnet-5]</code></pre>
+<p>Any client that speaks the proxy's OpenAI- or Anthropic-compatible surface can now ask for <code>auto-heavy</code>,
+<code>auto-medium</code> or <code>auto-light</code> and get whichever model you have named for it right now — change the alias and
+every client picks it up without being reconfigured. The name needs a <code>model_aliases</code> entry to mean anything
+at all; <code>model_fallbacks</code> on top of that reroutes it the same way a real model name would fall back, on the
+same terms described above.</p>
+<p>Maple Harness's own <code>/model auto</code> picks a model itself by default (<code>harness.auto_model_resolution: client</code>).
+Setting it to <code>proxy</code> instead keeps the harness's own judgement of how much a turn is worth, but asks for it by
+name — <code>auto-heavy</code>, <code>auto-medium</code> or <code>auto-light</code>, or your own names via <code>harness.auto_model_map</code> — and leaves
+the proxy's <code>model_aliases</code>/<code>model_fallbacks</code> to decide what that means. This is the one case where auto mode
+works with a model that publishes no ranking of its own, since nothing here depends on one. <code>maple-harness
+doctor</code> checks that the proxy actually serves the names it would ask for.</p>
 <h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
 <ul><li><strong>Context guard</strong>: for tools that do not know a model's window. <em>Off</em> sends the request as is,
 <em>Truncate</em> drops the oldest turns until it fits, and <em>Refuse</em> rejects it with a plain error.
