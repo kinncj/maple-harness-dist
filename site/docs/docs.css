@@ -1,6 +1,5 @@
 /* Shared by every generated documentation page. Tokens match the landing page. */
 :root{--bg:#FAF6F2;--surface:#F1EAE3;--ink:#231A16;--muted:#5E504A;--line:#DCCFC6;--accent:#B23A1B;--link:#A5330F;--on-accent:#fff;--code-bg:#F1EAE3;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141010;--surface:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;--accent:#E4572E;--link:#F08A66;--on-accent:#140E0B;--code-bg:#1E1816;color-scheme:dark}}
 :root[data-theme=dark]{--bg:#141010;--surface:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;--accent:#E4572E;--link:#F08A66;--on-accent:#140E0B;--code-bg:#1E1816;color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}

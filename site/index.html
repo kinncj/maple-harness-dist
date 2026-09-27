@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="Maple Harness">
 <meta name="twitter:description" content="A coding agent for Copilot's models and your own machine. See where your tokens go with /cost and the proxy's Cache card.">
 <meta name="twitter:image" content="https://kinncj.github.io/maple-harness-dist/img/og.png">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 :root{
   --bg:#FAF6F2;--surface:#F3ECE5;--card:#FFFFFF;--ink:#231A16;--muted:#5E504A;--line:#DCCFC6;
@@ -29,10 +29,6 @@
   --ok:#2F6B3F;--shadow:0 1px 2px rgba(35,26,22,.06),0 8px 24px rgba(35,26,22,.06);
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
-  --bg:#141010;--surface:#1B1513;--card:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;
-  --accent:#E4572E;--accent-2:#F06A42;--link:#F08A66;--on-accent:#140E0B;--code-bg:#0E0B0A;--code-ink:#F6ECE6;
-  --ok:#6FCF8A;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);color-scheme:dark}}
 :root[data-theme=dark]{
   --bg:#141010;--surface:#1B1513;--card:#1E1816;--ink:#F2E9E4;--muted:#B9ABA3;--line:#3A2F2B;
   --accent:#E4572E;--accent-2:#F06A42;--link:#F08A66;--on-accent:#140E0B;--code-bg:#0E0B0A;--code-ink:#F6ECE6;
@@ -128,7 +124,6 @@ figure.crop img{max-height:560px;object-fit:cover;object-position:top}
 figure.phone .frame{max-width:340px;margin:0 auto}
 figcaption{color:var(--muted);font-size:.92rem;margin-top:8px}
 .only-dark{display:none}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .only-light{display:none}:root:not([data-theme=light]) .only-dark{display:block}}
 :root[data-theme=dark] .only-light{display:none}
 :root[data-theme=dark] .only-dark{display:block}
 :root[data-theme=light] .only-light{display:block}
@@ -158,12 +153,13 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
       <a class="hide-sm" href="#what">What it is</a>
       <a class="hide-sm" href="#features">Features</a>
       <a class="hide-sm" href="#tokens">Tokens</a>
+      <a class="hide-sm" href="#why">Why Maple</a>
       <a class="hide-sm" href="#numbers">Example</a>
       <a class="hide-sm" href="#remote">Remote</a>
       <a class="hide-sm" href="#security">Security</a>
       <a href="#install">Install</a>
       <a href="docs/index.html">Docs</a>
-      <button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+      <button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
     </nav>
   </div>
 </header>
@@ -172,8 +168,8 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
 <div class="wrap" id="top">
   <div class="hero">
     <img class="logo" src="img/logo.svg" alt="Maple Harness" width="520" height="132">
-    <h1>A coding agent for Copilot's models and your own machine</h1>
-    <p class="lede">A coding agent that works with GitHub Copilot's models and with models on your own machine, and shows you where your tokens go, so you can see what a task costs and why. Local models through Ollama, LM Studio, oMLX or Apple's on-device model. Drive it from your phone.</p>
+    <h1>The coding agent that doesn't stop when your account does</h1>
+    <p class="lede">Works with GitHub Copilot's models and with models on your own machine. Shows you where your tokens go, so you can see what a task costs and why. Local models through Ollama, LM Studio, oMLX or Apple's on-device model. Drive it from your phone.</p>
 
     <div class="cmd">
       <div style="flex:1;min-width:0"><span class="label">macOS and Linux</span>
@@ -273,10 +269,37 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
   </div>
 </section>
 
+<section id="why">
+  <div class="wrap">
+    <h2>Why choose Maple Harness</h2>
+    <p class="sub">Checked against GitHub Copilot CLI, not assumed. Most of what we first thought set Maple
+    apart, Copilot CLI already has: subagents, remote control, a sandbox, cost visibility, daily budgets. Two
+    things held up.</p>
+
+    <h3 class="subhead">It keeps going when an account runs out</h3>
+    <p>GitHub Copilot CLI's bring-your-own-key mode talks to one fixed endpoint. When that account's usage limit
+    is reached, it stops and asks you to raise or unset the limit before continuing. Maple's proxy can be
+    configured with more than one account of the same provider, or a different model entirely, and reroute
+    to the next one automatically, mid-task, with nothing for you to do.</p>
+    <p class="note">Demonstrated on a real coding task: with the primary account's daily budget set to one
+    request, the other fourteen requests of the same task rerouted to a second account automatically. The task
+    finished unattended, with full test coverage and a real bug found and fixed. Set it up with
+    <code>model_fallbacks</code> on the <a href="#setup">setup page</a>.</p>
+
+    <h3 class="subhead">It used fewer AI units on a real account</h3>
+    <p>Running the same tasks on the same model, <code>gpt-6-sol</code>, on a real GitHub Copilot business-seat
+    account, Maple used fewer AI units than Copilot CLI on every one of seven paired runs &mdash; no exceptions,
+    on the tasks measured.</p>
+    <p class="note">One account, one day, four tasks: roughly 23&ndash;40% fewer AI
+    units, depending on how the four tasks are averaged. A real result, not a guarantee for every task or every
+    account.</p>
+  </div>
+</section>
+
 <section id="numbers">
   <div class="wrap">
     <h2>One measured example</h2>
-    <p class="sub"><strong>One task, one run each, September 2026, <code>gpt-6-sol</code>.</strong> Results vary from run to run and task to task, so measure your own: <code>/cost</code> and the proxy's Cache card show where your spend goes.</p>
+    <p class="sub"><strong>One task, one run each, <code>gpt-6-sol</code>.</strong> Results vary from run to run and task to task, so measure your own: <code>/cost</code> and the proxy's Cache card show where your spend goes.</p>
     <div class="tablewrap">
       <table>
         <caption>Both agents were given the same specification, the same model and the same machine. Each side's figures come from its own accounting, and wall time is taken from outside the process. Both runs produced every required document, a clean tree and passing checks.</caption>
@@ -490,16 +513,16 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
 <script>
 (function () {
   var root = document.documentElement, KEY = 'maple-theme', btn = document.getElementById('theme');
-  function get() { try { return localStorage.getItem(KEY) || 'auto'; } catch (e) { return 'auto'; } }
+  function get() { try { return localStorage.getItem(KEY) === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; } }
   function set(v) {
-    if (v === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', v);
+    root.setAttribute('data-theme', v);
     btn.setAttribute('title', 'Colour theme: ' + v + ' (click to change)');
     btn.setAttribute('aria-label', 'Colour theme: ' + v + '. Activate to change.');
   }
   set(get());
   btn.addEventListener('click', function () {
-    var order = ['auto', 'light', 'dark'], next = order[(order.indexOf(get()) + 1) % 3];
-    try { if (next === 'auto') localStorage.removeItem(KEY); else localStorage.setItem(KEY, next); } catch (e) {}
+    var next = get() === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem(KEY, next); } catch (e) {}
     set(next);
   });
   var live = document.getElementById('copied');
