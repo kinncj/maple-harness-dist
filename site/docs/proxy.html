@@ -64,6 +64,17 @@ header naming what answered. In the file: <code>model_fallbacks</code>.</p>
 <em>Truncate</em> drops the oldest turns until it fits, and <em>Refuse</em> rejects it with a plain error.
 In the file: <code>context_guard</code>.</li><li><strong>Repeat guard</strong>: stops a reply that has collapsed into repeating itself. Off by default. In the file:
 <code>degenerate_guard</code>.</li></ul>
+<h3 id="keeping-the-cache-useful">Keeping the cache useful <a class="anchor" href="#keeping-the-cache-useful" aria-label="Link to this heading">#</a></h3>
+<p>Two more settings, both on the same Guards card, help a provider's prompt cache do its job on long conversations:</p>
+<ul><li><strong>Prefix stabiliser</strong> (<code>prefix_stabilizer</code>, on by default). Some tools resend their tool list in a different order,
+or put the current time in the system prompt, which stops the provider from reusing what it already read. The proxy
+puts the tools back in their first order and moves a changing line such as the time to the end of the last message.
+It never removes or rewrites a tool, and it leaves alone any tool that manages its own caching.</li><li><strong>Trim old tool results</strong> (<code>context_trim</code>, off by default). Once a conversation is long, the content of old, large
+tool results is replaced by a short note ("ask again if needed"), a batch at a time, so the provider does not have
+to read the same output on every turn. Recent turns, your messages and the system prompt are never touched. The
+card lets you set when it starts, how many recent turns it spares, and the smallest result it replaces. Turn it on
+for long runs with large tool output; leave it off for short sessions.</li></ul>
+<p>Responses say what was done in the <code>X-Maple-Prefix-Stabilized</code> and <code>X-Maple-Tool-Results-Trimmed</code> headers.</p>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
 <p>For each provider you can set a limit on requests per day, on the AI units a day, or both; leave a box empty
 for no limit on that measure. Days are UTC, and today's use is shown next to each limit. When a provider
