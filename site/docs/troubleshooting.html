@@ -71,6 +71,13 @@ yourself, use <code>/model &lt;name&gt;</code>, pin models with <code>auto_model
 A model you choose yourself is never blocked by any of this.</p>
 <p><strong>Detect models finds nothing.</strong> The address must include the API prefix (<code>/v1</code>, or <code>/api/v1</code> for Lemonade),
 and the server must be running. Choose the matching type in the picker so its usual address is filled in.</p>
+<h2 id="cost">Cost <a class="anchor" href="#cost" aria-label="Link to this heading">#</a></h2>
+<h3 id="a-run-cost-more-than-i-expected">A run cost more than I expected <a class="anchor" href="#a-run-cost-more-than-i-expected" aria-label="Link to this heading">#</a></h3>
+<p>Type <code>/cost</code>. It shows what the session has spent, the last few requests with how much of each was served from
+the provider's cache, and where the input goes. A request marked "low cache hit" or "model changed" is where the
+cache was lost: a new model starts with a cold cache. To keep it, use <code>/model fixed</code> (or pick a model and leave
+<code>/model auto</code> off), and try a lower reasoning effort with <code>/effort low</code> on models that think a lot. Long histories
+already keep their model in <code>/model auto</code>.</p>
 <h2 id="installing-and-updating">Installing and updating <a class="anchor" href="#installing-and-updating" aria-label="Link to this heading">#</a></h2>
 <p><strong><code>checksum mismatch</code>.</strong> The installer stops and leaves the existing files untouched. A truncated download is
 the usual cause; run it again.</p>
