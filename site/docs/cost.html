@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What /cost tells you · Maple Harness docs</title>
+<meta name="description" content="/cost is the session&#x27;s own bill, read back to you in plain numbers: what has been spent, request by request, and — new — which parts of the conversation are costing the most by being sent again and ag">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="what-cost-tells-you">What /cost tells you <a class="anchor" href="#what-cost-tells-you" aria-label="Link to this heading">#</a></h1>
+<p><code>/cost</code> is the session's own bill, read back to you in plain numbers: what has been spent, request by request,
+and — new — which parts of the conversation are costing the most by being sent again and again. This page walks
+through each part of its output and, for each thing it can flag, what to actually do about it. It makes no
+promise about your bill: read <a href="saving-tokens.html">Seeing and reducing what a task costs</a> for the broader picture,
+and measure your own tasks.</p>
+<h2 id="the-totals-line">The totals line <a class="anchor" href="#the-totals-line" aria-label="Link to this heading">#</a></h2>
+<p>The first line is the session so far: input and output tokens, how many requests were billed, and — where the
+provider states one — AI units (Copilot) or an estimated dollar figure (see
+<a href="#anthropic-and-estimated-cost">Anthropic and estimated cost</a> below). Under it: the model in use, how many
+requests were billed against how many were asked again after a failure, and the overall share of input served
+from the cache.</p>
+<p><strong>What to do about it:</strong> a retried-request count that keeps climbing on the same kind of task is worth watching —
+each retry pays for the request twice. If the overall cache share looks low for a task that has run a while, the
+next section says where in the session that happened.</p>
+<h2 id="the-last-requests-table">The last requests table <a class="anchor" href="#the-last-requests-table" aria-label="Link to this heading">#</a></h2>
+<p>A row per recent request: input, cached, written and output tokens, AI units, the cache hit rate for that one
+request, and the model. Two things get flagged automatically:</p>
+<ul><li><strong>"model changed"</strong> — a different model answered this request than the one before it. A new model starts with
+nothing cached, so the whole conversation is billed again at full price on its first turn.</li><li><strong>"low cache hit"</strong> — this request's own hit rate fell well below what the rest of the session is getting.</li></ul>
+<p><strong>What to do about it:</strong> if you see "model changed" more than once in a task you meant to keep on one model,
+check whether <code>/model auto</code> is switching under you, or whether you switched by hand — either way, staying on one
+model for the rest of a long task avoids paying to rebuild the cache again. "low cache hit" with nothing else
+unusual is often something upstream of that request changing the start of the conversation; it is worth a look at
+what happened right before it.</p>
+<h2 id="where-the-next-requests-input-goes">Where the next request's input goes <a class="anchor" href="#where-the-next-requests-input-goes" aria-label="Link to this heading">#</a></h2>
+<p>An estimated breakdown of what the <em>next</em> request would send, by kind: the system prompt, the tools on offer,
+your own messages, anything looked up on your behalf, the model's own replies and tool calls, and tool results.
+It is a token-count estimate (about four characters to a token), useful for proportions rather than an exact
+figure.</p>
+<p><strong>What to do about it:</strong> if tool results dominate this breakdown, the next section names which ones and why.</p>
+<h2 id="most-expensive-tool-results">Most expensive tool results <a class="anchor" href="#most-expensive-tool-results" aria-label="Link to this heading">#</a></h2>
+<p>A tool's result is not paid for once. It stays in the conversation and is sent again on every request after it,
+until it is trimmed or the session ends — so a single large result from early in a long session can end up
+costing far more than its own size ever suggested. This section ranks the tool results still in the conversation
+by that real cost: the result's size multiplied by how many times it has been sent again since it first
+appeared, both for individual calls and totalled by tool name.</p>
+<p>A result that has not been sent again yet shows no cost here, even if it is large — the cost is in the resending,
+not in the one call that produced it.</p>
+<p><strong>What to do about it, per line:</strong></p>
+<ul><li><strong>A large <code>read_file</code> or <code>grep</code> result high on the list:</strong> ask for less next time it comes up — a narrower
+pattern, or a line range instead of the whole file — and, if the information in it is no longer needed, say so;
+it stays in the conversation until something removes it.</li><li><strong>One tool name dominating the "by tool" total:</strong> that is usually a habit worth changing for the rest of the
+task — a search being repeated instead of reused, or a whole file being read where a smaller one would do.</li><li><strong>Nothing shown here at all:</strong> either the session is early (nothing has been resent yet) or your tool results
+are simply small relative to the rest of the conversation — nothing to act on.</li></ul>
+<p>Today the harness only shortens a <em>failed</em> command's output for you automatically (see
+<a href="saving-tokens.html">/savings</a>); a large result from a call that succeeded is kept exactly as it came back, because
+shortening it without being asked could remove something the model still needs.</p>
+<h2 id="anthropic-and-estimated-cost">Anthropic and estimated cost <a class="anchor" href="#anthropic-and-estimated-cost" aria-label="Link to this heading">#</a></h2>
+<p>Copilot states a price for every call it serves. Claude through Anthropic's own API does not — its responses
+carry token counts only, never a price. <code>/cost</code> reflects that honestly: an Anthropic request shows its tokens
+like any other, and no price, unless the provider is set up to estimate one.</p>
+<p>An operator can turn on <code>estimate_cost</code> for an Anthropic provider (see the <a href="proxy-settings.html">proxy reference</a>),
+which prices each such call from Anthropic's own published rates instead. This figure is always shown as an
+estimate — in dollars, never mixed into Copilot's AI-units figure — because it is a list-price guess, not what
+the account was actually billed: a committed-use rate, a promotion, or a change to Anthropic's prices since this
+was last updated could all make it wrong in either direction.</p>
+<p><strong>What to do about it:</strong> if you rely on a precise bill, check your provider's own account page rather than this
+figure. If Anthropic's calls in <code>/cost</code> show tokens but never a dollar figure at all, <code>estimate_cost</code> is either
+off or the model in use is one this estimate does not yet cover — either is fine to leave as is if you only need
+the token counts.</p>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="saving-tokens.html">Seeing and reducing what a task costs</a> · <a href="proxy-settings.html">Proxy reference</a> ·
+<a href="commands.html">Harness commands and keys</a> · <a href="three-es.html">Which setting for which goal</a></p>
+</article>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
+function set(v){r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
+try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

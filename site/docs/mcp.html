@@ -59,6 +59,11 @@ this project's notes and code map, the same ones the agent uses.</p>
 tools ask for approval like any other tool. A server that runs as a program on your machine runs with your
 permissions, so add only servers you trust. A server reached over the network needs <code>https</code> unless it is on
 this machine.</p>
+<p>A project's own <code>.mcp.json</code> is not something you configured yourself, so the first time one is found for a
+project you have not seen before, Maple Harness asks before starting the server it names (or, without a
+terminal to ask on, skips it and says so). Once approved, it starts normally; editing the file afterwards
+asks again. <code>harness.mcp_servers</code> in your own <code>config.yaml</code> is unaffected — it always runs. See
+<code>maple-harness trust --help</code>.</p>
 <p>The project is the directory the server is launched in, or <code>--project DIR</code>.</p>
 </article>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·

@@ -64,8 +64,8 @@ without <code>verify</code> has no check, and its quality is then only "did it f
 <p><code>config</code> is merged into the harness's <code>config.yaml</code> for that arm.</p>
 <h2 id="compare-another-tool-on-the-same-model">Compare another tool on the same model <a class="anchor" href="#compare-another-tool-on-the-same-model" aria-label="Link to this heading">#</a></h2>
 <p>An arm can be another program instead of a change to this one. It gets the same tasks, in the same fresh directories, with
-the same check, so the comparison is like for like. The example below runs GitHub Copilot CLI (checked against 1.0.88)
-against a model you host yourself, next to Maple Harness on the same model.</p>
+the same check, so the comparison is like for like. The example below runs GitHub Copilot CLI against a model you host
+yourself, next to Maple Harness on the same model.</p>
 <pre><code class="language-yaml">arms:
   - name: maple
     description: this program, through a proxy in front of the same model

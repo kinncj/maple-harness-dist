@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drive it from another program · Maple Harness docs</title>
+<meta name="description" content="maple-harness --rpc reads commands from another process instead of a person, and writes back everything that process needs to follow along: the model&#x27;s own output, tool calls and results, questions th">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="drive-it-from-another-program">Drive it from another program <a class="anchor" href="#drive-it-from-another-program" aria-label="Link to this heading">#</a></h1>
+<p><code>maple-harness --rpc</code> reads commands from another process instead of a person, and writes back everything that
+process needs to follow along: the model's own output, tool calls and results, questions that need an answer, and
+the running cost — as it happens, not only once the whole session ends. It is how a CI step, an editor plugin, or a
+script of your own drives a session the same way the terminal interface does.</p>
+<p><strong>Contents:</strong> <a href="#start-it">Start it</a> · <a href="#commands">Commands</a> · <a href="#events">Events</a> · <a href="#a-permission-question">A permission question</a> · <a href="#what-it-is-not">What it is not</a></p>
+<h2 id="start-it">Start it <a class="anchor" href="#start-it" aria-label="Link to this heading">#</a></h2>
+<pre><code>maple-harness --rpc</code></pre>
+<p>It never starts on its own; it is meant to be the child of whatever is driving it. One JSON object per line comes in
+on stdin, one JSON object per line goes out on stdout. Nothing else is written to stdout — diagnostics and notes go
+to stderr, the same convention <code>--prompt</code> uses, so a plain <code>harness --rpc &lt; commands.jsonl &gt; events.jsonl</code> captures
+exactly the protocol.</p>
+<p>It cannot be combined with <code>--prompt</code>, <code>--repl</code> or <code>--remote</code>: each is its own way of driving the session, and
+<code>--rpc</code> is this one.</p>
+<h2 id="commands">Commands <a class="anchor" href="#commands" aria-label="Link to this heading">#</a></h2>
+<p>Every line you send is one JSON object with a <code>cmd</code> field, and an optional <code>id</code> you choose — it comes back on the
+response so you can match one to the other.</p>
+<div class="tablewrap"><table><thead><tr><th><code>cmd</code></th><th>What it does</th></tr></thead><tbody><tr><td><code>prompt</code></td><td>Starts a new turn with <code>text</code>. Rejected while one is already running — say <code>steer</code> or <code>follow_up</code> instead, because they mean different things.</td></tr><tr><td><code>steer</code></td><td>Adds <code>text</code> to the turn that is running right now, delivered after its current tool calls finish and before the model is asked again. Rejected when nothing is running.</td></tr><tr><td><code>follow_up</code></td><td>Queues <code>text</code> for after the running turn finishes, or starts it at once if nothing is running.</td></tr><tr><td><code>abort</code></td><td>Cancels the running turn and refuses any permission question it left open. A no-op when nothing is running.</td></tr><tr><td><code>permission_answer</code></td><td>Answers a <code>permission_request</code> event by its <code>request_id</code>, with <code>allow</code> (and optionally <code>always</code>, for the rest of the session).</td></tr></tbody></table></div>
+<pre><code class="language-json">{"id": "1", "cmd": "prompt", "text": "add a test for the empty-cart case"}</code></pre>
+<p>The response says what happened to the command itself, not how the turn it may have started turns out:</p>
+<pre><code class="language-json">{"type": "response", "id": "1", "cmd": "prompt", "ok": true, "disposition": "started"}</code></pre>
+<p><code>disposition</code> is <code>started</code> (a new turn began), <code>queued</code> (waiting for the current one), <code>aborted</code>, <code>noop</code>, or
+<code>handled</code> (a permission answer). <code>ok: false</code> carries an <code>error</code> saying why — malformed JSON, a missing field, an
+unknown command, or a command that does not apply right now (a <code>prompt</code> while one is already running, a <code>steer</code>
+with nothing to steer). None of these stop the session; the next line is read as normal.</p>
+<h2 id="events">Events <a class="anchor" href="#events" aria-label="Link to this heading">#</a></h2>
+<p>What the turn itself does streams as further lines, <code>"type": "event"</code>, tagged by <code>event</code>:</p>
+<div class="tablewrap"><table><thead><tr><th><code>event</code></th><th>Carries</th></tr></thead><tbody><tr><td><code>assistant_delta</code> / <code>assistant_done</code></td><td><code>text</code> (and <code>thinking</code>, when the model reasoned)</td></tr><tr><td><code>tool_call</code> / <code>tool_result</code></td><td><code>tool</code>, <code>tool_arg</code></td></tr><tr><td><code>steered</code></td><td><code>text</code> — a <code>steer</code> command landed and is now part of the conversation</td></tr><tr><td><code>notice</code></td><td><code>text</code> — something worth telling a person, from the harness itself</td></tr><tr><td><code>turn_start</code> / <code>turn_end</code></td><td><code>msg_id</code>; <code>turn_end</code> also carries <code>stop_reason</code>, <code>error</code> if any, and <code>usage</code></td></tr></tbody></table></div>
+<p><code>usage</code> is the same figures <code>--prompt --json-summary</code> writes — tokens, cache reads and writes, AI units — computed
+the same way, sent after every turn rather than only once at exit:</p>
+<pre><code class="language-json">{"type": "event", "event": "turn_end", "msg_id": "m1", "stop_reason": "end_turn",
+ "usage": {"turns": 3, "input_tokens": 8120, "cached_tokens": 7200, "cache_write_tokens": 400, "output_tokens": 540, "ai_units": 4.1}}</code></pre>
+<h2 id="a-permission-question">A permission question <a class="anchor" href="#a-permission-question" aria-label="Link to this heading">#</a></h2>
+<p>A tool call that needs approval under your permission settings — the same settings <code>--yolo</code> and the interface's own
+mode control (ask/auto/yolo) govern — is not decided for you. It arrives as an event:</p>
+<pre><code class="language-json">{"type": "event", "event": "permission_request", "request_id": "a1b2c3", "tool": "bash", "tool_arg": "rm -rf build/"}</code></pre>
+<p>Answer it the same way a person would:</p>
+<pre><code class="language-json">{"cmd": "permission_answer", "request_id": "a1b2c3", "allow": true}</code></pre>
+<p>and a <code>permission_resolved</code> event confirms it, with <code>allow</code> and <code>always</code>. There is no timeout on a question left
+unanswered — the tool call waits, exactly as it would for a person at a terminal.</p>
+<h2 id="what-it-is-not">What it is not <a class="anchor" href="#what-it-is-not" aria-label="Link to this heading">#</a></h2>
+<p>This is a local pipe between a parent process and the child it started — there is no listening address and no
+token, because whoever can write to this process's stdin already has everything a shell here would give them. If
+you want a session another device can join over the network instead, see <a href="remote-control.html">Remote control</a>, which
+is a different feature with its own, separate authentication.</p>
+</article>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
+function set(v){r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
+try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>
