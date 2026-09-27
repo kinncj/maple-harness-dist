@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Language servers: compile errors right after every edit · Maple Harness docs</title>
+<meta name="description" content="A language server is the program your editor uses to underline errors, jump to a definition and show a type on hover. Maple Harness can use the same programs. With one installed for your project&#x27;s lan">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="language-servers-compile-errors-right-after-every-edit">Language servers: compile errors right after every edit <a class="anchor" href="#language-servers-compile-errors-right-after-every-edit" aria-label="Link to this heading">#</a></h1>
+<p>A language server is the program your editor uses to underline errors, jump to a definition and show a type on
+hover. Maple Harness can use the same programs. With one installed for your project's language:</p>
+<ul><li><strong>Errors are shown right after each edit.</strong> When the agent writes or edits a file, the errors the language
+server finds in it are added to the tool's result, so the agent sees a compile or type error straight away and
+fixes its own mistake on the next step instead of finding out when the build fails.</li><li><strong>The agent can look things up.</strong> Three tools become available: <code>lsp_diagnostics</code> (the errors and warnings for a
+file), <code>lsp_definition</code> (where a symbol is defined) and <code>lsp_hover</code> (its type and documentation).</li></ul>
+<p>Nothing is installed for you, and nothing runs until it is useful: a server starts the first time a file of its
+type is edited or looked up.</p>
+<p><strong>Contents:</strong> <a href="#how-it-finds-servers">How it finds servers</a> · <a href="#check-what-it-found">Check what it found</a> ·
+<a href="#install-a-server">Install a server</a> · <a href="#gherkin-and-cucumber">Gherkin and Cucumber</a> ·
+<a href="#choose-the-servers-yourself">Choose the servers yourself</a> · <a href="#turn-it-off">Turn it off</a> ·
+<a href="#when-the-agent-still-writes-files-with-echo-and-cat">When the agent still writes files with echo and cat</a> ·
+<a href="#troubleshooting">Troubleshooting</a> · <a href="#what-has-been-tried">What has been tried</a></p>
+<h2 id="how-it-finds-servers">How it finds servers <a class="anchor" href="#how-it-finds-servers" aria-label="Link to this heading">#</a></h2>
+<p>By default (<code>harness.lsp: auto</code>), the agent looks at the folder you started it in. If it finds a file that marks a
+language, and the matching server is on your <code>PATH</code>, that server is used for that language. Nothing else is
+needed.</p>
+<p>If you name servers yourself in <code>harness.lsp_servers</code>, those are used exactly as you wrote them and nothing is
+detected.</p>
+<h2 id="check-what-it-found">Check what it found <a class="anchor" href="#check-what-it-found" aria-label="Link to this heading">#</a></h2>
+<p>Type <code>/lsp</code> in a session. It lists each server as <strong>running</strong>, <strong>idle</strong> (installed, starts when first needed) or
+<strong>missing</strong>, and prints the install command for a missing one.</p>
+<pre><code class="language-text">Language servers (detected from this project and your PATH):
+  Go                     gopls                        idle
+  TypeScript/JavaScript  typescript-language-server   missing
+      install: npm i -g typescript-language-server typescript</code></pre>
+<p><code>maple-harness doctor</code> has a "Language servers" line too. A missing server is only a warning: everything still
+works, the agent just doesn't get compile errors back after an edit.</p>
+<h2 id="install-a-server">Install a server <a class="anchor" href="#install-a-server" aria-label="Link to this heading">#</a></h2>
+<p>Start the agent in the project's root folder, the one with the marker file. The first two columns say what
+triggers a language and which server is used.</p>
+<div class="tablewrap"><table><thead><tr><th>Language</th><th>Marker files in the project folder</th><th>Server</th><th>Install</th></tr></thead><tbody><tr><td>Go</td><td><code>go.mod</code>, <code>go.work</code></td><td><code>gopls</code></td><td><code>go install golang.org/x/tools/gopls@latest</code></td></tr><tr><td>TypeScript, JavaScript</td><td><code>tsconfig.json</code>, <code>jsconfig.json</code>, <code>package.json</code></td><td><code>typescript-language-server</code></td><td><code>npm i -g typescript typescript-language-server</code></td></tr><tr><td>Python</td><td><code>pyproject.toml</code>, <code>setup.py</code>, <code>setup.cfg</code>, <code>requirements.txt</code>, <code>Pipfile</code></td><td><code>pyright-langserver</code> (or <code>pylsp</code>)</td><td><code>pip install pyright</code>, or <code>npm i -g pyright</code>; for <code>pylsp</code>: <code>pip install python-lsp-server</code></td></tr><tr><td>Rust</td><td><code>Cargo.toml</code></td><td><code>rust-analyzer</code></td><td><code>rustup component add rust-analyzer</code></td></tr><tr><td>C, C++</td><td><code>compile_commands.json</code>, <code>CMakeLists.txt</code>, <code>.clangd</code></td><td><code>clangd</code></td><td>macOS: <code>xcode-select --install</code> or <code>brew install llvm</code>. Debian/Ubuntu: <code>sudo apt install clangd</code>. Arch: <code>sudo pacman -S clang</code>. Fedora: <code>sudo dnf install clang-tools-extra</code></td></tr><tr><td>Java</td><td><code>pom.xml</code>, <code>build.gradle</code>, <code>build.gradle.kts</code></td><td><code>jdtls</code></td><td>Install the Eclipse JDT Language Server and put <code>jdtls</code> on your <code>PATH</code></td></tr><tr><td>Swift</td><td><code>Package.swift</code></td><td><code>sourcekit-lsp</code></td><td>Comes with the Swift toolchain (on macOS, Xcode or <code>xcode-select --install</code>)</td></tr><tr><td>Ruby</td><td><code>Gemfile</code>, <code>.ruby-version</code></td><td><code>ruby-lsp</code> (or <code>solargraph</code>)</td><td><code>gem install ruby-lsp</code></td></tr><tr><td>PHP</td><td><code>composer.json</code></td><td><code>intelephense</code> (or <code>phpactor</code>)</td><td><code>npm i -g intelephense</code></td></tr><tr><td>Lua</td><td><code>.luarc.json</code>, <code>.luacheckrc</code>, <code>init.lua</code></td><td><code>lua-language-server</code></td><td>Install <code>lua-language-server</code> from your package manager</td></tr><tr><td>Shell</td><td>any <code>*.sh</code> in the folder or in <code>scripts/</code></td><td><code>bash-language-server</code></td><td><code>npm i -g bash-language-server</code></td></tr><tr><td>Gherkin (Cucumber)</td><td>a <code>features/</code> folder, any <code>*.feature</code> file near the top of the project, or a <code>cucumber.js</code>/<code>cucumber.json</code>/<code>cucumber.yaml</code> file</td><td><code>cucumber-language-server</code></td><td><code>npm i -g @cucumber/language-server</code></td></tr></tbody></table></div>
+<p>Package names for the C and C++ server differ by distribution; the ones above are the usual ones. The other
+installers are each language's own.</p>
+<p>After installing, open <code>/lsp</code> again, or restart the agent, so it sees the new program on your <code>PATH</code>.</p>
+<h2 id="gherkin-and-cucumber">Gherkin and Cucumber <a class="anchor" href="#gherkin-and-cucumber" aria-label="Link to this heading">#</a></h2>
+<p>If your project describes behaviour in <code>.feature</code> files (behaviour-driven development), the Cucumber language
+server checks them. The most useful thing it does is report a <strong>step with no matching step definition</strong>, so when
+the agent writes a scenario, it learns immediately which steps still need code.</p>
+<p>A typical project:</p>
+<pre><code class="language-text">features/
+  export.feature
+  steps/
+    export.steps.js</code></pre>
+<pre><code class="language-gherkin">Feature: Export
+  Scenario: Export as JSON
+    Given the app is loaded
+    When I export the expenses as JSON</code></pre>
+<p>When the agent writes <code>features/export.feature</code>, the result of that write includes something like:</p>
+<pre><code class="language-text">Language-server diagnostics for features/export.feature (0 error(s), 1 warning(s)):
+  features/export.feature:4:10: warning: Undefined step: I export the expenses as JSON</code></pre>
+<p>and the agent writes the missing step definition next. The server looks for features and step definitions in the
+usual places for Cucumber in JavaScript and TypeScript, Java, Ruby, Python, PHP, Rust, C# and Go (for example
+<code>features/**/*.feature</code> with step code under <code>features/</code>, or <code>src/test/**</code> for Java). If your project keeps them
+elsewhere, the defaults are used and steps in other folders will look undefined.</p>
+<h2 id="choose-the-servers-yourself">Choose the servers yourself <a class="anchor" href="#choose-the-servers-yourself" aria-label="Link to this heading">#</a></h2>
+<p>Add <code>lsp_servers</code> to <code>config.yaml</code>. Each entry names the file extensions, the command and its arguments. This
+replaces detection.</p>
+<pre><code class="language-yaml">harness:
+  lsp_servers:
+    - {extensions: [".go"], command: gopls}
+    - {extensions: [".ts", ".tsx", ".js"], command: typescript-language-server, args: ["--stdio"]}
+    - {extensions: [".feature"], command: cucumber-language-server, args: ["--stdio"]}</code></pre>
+<h2 id="turn-it-off">Turn it off <a class="anchor" href="#turn-it-off" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-yaml">harness:
+  lsp: off</code></pre>
+<p>With <code>lsp: off</code> no server is started, no errors are added to results and the three lookup tools are not offered.
+<code>lsp: auto</code> is the default.</p>
+<h2 id="when-the-agent-still-writes-files-with-echo-and-cat">When the agent still writes files with echo and cat <a class="anchor" href="#when-the-agent-still-writes-files-with-echo-and-cat" aria-label="Link to this heading">#</a></h2>
+<p>The agent is told to create and change files with its own file tools, because those show you a diff, apply the
+safety checks and run the language server. Some models still write files through the shell, for example with
+<code>cat &gt; file &lt;&lt;EOF</code>. By default the agent notes it in that command's result so the model can correct itself. You can
+change this:</p>
+<pre><code class="language-yaml">harness:
+  bash_file_writes: warn   # the default: run it, and add a note
+  # bash_file_writes: deny   # refuse it, and tell the model to use write_file or edit_file
+  # bash_file_writes: allow  # say nothing</code></pre>
+<p><code>deny</code> suits small models that keep doing it: the command is refused with a message naming the file, and the
+model tries again with the right tool. Commands that only capture a program's output, such as <code>npm test &gt; out.txt</code>,
+are not affected.</p>
+<h2 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Installed, but <code>/lsp</code> says missing.</strong> The agent looks on the <code>PATH</code> it was started with. A tool installed by
+<code>npm i -g</code> or <code>go install</code> lives in a folder that must be on that <code>PATH</code> (for Go, <code>~/go/bin</code>). Start the agent
+from a shell where the command works, and check with <code>which gopls</code> (or the server's name).</li><li><strong>No server is listed at all.</strong> Start the agent in the project's root folder, the one with the marker file. In a
+larger repository with several projects, start it in the project you are working on.</li><li><strong>The first result has no errors, later ones do.</strong> A server indexes your project the first time it is used, and
+the first edit only starts it. Later edits get errors. Big projects can take some seconds.</li><li><strong>A server keeps failing.</strong> The agent stops restarting a server that keeps exiting and says what the server last
+printed. Run the server's command yourself in the project folder to see why it fails.</li><li><strong>No errors are shown for a file type.</strong> <code>/lsp</code> must list a server whose extensions include that file type.</li></ul>
+<h2 id="what-has-been-tried">What has been tried <a class="anchor" href="#what-has-been-tried" aria-label="Link to this heading">#</a></h2>
+<p>Stated plainly, so you know what to expect:</p>
+<ul><li>The way the agent starts servers, sends them each edit and reads back their errors, and the answers it gives to
+the requests servers make of an editor, has been tested against a stand-in server in the test suite.</li><li>The Cucumber language server was run for real: it reported "Undefined step" warnings for a <code>.feature</code> file right
+after it was written. In that test the server could not load one of its own grammar files, so <strong>step definitions
+were not recognised and every step was reported as undefined</strong>; how well it matches your step definitions has
+not been checked.</li><li>Detection of every language in the table is tested with stand-in programs. The other servers have not been run
+against real projects here, and the install commands come from each project's own instructions.</li></ul>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

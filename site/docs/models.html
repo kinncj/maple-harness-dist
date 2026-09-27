@@ -46,6 +46,13 @@ is nothing to choose between and auto keeps your model. To rank a local provider
     light: claude-haiku-4.5</code></pre>
 <p>It is one map, and every model in it must belong to the provider you are currently on; an entry for
 another provider is ignored with a notice.</p></li></ul>
+<p>Auto keeps your own model when it fits, avoids models known to decline long tasks, and remembers models that
+decline. By default it does not pick models whose names match <code>*-codex*</code> for you (they are built for a different
+tool and often refuse long autonomous work here); <code>harness.auto_avoid</code> in <code>config.yaml</code> changes that list, and
+<code>auto_avoid: []</code> turns it off. A model you choose yourself, or name in <code>auto_model_map</code>, is always allowed.</p>
+<p>Auto keeps your own model when it can serve the message: it only moves when the model you are on is the wrong
+weight for the work, for example a lightweight model asked to plan something large. A model that declines a
+task it can do is skipped for the rest of the session, and you are told when auto switches away from it.</p>
 <p><code>maple-harness doctor</code> shows what auto would use on your account.</p>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
 <p>Set the model the agent starts with in <code>config.yaml</code>:</p>

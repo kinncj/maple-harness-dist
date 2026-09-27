@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run the proxy as a background service · Maple Harness docs</title>
+<meta name="description" content="Contents: What you get · Debian and Ubuntu · Arch Linux · Fedora · macOS · Keep the phone gateway running too · Machines with no desktop · Reach the setup page from another machine · Update · Troubles">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: auto, light, dark"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="run-the-proxy-as-a-background-service">Run the proxy as a background service <a class="anchor" href="#run-the-proxy-as-a-background-service" aria-label="Link to this heading">#</a></h1>
+<p><strong>Contents:</strong> <a href="#what-you-get">What you get</a> · <a href="#debian-and-ubuntu">Debian and Ubuntu</a> · <a href="#arch-linux">Arch Linux</a> ·
+<a href="#fedora">Fedora</a> · <a href="#macos">macOS</a> · <a href="#keep-the-phone-gateway-running-too">Keep the phone gateway running too</a> ·
+<a href="#machines-with-no-desktop">Machines with no desktop</a> · <a href="#reach-the-setup-page-from-another-machine">Reach the setup page from another machine</a> ·
+<a href="#update">Update</a> · <a href="#troubleshooting">Troubleshooting</a> · <a href="#remove-it">Remove it</a> ·
+<a href="#advanced-one-system-wide-service">Advanced: one system-wide service</a></p>
+<p>By default the agent starts the proxy for you when you open it, and it stops when you are done. Run the proxy as
+a service when you want it to be already there: before you open a terminal, for other tools that use your models,
+or for your phone.</p>
+<p><code>maple-harness service install</code> does it in one command. It writes one small file for your own account (a systemd
+<strong>user</strong> service on Linux, a launchd <strong>agent</strong> on macOS) and starts it. Nothing runs as root, nothing is installed
+system-wide, and the file contains no key or token: those stay where they always are. Windows is not supported.</p>
+<h2 id="what-you-get">What you get <a class="anchor" href="#what-you-get" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>Linux</th><th>macOS</th></tr></thead><tbody><tr><td>The file it writes</td><td><code>~/.config/systemd/user/maple-proxy.service</code></td><td><code>~/Library/LaunchAgents/com.kinncj.maple-proxy.plist</code></td></tr><tr><td>Starts</td><td>when you log in (at boot too, after one extra command below)</td><td>when you log in</td></tr><tr><td>If it stops with an error</td><td>restarted 3 seconds later</td><td>restarted 5 seconds later</td></tr><tr><td>Logs</td><td><code>journalctl --user -u maple-proxy</code></td><td><code>~/.config/maple-harness/run/maple-proxy.log</code></td></tr><tr><td>Runs</td><td><code>maple-proxy serve --logs stdout</code></td><td><code>maple-proxy serve --logs stdout</code></td></tr></tbody></table></div>
+<p>The proxy still listens on the same addresses as always: the setup page on <code>127.0.0.1:11539</code>, the
+OpenAI-compatible API on <code>127.0.0.1:11535</code> and the Anthropic-compatible API on <code>127.0.0.1:11537</code>. See
+<a href="proxy.html">The proxy</a>. The setup page only ever listens on the machine itself.</p>
+<p>The service file records two things from the shell where you ran <code>install</code>: the full path to the program, and
+your <code>PATH</code> (and <code>XDG_CONFIG_HOME</code>, if you set it). So run <code>install</code> from a normal terminal where <code>maple-proxy</code>
+works, and run it again if you move the programs or change your <code>PATH</code>.</p>
+<h2 id="debian-and-ubuntu">Debian and Ubuntu <a class="anchor" href="#debian-and-ubuntu" aria-label="Link to this heading">#</a></h2>
+<p><em>Tested on: written from how the command works and standard systemd behaviour; not yet run on Debian or Ubuntu.</em></p>
+<ol><li><p><strong>Install the programs.</strong></p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+maple-proxy version</code></pre>
+<p>This puts them in <code>/usr/local/bin</code> and asks for <code>sudo</code> once. To avoid <code>sudo</code>, add
+<code>-s -- --install-location ~/.local/bin</code> after <code>bash</code> and make sure <code>~/.local/bin</code> is on your <code>PATH</code>.</p></li><li><p><strong>Optional: shell sandbox.</strong> Sessions you share with your phone contain their shell commands with bubblewrap
+when it is installed. Install it before the next step so it is on the <code>PATH</code> the service records:</p>
+<pre><code class="language-sh">sudo apt install bubblewrap</code></pre></li><li><p><strong>Install the service.</strong></p>
+<pre><code class="language-sh">maple-harness service install proxy</code></pre>
+<p>It prints where it wrote the file and whether the service is running:</p>
+<pre><code>proxy    installed, active
+         /home/you/.config/systemd/user/maple-proxy.service</code></pre></li><li><p><strong>Check it.</strong></p>
+<pre><code class="language-sh">maple-harness service status
+systemctl --user status maple-proxy
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:11539/    # 200</code></pre>
+<p>Then open <code>http://127.0.0.1:11539</code> to sign in (<a href="sign-in.html">Signing in</a>).</p></li><li><p><strong>Start at boot, not only at login.</strong> A user service normally stops when you log out. On a machine that should
+keep serving, turn on <em>lingering</em>, which keeps your user services running without a login session:</p>
+<pre><code class="language-sh">loginctl enable-linger "$USER"</code></pre></li><li><p><strong>Over SSH.</strong> If <code>service install</code> says the systemd user manager is not reachable, install the user bus
+(<code>sudo apt install dbus-user-session</code>), log in again, and if needed point the tools at your session:</p>
+<pre><code class="language-sh">export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus</code></pre>
+<p><code>loginctl enable-linger "$USER"</code> (step 5) makes that session exist even when nobody is logged in.</p></li></ol>
+<p>If the machine runs <code>ufw</code> and you also keep the phone gateway running, allow its port from Tailscale only:
+<code>sudo ufw allow in on tailscale0 to any port 11541 proto tcp</code>. The proxy's own ports need no firewall rule,
+because they listen on this machine only.</p>
+<h2 id="arch-linux">Arch Linux <a class="anchor" href="#arch-linux" aria-label="Link to this heading">#</a></h2>
+<p><em>Tested on: Arch Linux. The service files it writes pass <code>systemd-analyze verify</code>. The install and enable steps
+themselves have not been run on a real machine yet.</em></p>
+<ol><li><p><strong>Install the programs.</strong></p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+maple-proxy version</code></pre></li><li><p><strong>Optional: shell sandbox.</strong></p>
+<pre><code class="language-sh">sudo pacman -S bubblewrap</code></pre></li><li><p><strong>Install the service.</strong></p>
+<pre><code class="language-sh">maple-harness service install proxy</code></pre></li><li><p><strong>Check it.</strong></p>
+<pre><code class="language-sh">maple-harness service status
+systemctl --user status maple-proxy
+journalctl --user -u maple-proxy -e</code></pre></li><li><p><strong>Start at boot, not only at login.</strong></p>
+<pre><code class="language-sh">loginctl enable-linger "$USER"</code></pre></li></ol>
+<p>Arch has no firewall enabled by default. If you added one and want the phone gateway reachable over Tailscale,
+allow port 11541 on the <code>tailscale0</code> interface only.</p>
+<h2 id="fedora">Fedora <a class="anchor" href="#fedora" aria-label="Link to this heading">#</a></h2>
+<p><em>Tested on: written from how the command works and standard systemd behaviour; not yet run on Fedora.</em></p>
+<ol><li><p><strong>Install the programs.</strong></p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+maple-proxy version</code></pre></li><li><p><strong>Optional: shell sandbox.</strong></p>
+<pre><code class="language-sh">sudo dnf install bubblewrap</code></pre></li><li><p><strong>Install the service.</strong></p>
+<pre><code class="language-sh">maple-harness service install proxy</code></pre></li><li><p><strong>Check it.</strong></p>
+<pre><code class="language-sh">maple-harness service status
+systemctl --user status maple-proxy
+journalctl --user -u maple-proxy -e</code></pre></li><li><p><strong>Start at boot, not only at login.</strong></p>
+<pre><code class="language-sh">loginctl enable-linger "$USER"</code></pre></li><li><p><strong>SELinux.</strong> A user service that runs a program from <code>/usr/local/bin</code> or <code>~/.local/bin</code> normally works with
+the default policy. If the service fails to start with a "permission denied" that you cannot explain, look for a
+denial: <code>sudo ausearch -m avc -ts recent</code>.</p></li><li><p><strong>Firewall.</strong> <code>firewalld</code> blocks incoming connections on most Fedora editions. The proxy's own ports listen on
+this machine only, so they need no rule. If you keep the phone gateway running, allow it from Tailscale only:
+<code>sudo firewall-cmd --permanent --zone=trusted --add-interface=tailscale0 &amp;&amp; sudo firewall-cmd --reload</code>.</p></li></ol>
+<h2 id="macos">macOS <a class="anchor" href="#macos" aria-label="Link to this heading">#</a></h2>
+<p><em>Tested on: written from how the command works and standard launchd behaviour; not yet run on a Mac.</em></p>
+<ol><li><p><strong>Install the programs.</strong></p>
+<pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+maple-proxy version</code></pre>
+<p>The programs are not notarised by Apple. The installer downloads them with <code>curl</code>, which normally does not
+trigger Gatekeeper. If macOS still refuses to open one, remove the quarantine mark from it:
+<code>xattr -d com.apple.quarantine /usr/local/bin/maple-proxy</code>.</p></li><li><p><strong>Install the service.</strong> Run this in Terminal while you are logged in to the desktop:</p>
+<pre><code class="language-sh">maple-harness service install proxy</code></pre>
+<p>It writes <code>~/Library/LaunchAgents/com.kinncj.maple-proxy.plist</code> and loads it into your login session.</p></li><li><p><strong>Check it.</strong></p>
+<pre><code class="language-sh">maple-harness service status
+launchctl print gui/$(id -u)/com.kinncj.maple-proxy
+tail -f ~/.config/maple-harness/run/maple-proxy.log</code></pre></li><li><p><strong>Restart it.</strong> Running <code>maple-harness service install proxy</code> again reloads it. So does
+<code>launchctl kickstart -k gui/$(id -u)/com.kinncj.maple-proxy</code>.</p></li></ol>
+<p>Things that are specific to the Mac:</p>
+<ul><li><strong>It runs while you are logged in.</strong> A launchd <em>agent</em> belongs to your login session, so it starts when you
+log in and stops when you log out. A Mac that must serve with nobody logged in needs automatic login; a
+system-wide launchd daemon is not something <code>service install</code> creates.</li><li><strong>The Apple on-device model helper is started by the proxy itself.</strong> It is not a separate service and needs
+nothing from you.</li><li><strong>Your keys are in the login Keychain</strong>, which is unlocked while you are logged in. If macOS asks whether the
+proxy may use the Keychain, choose to allow it.</li><li><strong>The command must run from a desktop login.</strong> Over SSH without a desktop session the <code>gui/&lt;uid&gt;</code> domain does not
+exist, so <code>launchctl</code> is likely to refuse to load the agent.</li></ul>
+<h2 id="keep-the-phone-gateway-running-too">Keep the phone gateway running too <a class="anchor" href="#keep-the-phone-gateway-running-too" aria-label="Link to this heading">#</a></h2>
+<p>The gateway is the address your phone connects to (<a href="remote-control.html">Remote control</a>). To keep it up as well:</p>
+<pre><code class="language-sh">maple-harness service install gateway      # or: maple-harness service install     (both)</code></pre>
+<p>This also switches remote control on and starts the gateway listening on your network (port 11541) with HTTPS: a
+real certificate when Tailscale is signed in, otherwise a self-signed one that works after a browser warning but
+cannot send notifications while the page is closed. No secret is put in the service file. Afterwards:</p>
+<pre><code class="language-sh">maple-harness gateway pair                     # a single-use code and a QR code for your phone
+maple-harness gateway workspaces add ~/code    # folders a phone may start sessions in</code></pre>
+<p>The gateway service refuses to start until remote control is on and there is a way for a device to sign in; while
+that is missing it restarts and fails quietly. <code>service install gateway</code> switches remote control on, and
+<code>gateway pair</code> gives a device something to sign in with. If you set up Tailscale later, run
+<code>maple-harness service install gateway</code> again to switch it to the trusted certificate.</p>
+<p>The gateway keeps running until you stop it. One that a session starts with <code>/remote</code> stops by itself after ten idle
+minutes; the service does not.</p>
+<h2 id="machines-with-no-desktop">Machines with no desktop <a class="anchor" href="#machines-with-no-desktop" aria-label="Link to this heading">#</a></h2>
+<p>Your sign-ins and keys go in the system keyring when there is one, and the configuration file holds only a
+reference to them. A server usually has no keyring: no Secret Service is running on your user session, or it
+cannot be unlocked without someone at the keyboard. Then the proxy falls back to a private file in the
+configuration folder (readable only by you) and tells you so. To see where things are stored, without showing the
+secrets:</p>
+<pre><code class="language-sh">maple-proxy secrets status</code></pre>
+<p>The output says <code>file</code> or <code>operating-system keyring</code> and lists where each secret lives. The file is protected by
+your account's permissions and your disk, so on a shared machine keep the account private and consider
+encrypting the disk. Run the command from the same account and environment the service uses, so both look at the
+same configuration folder.</p>
+<h2 id="reach-the-setup-page-from-another-machine">Reach the setup page from another machine <a class="anchor" href="#reach-the-setup-page-from-another-machine" aria-label="Link to this heading">#</a></h2>
+<p>The setup page listens on <code>127.0.0.1</code> only and refuses to listen anywhere else, so do not try to expose it. To
+use it on a server, forward the port over SSH and open it in your own browser:</p>
+<pre><code class="language-sh">ssh -L 11539:127.0.0.1:11539 you@server</code></pre>
+<p>Then browse to <code>http://127.0.0.1:11539</code> on your own machine. Over Tailscale the same forward works with the
+machine's Tailscale name. To let other machines use the model APIs (not the setup page), see
+<a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>.</p>
+<h2 id="update">Update <a class="anchor" href="#update" aria-label="Link to this heading">#</a></h2>
+<p>Each program updates itself, then the service needs a restart to run the new copy:</p>
+<pre><code class="language-sh">maple-harness update
+maple-proxy update
+systemctl --user restart maple-proxy maple-gateway     # Linux
+maple-harness service install                          # macOS: reloads the agents</code></pre>
+<p>If <code>update</code> says permission denied for <code>/usr/local/bin</code>, run it with <code>sudo</code>, or install into <code>~/.local/bin</code> the
+first time. If you moved the programs, run <code>maple-harness service install</code> again so the file points at the new
+path.</p>
+<h2 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h2>
+<p><strong><code>service install</code> says the systemd user manager is not reachable.</strong> There is no user session to attach to,
+typically over SSH or in a container. Log in through a normal session, or follow the SSH steps in the
+<a href="#debian-and-ubuntu">Debian and Ubuntu</a> section. <code>maple-harness service print proxy</code> shows the file it would write
+so you can place it yourself.</p>
+<p><strong>The service is installed but not running.</strong> Read why it stopped:</p>
+<pre><code class="language-sh">systemctl --user status maple-proxy
+journalctl --user -u maple-proxy -e          # on macOS: tail ~/.config/maple-harness/run/maple-proxy.log</code></pre>
+<p><strong>The port is already in use</strong> (11535, 11537 or 11539). Something else, often a proxy you started by hand,
+holds it. Find it with <code>ss -ltnp | grep -E ':1153[579]'</code> on Linux or <code>lsof -nP -iTCP:11539 -sTCP:LISTEN</code> on a Mac,
+stop it, then restart the service. You can also change the addresses under <code>server:</code> in <code>config.yaml</code>.</p>
+<p><strong>It works in a terminal but not as a service.</strong> The service uses the <code>PATH</code> and <code>XDG_CONFIG_HOME</code> from the moment you
+ran <code>install</code>. Run <code>maple-harness service install</code> again from a shell where the tools you want are on the
+<code>PATH</code>.</p>
+<p><strong>My sign-ins are missing under the service.</strong> The service is reading a different configuration folder than your
+terminal. Compare <code>maple-proxy secrets status</code> in your terminal with the folder the service uses (the
+<code>XDG_CONFIG_HOME</code> line in its file); both should be the same.</p>
+<p><strong><code>install</code> leaves a file alone.</strong> It will not replace a file you edited or wrote yourself. Add <code>--force</code> to
+replace it.</p>
+<p><strong>The gateway keeps restarting.</strong> Remote control is off, or nothing can sign in yet. See
+<a href="#keep-the-phone-gateway-running-too">Keep the phone gateway running too</a>.</p>
+<p><code>maple-harness doctor</code> also checks the proxy and the gateway and says how to fix what it finds.</p>
+<h2 id="remove-it">Remove it <a class="anchor" href="#remove-it" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">maple-harness service uninstall</code></pre>
+<p>This stops the services and removes the files it wrote. It leaves your configuration and sign-ins alone. On Linux,
+if you turned lingering on and no longer want it: <code>loginctl disable-linger "$USER"</code>.</p>
+<h2 id="advanced-one-system-wide-service">Advanced: one system-wide service <a class="anchor" href="#advanced-one-system-wide-service" aria-label="Link to this heading">#</a></h2>
+<p><em>Tested on: the unit text was checked with <code>systemd-analyze verify</code> on Arch Linux. Nothing else here has been run.
+Use the per-user service above unless you need this.</em></p>
+<p>A per-user service is the right default. If you want the proxy to run under its own account, for example on a
+server that nobody logs in to, you can write a system service yourself. This runs the proxy only.</p>
+<p>Create the account and install the programs where that account can run them (<code>/usr/local/bin</code> is where the
+installer puts them; a copy in a home folder will not work with the settings below):</p>
+<pre><code class="language-sh">sudo useradd --system --home-dir /var/lib/maple --no-create-home --shell /usr/sbin/nologin maple</code></pre>
+<p>Then create <code>/etc/systemd/system/maple-proxy.service</code>:</p>
+<pre><code class="language-ini">[Unit]
+Description=Maple Harness proxy (system service)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=maple
+Group=maple
+ExecStart=/usr/local/bin/maple-proxy serve --logs stdout
+Environment=HOME=/var/lib/maple
+WorkingDirectory=/var/lib/maple
+StateDirectory=maple
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>Start it, and follow the log:</p>
+<pre><code class="language-sh">sudo systemctl daemon-reload
+sudo systemctl enable --now maple-proxy
+sudo journalctl -u maple-proxy -f</code></pre>
+<p><code>StateDirectory=maple</code> creates <code>/var/lib/maple</code>, owned by the <code>maple</code> account and the only place the service
+may write (<code>ProtectSystem=strict</code> makes everything else read-only). Its configuration and sign-ins live in
+<code>/var/lib/maple/.config/maple-harness</code>. Sign in through the setup page with the SSH forward described above,
+and check where secrets are kept with <code>sudo -u maple -H maple-proxy secrets status</code>. There is no keyring for a
+system account, so they will be in the private file.</p>
+</article>
+<footer class="foot">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)||'auto'}catch(e){return 'auto'}}
+function set(v){if(v==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var o=['auto','light','dark'],n=o[(o.indexOf(get())+1)%3];
+try{if(n==='auto')localStorage.removeItem(k);else localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>

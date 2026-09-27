@@ -26,6 +26,8 @@ maple-harness doctor --report bug.txt     # a redacted bundle to attach when you
 <pre><code>/proxy      where the proxy is, whether it answers, how many models it serves
 /context    what the model can see: window size and how full it is</code></pre>
 <p><code>maple-proxy serve --logs=true</code> shows every request and the reason behind every failed one.</p>
+<p><strong>Contents</strong></p>
+<ul><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li></ul>
 <h2 id="the-proxy">The proxy <a class="anchor" href="#the-proxy" aria-label="Link to this heading">#</a></h2>
 <p><strong>The agent says the proxy is unreachable.</strong> Nothing answers at the configured address. <code>/proxy</code> shows where
 the agent is looking, and <code>/proxy start</code> starts one. This usually means <code>server.openai_compat</code> in
@@ -58,6 +60,15 @@ absent for local models. Sign in first, and note that before the first request o
 reports nothing, set it by hand.</p>
 <p><strong>A local model repeats itself or stops without finishing.</strong> Small models do this. Use them for scoped work,
 such as a function, a file or a fix, start a fresh session per task, and use <code>/compress</code> when one grows long.</p>
+<p><strong>The model says it "can't build the whole project in one run".</strong> Small and cheap models sometimes decline a long
+task they are able to do. Maple Harness answers once with a nudge to start step by step, and says so
+("continuing — the model declined a task it can do"). If the model declines again it tells you which model it
+is and suggests a stronger one with <code>/model &lt;name&gt;</code> (or pinning models with <code>auto_model_map</code>, see
+<a href="models.html">models</a>). With <code>/model auto</code>, a model that declined is skipped for the rest of the session.</p>
+<p><strong>Auto keeps picking a model that declines.</strong> Auto avoids models known to decline long tasks and remembers ones
+that do (<code>maple-harness doctor</code> lists them; <code>maple-harness cleanup --declines --yes</code> forgets them). To choose
+yourself, use <code>/model &lt;name&gt;</code>, pin models with <code>auto_model_map</code>, or add patterns to <code>auto_avoid</code> in <code>config.yaml</code>.
+A model you choose yourself is never blocked by any of this.</p>
 <p><strong>Detect models finds nothing.</strong> The address must include the API prefix (<code>/v1</code>, or <code>/api/v1</code> for Lemonade),
 and the server must be running. Choose the matching type in the picker so its usual address is filled in.</p>
 <h2 id="installing-and-updating">Installing and updating <a class="anchor" href="#installing-and-updating" aria-label="Link to this heading">#</a></h2>
