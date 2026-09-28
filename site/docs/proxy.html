@@ -155,7 +155,10 @@ conservatively, for other machines. You can force it on or off and set the reque
 how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
 <code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budget counts (not the Cache, Sessions or Savings
 cards, which now survive a restart on their own) come from it, so set it if you use budgets and want
-their counts to survive a restart too.</li></ul>
+their counts to survive a restart too. It rotates to a new file for each UTC day (<code>usage-2026-09-28.jsonl</code>
+next to the path you set), so it never grows into one unbounded file — nothing is ever deleted on its own; see
+<a href="usage-export.html">Query and export your usage data</a> for <code>maple-proxy usage prune</code>, <code>usage export</code>, and how to
+point DuckDB or Grafana straight at it.</li></ul>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
 <pre><code class="language-yaml">model_fallbacks:
   cloud: [local]            # cloud and local are model aliases (see Connect a model server)
