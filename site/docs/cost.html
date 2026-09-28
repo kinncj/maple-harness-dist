@@ -32,6 +32,27 @@ from the cache.</p>
 <p><strong>What to do about it:</strong> a retried-request count that keeps climbing on the same kind of task is worth watching —
 each retry pays for the request twice. If the overall cache share looks low for a task that has run a while, the
 next section says where in the session that happened.</p>
+<h2 id="subagents">Subagents <a class="anchor" href="#subagents" aria-label="Link to this heading">#</a></h2>
+<p>If this session delegated any work with <code>@agent</code> or the <code>delegate</code> tool, <code>/cost</code> ends with a
+"Subagents" line — how many ran, and what they cost on their own — and a "Session + subagents"
+line, which is the true total: the main conversation's own spend plus every subagent's. This is
+the number that matches what your account was actually billed, and it is why the very first line
+of <code>/cost</code> (the main conversation alone) can look much smaller than that on a session that
+delegated most of its real work — the main conversation's own figure was never wrong, it just was
+not the whole bill. The status bar and <code>/context</code> already show the combined figure; <code>/cost</code> now
+does too.</p>
+<p><strong>What to do about it:</strong> if the "Session + subagents" total is far above the main figure, that is
+expected on a session that used subagents heavily — it is not a sign anything is broken. If you
+need the true total from a script instead of reading <code>/cost</code>, <code>--json-summary</code>'s <code>ai_units</code> (and
+<code>input_tokens</code>/<code>output_tokens</code>) fields are the combined total too, with <code>subagent_ai_units</code> and
+friends breaking out just the delegated share.</p>
+<p><code>/savings</code> is a different question — what the <em>harness's own techniques</em> (<code>loop_guard</code>, log
+shortening, model choice) saved and cost, not the account's true total. A subagent's spend is
+deliberately never valued there: there is no defensible counterfactual for what its parent would
+have done instead, so nothing is credited or charged either way. On a session that delegated most
+of its real work, <code>/savings</code> says this plainly — how many subagents ran and what they cost — rather
+than the generic message a session where nothing happened at all would show, and points back at
+<code>/cost</code> for the number that includes them.</p>
 <h2 id="the-last-requests-table">The last requests table <a class="anchor" href="#the-last-requests-table" aria-label="Link to this heading">#</a></h2>
 <p>A row per recent request: input, cached, written and output tokens, AI units, the cache hit rate for that one
 request, and the model. Two things get flagged automatically:</p>

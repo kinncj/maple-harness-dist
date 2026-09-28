@@ -46,7 +46,9 @@ with nothing to steer). None of these stop the session; the next line is read as
 <p>What the turn itself does streams as further lines, <code>"type": "event"</code>, tagged by <code>event</code>:</p>
 <div class="tablewrap"><table><thead><tr><th><code>event</code></th><th>Carries</th></tr></thead><tbody><tr><td><code>assistant_delta</code> / <code>assistant_done</code></td><td><code>text</code> (and <code>thinking</code>, when the model reasoned)</td></tr><tr><td><code>tool_call</code> / <code>tool_result</code></td><td><code>tool</code>, <code>tool_arg</code></td></tr><tr><td><code>steered</code></td><td><code>text</code> — a <code>steer</code> command landed and is now part of the conversation</td></tr><tr><td><code>notice</code></td><td><code>text</code> — something worth telling a person, from the harness itself</td></tr><tr><td><code>turn_start</code> / <code>turn_end</code></td><td><code>msg_id</code>; <code>turn_end</code> also carries <code>stop_reason</code>, <code>error</code> if any, and <code>usage</code></td></tr></tbody></table></div>
 <p><code>usage</code> is the same figures <code>--prompt --json-summary</code> writes — tokens, cache reads and writes, AI units — computed
-the same way, sent after every turn rather than only once at exit:</p>
+the same way, sent after every turn rather than only once at exit. It is the true total: if this turn delegated
+work to a subagent (see <a href="subagents.html">subagents</a>), that subagent's own tokens and AI units are folded in here too,
+the same as they are in <code>/cost</code> and the status bar — not just the driving turn's own requests.</p>
 <pre><code class="language-json">{"type": "event", "event": "turn_end", "msg_id": "m1", "stop_reason": "end_turn",
  "usage": {"turns": 3, "input_tokens": 8120, "cached_tokens": 7200, "cache_write_tokens": 400, "output_tokens": 540, "ai_units": 4.1}}</code></pre>
 <h2 id="a-permission-question">A permission question <a class="anchor" href="#a-permission-question" aria-label="Link to this heading">#</a></h2>

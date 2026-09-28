@@ -115,6 +115,17 @@ figures). Each response that is not streamed also carries <code>X-Maple-Cache</c
 <p>Only counts and labels are kept, in memory and, if you set a usage log, in that file. No prompt, answer or file
 content is recorded. A provider that reports no cache figures at all (most local servers) shows as not applicable
 rather than as a miss.</p>
+<h3 id="seeing-cost-per-session">Seeing cost per session <a class="anchor" href="#seeing-cost-per-session" aria-label="Link to this heading">#</a></h3>
+<p>Below the Cache card, the <strong>Sessions</strong> card groups AI units, tokens and requests by an opaque id a client sends on
+its own requests as <code>X-Maple-Session</code> — Maple Harness sends it automatically for every session, generated once and
+kept for the life of that conversation (including across <code>--continue</code>/<code>--resume</code>). A subagent it delegates to sends
+the same id as its parent, so a subagent's spend counts toward the session that started it, not a total that quietly
+leaves it out. The id is random and carries no content: never a session's name, never anything said in it — only the
+id and numbers appear on the card.</p>
+<p>Any other OpenAI- or Anthropic-compatible client can send this header too, to appear here the same way. A client
+that doesn't send it is simply not grouped into any session, exactly as before this existed — nothing about a
+request without the header changes.</p>
+<p><code>GET /api/cache/sessions</code> returns the same list as JSON, most recently active first.</p>
 <h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
 <p>Below the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and what they cost, today
 and in the last hour. Every figure is tagged <strong>measured</strong> (a count of tokens or requests) or <strong>estimated</strong> (a value
