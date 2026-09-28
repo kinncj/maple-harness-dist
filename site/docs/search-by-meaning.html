@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search by meaning · Maple Harness docs</title>
+<meta name="description" content="The agent looks things up with three tools: historysearch (older parts of the conversation that were moved out of view to make room), recall (memory notes) and graphsearch (the project index of files ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
+<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
+<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
+<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
+<main id="main" class="doc">
+<article>
+<h1 id="search-by-meaning">Search by meaning <a class="anchor" href="#search-by-meaning" aria-label="Link to this heading">#</a></h1>
+<p>The agent looks things up with three tools: <code>history_search</code> (older parts of the conversation that were moved out of
+view to make room), <code>recall</code> (memory notes) and <code>graph_search</code> (the project index of files and symbols). On their own
+they match words, so a search for "the login bug" misses a message about "authentication failures after the upgrade".
+With a small embedding model set up in the proxy, each of these also ranks results by what they mean, and the two
+rankings are combined. Words still count: an exact match keeps its place.</p>
+<p>It is optional. With no model set up, every search works exactly as it did before, and nothing extra is sent anywhere.</p>
+<p><strong>Contents:</strong> <a href="#the-two-models">The two models</a> · <a href="#set-it-up">Set it up</a> · <a href="#use-embeddinggemma">Use EmbeddingGemma</a> ·
+<a href="#is-my-machine-enough">Is my machine enough?</a> · <a href="#what-changes-for-the-agent">What changes for the agent</a> ·
+<a href="#measured-results">Measured results</a> · <a href="#where-things-are-kept-and-removing-them">Where things are kept, and removing them</a> ·
+<a href="#privacy">Privacy</a></p>
+<h2 id="the-two-models">The two models <a class="anchor" href="#the-two-models" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>bge-small-en-v1.5 (default)</th><th>EmbeddingGemma 300M (optional)</th></tr></thead><tbody><tr><td>Runs in</td><td>the proxy itself, on the CPU; nothing else to install</td><td>a local model server you run: Ollama or LM Studio</td></tr><tr><td>Download</td><td>about 128 MB, once; about 33 MB is kept on disk</td><td>about 622 MB, into your model server</td></tr><tr><td>Language</td><td>English</td><td>many languages</td></tr><tr><td>Best on</td><td>short passages: text past about 512 word pieces (roughly 350 words) is cut off</td><td>longer text (up to about 2,000 tokens)</td></tr><tr><td>Speed</td><td>fast on any recent CPU (see below)</td><td>larger and slower; much faster with a GPU</td></tr><tr><td>Licence</td><td><a href="https://huggingface.co/BAAI/bge-small-en-v1.5" rel="noopener noreferrer">MIT</a></td><td><a href="https://ai.google.dev/gemma/terms" rel="noopener noreferrer">Gemma Terms of Use</a> and the <a href="https://ai.google.dev/gemma/prohibited_use_policy" rel="noopener noreferrer">Gemma Prohibited Use Policy</a>. Read both before you download it</td></tr></tbody></table></div>
+<p>The proxy downloads bge-small from Hugging Face at one fixed revision and checks every file against a checksum built
+into the proxy. A file that does not match is refused and nothing is installed. EmbeddingGemma is never downloaded by
+the proxy: your model server fetches it, under Google's terms, and the proxy only forwards to it.</p>
+<h2 id="set-it-up">Set it up <a class="anchor" href="#set-it-up" aria-label="Link to this heading">#</a></h2>
+<p><strong>From the setup page:</strong> open the proxy's setup page, find the <strong>Search by meaning</strong> card, and press <strong>Download</strong> on
+bge-small-en-v1.5. The card shows the download's progress, this machine's memory and CPU cores, and a note if the
+machine is below what the model is comfortable on. It is installed as soon as the download finishes. There is no
+restart.</p>
+<p><strong>From a terminal:</strong></p>
+<pre><code class="language-bash">maple-proxy embeddings list                        # the models, what is installed, and this machine
+maple-proxy embeddings install                     # bge-small-en-v1.5
+maple-proxy embeddings remove bge-small-en-v1.5</code></pre>
+<p>A running proxy picks up an install or a removal on its own. The harness notices within about half a minute and starts
+building its vectors in the background. A search made before they are ready still works, using words for whatever has
+no vector yet.</p>
+<h2 id="use-embeddinggemma">Use EmbeddingGemma <a class="anchor" href="#use-embeddinggemma" aria-label="Link to this heading">#</a></h2>
+<ol><li>In Ollama: <code>ollama pull embeddinggemma</code>. In LM Studio, load an EmbeddingGemma build and start the server.</li><li>Make sure that server is one of the proxy's providers (the <strong>Providers</strong> card; see
+<a href="endpoints.html">Connect a model server</a>).</li><li>On the <strong>Search by meaning</strong> card, under <strong>Which model answers</strong>, pick that provider, type the model's name
+(<code>embeddinggemma</code> in Ollama) and press <strong>Save</strong>. The config keys are <code>embeddings.provider</code> and <code>embeddings.model</code>
+(<a href="proxy-settings.html#search-by-meaning">reference</a>).</li></ol>
+<p>Only a provider on this machine or your own network can be chosen: an address on loopback, a private range or a
+<code>.local</code> name, or a provider you marked <code>local: true</code>. The proxy adds the instructions EmbeddingGemma was trained with
+("task: search result | query: …") for you. Switching models makes the harness build new vectors in the background.
+The old ones are not mixed in.</p>
+<h2 id="is-my-machine-enough">Is my machine enough? <a class="anchor" href="#is-my-machine-enough" aria-label="Link to this heading">#</a></h2>
+<p>The proxy reads the machine's total and free memory, its CPU cores, its processor type and operating system, and
+shows them on the card. Before a download it warns, and never blocks, when the machine is below these:</p>
+<div class="tablewrap"><table><thead><tr><th>Model</th><th>Comfortable from</th><th>Basis</th></tr></thead><tbody><tr><td>bge-small-en-v1.5</td><td>4 GB of memory and 2 CPU cores</td><td>measured: about 150 MB peak memory while working. One short passage takes about 125 ms on one core</td></tr><tr><td>EmbeddingGemma 300M</td><td>more than 8 GB of memory, 3 or more CPU cores, and 2 GB free</td><td>estimated: about nine times the parameters of bge-small, so roughly nine times the work per passage on a CPU</td></tr></tbody></table></div>
+<p>Speed of the built-in model, <strong>measured</strong> on one machine (a 16-core, 32-thread x86-64 processor, Linux),
+28 September 2026:</p>
+<div class="tablewrap"><table><thead><tr><th>CPU threads used</th><th>Short passage (23 tokens)</th><th>Medium (82 tokens)</th><th>Long (512 tokens, the most it reads)</th></tr></thead><tbody><tr><td>1</td><td>124 ms</td><td>444 ms</td><td>3.3 s</td></tr><tr><td>2</td><td>85 ms</td><td>302 ms</td><td>2.0 s</td></tr><tr><td>4</td><td>51 ms</td><td>154 ms</td><td>1.1 s</td></tr><tr><td>32</td><td>28 ms</td><td>78 ms</td><td>0.53 s</td></tr></tbody></table></div>
+<p>Many short passages at once run one per thread. On the same machine that measured about 84 short passages a second
+with 32 threads, 26 with 4, and 7 with 1. Building vectors for a project index of about 7,100 files and symbols took
+about 1 minute 46 seconds, once, in the background. Loading the model takes well under a second. Your machine will
+differ. These are single-machine figures, not a promise.</p>
+<h2 id="what-changes-for-the-agent">What changes for the agent <a class="anchor" href="#what-changes-for-the-agent" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Tool</th><th>With a model</th><th>Without one</th></tr></thead><tbody><tr><td><code>history_search</code></td><td>Results ranked by words and meaning combined. The filters (role, tool, path, turn range) apply first, as before</td><td>Words only, unchanged</td></tr><tr><td><code>recall</code></td><td>Gains a <code>query</code> argument that returns the eight closest notes by words and meaning. Without <code>query</code> it lists notes as before</td><td>No <code>query</code> argument; unchanged</td></tr><tr><td><code>graph_search</code></td><td>Name matches, plus the files and symbols closest in meaning, combined</td><td>Name matches only, unchanged</td></tr></tbody></table></div>
+<p><code>recall</code> gets its <code>query</code> argument only when a model is set up at the time the session starts, so a session without one
+sees exactly the tool it always had.</p>
+<h2 id="measured-results">Measured results <a class="anchor" href="#measured-results" aria-label="Link to this heading">#</a></h2>
+<p>A retrieval test, <strong>measured</strong> on 28 September 2026: queries worded differently from what they look for, over a
+43-message coding conversation (24 queries), 24 project memory notes (16 queries), and this project's own index of about
+7,100 files and symbols (16 queries). Each query was run twice through the real tools, words only and words plus meaning,
+and the target's position was compared. "Recall@1" is how often the target came first, "recall@5" how often it was in the
+first five.</p>
+<div class="tablewrap"><table><thead><tr><th>Store</th><th>Words only @1 / @5</th><th>bge-small @1 / @5</th><th>EmbeddingGemma @1 / @5</th></tr></thead><tbody><tr><td>Conversation history</td><td>13/24 / 18/24</td><td>17/24 / 20/24</td><td>16/24 / 20/24</td></tr><tr><td>Memory notes</td><td>8/16 / 11/16</td><td>11/16 / 12/16</td><td>12/16 / 14/16</td></tr><tr><td>Project index</td><td>3/16 / 3/16</td><td>5/16 / 8/16</td><td>6/16 / 10/16</td></tr></tbody></table></div>
+<p>Per query, with bge-small, adding meaning moved the target up in 8 history queries, 6 note queries and 7 index queries,
+and down in one note query. It moved no target down in history or the index. With EmbeddingGemma it moved targets up in
+8, 8 and 10, and down in none. Queries that share a distinctive word with their target were found first with words
+alone in 14 of 16 cases. Adding meaning kept them there or improved them.</p>
+<p>Read these numbers with their limits:</p>
+<ul><li>One small test set, written by the maintainer, texts and queries both. It shows that combining helps on text worded
+differently. It is not a general benchmark.</li><li>The ranking is deterministic: running the test again gives the same numbers. Speed figures are from one machine.
+EmbeddingGemma ran in Ollama on that machine's integrated GPU.</li><li>For the memory notes, "words only" is the new <code>query</code> argument ranking by words, because <code>recall</code> had no search
+before.</li><li>Plain names such as <code>quantize</code> or <code>ProjectRoot</code> are what <code>graph_search</code> already finds. Adding meaning kept every one
+of them first.</li></ul>
+<h2 id="where-things-are-kept-and-removing-them">Where things are kept, and removing them <a class="anchor" href="#where-things-are-kept-and-removing-them" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>What</th><th>Where</th><th>Removed by</th></tr></thead><tbody><tr><td>The built-in model</td><td><code>embeddings/bge-small-en-v1.5/</code> in your Maple Harness config folder (folder private to you, files readable only by you)</td><td><strong>Remove</strong> on the card, or <code>maple-proxy embeddings remove bge-small-en-v1.5</code></td></tr><tr><td>Vectors for a session's stored history</td><td>beside it, as <code>&lt;session&gt;.history.vec</code></td><td><code>maple-harness sessions rm</code>, and <code>cleanup</code> with the session</td></tr><tr><td>Vectors for your own (user) memory notes</td><td><code>memory/.search-vectors</code> in your Maple Harness config folder</td><td>kept in step with the notes: a deleted note's vector goes the next time <code>recall</code> searches</td></tr><tr><td>Vectors for a project's memory notes</td><td><code>vectors/&lt;project&gt;/memory.vec</code> in your Maple Harness config folder, never inside the project</td><td>the same. A <code>.search-vectors</code> file left in a project's <code>.mapleharness/memory</code> folder by an earlier version is no longer read, and can be deleted</td></tr><tr><td>Vectors for the project index</td><td>beside the index, as <code>&lt;index&gt;.db.vec</code></td><td><code>maple-harness graph wipe</code>, and <code>cleanup</code> with the index</td></tr></tbody></table></div>
+<p>Every vectors file is readable only by you, has a fixed size limit, is tied to the model that made it (a different
+model, or vectors of a different length, start a new one), and is written to a temporary file first and then renamed,
+never through a link. None of them holds any text, only numbers. If the harness stops in the middle of saving one, the
+temporary file it leaves (<code>.vec-</code> followed by digits) is removed by <code>maple-harness cleanup</code> once it is an hour old.</p>
+<h2 id="privacy">Privacy <a class="anchor" href="#privacy" aria-label="Link to this heading">#</a></h2>
+<p>Text goes from the harness to the proxy it already uses, and no further than a model on this machine or your own network.
+The built-in model runs inside the proxy. For EmbeddingGemma the proxy forwards only to a provider it can tell is local,
+and refuses one that is not. When it forwards, the proxy does not follow a redirect from that provider to anywhere else, and it does not use
+the <code>HTTP_PROXY</code> or <code>HTTPS_PROXY</code> settings, so the text goes straight to the address you configured. Set <code>local: true</code>
+only for a provider whose name you control. The
+embeddings endpoint on the proxy is behind the same protections as its other endpoints:
+open only to programs on this machine by default, and needing an access token when you open the proxy to your network
+(see <a href="security.html">Security</a>). It works on one request at a time and holds at most four more waiting. A request past
+that is answered <code>429</code> with <code>Retry-After: 2</code>, and one whose caller has gone away leaves the queue. The harness only
+asks in small batches, so it does not meet this limit in normal use.</p>
+<p>Read next: <a href="proxy-settings.html#search-by-meaning">Proxy reference</a>, <a href="commands.html">Harness commands and keys</a>.</p>
+</article>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
+function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
+function set(v){r.setAttribute('data-theme',v);
+if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
+set(get());
+if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
+try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+</body>
+</html>
