@@ -156,9 +156,10 @@ how many may run at once, and whether clients are counted per token or per addre
 <code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budget counts (not the Cache, Sessions or Savings
 cards, which now survive a restart on their own) come from it, so set it if you use budgets and want
 their counts to survive a restart too. It rotates to a new file for each UTC day (<code>usage-2026-09-28.jsonl</code>
-next to the path you set), so it never grows into one unbounded file — nothing is ever deleted on its own; see
-<a href="usage-export.html">Query and export your usage data</a> for <code>maple-proxy usage prune</code>, <code>usage export</code>, and how to
-point DuckDB or Grafana straight at it.</li></ul>
+next to the path you set), so it never grows into one unbounded file — nothing is ever deleted on its own. The
+<strong>Usage data</strong> card further down the page shows what the log holds, downloads it as CSV or Parquet, and removes
+old days after you confirm the list; see <a href="usage-export.html">Query and export your usage data</a> for the same from a
+terminal (<code>maple-proxy usage export</code>, <code>usage prune</code>) and how to point DuckDB or Grafana straight at it.</li></ul>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
 <pre><code class="language-yaml">model_fallbacks:
   cloud: [local]            # cloud and local are model aliases (see Connect a model server)

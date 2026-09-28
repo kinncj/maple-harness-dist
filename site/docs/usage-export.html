@@ -21,7 +21,7 @@
 <p>Turn on the usage log and you get one JSON object per request, forever, in your own files — not locked inside
 Maple. This page is about actually using that data: querying it directly, exporting it for another tool, and
 wiring it into Grafana. Turn it on with <code>server.usage_ledger</code> — see <a href="proxy.html#limits-and-hosts-restart-required">The proxy</a>.</p>
-<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
+<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#from-the-setup-page">From the setup page</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
 <h2 id="where-the-files-are">Where the files are <a class="anchor" href="#where-the-files-are" aria-label="Link to this heading">#</a></h2>
 <p>The log rotates to a new file for each UTC day, named after the path you set: <code>usage_ledger:
 /home/you/.config/maple-harness/usage.jsonl</code> writes <code>usage-2026-09-28.jsonl</code>, <code>usage-2026-09-29.jsonl</code>, and so on,
@@ -31,6 +31,13 @@ going forward.</p>
 <p>Each line is one request: the model, provider, tokens, cache figures, AI units, timing, and who asked (a client
 label and, if it came through a subagent, its own session grouping) — never prompt or answer content. The exact
 field list is in <a href="proxy-settings.html#files-and-environment">Files and environment</a>.</p>
+<h2 id="from-the-setup-page">From the setup page <a class="anchor" href="#from-the-setup-page" aria-label="Link to this heading">#</a></h2>
+<p>The proxy's setup page has a <strong>Usage data</strong> card with everything below without a terminal: how many daily files
+there are, the days they cover and their size on disk; an <strong>Export</strong> button that downloads CSV or Parquet for an
+optional range of days; and <strong>Remove old days</strong>, which shows you exactly which files would go and deletes them only
+after you confirm that list. It uses the same code as <code>maple-proxy usage</code>, so the card and the command always agree
+on which requests a range covers and which files a prune removes. If the usage log is off, the card says so and
+points you at the setting that turns it on.</p>
 <h2 id="query-it-directly-with-duckdb">Query it directly with DuckDB <a class="anchor" href="#query-it-directly-with-duckdb" aria-label="Link to this heading">#</a></h2>
 <p>This is the fastest way to ask a real question of your own data — no export step, no code. <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a>
 reads JSON Lines natively:</p>

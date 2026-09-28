@@ -28,13 +28,13 @@ search stays out of the main conversation.</p>
 <pre><code class="language-text">@explore where is the retry logic, and what limits it?</code></pre>
 <p>Press Tab after the <code>@</code> to complete a name. <code>/agent explore where is the retry logic?</code> does the same.</p>
 <h2 id="watching-them-work">Watching them work <a class="anchor" href="#watching-them-work" aria-label="Link to this heading">#</a></h2>
-<p>While a subagent runs, a small list appears under the input box:</p>
+<p>While a subagent runs, a small list appears just above the input box (which does not move):</p>
 <pre><code class="language-text">  ● main
   ◯ explore  reading the retry code                    31s · ↓ 339.6k tokens
   ! plan     waiting for your approval                 12s · ↓ 1.2k tokens</code></pre>
 <p><code>◯</code> is running, <code>!</code> is waiting for you, <code>✓</code> finished, <code>✗</code> failed or stopped. Press the down arrow from an empty
 input box (or <code>ctrl+t</code> from anywhere) to move into the list, then:</p>
-<ul><li>the arrow keys choose between <code>main</code> and a subagent;</li><li><strong>Enter</strong> on a subagent shows what it is doing, live and read-only (<strong>Esc</strong> goes back);</li><li><strong>x</strong>, then <strong>y</strong>, stops the chosen subagent;</li><li><strong>c</strong> folds the list into a count on the status line ("2 agents").</li></ul>
+<ul><li>the arrow keys choose between <code>main</code> and a subagent;</li><li><strong>Enter</strong> on a subagent, or a click on its row, shows what it is doing, live and read-only (<strong>Esc</strong> goes back);</li><li><strong>x</strong>, then <strong>y</strong>, stops the chosen subagent;</li><li><strong>c</strong> folds the list into a count on the status line ("2 agents").</li></ul>
 <p>When a subagent needs your approval to write a file or run a command, the question comes to you like any other,
 with the subagent's name in it. Nothing is approved for you. A subagent can never do more than the main session
 is allowed to do.</p>
