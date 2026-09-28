@@ -59,6 +59,10 @@ move them with the arrows. A model cannot fall back to itself, and a name can be
 credentials and malformed requests are never retried elsewhere, and a fallback's own fallbacks are not
 followed. Nothing falls back unless you add a rule. Responses from a fallback carry an <code>X-Maple-Served-By</code>
 header naming what answered. In the file: <code>model_fallbacks</code>.</p>
+<p>A fallback whose context window is known to be too small for the request is passed over, and the next one is
+tried; the reason is listed in the <code>X-Maple-Fallback-From</code> header. A fallback whose window is not known is still
+tried. When no model on the list can take the request, the proxy answers with an error that says so, instead of
+sending it somewhere it cannot fit. The model you asked for is always tried, whatever its size.</p>
 <p>Most tools that talk to a model connect to one fixed account or endpoint: when it runs out, the run stops until
 you fix it by hand. A fallback here means the proxy can try another one automatically, mid-task, with nothing
 for the client to do differently — list a second account or a second model and it takes over on its own. See
