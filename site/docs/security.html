@@ -29,7 +29,8 @@ are handled in confidence.</p>
 command, and a <code>deny</code> rule is absolute. <code>--yolo</code> skips the asking, never the denying, and it must be given on
 the command line: a configuration file can never turn it on by itself.</li><li><strong>The shell can be contained.</strong> With bubblewrap on Linux (optional) or the built-in sandbox on macOS, shell
 commands can write only in your project, cannot see your credentials, and run with a scrubbed environment.
-While a session is shared for remote control the shell also has no network unless you allow it. See
+Where the system supports it (<code>/sandbox</code> says), contained commands cannot reach the proxy's setup page, so they
+cannot change your settings or read your keys through it. While a session is shared for remote control the shell also has no network unless you allow it. See
 <a href="install.html#optional-contain-the-shell-bubblewrap">Install</a>.</li><li><strong>The file tools keep out of secrets.</strong> They refuse your SSH keys, cloud credentials and shell history, and
 write only in your project, the temp directory and folders you list.</li><li><strong>Your sign-ins stay out of the config.</strong> Keys go in your system keyring, and the configuration holds only a
 reference.</li><li><strong>The setup page is local.</strong> It listens on this machine only, and refuses to listen anywhere else.</li><li><strong>Devices get their own tokens.</strong> Each paired device has its own token that you can limit to some folders

@@ -44,6 +44,13 @@ maple-proxy version</code></pre>
 Linux it needs bubblewrap, which is <strong>optional</strong>: without it the shell still works, uncontained.</p>
 <div class="tablewrap"><table><thead><tr><th>System</th><th>Command</th></tr></thead><tbody><tr><td>Arch, Manjaro</td><td><code>sudo pacman -S bubblewrap</code></td></tr><tr><td>Debian, Ubuntu</td><td><code>sudo apt install bubblewrap</code></td></tr><tr><td>Fedora, RHEL</td><td><code>sudo dnf install bubblewrap</code></td></tr><tr><td>openSUSE</td><td><code>sudo zypper install bubblewrap</code></td></tr><tr><td>Alpine</td><td><code>sudo apk add bubblewrap</code></td></tr></tbody></table></div>
 <p>Run <code>/sandbox</code> inside the agent, or <code>maple-harness doctor</code>, to see whether it works on your machine.</p>
+<p>With the network allowed, contained commands still cannot connect to the proxy's setup page, so a command cannot
+change your settings or read your keys through it. They can reach everything else as before: the proxy's model
+addresses, your own local servers and the internet. On Linux this needs version 6.7 or later; on an older kernel
+commands run as before. <code>/sandbox</code> shows whether the setup page is blocked on your machine. The rule is by port,
+so a service on another computer that uses the setup page's port (11539 unless you changed <code>server.webui</code>) cannot
+be reached from a contained command either. Contained commands also cannot use Multipath TCP while the page is blocked: <code>curl --mptcp</code>
+fails as it would on a system with Multipath TCP switched off, and plain <code>curl</code> works.</p>
 <h2 id="update">Update <a class="anchor" href="#update" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">maple-harness update --check     # is there a newer release?
 maple-harness update             # install it

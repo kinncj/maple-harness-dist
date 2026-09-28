@@ -21,7 +21,7 @@
 <p>Turn on the usage log and you get one JSON object per request, forever, in your own files — not locked inside
 Maple. This page is about actually using that data: querying it directly, exporting it for another tool, and
 wiring it into Grafana. Turn it on with <code>server.usage_ledger</code> — see <a href="proxy.html#limits-and-hosts-restart-required">The proxy</a>.</p>
-<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#from-the-setup-page">From the setup page</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
+<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#from-the-setup-page">From the setup page</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#the-usage-record-schema">The usage record schema</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
 <h2 id="where-the-files-are">Where the files are <a class="anchor" href="#where-the-files-are" aria-label="Link to this heading">#</a></h2>
 <p>The log rotates to a new file for each UTC day, named after the path you set: <code>usage_ledger:
 /home/you/.config/maple-harness/usage.jsonl</code> writes <code>usage-2026-09-28.jsonl</code>, <code>usage-2026-09-29.jsonl</code>, and so on,
@@ -40,16 +40,56 @@ on which requests a range covers and which files a prune removes. If the usage l
 points you at the setting that turns it on.</p>
 <h2 id="query-it-directly-with-duckdb">Query it directly with DuckDB <a class="anchor" href="#query-it-directly-with-duckdb" aria-label="Link to this heading">#</a></h2>
 <p>This is the fastest way to ask a real question of your own data — no export step, no code. <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a>
-reads JSON Lines natively:</p>
-<pre><code class="language-sh">duckdb -c "
-  SELECT model, count(*) AS requests, sum(ai_units) AS ai_units
-  FROM read_json_auto('~/.config/maple-harness/usage-*.jsonl')
-  GROUP BY model
-  ORDER BY ai_units DESC
-"</code></pre>
-<p>The glob (<code>usage-*.jsonl</code>) reads every rotated file at once. Narrow it to a date range with a normal path glob
-(<code>usage-2026-09-2*.jsonl</code>) or a <code>WHERE at &gt;= '2026-09-20'</code> clause — <code>at</code> is an ISO-8601 timestamp string, so it
-sorts and compares correctly as text.</p>
+reads JSON Lines natively. Start by creating a typed view named <code>usage</code>:</p>
+<pre><code class="language-sh">maple-proxy usage schema --format sql &gt; usage.sql
+duckdb -c ".read usage.sql" -c "SELECT model, count(*) AS requests, sum(ai_units) AS ai_units FROM usage GROUP BY model ORDER BY ai_units DESC"</code></pre>
+<p><code>usage schema --format sql</code> prints a <code>CREATE OR REPLACE VIEW usage AS ...</code> statement over every daily file (it finds them
+the same way <code>usage export</code> does; <code>--path</code> names the log directly). The view declares every column and its type, so it
+has the same shape on every day: a day with only local models, which report no AI units, has <code>ai_units</code> as <code>0</code>, not a
+missing column. Keep <code>usage.sql</code> somewhere fixed and add <code>.read /full/path/to/usage.sql</code> to <code>~/.duckdbrc</code>, and every
+<code>duckdb</code> session has the view.</p>
+<p>Why not <code>read_json_auto</code>: it guesses the columns from the data it samples. A field the log leaves out when it is empty
+(<code>ai_units</code> for a local model, <code>error</code> when nothing failed, the labels) is simply not a column on a day that never
+has it, so a query naming it fails with <code>Referenced column "ai_units" not found</code>. Declaring the columns avoids that.</p>
+<p>With the view in place, queries are plain SQL:</p>
+<pre><code class="language-sql">SELECT model, count(*) AS requests, sum(ai_units) AS ai_units
+FROM usage
+GROUP BY model
+ORDER BY ai_units DESC;</code></pre>
+<pre><code class="language-sql">SELECT date_trunc('day', "at") AS day, provider,
+       sum(input_tokens) AS input_tokens, sum(cached_tokens) AS cached_tokens, sum(ai_units) AS ai_units
+FROM usage
+WHERE "at" &gt;= TIMESTAMPTZ '2026-09-20'
+GROUP BY ALL
+ORDER BY day, provider;</code></pre>
+<p><code>at</code> is a reserved word in DuckDB, so write it in double quotes. In the view it is a timestamp; in the files it is
+ISO-8601 text in UTC. To narrow by file instead, name fewer files: <code>--path</code> still takes the base path, but a
+hand-written query can use a narrower glob such as <code>usage-2026-09-2*.jsonl</code>.</p>
+<p>Without <code>maple-proxy</code> at hand (on another machine, say), declare the columns you use yourself and give the ones a
+line may leave out a default:</p>
+<pre><code class="language-sql">SELECT model, count(*) AS requests, sum(COALESCE(ai_units, 0)) AS ai_units
+FROM read_json('~/.config/maple-harness/usage-*.jsonl',
+               format = 'newline_delimited', ignore_errors = true,
+               columns = {'at': 'VARCHAR', 'model': 'VARCHAR', 'ai_units': 'DOUBLE'})
+WHERE "at" IS NOT NULL
+GROUP BY model
+ORDER BY ai_units DESC;</code></pre>
+<p><code>ignore_errors</code> and the <code>WHERE</code> skip a line cut short when the proxy was stopped mid-write, as the proxy's own
+readers do. <code>maple-proxy usage schema --format duckdb</code> prints the full <code>columns</code> value for every field.</p>
+<h2 id="the-usage-record-schema">The usage record schema <a class="anchor" href="#the-usage-record-schema" aria-label="Link to this heading">#</a></h2>
+<p>Every line of the log, and every row of an export, is one usage record. The schema is versioned; this is <strong>version 1</strong>.
+Later versions may add columns at the end, and never rename, remove, reorder or retype one.</p>
+<div class="tablewrap"><table><thead><tr><th>Column</th><th>Type</th><th>Unit</th><th>Always in a log line?</th><th>Meaning</th></tr></thead><tbody><tr><td><code>at</code></td><td>timestamp (text)</td><td>—</td><td>yes</td><td>When the request was recorded (UTC, RFC 3339 text).</td></tr><tr><td><code>duration_ms</code></td><td>integer</td><td>milliseconds</td><td>yes</td><td>How long the request took.</td></tr><tr><td><code>requested</code></td><td>text</td><td>—</td><td>yes</td><td>The model name the client asked for (may be a routing alias such as auto).</td></tr><tr><td><code>model</code></td><td>text</td><td>—</td><td>yes</td><td>The model that answered.</td></tr><tr><td><code>provider</code></td><td>text</td><td>—</td><td>yes</td><td>The provider that answered.</td></tr><tr><td><code>streamed</code></td><td>boolean</td><td>—</td><td>yes</td><td>Whether the answer was streamed.</td></tr><tr><td><code>tools</code></td><td>integer</td><td>count</td><td>yes</td><td>Tool definitions sent with the request.</td></tr><tr><td><code>messages</code></td><td>integer</td><td>count</td><td>yes</td><td>Messages in the request.</td></tr><tr><td><code>input_tokens</code></td><td>integer</td><td>tokens</td><td>yes</td><td>Input tokens, as the provider reported them.</td></tr><tr><td><code>output_tokens</code></td><td>integer</td><td>tokens</td><td>yes</td><td>Output tokens, as the provider reported them.</td></tr><tr><td><code>cached_tokens</code></td><td>integer</td><td>tokens</td><td>yes</td><td>Input tokens read from the provider's prompt cache (0 when the provider reports none).</td></tr><tr><td><code>cache_write_tokens</code></td><td>integer</td><td>tokens</td><td>yes</td><td>Input tokens written to the provider's prompt cache (0 when the provider reports none).</td></tr><tr><td><code>ai_units</code></td><td>decimal</td><td>AI units</td><td>no: absent means 0</td><td>What the request cost in the provider's own units, when it reports them. Local models report none.</td></tr><tr><td><code>error</code></td><td>text</td><td>—</td><td>no: absent means no error</td><td>Why the request failed, if it did.</td></tr><tr><td><code>client</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>The access token's label, or local for a caller on this machine without one (never the token itself).</td></tr><tr><td><code>agent</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>The kind of client, from its User-Agent: claude-code, opencode, maple-harness or other.</td></tr><tr><td><code>surface</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>The API the caller used: chat (OpenAI-compatible) or messages (Anthropic-compatible).</td></tr><tr><td><code>prefix</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>An opaque grouping label (never content).</td></tr><tr><td><code>setup</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>An opaque grouping label (never content).</td></tr><tr><td><code>conv</code></td><td>text</td><td>—</td><td>no: absent means unknown</td><td>An opaque label grouping the requests of one conversation (never content).</td></tr><tr><td><code>fallback</code></td><td>boolean</td><td>—</td><td>no: absent means false</td><td>Whether the request was answered by a fallback after the first choice failed.</td></tr><tr><td><code>cache_class</code></td><td>text</td><td>—</td><td>no: absent means not classified</td><td>How the provider's prompt cache did: hit, partial, miss, lost or n/a.</td></tr><tr><td><code>cache_reason</code></td><td>text</td><td>—</td><td>no: absent means no reason given</td><td>For a miss or a loss, a short reason.</td></tr></tbody></table></div>
+<p>"Always in a log line?" matters for anything that reads the log directly: a line leaves out a field that is empty.
+Releases before this schema also left out <code>ai_units</code> when it was 0; current releases always write it. In an
+export every column is always present: CSV writes an empty cell for a label with no value and <code>0</code>/<code>false</code> for
+<code>ai_units</code>/<code>fallback</code>; Parquet stores the same labels as nulls, and records the schema version in the file's
+metadata (<code>maple.usage.schema_version</code>).</p>
+<p>The same schema, machine-readable:</p>
+<ul><li><code>maple-proxy usage schema --format json-schema</code> prints the <a href="https://json-schema.org/" rel="noopener noreferrer">JSON Schema</a> of one log line.
+It is also published at <a href="https://kinncj.github.io/maple-harness-dist/schema/usage-record.v1.json" rel="noopener noreferrer">schema/usage-record.v1.json</a>.</li><li><code>maple-proxy usage schema --format duckdb</code> prints DuckDB's column types, for <code>read_json(..., columns = ...)</code> or
+<code>read_csv(..., types = ...)</code>.</li><li><code>maple-proxy usage schema --format sql</code> prints the view above; <code>--source csv</code> or <code>--source parquet</code> with
+<code>--path FILE</code> makes the same view over an export instead, so one query works on all three.</li></ul>
 <h2 id="export-to-csv-or-parquet">Export to CSV or Parquet <a class="anchor" href="#export-to-csv-or-parquet" aria-label="Link to this heading">#</a></h2>
 <p>For handing the data to a tool that cannot read JSON Lines directly:</p>
 <pre><code class="language-sh">maple-proxy usage export --format csv --out usage.csv

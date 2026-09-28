@@ -113,8 +113,12 @@ terminal look, a community nickname rather than one published scheme)</li><li><s
 accent) are chosen from the Okabe–Ito palette to stay distinguishable under red-green colour blindness, the most
 common form. This is a design choice, not a certification: nothing here has been tested against colour-vision
 simulation software.</li><li><strong><code>auto</code>:</strong> on a machine running <a href="https://omarchy.org/" rel="noopener noreferrer">Omarchy</a>, follows the desktop's own active theme (whatever
-<code>omarchy theme current</code> reports); falls back to <code>maple</code> everywhere else, including a plain "not running Omarchy"
-Linux machine, macOS or Windows. A desktop theme with no close Maple equivalent falls back to <code>maple</code> too.</li></ul>
+<code>omarchy theme current</code> reports), and keeps following it while Maple runs: switch the Omarchy theme and Maple's
+colours change within a couple of seconds, including what is already on screen. A desktop theme with a Maple
+equivalent uses it; one without (Kanagawa, for example) takes its colours from the Omarchy theme itself.
+<code>theme_colors</code> still applies on top. Choosing another theme with <code>/theme &lt;name&gt;</code> stops following until you choose
+<code>/theme auto</code> again. Everywhere else, including a Linux machine not running Omarchy, macOS or Windows, <code>auto</code> is
+<code>maple</code>.</li></ul>
 <p>Most of the dark and light themes reproduce a well-known published colour scheme (Dracula, Nord, Gruvbox, Catppuccin,
 Tokyo Night, Solarized, Monokai, One Dark/Light, Everforest, Rosé Pine), so it looks the same here as it does in an
 editor or terminal already set up with it.</p>

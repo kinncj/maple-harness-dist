@@ -33,7 +33,10 @@ background, see <a href="services.html">Running as a service</a>.</p>
 <p>The addresses and ports are in the <code>server:</code> section of <code>config.yaml</code>. The proxy picks up changes to its
 providers and settings without a restart.</p>
 <h2 id="the-setup-page">The setup page <a class="anchor" href="#the-setup-page" aria-label="Link to this heading">#</a></h2>
-<p>Open <code>http://127.0.0.1:11539</code> on the machine running the proxy. From there you can:</p>
+<p>Open <code>http://127.0.0.1:11539</code> on the machine running the proxy. A row of links at the top jumps to each part of
+the page, which comes in three groups:</p>
+<ul><li><strong>At a glance</strong>: the Savings, Cache and Sessions cards, and Usage data: what the proxy did for you.</li><li><strong>Set up</strong>: your account, your model servers (Providers), the Proxy settings, and Search by meaning.</li><li><strong>More</strong>: Remote access, Recent activity, and the raw configuration.</li></ul>
+<p>From there you can:</p>
 <ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key. See <a href="sign-in.html">Signing in</a>.</li><li><strong>Add model servers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any OpenAI-compatible
 server), press <strong>Detect models</strong>, and save. See <a href="endpoints.html">Connect a model server</a>.</li><li><strong>See your Copilot allowance</strong>: the plan, how many chats are left, and when they reset.</li><li><strong>Manage remote access</strong>: switch remote control on, pair a phone with a short code or a link, choose what
 each device may do, choose the folders a phone may start sessions in, and revoke a device at any time. See
@@ -105,6 +108,15 @@ to read the same output on every turn. Recent turns, your messages and the syste
 card lets you set when it starts, how many recent turns it spares, and the smallest result it replaces. Turn it on
 for long runs with large tool output; leave it off for short sessions.</li></ul>
 <p>Responses say what was done in the <code>X-Maple-Prefix-Stabilized</code> and <code>X-Maple-Tool-Results-Trimmed</code> headers.</p>
+<h3 id="images-and-browser-snapshots">Images and browser snapshots <a class="anchor" href="#images-and-browser-snapshots" aria-label="Link to this heading">#</a></h3>
+<p>Four more choices on the same card, all off by default (<a href="proxy-settings.html#images-and-browser-snapshots">details</a>):</p>
+<ul><li><strong>Images from tools</strong> and <strong>Images you attach</strong>: <code>Provider cap</code> never sends more pixels than the model's provider
+says it looks at, which costs the same tokens and only makes the upload smaller. <code>Balanced</code> and <code>Aggressive</code> send
+fewer pixels, which costs fewer tokens, and small text in a screenshot may become harder to read.</li><li><strong>Replace older tool images</strong>: once a newer image from the same tool follows (a new screenshot of the page), the
+older one becomes a one-line note. Your own images are never replaced.</li><li><strong>Trim browser snapshots</strong>: for a browser tool's page snapshots, sends only what changed since the last full
+snapshot of the same page, leaves out decoration, and cuts very large ones with a note. A new page is always sent
+in full.</li></ul>
+<p>Responses say what was done in the <code>X-Maple-Images</code> and <code>X-Maple-Snapshots-Trimmed</code> headers.</p>
 <h3 id="seeing-how-the-cache-is-doing">Seeing how the cache is doing <a class="anchor" href="#seeing-how-the-cache-is-doing" aria-label="Link to this heading">#</a></h3>
 <p>A provider that caches prompts charges a small fraction of the price for the part of a request it has already seen,
 and the full price, more for storing it, the first time. On a Copilot business seat, one request measured <strong>1.573</strong> AI
@@ -132,9 +144,9 @@ that doesn't send it is simply not grouped into any session, exactly as before t
 request without the header changes.</p>
 <p><code>GET /api/cache/sessions</code> returns the same list as JSON, most recently active first.</p>
 <h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
-<p>Below the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and what they cost, today
-and in the last hour, <strong>across every session on this proxy, not just yours</strong> — a different scope from the Sessions
-card above it, which is one session's own measured spend. Every figure here is tagged <strong>measured</strong> (a count of
+<p>First on the page, above the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and
+what they cost, today and in the last hour, <strong>across every session on this proxy, not just yours</strong> — a different
+scope from the Sessions card, which is one session's own measured spend. Every figure here is tagged <strong>measured</strong> (a count of
 tokens or requests, or the total AI units the provider actually billed) or <strong>estimated</strong> (a value in AI units, which
 comes from prices the proxy learns from your own requests), and an estimate says what it rests on. The card's own
 summary sentence always states what you actually spent (measured) right next to what the techniques are estimated
@@ -153,15 +165,18 @@ for no limit on that measure. Days are UTC, and today's use is shown next to eac
 reaches its limit, requests for it are refused, or handed to its fallback if you set one. In the file:
 <code>budgets</code>.</p>
 <h3 id="limits-and-hosts-restart-required">Limits and hosts (restart required) <a class="anchor" href="#limits-and-hosts-restart-required" aria-label="Link to this heading">#</a></h3>
-<p>These are read when the proxy starts, so after saving, stop and start <code>maple-proxy</code> for them to apply.</p>
+<p>These are read when the proxy starts, so after saving, stop and start <code>maple-proxy</code> for them to apply. The usage log
+is the exception: it applies as soon as you save.</p>
 <ul><li><strong>Rate limit</strong>: how many requests one client may make. The default is off for this machine and on,
 conservatively, for other machines. You can force it on or off and set the requests per minute, the burst,
 how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
-<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budget counts (not the Cache, Sessions or Savings
-cards, which now survive a restart on their own) come from it, so set it if you use budgets and want
-their counts to survive a restart too. It rotates to a new file for each UTC day (<code>usage-2026-09-28.jsonl</code>
-next to the path you set), so it never grows into one unbounded file — nothing is ever deleted on its own. The
-<strong>Usage data</strong> card further down the page shows what the log holds, downloads it as CSV or Parquet, and removes
+<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. The quickest way to turn it on is <strong>Turn on</strong> in the
+<strong>Usage data</strong> card, which suggests <code>usage.jsonl</code> in your config folder and starts recording at once. Budget
+counts (not the Cache, Sessions or Savings cards, which now survive a restart on their own) come from it, so set
+it if you use budgets and want their counts to survive a restart too. It rotates to a new file for each UTC day
+(<code>usage-2026-09-28.jsonl</code> next to the path you set), so it never grows into one unbounded file — nothing is ever
+deleted on its own. The <strong>Usage data</strong> card, under <strong>At a glance</strong> near the top of the page, shows what the log
+holds, downloads it as CSV or Parquet, and removes
 old days after you confirm the list; see <a href="usage-export.html">Query and export your usage data</a> for the same from a
 terminal (<code>maple-proxy usage export</code>, <code>usage prune</code>) and how to point DuckDB or Grafana straight at it.</li></ul>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>

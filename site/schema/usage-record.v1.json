@@ -1,0 +1,125 @@
+{
+  "$id": "maple-usage-record.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "One line of the usage log (JSON Lines). Later versions may add properties; none is ever renamed, removed or retyped.",
+  "properties": {
+    "agent": {
+      "type": "string",
+      "description": "The kind of client, from its User-Agent: claude-code, opencode, maple-harness or other. May be left out; absent means unknown."
+    },
+    "ai_units": {
+      "type": "number",
+      "minimum": 0,
+      "description": "What the request cost in the provider's own units, when it reports them. Local models report none. Unit: AI units. May be left out; absent means 0."
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the request was recorded (UTC, RFC 3339 text)."
+    },
+    "cache_class": {
+      "type": "string",
+      "description": "How the provider's prompt cache did: hit, partial, miss, lost or n/a. May be left out; absent means not classified."
+    },
+    "cache_reason": {
+      "type": "string",
+      "description": "For a miss or a loss, a short reason. May be left out; absent means no reason given."
+    },
+    "cache_write_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens written to the provider's prompt cache (0 when the provider reports none). Unit: tokens."
+    },
+    "cached_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens read from the provider's prompt cache (0 when the provider reports none). Unit: tokens."
+    },
+    "client": {
+      "type": "string",
+      "description": "The access token's label, or local for a caller on this machine without one (never the token itself). May be left out; absent means unknown."
+    },
+    "conv": {
+      "type": "string",
+      "description": "An opaque label grouping the requests of one conversation (never content). May be left out; absent means unknown."
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "How long the request took. Unit: milliseconds."
+    },
+    "error": {
+      "type": "string",
+      "description": "Why the request failed, if it did. May be left out; absent means no error."
+    },
+    "fallback": {
+      "type": "boolean",
+      "description": "Whether the request was answered by a fallback after the first choice failed. May be left out; absent means false."
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens, as the provider reported them. Unit: tokens."
+    },
+    "messages": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Messages in the request. Unit: count."
+    },
+    "model": {
+      "type": "string",
+      "description": "The model that answered."
+    },
+    "output_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Output tokens, as the provider reported them. Unit: tokens."
+    },
+    "prefix": {
+      "type": "string",
+      "description": "An opaque grouping label (never content). May be left out; absent means unknown."
+    },
+    "provider": {
+      "type": "string",
+      "description": "The provider that answered."
+    },
+    "requested": {
+      "type": "string",
+      "description": "The model name the client asked for (may be a routing alias such as auto)."
+    },
+    "setup": {
+      "type": "string",
+      "description": "An opaque grouping label (never content). May be left out; absent means unknown."
+    },
+    "streamed": {
+      "type": "boolean",
+      "description": "Whether the answer was streamed."
+    },
+    "surface": {
+      "type": "string",
+      "description": "The API the caller used: chat (OpenAI-compatible) or messages (Anthropic-compatible). May be left out; absent means unknown."
+    },
+    "tools": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Tool definitions sent with the request. Unit: count."
+    }
+  },
+  "required": [
+    "at",
+    "duration_ms",
+    "requested",
+    "model",
+    "provider",
+    "streamed",
+    "tools",
+    "messages",
+    "input_tokens",
+    "output_tokens",
+    "cached_tokens",
+    "cache_write_tokens"
+  ],
+  "title": "Maple usage record, schema version 1",
+  "type": "object"
+}
