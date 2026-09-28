@@ -112,8 +112,9 @@ changed</em>, <em>model switched</em>, or <em>cache expired</em> (a provider for
 <p><code>maple-proxy cache</code> prints the same summary in a terminal (<code>--recent</code> lists the last requests, <code>--json</code> gives the raw
 figures). Each response that is not streamed also carries <code>X-Maple-Cache</code> (<code>hit</code>, <code>partial</code>, <code>miss</code> or <code>lost</code>) and
 <code>X-Maple-Cache-Read</code> and <code>X-Maple-Cache-Write</code> token counts.</p>
-<p>Only counts and labels are kept, in memory and, if you set a usage log, in that file. No prompt, answer or file
-content is recorded. A provider that reports no cache figures at all (most local servers) shows as not applicable
+<p>Only counts and labels are kept. The Cache, Sessions and Savings figures are saved to disk every few minutes and on a
+clean stop, so a restart does not lose them; a crash between two saves loses only the activity in that gap. No
+prompt, answer or file content is recorded. A provider that reports no cache figures at all (most local servers) shows as not applicable
 rather than as a miss.</p>
 <h3 id="seeing-cost-per-session">Seeing cost per session <a class="anchor" href="#seeing-cost-per-session" aria-label="Link to this heading">#</a></h3>
 <p>Below the Cache card, the <strong>Sessions</strong> card groups AI units, tokens and requests by an opaque id a client sends on
@@ -128,12 +129,20 @@ request without the header changes.</p>
 <p><code>GET /api/cache/sessions</code> returns the same list as JSON, most recently active first.</p>
 <h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
 <p>Below the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and what they cost, today
-and in the last hour. Every figure is tagged <strong>measured</strong> (a count of tokens or requests) or <strong>estimated</strong> (a value
-in AI units, which comes from prices the proxy learns from your own requests), and an estimate says what it rests
-on. Costs are counted too, so the net can be negative, and the card then says so and shows which technique lost.
-The proxy always takes the reading that reports less saving, and it does not value anything until it has seen enough
-of your requests to know what a token costs. <code>maple-proxy savings</code> prints the same in a terminal, and <code>/savings</code> in
-the harness shows what the harness itself did in a session.</p>
+and in the last hour, <strong>across every session on this proxy, not just yours</strong> — a different scope from the Sessions
+card above it, which is one session's own measured spend. Every figure here is tagged <strong>measured</strong> (a count of
+tokens or requests, or the total AI units the provider actually billed) or <strong>estimated</strong> (a value in AI units, which
+comes from prices the proxy learns from your own requests), and an estimate says what it rests on. The card's own
+summary sentence always states what you actually spent (measured) right next to what the techniques are estimated
+to have avoided, so the two are never read apart from each other, and the estimated figure is capped so it can never
+claim more was avoided than the window actually spent. Costs are counted too, so the net can be negative, and the
+card then says so and shows which technique lost. The proxy always takes the reading that reports less saving, and
+it does not value anything until it has seen enough of your requests to know what a token costs. The net itself is
+deliberately narrow: it only ever totals the two techniques with a basis solid enough to trust in one number (the
+prompt cache and trimming). One or two others are shown fully computed on their own line, but held out of that
+total until their own estimate can be checked against a real bill — the line itself says which and why, and there
+is no setting that widens the net back out; it is a fixed choice, not a preference. <code>maple-proxy savings</code> prints the
+same in a terminal, and <code>/savings</code> in the harness shows what the harness itself did in a session.</p>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
 <p>For each provider you can set a limit on requests per day, on the AI units a day, or both; leave a box empty
 for no limit on that measure. Days are UTC, and today's use is shown next to each limit. When a provider
@@ -144,8 +153,9 @@ reaches its limit, requests for it are refused, or handed to its fallback if you
 <ul><li><strong>Rate limit</strong>: how many requests one client may make. The default is off for this machine and on,
 conservatively, for other machines. You can force it on or off and set the requests per minute, the burst,
 how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
-<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budgets are counted from it, so set it if you use
-budgets and want the counts to survive a restart.</li></ul>
+<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. Budget counts (not the Cache, Sessions or Savings
+cards, which now survive a restart on their own) come from it, so set it if you use budgets and want
+their counts to survive a restart too.</li></ul>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
 <pre><code class="language-yaml">model_fallbacks:
   cloud: [local]            # cloud and local are model aliases (see Connect a model server)

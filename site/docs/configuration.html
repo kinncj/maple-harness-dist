@@ -82,7 +82,9 @@ terminal look, a community nickname rather than one published scheme)</li><li><s
 <code>one-light</code></li><li><strong>Colour-vision-deficiency-friendly:</strong> <code>colorblind-dark</code>, <code>colorblind-light</code> — the status colours (not just the
 accent) are chosen from the Okabe–Ito palette to stay distinguishable under red-green colour blindness, the most
 common form. This is a design choice, not a certification: nothing here has been tested against colour-vision
-simulation software.</li></ul>
+simulation software.</li><li><strong><code>auto</code>:</strong> on a machine running <a href="https://omarchy.org/" rel="noopener noreferrer">Omarchy</a>, follows the desktop's own active theme (whatever
+<code>omarchy theme current</code> reports); falls back to <code>maple</code> everywhere else, including a plain "not running Omarchy"
+Linux machine, macOS or Windows. A desktop theme with no close Maple equivalent falls back to <code>maple</code> too.</li></ul>
 <p>Most of the dark and light themes reproduce a well-known published colour scheme (Dracula, Nord, Gruvbox, Catppuccin,
 Tokyo Night, Solarized, Monokai, One Dark/Light, Everforest, Rosé Pine), so it looks the same here as it does in an
 editor or terminal already set up with it.</p>

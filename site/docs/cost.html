@@ -31,7 +31,8 @@ requests were billed against how many were asked again after a failure, and the 
 from the cache.</p>
 <p><strong>What to do about it:</strong> a retried-request count that keeps climbing on the same kind of task is worth watching —
 each retry pays for the request twice. If the overall cache share looks low for a task that has run a while, the
-next section says where in the session that happened.</p>
+next section says where in the session that happened. It is the conversation's real lifetime total: resuming
+restores what it had already spent; forking or cloning starts the new session at zero.</p>
 <h2 id="subagents">Subagents <a class="anchor" href="#subagents" aria-label="Link to this heading">#</a></h2>
 <p>If this session delegated any work with <code>@agent</code> or the <code>delegate</code> tool, <code>/cost</code> ends with a
 "Subagents" line — how many ran, and what they cost on their own — and a "Session + subagents"
@@ -50,9 +51,13 @@ friends breaking out just the delegated share.</p>
 shortening, model choice) saved and cost, not the account's true total. A subagent's spend is
 deliberately never valued there: there is no defensible counterfactual for what its parent would
 have done instead, so nothing is credited or charged either way. On a session that delegated most
-of its real work, <code>/savings</code> says this plainly — how many subagents ran and what they cost — rather
-than the generic message a session where nothing happened at all would show, and points back at
-<code>/cost</code> for the number that includes them.</p>
+of its real work, <code>/savings</code> says this plainly — how many subagents ran and what they cost — and
+points back at <code>/cost</code> for the number that includes them.</p>
+<p>A session where genuinely nothing happened (no subagents, no repeated-failure warning, no failing
+output to shorten, no model switch, no retry) does not just say "nothing to value yet": it names
+each technique checked and says there was nothing for it to do, so idle reads as "checked, nothing
+to do" rather than as though nothing was looked at. The moment any technique has something to show,
+even something priced at zero, that line explains itself instead and the checklist steps aside.</p>
 <h2 id="the-last-requests-table">The last requests table <a class="anchor" href="#the-last-requests-table" aria-label="Link to this heading">#</a></h2>
 <p>A row per recent request: input, cached, written and output tokens, AI units, the cache hit rate for that one
 request, and the model. Two things get flagged automatically:</p>
@@ -92,9 +97,8 @@ carry token counts only, never a price. <code>/cost</code> reflects that honestl
 like any other, and no price, unless the provider is set up to estimate one.</p>
 <p>An operator can turn on <code>estimate_cost</code> for an Anthropic provider (see the <a href="proxy-settings.html">proxy reference</a>),
 which prices each such call from Anthropic's own published rates instead. This figure is always shown as an
-estimate — in dollars, never mixed into Copilot's AI-units figure — because it is a list-price guess, not what
-the account was actually billed: a committed-use rate, a promotion, or a change to Anthropic's prices since this
-was last updated could all make it wrong in either direction.</p>
+estimate — in dollars, never mixed into Copilot's AI-units figure — because it is a list-price guess, not what the
+account was actually billed: a committed-use rate, a promotion, or a later price change could make it wrong.</p>
 <p><strong>What to do about it:</strong> if you rely on a precise bill, check your provider's own account page rather than this
 figure. If Anthropic's calls in <code>/cost</code> show tokens but never a dollar figure at all, <code>estimate_cost</code> is either
 off or the model in use is one this estimate does not yet cover — either is fine to leave as is if you only need
