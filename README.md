@@ -1,14 +1,14 @@
 # Maple Harness — binaries
 
 <!-- This file is the template for the README of the public binaries repository,
-     kinncj/maple-harness-dist. The release workflow renders v1.5.0 and pushes it. -->
+     kinncj/maple-harness-dist. The release workflow renders v1.6.0 and pushes it. -->
 
 Pre-built binaries of **Maple Harness**: a coding agent that works with GitHub Copilot's models, Claude and
 models running on your own machine, a proxy that holds your sign-ins, and a web page for driving a session
 from your phone.
 
 This repository holds **binaries and installers only**, plus the built website. It has no source code, no issue
-tracker and no build; releases are published to it automatically. The latest is **v1.5.0**.
+tracker and no build; releases are published to it automatically. The latest is **v1.6.0**.
 
 **Website and documentation: <https://kinncj.github.io/maple-harness-dist/>**  ·  **Downloads: [latest release](https://github.com/kinncj/maple-harness-dist/releases/latest)**
 
