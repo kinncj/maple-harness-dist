@@ -3,34 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seeing and reducing what a task costs · Maple Harness docs</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>See and reduce what a task costs · Maple Harness docs</title>
 <meta name="description" content="Long agent tasks spend most of their money re-reading a growing conversation on every turn. This page shows you where your spend goes, what the numbers mean, and a few habits that keep it down. It mak">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html" aria-current="page">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">See and reduce what a task costs</li></ol></nav>
 <article>
-<h1 id="seeing-and-reducing-what-a-task-costs">Seeing and reducing what a task costs <a class="anchor" href="#seeing-and-reducing-what-a-task-costs" aria-label="Link to this heading">#</a></h1>
+<h1 id="see-and-reduce-what-a-task-costs">See and reduce what a task costs <a class="anchor" href="#see-and-reduce-what-a-task-costs" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#see-where-your-spend-goes">See where your spend goes</a></li><li><a href="#what-the-numbers-mean">What the numbers mean</a></li><li><a href="#habits-that-keep-costs-down">Habits that keep costs down</a></li><li><a href="#what-we-do-not-do">What we do not do</a></li><li><a href="#what-others-have-measured">What others have measured</a></li><li><a href="#related">Related</a></li></ol></details>
+
 <p>Long agent tasks spend most of their money re-reading a growing conversation on every turn. This page shows you
 where your spend goes, what the numbers mean, and a few habits that keep it down. It makes no promise about how
 much you will save: that depends on your tasks and your models, so measure your own.</p>
 <h2 id="see-where-your-spend-goes">See where your spend goes <a class="anchor" href="#see-where-your-spend-goes" aria-label="Link to this heading">#</a></h2>
-<ul><li><p><strong>In the agent:</strong> <code>/cost</code> shows the session's totals, the most recent requests with their cache hit rate, any
+<ul><li><strong>In the agent:</strong> <code>/cost</code> shows the session's totals, the most recent requests with their cache hit rate, any
 retries, and roughly where the input went (instructions, tool descriptions, your messages, tool output).
-<code>/context</code> shows the window and what has been spent so far, including helper agents.</p></li><li><p><strong>In the proxy:</strong> the <strong>Cache</strong> card on the setup page (<code>http://127.0.0.1:11539/</code>) shows the hit rate, tokens read
+<code>/context</code> shows the window and what has been spent so far, including helper agents.</li><li><strong>In the proxy:</strong> the <strong>Cache</strong> card on the setup page (<code>http://127.0.0.1:11539/</code>) shows the hit rate, tokens read
 and written, AI units, a table per model and per tool, and the moments the cache stopped helping, with the likely
 reason. <code>maple-proxy cache</code> prints the same in a terminal (<code>--recent</code> lists the last requests, <code>--json</code> gives the
-raw figures).</p></li><li><p><strong>On your own account:</strong> <code>maple-proxy cache probe --model &lt;name&gt; --yes</code> sends the same small request twice and shows
-what each call cost, so you can see the cache work (or not) on your model. See
-<a href="proxy.html#check-the-cache-yourself">Check the cache yourself</a>.</p></li><li><p><strong>Across whole tasks:</strong> <code>maple-harness bench</code> replays your tasks under different settings, several times each, with a
-spending cap. See <a href="bench.html">Measure it yourself</a>, and <a href="proof.html">how to check it yourself</a>.</p></li></ul>
+raw figures).</li><li><strong>Check it on your own tasks.</strong> Testing the cache on your own account, comparing whole runs with a setting on and
+off, and measuring with a spending cap are all in <a href="proof.html">Check it yourself</a>.</li></ul>
 <h2 id="what-the-numbers-mean">What the numbers mean <a class="anchor" href="#what-the-numbers-mean" aria-label="Link to this heading">#</a></h2>
 <p><strong>Hit rate.</strong> The share of a request's input that the provider served from its cache instead of processing again.
 A long task with a stable start should sit high; it drops when something early in the request changes.</p>
@@ -50,16 +64,16 @@ default</strong>: trimming rewrites part of the conversation, which costs one ca
 model may ask again for something that was trimmed. Turn it on for a long task if the Cache card shows the cost is
 mostly re-reading, and check the result on your own work.</li><li><strong>Read the Cache card when a bill surprises you.</strong> It shows whether the cache was hit, and when and why it stopped.</li></ul>
 <h2 id="what-we-do-not-do">What we do not do <a class="anchor" href="#what-we-do-not-do" aria-label="Link to this heading">#</a></h2>
-<p>Maple does not put a filter between your commands and the model, and does not ask the model to talk in shorthand.
+<p>Maple Harness does not put a filter between your commands and the model, and does not ask the model to talk in shorthand.
 Very large outputs are cut at a limit, with a note saying so.</p>
 <h2 id="what-others-have-measured">What others have measured <a class="anchor" href="#what-others-have-measured" aria-label="Link to this heading">#</a></h2>
-<p>These are other people's measurements of other tools, on other models and workloads. They are here for context,
+<p>These are other people's measurements, of other tools, on other models and workloads. They are here for context,
 not as a claim about Maple.</p>
 <ul><li><strong>rtk</strong>, a filter for shell command output that advertises 60 to 90% fewer tokens. In
 <a href="https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/" rel="noopener noreferrer">JetBrains' benchmark</a> (Denis Shiryaev, July
 2026; 86 tasks, 425 billed trials, Claude Code with <code>claude-sonnet-5</code>) it showed, at low reasoning effort, a median
 +7.6% cost per task (p=0.004) and +13.8% more turns (p=0.03), with new input tokens +3.2%, which was not
-significant. At high effort it was +0.1%, not significant. Quality was indistinguishable, and JetBrains' conclusion
+significant (p=0.23). At high effort it was +0.1% (p=0.99), not significant. Quality was indistinguishable, and JetBrains' conclusion
 was that it produced no token saving.</li><li><strong>Caveman-style prompting</strong>, which asks the model to answer in shorthand and advertises 65% fewer tokens. In
 <a href="https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/" rel="noopener noreferrer">JetBrains' study</a> (about 240
 billed trials, <code>claude-sonnet-5</code>, low effort) output tokens fell by 8.5% with no significant difference in quality
@@ -71,18 +85,15 @@ the shell hook and re-reading cached context is cheap.</li></ul>
 <p>We measure whole tasks, not single commands, and count our own costs too. <code>/cost</code> and the Cache card let you check
 us.</p>
 <h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
-<p><a href="three-es.html">Which setting for which goal</a> · <a href="proxy-settings.html">Proxy reference</a> · <a href="configuration.html">Harness configuration</a> · <a href="proxy.html">The proxy</a> · <a href="models.html">Models</a> · <a href="subagents.html">Subagents</a> · <a href="troubleshooting.html">Troubleshooting</a></p>
+<p><a href="cost.html">What /cost tells you</a> · <a href="three-es.html">Settings by goal</a> · <a href="usage-export.html">Your usage data</a> · <a href="proof.html">Check it yourself</a> · <a href="bench.html">Measure with bench</a> · <a href="proxy-settings.html">Proxy settings</a> · <a href="configuration.html">Harness settings</a> · <a href="proxy.html">The proxy and its setup page</a> · <a href="models.html">Choose a model</a> · <a href="subagents.html">Subagents</a> · <a href="troubleshooting.html">Troubleshooting</a></p>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/herdr.html" rel="prev"><small>Previous</small>Use it with herdr</a><a class="next" href="../docs/cost.html" rel="next"><small>Next</small>What /cost tells you</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#see-where-your-spend-goes">See where your spend goes</a></li><li><a href="#what-the-numbers-mean">What the numbers mean</a></li><li><a href="#habits-that-keep-costs-down">Habits that keep costs down</a></li><li><a href="#what-we-do-not-do">What we do not do</a></li><li><a href="#what-others-have-measured">What others have measured</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

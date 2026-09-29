@@ -3,31 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>The proxy and its setup page · Maple Harness docs</title>
-<meta name="description" content="Contents: What it listens on · The setup page · Settings you may want (caching, fallbacks, guards, budgets, limits) · Using it from another machine · Other useful commands">
+<meta name="description" content="maple-proxy is the program that holds your sign-ins and talks to the models. The agent uses it, and so can any other tool that speaks the OpenAI or Anthropic API. Start it with:">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html" aria-current="page">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">The proxy and its setup page</li></ol></nav>
 <article>
 <h1 id="the-proxy-and-its-setup-page">The proxy and its setup page <a class="anchor" href="#the-proxy-and-its-setup-page" aria-label="Link to this heading">#</a></h1>
-<p><strong>Contents:</strong> <a href="#what-it-listens-on">What it listens on</a> · <a href="#the-setup-page">The setup page</a> ·
-<a href="#settings-you-may-want">Settings you may want</a> (<a href="#prompt-caching">caching</a>, <a href="#fallbacks">fallbacks</a>,
-<a href="#guards">guards</a>, <a href="#daily-budgets">budgets</a>, <a href="#limits-and-hosts-restart-required">limits</a>) ·
-<a href="#using-it-from-another-machine">Using it from another machine</a> · <a href="#other-useful-commands">Other useful commands</a></p>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></details>
+
 <p><code>maple-proxy</code> is the program that holds your sign-ins and talks to the models. The agent uses it, and so can
 any other tool that speaks the OpenAI or Anthropic API. Start it with:</p>
 <pre><code class="language-sh">maple-proxy serve</code></pre>
 <p>It stays in the foreground. Add <code>--logs=true</code> to watch requests, <code>--logs=/path/to.log</code> to keep a record, or
 <code>--logs=stdout</code> when something else (systemd, launchd) is capturing output. To keep it running in the
-background, see <a href="services.html">Running as a service</a>.</p>
+background, see <a href="proxy-service.html#in-short">Keep it running in the background</a>.</p>
 <h2 id="what-it-listens-on">What it listens on <a class="anchor" href="#what-it-listens-on" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Address</th><th>What it is</th><th>Who may use it</th></tr></thead><tbody><tr><td><code>127.0.0.1:11539</code></td><td>The setup page</td><td>This machine only. It refuses to listen anywhere else</td></tr><tr><td><code>127.0.0.1:11535</code></td><td>OpenAI-compatible API (<code>/v1</code>)</td><td>This machine; other machines only with an access token</td></tr><tr><td><code>127.0.0.1:11537</code></td><td>Anthropic-compatible API</td><td>This machine; other machines only with an access token</td></tr></tbody></table></div>
 <p>The addresses and ports are in the <code>server:</code> section of <code>config.yaml</code>. The proxy picks up changes to its
@@ -37,16 +49,16 @@ providers and settings without a restart.</p>
 the page, which comes in three groups:</p>
 <ul><li><strong>At a glance</strong>: the Savings, Cache and Sessions cards, and Usage data: what the proxy did for you.</li><li><strong>Set up</strong>: your account, your model servers (Providers), the Proxy settings, and Search by meaning.</li><li><strong>More</strong>: Remote access, Protect this page, Recent activity, and the raw configuration.</li></ul>
 <p>From there you can:</p>
-<ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key. See <a href="sign-in.html">Signing in</a>.</li><li><strong>Add model servers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any OpenAI-compatible
+<ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key. See <a href="sign-in.html">Sign in</a>.</li><li><strong>Add model servers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any OpenAI-compatible
 server), press <strong>Detect models</strong>, and save. See <a href="endpoints.html">Connect a model server</a>.</li><li><strong>See your Copilot allowance</strong>: the plan, how many chats are left, and when they reset.</li><li><strong>Manage remote access</strong>: switch remote control on, pair a phone with a short code or a link, choose what
 each device may do, choose the folders a phone may start sessions in, and revoke a device at any time. See
-<a href="remote-control.html">Remote control</a>.</li><li><strong>Read recent activity</strong>: sign-ins, token changes and remote switches.</li></ul>
+<a href="remote-control.html">Control it from your phone</a>.</li><li><strong>Read recent activity</strong>: sign-ins, token changes and remote switches.</li></ul>
 <p>Keys and sign-ins you enter here are stored in your system keyring, not in the configuration file.</p>
 <h3 id="protect-the-setup-page-with-a-password">Protect the setup page with a password <a class="anchor" href="#protect-the-setup-page-with-a-password" aria-label="Link to this heading">#</a></h3>
 <p>By default the setup page has no password: any program or browser on this computer can open it and change what it
 manages. To require one, open <strong>More &gt; Protect this page</strong>, type a password twice (at least 8 characters) and press
 <strong>Turn on</strong>. The browser you did it in stays signed in for 30 days; any other browser shows a sign-in form.</p>
-<ul><li><strong>Maple's own commands keep working</strong> (<code>maple-proxy savings</code>, <code>cache</code>, <code>auth</code>, <code>maple-harness auth</code>, <code>savings</code>,
+<ul><li><strong>The Maple Harness commands keep working</strong> (<code>maple-proxy savings</code>, <code>cache</code>, <code>auth</code>, <code>maple-harness auth</code>, <code>savings</code>,
 <code>doctor</code>, the status bar): they use a separate credential that the proxy keeps in your secret store, and they never
 need the password.</li><li><strong>Change it</strong> on the same card; it needs the current password and signs out every other browser.</li><li><strong>Sign out other browsers</strong> ends every session but yours. <strong>Turn off</strong> asks for the password and a confirmation.</li><li>The password itself is never stored, only a slow, salted hash of it, in the Maple Harness config folder.</li></ul>
 <p>From a terminal, as the same user:</p>
@@ -57,7 +69,7 @@ maple-proxy setup-password reset    # forgot it? removes it, so the page is open
 <p>What it protects against: other programs and other people's browsers on this computer. It does not protect against
 something running as you that can open a terminal: that could run <code>setup-password reset</code>. That includes a command the
 model runs while the sandbox is off; with the sandbox on, model commands can neither reach the page nor read the
-credential Maple's commands use. See <a href="security.html">Security</a>.</p>
+credential those commands use. See <a href="security.html">Security</a>.</p>
 <h2 id="settings-you-may-want">Settings you may want <a class="anchor" href="#settings-you-may-want" aria-label="Link to this heading">#</a></h2>
 <p>Everything below is a card under <strong>Proxy settings</strong> on the setup page. Each control has a one-line
 explanation and a link back here. You do not need to edit any file.</p>
@@ -66,30 +78,25 @@ explanation and a link back here. You do not need to edit any file.</p>
 the same rules the proxy uses when it starts, and points at the field that is wrong. Saved settings apply to
 the very next request, with no restart, except the ones marked <em>restart required</em>.</p>
 <h3 id="prompt-caching">Prompt caching <a class="anchor" href="#prompt-caching" aria-label="Link to this heading">#</a></h3>
-<p>Long conversations resend the same beginning on every turn. With caching on, backends that support it charge
-much less for that repeated part. It is a switch per provider; it appears only for backends where it can be
-controlled (Claude through the Anthropic API or through Copilot). Other backends cache on their own, or not
-at all, and the page says so. The default is on. In the file: <code>prompt_cache: auto</code> or <code>off</code> on a provider.</p>
+<p>Long conversations resend the same beginning on every turn, and providers that cache charge much less for the part
+they have already seen. The <strong>Caching</strong> card has a switch per provider, shown only where it can be controlled
+(Claude through the Anthropic API or through Copilot); it is on by default. Keys: <code>prompt_cache</code>,
+<code>prompt_cache_key</code> and the optional <code>cache_warming</code>. See <a href="proxy-settings.html#caching">Caching</a>.</p>
+<h3 id="model-aliases">Model aliases <a class="anchor" href="#model-aliases" aria-label="Link to this heading">#</a></h3>
+<p>An alias is a short, fixed name for a model, so a tool can ask for <code>local</code> or <code>cloud</code> and you can change what that
+means later without touching the tool. Set them on the <strong>Model aliases</strong> card, or with <code>model_aliases</code> and a model's
+own <code>alias</code> in the file. See <a href="proxy-settings.html#providers-and-models">Providers and models</a>.</p>
 <h3 id="fallbacks">Fallbacks <a class="anchor" href="#fallbacks" aria-label="Link to this heading">#</a></h3>
 <p>A fallback tells the proxy what to try when a model cannot answer: its account is out of chats or credit, the
-backend is overloaded, or it is unreachable. Pick the model, then add the fallbacks in the order to try them;
-move them with the arrows. A model cannot fall back to itself, and a name can be listed once.</p>
-<p>A fallback happens only before any output has been sent, and only for failures another backend could fix. Bad
-credentials and malformed requests are never retried elsewhere, and a fallback's own fallbacks are not
-followed. Nothing falls back unless you add a rule. Responses from a fallback carry an <code>X-Maple-Served-By</code>
-header naming what answered. In the file: <code>model_fallbacks</code>.</p>
-<p>A fallback whose context window is known to be too small for the request is passed over, and the next one is
-tried; the reason is listed in the <code>X-Maple-Fallback-From</code> header. A fallback whose window is not known is still
-tried. When no model on the list can take the request, the proxy answers with an error that says so, instead of
-sending it somewhere it cannot fit. The model you asked for is always tried, whatever its size.</p>
-<p>Most tools that talk to a model connect to one fixed account or endpoint: when it runs out, the run stops until
-you fix it by hand. A fallback here means the proxy can try another one automatically, mid-task, with nothing
-for the client to do differently — list a second account or a second model and it takes over on its own. See
+backend is overloaded, or it is unreachable. <code>model_fallbacks</code> lists other models to try for a model;
+<code>provider_fallbacks</code> sends one account's requests to another account, for example a second Copilot account, then
+Anthropic, then a local model. <code>&lt;provider id&gt;/&lt;model&gt;</code> names one account's copy of a model. A fallback happens only
+before any output is sent, never for bad credentials or malformed requests, and nothing falls back unless you add a
+rule. Responses from a fallback carry <code>X-Maple-Served-By</code>. See <a href="proxy-settings.html#fallbacks">Fallbacks</a>, and
 <a href="sign-in.html#more-than-one-account">adding a second GitHub Copilot or Anthropic account</a> to set one up.</p>
 <h3 id="auto-mode-at-the-proxy">Auto mode at the proxy <a class="anchor" href="#auto-mode-at-the-proxy" aria-label="Link to this heading">#</a></h3>
-<p><code>model_aliases</code> and <code>model_fallbacks</code> together give you a name that is not a real model — request it and the
-proxy decides what actually answers, today and after you change your mind later, with no change needed on
-whatever asked for it:</p>
+<p><code>model_aliases</code> and <code>model_fallbacks</code> together give you a name that is not a real model: request it and the proxy
+decides what answers, and every client picks up a change without being reconfigured.</p>
 <pre><code class="language-yaml">model_aliases:
   auto-heavy: gpt-6-sol
   auto-medium: gpt-6-sol-mini
@@ -97,103 +104,49 @@ whatever asked for it:</p>
 model_fallbacks:
   auto-heavy: [claude-opus-5-5]
   auto-medium: [claude-sonnet-5]</code></pre>
-<p>Any client that speaks the proxy's OpenAI- or Anthropic-compatible surface can now ask for <code>auto-heavy</code>,
-<code>auto-medium</code> or <code>auto-light</code> and get whichever model you have named for it right now — change the alias and
-every client picks it up without being reconfigured. The name needs a <code>model_aliases</code> entry to mean anything
-at all; <code>model_fallbacks</code> on top of that reroutes it the same way a real model name would fall back, on the
-same terms described above.</p>
-<p>Maple Harness's own <code>/model auto</code> picks a model itself by default (<code>harness.auto_model_resolution: client</code>).
-Setting it to <code>proxy</code> instead keeps the harness's own judgement of how much a turn is worth, but asks for it by
-name — <code>auto-heavy</code>, <code>auto-medium</code> or <code>auto-light</code>, or your own names via <code>harness.auto_model_map</code> — and leaves
-the proxy's <code>model_aliases</code>/<code>model_fallbacks</code> to decide what that means. This is the one case where auto mode
-works with a model that publishes no ranking of its own, since nothing here depends on one. <code>maple-harness
-doctor</code> checks that the proxy actually serves the names it would ask for.</p>
+<p>Maple Harness's <code>/model auto</code> picks a model itself by default (<code>harness.auto_model_resolution: client</code>). Set it
+to <code>proxy</code> and the agent still judges how much a turn is worth, but asks for <code>auto-heavy</code>, <code>auto-medium</code> or
+<code>auto-light</code> (or your own names, with <code>harness.auto_model_map</code>) and leaves the proxy to decide what they mean. This
+also works with models that publish no ranking of their own. <code>maple-harness doctor</code> checks that the proxy serves the
+names the agent would ask for. See <a href="configuration.html#model-choice">Harness settings</a>.</p>
 <h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
-<ul><li><strong>Context guard</strong>: for tools that do not know a model's window. <em>Off</em> sends the request as is,
-<em>Truncate</em> drops the oldest turns until it fits, and <em>Refuse</em> rejects it with a plain error.
-In the file: <code>context_guard</code>.</li><li><strong>Repeat guard</strong>: stops a reply that has collapsed into repeating itself. Off by default. In the file:
-<code>degenerate_guard</code>.</li></ul>
+<p>The <strong>Context guard</strong> (<code>context_guard</code>) is for tools that do not know a model's window: it sends the request as is,
+drops the oldest turns until it fits, or refuses it. The <strong>Repeat guard</strong> (<code>degenerate_guard</code>, off by default)
+stops a reply that has collapsed into repeating itself. See <a href="proxy-settings.html#guards">Guards</a>.</p>
 <h3 id="keeping-the-cache-useful">Keeping the cache useful <a class="anchor" href="#keeping-the-cache-useful" aria-label="Link to this heading">#</a></h3>
-<p>Two more settings, both on the same Guards card, help a provider's prompt cache do its job on long conversations:</p>
-<ul><li><strong>Prefix stabiliser</strong> (<code>prefix_stabilizer</code>, on by default). Some tools resend their tool list in a different order,
-or put the current time in the system prompt, which stops the provider from reusing what it already read. The proxy
-puts the tools back in their first order and moves a changing line such as the time to the end of the last message.
-It never removes or rewrites a tool, and it leaves alone any tool that manages its own caching.</li><li><strong>Trim old tool results</strong> (<code>context_trim</code>, off by default). Once a conversation is long, the content of old, large
-tool results is replaced by a short note ("ask again if needed"), a batch at a time, so the provider does not have
-to read the same output on every turn. Recent turns, your messages and the system prompt are never touched. The
-card lets you set when it starts, how many recent turns it spares, and the smallest result it replaces. Turn it on
-for long runs with large tool output; leave it off for short sessions.</li></ul>
-<p>Responses say what was done in the <code>X-Maple-Prefix-Stabilized</code> and <code>X-Maple-Tool-Results-Trimmed</code> headers.</p>
+<p>Two settings on the Guards card help a provider's prompt cache on long conversations: the <strong>Prefix stabiliser</strong>
+(<code>prefix_stabilizer</code>, on by default) keeps the start of each request the same from turn to turn, and <strong>Trim old
+tool results</strong> (<code>context_trim</code>, off by default) replaces old, large tool results with a short note. Responses say
+what was done in <code>X-Maple-Prefix-Stabilized</code> and <code>X-Maple-Tool-Results-Trimmed</code>. See
+<a href="proxy-settings.html#caching">Caching</a>.</p>
 <h3 id="images-and-browser-snapshots">Images and browser snapshots <a class="anchor" href="#images-and-browser-snapshots" aria-label="Link to this heading">#</a></h3>
-<p>Four more choices on the same card, all off by default (<a href="proxy-settings.html#images-and-browser-snapshots">details</a>):</p>
-<ul><li><strong>Images from tools</strong> and <strong>Images you attach</strong>: <code>Provider cap</code> never sends more pixels than the model's provider
-says it looks at, which costs the same tokens and only makes the upload smaller. <code>Balanced</code> and <code>Aggressive</code> send
-fewer pixels, which costs fewer tokens, and small text in a screenshot may become harder to read.</li><li><strong>Replace older tool images</strong>: once a newer image from the same tool follows (a new screenshot of the page), the
-older one becomes a one-line note. Your own images are never replaced.</li><li><strong>Trim browser snapshots</strong>: for a browser tool's page snapshots, sends only what changed since the last full
-snapshot of the same page, leaves out decoration, and cuts very large ones with a note. A new page is always sent
-in full.</li></ul>
-<p>Responses say what was done in the <code>X-Maple-Images</code> and <code>X-Maple-Snapshots-Trimmed</code> headers.</p>
+<p>Four choices on the Guards card, all off by default, shrink images and browser page snapshots before they are
+sent: <code>image_resize_tool</code>, <code>image_resize_user</code>, <code>image_superseded</code> and <code>snapshot_trim</code>. Smaller images cost fewer
+tokens, and small text in a screenshot may become harder to read. See
+<a href="proxy-settings.html#images-and-browser-snapshots">Images and browser snapshots</a>.</p>
 <h3 id="seeing-how-the-cache-is-doing">Seeing how the cache is doing <a class="anchor" href="#seeing-how-the-cache-is-doing" aria-label="Link to this heading">#</a></h3>
-<p>A provider that caches prompts charges a small fraction of the price for the part of a request it has already seen,
-and the full price, more for storing it, the first time. On a Copilot business seat, one request measured <strong>1.573</strong> AI
-units the first time and <strong>0.132</strong> when repeated unchanged. So when a bill looks wrong, the first question is whether
-the cache was used, and where it stopped being used.</p>
-<p>The setup page has a <strong>Cache</strong> card that answers it:</p>
-<ul><li>the hit rate today, as a gauge, with the tokens read from and written to the cache and the AI units spent;</li><li>a table per model and per client (the token's label, or <code>local (claude-code)</code> for a tool on this machine);</li><li>the latest times the cache was <strong>lost</strong>, with the reason: <em>tools or system prompt changed</em>, <em>an early message
-changed</em>, <em>model switched</em>, or <em>cache expired</em> (a provider forgets after about five minutes without use).</li></ul>
-<p><code>maple-proxy cache</code> prints the same summary in a terminal (<code>--recent</code> lists the last requests, <code>--json</code> gives the raw
-figures). Each response that is not streamed also carries <code>X-Maple-Cache</code> (<code>hit</code>, <code>partial</code>, <code>miss</code> or <code>lost</code>) and
-<code>X-Maple-Cache-Read</code> and <code>X-Maple-Cache-Write</code> token counts.</p>
-<p>Only counts and labels are kept. The Cache, Sessions and Savings figures are saved to disk every few minutes and on a
-clean stop, so a restart does not lose them; a crash between two saves loses only the activity in that gap. No
-prompt, answer or file content is recorded. A provider that reports no cache figures at all (most local servers) shows as not applicable
-rather than as a miss.</p>
+<p>The <strong>Cache</strong> card shows today's hit rate, the tokens read from and written to the cache, a table per model and per
+client, and the latest times the cache was lost, with the reason. <code>maple-proxy cache</code> prints the same in a terminal,
+and responses that are not streamed carry <code>X-Maple-Cache</code>. Only counts and labels are kept, never a prompt or an
+answer. To test your own account, see <a href="#check-the-cache-yourself">Check the cache yourself</a>.</p>
 <h3 id="seeing-cost-per-session">Seeing cost per session <a class="anchor" href="#seeing-cost-per-session" aria-label="Link to this heading">#</a></h3>
-<p>Below the Cache card, the <strong>Sessions</strong> card groups AI units, tokens and requests by an opaque id a client sends on
-its own requests as <code>X-Maple-Session</code> — Maple Harness sends it automatically for every session, generated once and
-kept for the life of that conversation (including across <code>--continue</code>/<code>--resume</code>). A subagent it delegates to sends
-the same id as its parent, so a subagent's spend counts toward the session that started it, not a total that quietly
-leaves it out. The id is random and carries no content: never a session's name, never anything said in it — only the
-id and numbers appear on the card.</p>
-<p>Any other OpenAI- or Anthropic-compatible client can send this header too, to appear here the same way. A client
-that doesn't send it is simply not grouped into any session, exactly as before this existed — nothing about a
-request without the header changes.</p>
-<p><code>GET /api/cache/sessions</code> returns the same list as JSON, most recently active first.</p>
+<p>The <strong>Sessions</strong> card groups AI units, tokens and requests by session. Maple Harness sends a random session id with
+every request (<code>X-Maple-Session</code>), and a subagent sends its parent's id, so its spend counts toward the session that
+started it. Any other client can send the header too. See <a href="cost.html">What /cost tells you</a>.</p>
 <h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
-<p>First on the page, above the Cache card, the <strong>Savings</strong> card shows what the proxy's techniques have saved and
-what they cost, today and in the last hour, <strong>across every session on this proxy, not just yours</strong> — a different
-scope from the Sessions card, which is one session's own measured spend. Every figure here is tagged <strong>measured</strong> (a count of
-tokens or requests, or the total AI units the provider actually billed) or <strong>estimated</strong> (a value in AI units, which
-comes from prices the proxy learns from your own requests), and an estimate says what it rests on. The card's own
-summary sentence always states what you actually spent (measured) right next to what the techniques are estimated
-to have avoided, so the two are never read apart from each other, and the estimated figure is capped so it can never
-claim more was avoided than the window actually spent. Costs are counted too, so the net can be negative, and the
-card then says so and shows which technique lost. The proxy always takes the reading that reports less saving, and
-it does not value anything until it has seen enough of your requests to know what a token costs. The net itself is
-deliberately narrow: it only ever totals the two techniques with a basis solid enough to trust in one number (the
-prompt cache and trimming). One or two others are shown fully computed on their own line, but held out of that
-total until their own estimate can be checked against a real bill — the line itself says which and why, and there
-is no setting that widens the net back out; it is a fixed choice, not a preference. <code>maple-proxy savings</code> prints the
-same in a terminal, and <code>/savings</code> in the harness shows what the harness itself did in a session.</p>
+<p>The <strong>Savings</strong> card, first on the page, shows what the proxy's techniques saved and what they cost, across every
+session on this proxy. Every figure is tagged <strong>measured</strong> (a count, or what the provider billed) or <strong>estimated</strong>
+(a value in AI units, estimated from what your own requests cost). The estimate is never more than what was
+actually spent, costs are subtracted, and the net can be negative. <code>maple-proxy savings</code> prints the same in a
+terminal. See <a href="saving-tokens.html">See and reduce what a task costs</a> and <a href="proof.html">Check it yourself</a>.</p>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
-<p>For each provider you can set a limit on requests per day, on the AI units a day, or both; leave a box empty
-for no limit on that measure. Days are UTC, and today's use is shown next to each limit. When a provider
-reaches its limit, requests for it are refused, or handed to its fallback if you set one. In the file:
-<code>budgets</code>.</p>
+<p>For each provider you can cap requests per day, AI units per day, or both (days are UTC). At the limit, requests
+are refused or handed to its fallback. Key: <code>budgets</code>. See <a href="proxy-settings.html#budgets">Budgets</a>.</p>
 <h3 id="limits-and-hosts-restart-required">Limits and hosts (restart required) <a class="anchor" href="#limits-and-hosts-restart-required" aria-label="Link to this heading">#</a></h3>
-<p>These are read when the proxy starts, so after saving, stop and start <code>maple-proxy</code> for them to apply. The usage log
-is the exception: it applies as soon as you save.</p>
-<ul><li><strong>Rate limit</strong>: how many requests one client may make. The default is off for this machine and on,
-conservatively, for other machines. You can force it on or off and set the requests per minute, the burst,
-how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
-<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line of counts per request, never prompts or answers. It is on by default,
-in the <code>usage</code> folder of your Maple Harness config folder, one file per UTC day (<code>maple_harness_proxy_usage_ledger-2026-09-28.jsonl</code>), and
-daily files older than 90 days are deleted when the proxy starts and once a day. Budget counts (not the Cache, Sessions
-or Savings cards, which survive a restart on their own) come from it, so they survive a restart too. The
-<strong>Usage data</strong> card, under <strong>At a glance</strong> near the top of the page, shows where it is and how much disk it takes,
-moves it or turns it off at once, sets how many days to keep, downloads it as CSV or Parquet, and removes old days
-after you confirm the list; see <a href="usage-export.html">Query and export your usage data</a> for the same from a terminal
-(<code>maple-proxy usage status</code>, <code>usage export</code>, <code>usage prune</code>) and how to point DuckDB or Grafana straight at it.</li></ul>
+<p>The <strong>rate limit</strong> (off for this machine, on for other machines by default) and <strong>allowed hosts</strong> (extra names the
+proxy answers to) are read when the proxy starts, so restart it after saving. The <strong>usage log</strong>, one line of counts
+per request, is on by default and applies as soon as you save. See <a href="proxy-settings.html#limits-and-hosts">Limits and hosts</a>,
+<a href="proxy-settings.html#the-usage-log">The usage log</a> and <a href="usage-export.html">Your usage data</a>.</p>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
 <pre><code class="language-yaml">model_fallbacks:
   cloud: [local]            # cloud and local are model aliases (see Connect a model server)
@@ -239,16 +192,13 @@ maple-proxy setup-password status   # whether the setup page has a password
 maple-proxy audit tail          # who did what: token changes, refused requests
 maple-proxy update              # install a newer release</code></pre>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/models.html" rel="prev"><small>Previous</small>Choose a model</a><a class="next" href="../docs/proxy-service.html" rel="next"><small>Next</small>Keep it running in the background</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

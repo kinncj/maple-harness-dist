@@ -3,24 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Install · Maple Harness docs</title>
-<meta name="description" content="Maple Harness is two programs: maple-harness (the agent, also available as mpl) and maple-proxy (which holds your sign-ins and talks to the models, also mplp). On Apple silicon there is a third, a sma">
+<meta name="description" content="On every system Maple Harness is two programs: maple-harness, the agent, and maple-proxy, the proxy, which holds your sign-ins and talks to the models. On macOS and Linux the installer also adds the s">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html" aria-current="page">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Install</li></ol></nav>
 <article>
 <h1 id="install">Install <a class="anchor" href="#install" aria-label="Link to this heading">#</a></h1>
-<p>Maple Harness is two programs: <code>maple-harness</code> (the agent, also available as <code>mpl</code>) and <code>maple-proxy</code>
-(which holds your sign-ins and talks to the models, also <code>mplp</code>). On Apple silicon there is a third, a small
-helper for Apple's on-device model. The installer fetches all of them.</p>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#one-line">One line</a></li><li><a href="#platforms">Platforms</a></li><li><a href="#optional-contain-the-shell-bubblewrap">Optional: contain the shell (bubblewrap)</a></li><li><a href="#release-files">Release files</a></li><li><a href="#update">Update</a></li><li><a href="#uninstall">Uninstall</a></li><li><a href="#next">Next</a></li></ol></details>
+
+<p>On every system Maple Harness is two programs: <code>maple-harness</code>, the agent, and <code>maple-proxy</code>, the proxy, which
+holds your sign-ins and talks to the models. On macOS and Linux the installer also adds the short names <code>mpl</code> and
+<code>mplp</code>. On a Mac with Apple silicon there is a third program, <code>maple-sidecar</code>, a small helper for Apple's on-device
+model; the proxy starts it when it is needed. The installer fetches what your system needs.</p>
 <h2 id="one-line">One line <a class="anchor" href="#one-line" aria-label="Link to this heading">#</a></h2>
 <p>macOS and Linux:</p>
 <pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
@@ -29,7 +46,9 @@ helper for Apple's on-device model. The installer fetches all of them.</p>
 <p>No account or token is needed. The installer detects your system, downloads the release, checks every
 file against the release's <code>SHA256SUMS</code>, and refuses to install anything that does not match. To read it
 first, <a href="https://github.com/kinncj/maple-harness-dist/blob/main/install.sh" rel="noopener noreferrer">open it on GitHub</a>.</p>
-<p>By default it installs to <code>/usr/local/bin</code>. To choose another place, or a specific release:</p>
+<p>On macOS and Linux it installs to <code>/usr/local/bin</code> by default, and asks for <code>sudo</code> only if it cannot write there.
+On Windows it installs to <code>%LOCALAPPDATA%\Programs\MapleHarness</code> for your account only, and offers to add that
+folder to your user <code>PATH</code>. To choose another place, or a specific release:</p>
 <pre><code class="language-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash -s -- --install-location ~/.local/bin
 MAPLEHARNESS_VERSION=v1.0.0 curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
 <p>Check it worked:</p>
@@ -37,13 +56,17 @@ MAPLEHARNESS_VERSION=v1.0.0 curl -fsSL https://raw.githubusercontent.com/kinncj/
 maple-proxy version</code></pre>
 <h2 id="platforms">Platforms <a class="anchor" href="#platforms" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>System</th><th>Agent and proxy</th><th>Apple on-device model</th></tr></thead><tbody><tr><td>macOS, Apple silicon</td><td>yes</td><td>yes (macOS 26 or newer)</td></tr><tr><td>macOS, Intel</td><td>yes</td><td>no</td></tr><tr><td>Linux, amd64 and arm64</td><td>yes</td><td>no</td></tr><tr><td>Windows, amd64</td><td>yes (less tested)</td><td>no</td></tr></tbody></table></div>
-<p>Linux packages (<code>.deb</code>, <code>.rpm</code>, <code>.apk</code>) are attached to stable releases, and there is a Homebrew tap
-(<code>brew install kinncj/tap/maple-harness</code>) once the first stable release is out.</p>
+<ul><li><strong>macOS.</strong> The shell sandbox is built in: nothing to install. The on-device model needs a Mac with Apple
+silicon and macOS 26 or newer; the agent and the proxy do not need it.</li><li><strong>Linux.</strong> amd64 and arm64. Besides the one-line installer, stable releases carry <code>.deb</code>, <code>.rpm</code> and <code>.apk</code>
+packages for both. The shell sandbox needs bubblewrap (below).</li><li><strong>Windows.</strong> amd64 only; on Windows on Arm the amd64 build runs under emulation. There is no shell sandbox on
+Windows, running the proxy as a background service is not supported, and it is less tested than macOS and Linux.</li></ul>
 <h2 id="optional-contain-the-shell-bubblewrap">Optional: contain the shell (bubblewrap) <a class="anchor" href="#optional-contain-the-shell-bubblewrap" aria-label="Link to this heading">#</a></h2>
 <p>The agent can run the commands its shell tool executes inside a sandbox. On macOS that is built in. On
 Linux it needs bubblewrap, which is <strong>optional</strong>: without it the shell still works, uncontained.</p>
-<div class="tablewrap"><table><thead><tr><th>System</th><th>Command</th></tr></thead><tbody><tr><td>Arch, Manjaro</td><td><code>sudo pacman -S bubblewrap</code></td></tr><tr><td>Debian, Ubuntu</td><td><code>sudo apt install bubblewrap</code></td></tr><tr><td>Fedora, RHEL</td><td><code>sudo dnf install bubblewrap</code></td></tr><tr><td>openSUSE</td><td><code>sudo zypper install bubblewrap</code></td></tr><tr><td>Alpine</td><td><code>sudo apk add bubblewrap</code></td></tr></tbody></table></div>
-<p>Run <code>/sandbox</code> inside the agent, or <code>maple-harness doctor</code>, to see whether it works on your machine.</p>
+<div class="tablewrap"><table><thead><tr><th>System</th><th>Command</th></tr></thead><tbody><tr><td>Arch, Manjaro</td><td><code>sudo pacman -S bubblewrap</code></td></tr><tr><td>Debian, Ubuntu</td><td><code>sudo apt install bubblewrap</code></td></tr><tr><td>Fedora, RHEL</td><td><code>sudo dnf install bubblewrap</code></td></tr><tr><td>openSUSE</td><td><code>sudo zypper install bubblewrap</code></td></tr><tr><td>Alpine</td><td><code>sudo apk add bubblewrap</code></td></tr><tr><td>macOS</td><td>nothing: built in</td></tr></tbody></table></div>
+<p>Only the Arch command has been run on a real machine here; the others are each system's usual package command.</p>
+<p>Run <code>/sandbox</code> inside the agent, or <code>maple-harness doctor</code>, to see whether it works on your machine. What the
+sandbox does, what it breaks and how to turn it on are in <a href="sandbox.html">The shell sandbox</a>.</p>
 <p>With the network allowed, contained commands still cannot connect to the proxy's setup page, so a command cannot
 change your settings or read your keys through it. They can reach everything else as before: the proxy's model
 addresses, your own local servers and the internet. On Linux this needs version 6.7 or later; on an older kernel
@@ -51,6 +74,13 @@ commands run as before. <code>/sandbox</code> shows whether the setup page is bl
 so a service on another computer that uses the setup page's port (11539 unless you changed <code>server.webui</code>) cannot
 be reached from a contained command either. Contained commands also cannot use Multipath TCP while the page is blocked: <code>curl --mptcp</code>
 fails as it would on a system with Multipath TCP switched off, and plain <code>curl</code> works.</p>
+<h2 id="release-files">Release files <a class="anchor" href="#release-files" aria-label="Link to this heading">#</a></h2>
+<p>Each release on the <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener noreferrer">releases page</a> has these files. The
+installer picks the right ones; you only need this list to download by hand.</p>
+<div class="tablewrap"><table><thead><tr><th>File</th><th>What it is</th></tr></thead><tbody><tr><td><code>maple-harness_linux_amd64</code>, <code>maple-harness_linux_arm64</code>, <code>maple-harness_darwin_arm64</code>, <code>maple-harness_darwin_amd64</code>, <code>maple-harness_windows_amd64.exe</code></td><td>The agent</td></tr><tr><td><code>maple-proxy_linux_amd64</code>, <code>maple-proxy_linux_arm64</code>, <code>maple-proxy_darwin_arm64</code>, <code>maple-proxy_darwin_amd64</code>, <code>maple-proxy_windows_amd64.exe</code></td><td>The proxy</td></tr><tr><td><code>maple-sidecar_darwin_arm64</code></td><td>The Apple on-device model helper (Apple silicon only)</td></tr><tr><td><code>SHA256SUMS</code>, <code>SHA256SUMS.sig</code></td><td>The checksum of every file, and its signature</td></tr><tr><td><code>LICENSE</code>, <code>THIRD_PARTY_NOTICES.md</code></td><td>The licence, and the licences of the code it includes</td></tr></tbody></table></div>
+<p><code>darwin</code> is macOS. Check a file you downloaded by hand with <code>sha256sum -c SHA256SUMS --ignore-missing</code> (on macOS,
+<code>shasum -a 256 -c SHA256SUMS --ignore-missing</code>). macOS binaries are not notarised yet, so a download made by hand
+may need a right-click and <strong>Open</strong> the first time; the installer avoids this.</p>
 <h2 id="update">Update <a class="anchor" href="#update" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">maple-harness update --check     # is there a newer release?
 maple-harness update             # install it
@@ -61,18 +91,15 @@ rm -rf ~/.config/maple-harness     # your config, sign-ins, notes and saved sess
 <p>The second line deletes your configuration, stored sign-ins, memory notes and saved sessions. Skip it if you
 plan to reinstall.</p>
 <h2 id="next">Next <a class="anchor" href="#next" aria-label="Link to this heading">#</a></h2>
-<p><a href="getting-started.html">Getting started</a>.</p>
+<p><a href="getting-started.html">Your first session</a>.</p>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/index.html" rel="prev"><small>Previous</small>Overview</a><a class="next" href="../docs/getting-started.html" rel="next"><small>Next</small>Your first session</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#one-line">One line</a></li><li><a href="#platforms">Platforms</a></li><li><a href="#optional-contain-the-shell-bubblewrap">Optional: contain the shell (bubblewrap)</a></li><li><a href="#release-files">Release files</a></li><li><a href="#update">Update</a></li><li><a href="#uninstall">Uninstall</a></li><li><a href="#next">Next</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

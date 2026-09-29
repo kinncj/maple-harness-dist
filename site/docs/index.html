@@ -3,43 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documentation · Maple Harness docs</title>
-<meta name="description" content="Maple Harness is a coding agent for GitHub Copilot&#x27;s models, Claude and models on your own machine, with a proxy that holds your sign-ins, and a phone page for driving a session from anywhere. These p">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Overview · Maple Harness docs</title>
+<meta name="description" content="Maple Harness is a coding agent for GitHub Copilot&#x27;s models, Claude and models on your own machine. It comes in three parts:">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html" aria-current="page">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li></ol></nav>
 <article>
-<h1 id="documentation">Documentation <a class="anchor" href="#documentation" aria-label="Link to this heading">#</a></h1>
-<p>Maple Harness is a coding agent for GitHub Copilot's models, Claude and models on your own machine, with a
-proxy that holds your sign-ins, and a phone page for driving a session from anywhere. These pages cover
-installing it, signing in, connecting models, and using it from your phone.</p>
+<h1 id="overview">Overview <a class="anchor" href="#overview" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#start-here">Start here</a></li><li><a href="#get-started">Get started</a></li><li><a href="#guides">Guides</a></li><li><a href="#cost-and-usage">Cost and usage</a></li><li><a href="#reference">Reference</a></li><li><a href="#help">Help</a></li></ol></details>
+
+<p>Maple Harness is a coding agent for GitHub Copilot's models, Claude and models on your own machine. It comes in
+three parts:</p>
+<ul><li><strong>The agent</strong>, <code>maple-harness</code>: the program you work with in a terminal. It reads your project, edits files and
+runs commands, and asks before it changes anything.</li><li><strong>The proxy</strong>, <code>maple-proxy</code>: holds your sign-ins and talks to the models, for the agent and for any other tool
+that speaks the OpenAI or Anthropic API. Its setup page is where you sign in and change settings.</li><li><strong>The phone page</strong>: share a session and drive it from your phone's browser, or from another computer.</li></ul>
+<p>On a Mac with Apple silicon there is also a small helper for Apple's on-device model, which the proxy starts when
+it is needed.</p>
 <h2 id="start-here">Start here <a class="anchor" href="#start-here" aria-label="Link to this heading">#</a></h2>
-<div class="tablewrap"><table><thead><tr><th>I want to…</th><th>Read</th></tr></thead><tbody><tr><td>Install it, update it or remove it</td><td><a href="install.html">Install</a></td></tr><tr><td>Get a first session running</td><td><a href="getting-started.html">Getting started</a></td></tr><tr><td>Sign in to GitHub Copilot or Claude</td><td><a href="sign-in.html">Signing in</a></td></tr><tr><td>Understand the proxy and its setup page</td><td><a href="proxy.html">The proxy</a></td></tr><tr><td>Use Ollama, LM Studio, oMLX, Lemonade, Unsloth or any OpenAI-compatible server</td><td><a href="endpoints.html">Connect a model server</a></td></tr><tr><td>Point Claude Code, OpenCode or another tool at my models</td><td><a href="endpoints.html#use-your-models-from-other-tools">Connect a model server</a></td></tr><tr><td>Choose or switch models, or let it choose</td><td><a href="models.html">Models</a></td></tr><tr><td>Control a session from my phone</td><td><a href="remote-control.html">Remote control</a></td></tr><tr><td>Drive a session from a script, an editor plugin or CI</td><td><a href="rpc.html">Drive it from another program</a></td></tr><tr><td>Hand jobs to helper agents, or make my own</td><td><a href="subagents.html">Subagents</a></td></tr><tr><td>See compile errors right after each edit, with Go, TypeScript, Python, Rust, Cucumber and more</td><td><a href="language-servers.html">Language servers</a></td></tr><tr><td>Give another tool this project's knowledge</td><td><a href="mcp.html">MCP server</a></td></tr><tr><td>See its state in a herdr pane</td><td><a href="herdr.html">herdr</a></td></tr><tr><td>Keep the proxy running in the background</td><td><a href="services.html">Running as a service</a>, with step-by-step guides for Debian/Ubuntu, Arch, Fedora and macOS in <a href="proxy-service.html">Run the proxy as a service</a></td></tr><tr><td>See where my spend goes and keep it down</td><td><a href="saving-tokens.html">Seeing and reducing what a task costs</a></td></tr><tr><td>Understand exactly what <code>/cost</code> is telling me</td><td><a href="cost.html">What /cost tells you</a></td></tr><tr><td>Query my own usage data, export it, or wire it into Grafana</td><td><a href="usage-export.html">Query and export your usage data</a></td></tr><tr><td>Let the agent find things by what they mean, not only the words</td><td><a href="search-by-meaning.html">Search by meaning</a></td></tr><tr><td>Check the savings claims on my own tasks</td><td><a href="proof.html">Proof: how to check it yourself</a>, <a href="bench.html">Measure it yourself</a></td></tr><tr><td>Fix something</td><td><a href="troubleshooting.html">Troubleshooting</a></td></tr><tr><td>Know what it can touch and how to keep it safe</td><td><a href="security.html">Security</a></td></tr><tr><td>Read the licence</td><td><a href="license.html">Licence</a></td></tr></tbody></table></div>
+<ol><li><a href="install.html">Install</a> the programs.</li><li>Run <a href="getting-started.html">Your first session</a>.</li><li><a href="sign-in.html">Sign in</a> to GitHub Copilot or Claude, or <a href="endpoints.html">Connect a model server</a> such as Ollama or
+LM Studio.</li><li><a href="models.html">Choose a model</a>, or let the agent choose for each message.</li></ol>
+<h2 id="get-started">Get started <a class="anchor" href="#get-started" aria-label="Link to this heading">#</a></h2>
+<p>Installing, signing in and connecting models.</p>
+<ul><li><a href="install.html">Install</a>: the one-line installer, platforms, updating and removing it.</li><li><a href="getting-started.html">Your first session</a>: start the proxy and the agent, and the first commands to know.</li><li><a href="sign-in.html">Sign in</a>: GitHub Copilot, an Anthropic API key, and more than one account.</li><li><a href="endpoints.html">Connect a model server</a>: Ollama, LM Studio, oMLX, Lemonade, Unsloth or any OpenAI-compatible
+server.</li><li><a href="models.html">Choose a model</a>: switch models, let the agent choose, and set a default.</li></ul>
+<h2 id="guides">Guides <a class="anchor" href="#guides" aria-label="Link to this heading">#</a></h2>
+<p>How each part works, and how to use it with other tools.</p>
+<p><strong>The agent</strong></p>
+<ul><li><a href="subagents.html">Subagents</a>: hand small jobs to helper agents, or make your own.</li><li><a href="language-servers.html">Language servers</a>: compile errors right after every edit.</li><li><a href="search-by-meaning.html">Search by meaning</a>: let the agent find things by what they mean, not only the words.</li><li><a href="sandbox.html">The shell sandbox</a>: contain the commands the model runs, and what that breaks.</li></ul>
+<p><strong>The proxy</strong></p>
+<ul><li><a href="proxy.html">The proxy and its setup page</a>: what it listens on, the setup page and the settings you may want.</li><li><a href="proxy-service.html">Keep it running in the background</a>: run the proxy and the phone gateway as a service.</li></ul>
+<p><strong>Your phone</strong></p>
+<ul><li><a href="remote-control.html">Control it from your phone</a>: pair a phone, approve tool calls, start sessions and share one
+read-only.</li></ul>
+<p><strong>Other tools</strong></p>
+<ul><li><a href="endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a>: point Claude Code, OpenCode or
+another tool at the proxy.</li><li><a href="mcp.html">Give other tools this project's knowledge</a>: the MCP server.</li><li><a href="rpc.html">Drive it from another program</a>: a script, an editor plugin or CI.</li><li><a href="herdr.html">Use it with herdr</a>: see the agent's state in a herdr pane.</li></ul>
+<h2 id="cost-and-usage">Cost and usage <a class="anchor" href="#cost-and-usage" aria-label="Link to this heading">#</a></h2>
+<p>Where the spend goes, how to keep it down, and how to check any claim on your own tasks.</p>
+<ul><li><a href="saving-tokens.html">See and reduce what a task costs</a>: start here.</li><li><a href="cost.html">What /cost tells you</a>: each part of <code>/cost</code>, and what to do about it.</li><li><a href="three-es.html">Settings by goal</a>: the setting for spending less, keeping quality or stopping runaways.</li><li><a href="usage-export.html">Your usage data</a>: query and export the usage log, or wire it into Grafana.</li><li><a href="proof.html">Check it yourself</a>: how to test a setting on your own work.</li><li><a href="bench.html">Measure with bench</a>: repeated, paired runs of your own tasks with a spending cap.</li></ul>
 <h2 id="reference">Reference <a class="anchor" href="#reference" aria-label="Link to this heading">#</a></h2>
-<p>Every setting, command and key, with what it does, its default, the trade-off, and which of the three goals it
-serves: efficiency, efficacy and effectiveness.</p>
-<div class="tablewrap"><table><thead><tr><th>I want to…</th><th>Read</th></tr></thead><tbody><tr><td>Look up a proxy setting, a setup-page card, a proxy command or a response header</td><td><a href="proxy-settings.html">Proxy reference</a></td></tr><tr><td>Look up a harness slash command, a key, a mode or a shell command</td><td><a href="commands.html">Harness commands and keys</a></td></tr><tr><td>Look up a <code>config.yaml</code> setting under <code>harness:</code></td><td><a href="configuration.html">Harness configuration</a></td></tr><tr><td>Find the setting for a goal: spend less, keep quality, stop runaways</td><td><a href="three-es.html">Which setting for which goal</a></td></tr></tbody></table></div>
-<p>Downloads and release notes are on the
-<a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener noreferrer">releases page</a>.</p>
+<p>Every command, key and setting, with what it does, its default and its trade-off.</p>
+<ul><li><a href="commands.html">Commands and keys</a>: slash commands, keys, modes and shell commands.</li><li><a href="configuration.html">Harness settings</a>: every <code>harness:</code> setting in <code>config.yaml</code>.</li><li><a href="proxy-settings.html">Proxy settings</a>: every proxy setting, setup-page card, command and response header.</li></ul>
+<h2 id="help">Help <a class="anchor" href="#help" aria-label="Link to this heading">#</a></h2>
+<p>When something does not work, and the rest.</p>
+<ul><li><a href="troubleshooting.html">Troubleshooting</a>: common problems and their fixes.</li><li><a href="security.html">Security</a>: what it can touch and how to keep it safe.</li><li><a href="glossary.html">Glossary</a>: the words these pages use.</li><li><a href="license.html">Licence</a>.</li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener noreferrer">Release notes</a>, with the downloads.</li></ul>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><span></span><a class="next" href="../docs/install.html" rel="next"><small>Next</small>Install</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#start-here">Start here</a></li><li><a href="#get-started">Get started</a></li><li><a href="#guides">Guides</a></li><li><a href="#cost-and-usage">Cost and usage</a></li><li><a href="#reference">Reference</a></li><li><a href="#help">Help</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

@@ -155,7 +155,9 @@ case "$arch" in
   *) err "unsupported architecture: $arch" ;;
 esac
 
-if [ "$os" = "darwin" ]; then
+# The sidecar runs Apple's on-device models, which need Apple silicon: releases build it for darwin/arm64
+# only, so an Intel Mac installs the harness and proxy without it.
+if [ "$os" = "darwin" ] && [ "$arch" = "arm64" ]; then
   BINARIES+=("maple-sidecar")
 fi
 
@@ -484,7 +486,7 @@ link_alias() {
   alias_name="$1"
   target="$2"
   [ -x "${bindir}/${target}" ] || return 0
-  if ln -sf "${target}" "${bindir}/${alias_name}" 2>/dev/null; then
+  if $SUDO ln -sf "${target}" "${bindir}/${alias_name}" 2>/dev/null; then
     info "linked ${bindir}/${alias_name} -> ${target}"
   else
     info "note: could not create the ${alias_name} alias in ${bindir}"
@@ -493,7 +495,7 @@ link_alias() {
 # The short names were once cch and ccp. Remove those old links, only when they point at ours.
 for old in cch ccp; do
   if [ -L "${bindir}/${old}" ]; then
-    case "$(readlink "${bindir}/${old}")" in maple-harness|maple-proxy) rm -f "${bindir}/${old}" ;; esac
+    case "$(readlink "${bindir}/${old}")" in maple-harness|maple-proxy) $SUDO rm -f "${bindir}/${old}" ;; esac
   fi
 done
 link_alias mpl maple-harness

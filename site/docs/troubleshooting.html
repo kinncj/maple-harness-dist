@@ -3,21 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Troubleshooting · Maple Harness docs</title>
 <meta name="description" content="Start with the checker. It looks at your configuration, the proxy, sign-ins, ports, remote control and the sandbox, and says what to do about each problem it finds:">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html" aria-current="true">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html" aria-current="true">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details open><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html" aria-current="page">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/troubleshooting.html">Help</a></li><li aria-current="page">Troubleshooting</li></ol></nav>
 <article>
 <h1 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#cost">Cost</a><ol><li><a href="#a-run-cost-more-than-i-expected">A run cost more than I expected</a></li><li><a href="#the-agent-keeps-retrying-the-same-failing-command">The agent keeps retrying the same failing command</a></li></ol></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li><li><a href="#more-help-on-other-pages">More help on other pages</a></li></ol></details>
+
 <p>Start with the checker. It looks at your configuration, the proxy, sign-ins, ports, remote control and the
 sandbox, and says what to do about each problem it finds:</p>
 <pre><code class="language-sh">maple-harness doctor                      # add --fix to repair file permissions and stale files
@@ -26,15 +42,13 @@ maple-harness doctor --report bug.txt     # a redacted bundle to attach when you
 <pre><code>/proxy      where the proxy is, whether it answers, how many models it serves
 /context    what the model can see: window size and how full it is</code></pre>
 <p><code>maple-proxy serve --logs=true</code> shows every request and the reason behind every failed one.</p>
-<p><strong>Contents</strong></p>
-<ul><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#cost">Cost</a></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li></ul>
 <h2 id="the-proxy">The proxy <a class="anchor" href="#the-proxy" aria-label="Link to this heading">#</a></h2>
 <p><strong>The agent says the proxy is unreachable.</strong> Nothing answers at the configured address. <code>/proxy</code> shows where
 the agent is looking, and <code>/proxy start</code> starts one. This usually means <code>server.openai_compat</code> in
 <code>config.yaml</code> differs from where a proxy was started.</p>
 <p><strong>The setup page at <code>127.0.0.1:11539</code> does not load.</strong> Check the proxy is running. <code>server.webui</code> in
 <code>config.yaml</code> sets its address, and an empty value turns the page off. The page only listens on this machine;
-from another device, use <a href="remote-control.html">remote control</a>.</p>
+from another device, use <a href="remote-control.html">Control it from your phone</a>.</p>
 <p><strong>Port already in use.</strong> The defaults are 11535, 11537 and 11539. Find what holds one with
 <code>lsof -i :11539</code>, then stop it or change the address under <code>server:</code> in <code>config.yaml</code>.</p>
 <h2 id="signing-in">Signing in <a class="anchor" href="#signing-in" aria-label="Link to this heading">#</a></h2>
@@ -64,7 +78,7 @@ such as a function, a file or a fix, start a fresh session per task, and use <co
 task they are able to do. Maple Harness answers once with a nudge to start step by step, and says so
 ("continuing — the model declined a task it can do"). If the model declines again it tells you which model it
 is and suggests a stronger one with <code>/model &lt;name&gt;</code> (or pinning models with <code>auto_model_map</code>, see
-<a href="models.html">models</a>). With <code>/model auto</code>, a model that declined is skipped for the rest of the session.</p>
+<a href="models.html">Choose a model</a>). With <code>/model auto</code>, a model that declined is skipped for the rest of the session.</p>
 <p><strong>Auto keeps picking a model that declines.</strong> Auto avoids models known to decline long tasks and remembers ones
 that do (<code>maple-harness doctor</code> lists them; <code>maple-harness cleanup --declines --yes</code> forgets them). To choose
 yourself, use <code>/model &lt;name&gt;</code>, pin models with <code>auto_model_map</code>, or add patterns to <code>auto_avoid</code> in <code>config.yaml</code>.
@@ -108,9 +122,9 @@ run <code>maple-harness gateway start</code>.</p>
 <code>maple-harness gateway workspaces add &lt;dir&gt;</code>.</p>
 <p><strong>A session does not appear in the phone's list.</strong> Share it with <code>/remote</code> in that session.</p>
 <p><strong>The gateway or proxy is gone after a reboot.</strong> Install them as services:
-<code>maple-harness service install</code>. See <a href="services.html">Running as a service</a>.</p>
+<code>maple-harness service install</code>. See <a href="proxy-service.html#in-short">Keep it running in the background</a>.</p>
 <p><strong>Notifications do not arrive with the page closed.</strong> That needs a trusted HTTPS certificate; see
-<a href="remote-control.html#recommended-setup-tailscale">Remote control</a>. <code>maple-harness doctor</code> says which certificate
+<a href="remote-control.html#recommended-setup-tailscale">Control it from your phone</a>. <code>maple-harness doctor</code> says which certificate
 the gateway is using.</p>
 <p><strong><code>429</code> from the proxy on another machine.</strong> Requests from other machines are rate-limited. Slow down, or ask
 the owner to raise <code>server.rate_limit</code> in <code>config.yaml</code>.</p>
@@ -127,17 +141,19 @@ and restart the agent.</p>
 <h2 id="disk-space">Disk space <a class="anchor" href="#disk-space" aria-label="Link to this heading">#</a></h2>
 <p>The configuration directory (<code>~/.config/maple-harness</code>) holds saved sessions, memory notes and logs. To see how
 much it uses and clear old sessions, run <code>maple-harness cleanup --help</code>.</p>
+<h2 id="more-help-on-other-pages">More help on other pages <a class="anchor" href="#more-help-on-other-pages" aria-label="Link to this heading">#</a></h2>
+<p>Some pages have their own troubleshooting section for the feature they cover:</p>
+<ul><li><a href="language-servers.html#troubleshooting">Language servers: Troubleshooting</a>: a server is not found, or its errors
+do not show up.</li><li><a href="search-by-meaning.html#when-something-goes-wrong">Search by meaning: When something goes wrong</a>.</li><li><a href="sandbox.html#when-a-command-is-blocked">The shell sandbox: When a command is blocked</a>.</li><li><a href="remote-control.html#if-it-does-not-work">Control it from your phone: If it does not work</a>.</li><li><a href="proxy-service.html#troubleshooting">Keep it running in the background: Troubleshooting</a>: the proxy or gateway as a
+service.</li><li><a href="herdr.html#if-the-pane-does-not-pick-it-up">Use it with herdr: If the pane does not pick it up</a>.</li><li><a href="endpoints.html#check-it">Connect a model server: Check it</a>.</li></ul>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/proxy-settings.html" rel="prev"><small>Previous</small>Proxy settings</a><a class="next" href="../docs/security.html" rel="next"><small>Next</small>Security</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#the-proxy">The proxy</a></li><li><a href="#signing-in">Signing in</a></li><li><a href="#models">Models</a></li><li><a href="#cost">Cost</a><ol><li><a href="#a-run-cost-more-than-i-expected">A run cost more than I expected</a></li><li><a href="#the-agent-keeps-retrying-the-same-failing-command">The agent keeps retrying the same failing command</a></li></ol></li><li><a href="#installing-and-updating">Installing and updating</a></li><li><a href="#remote-control">Remote control</a></li><li><a href="#the-shell-sandbox">The shell sandbox</a></li><li><a href="#disk-space">Disk space</a></li><li><a href="#more-help-on-other-pages">More help on other pages</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

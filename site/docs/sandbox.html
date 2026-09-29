@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>The shell sandbox · Maple Harness docs</title>
+<meta name="description" content="The agent runs shell commands for you through its bash tool. Those commands run as you, with your files, your logins and your network. The sandbox contains them: when it is on, a command the model run">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html" aria-current="page">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">The shell sandbox</li></ol></nav>
+<article>
+<h1 id="the-shell-sandbox">The shell sandbox <a class="anchor" href="#the-shell-sandbox" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-it-does">What it does</a></li><li><a href="#what-it-breaks">What it breaks</a></li><li><a href="#turning-it-on">Turning it on</a></li><li><a href="#contain-commands-whenever-nobody-approves-them">Contain commands whenever nobody approves them</a></li><li><a href="#when-a-command-is-blocked">When a command is blocked</a></li><li><a href="#recommended-setup">Recommended setup</a></li><li><a href="#platforms">Platforms</a></li></ol></details>
+
+<p>The agent runs shell commands for you through its <code>bash</code> tool. Those commands run as you, with your files, your
+logins and your network. The sandbox contains them: when it is on, a command the model runs can change your project
+but not the rest of your computer, and cannot read the places where your credentials live.</p>
+<p>It is <strong>off by default</strong> for an ordinary session and <strong>on (<code>auto</code>) by default</strong> while a session is shared for remote
+control. <code>/sandbox</code> shows its state at any time.</p>
+<h2 id="what-it-does">What it does <a class="anchor" href="#what-it-does" aria-label="Link to this heading">#</a></h2>
+<p>While the sandbox is on, every <code>bash</code> command runs with these limits:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>What contained commands get</th></tr></thead><tbody><tr><td><strong>Writable</strong></td><td>Your project folder, a private temporary folder, and the usual build caches under your home folder (<code>~/.cache</code>, <code>~/go</code>, <code>~/.npm</code>, <code>~/.cargo</code>, <code>~/.gradle</code>, <code>~/.m2</code> and similar), so builds and installs into the project work. Everything else is read-only. Inside the project, <code>.git/hooks</code> and <code>.git/config</code> are read-only too, because they run code on the next git command</td></tr><tr><td><strong>Hidden</strong></td><td>Places that hold logins and keys look empty: <code>~/.ssh</code>, <code>~/.gnupg</code>, <code>~/.aws</code>, <code>~/.azure</code>, <code>~/.kube</code>, <code>~/.docker</code>, <code>~/.config/gcloud</code>, <code>~/.config/gh</code>, browser profiles, other coding agents' folders, <code>~/.netrc</code>, <code>~/.git-credentials</code>, <code>~/.npmrc</code>, <code>~/.pypirc</code>, the Maple Harness settings folder, the Docker and Podman sockets, and your session's runtime folder (where ssh-agent and keyring sockets live)</td></tr><tr><td><strong>Environment</strong></td><td>Variables that look like secrets are removed: names containing <code>TOKEN</code>, <code>SECRET</code>, <code>PASSWORD</code> or <code>API_KEY</code>, names starting with <code>AWS_</code>, <code>GH_</code>, <code>GITHUB_</code> and similar, and <code>SSH_AUTH_SOCK</code>. <code>sandbox.env_allow</code> keeps the ones you name</td></tr><tr><td><strong>Network</strong></td><td>Allowed for a local session, off while the session is shared. <code>/sandbox network allow</code> or <code>deny</code> changes it for the session; <code>sandbox.network</code> in <code>config.yaml</code> makes it stick</td></tr><tr><td><strong>The setup page</strong></td><td>Where the system supports it, contained commands cannot connect to the proxy's setup page, so a command cannot change your settings or read your keys through it. Everything else on the network stays reachable while the network is allowed. <code>/sandbox</code> says whether the page is blocked on your machine</td></tr></tbody></table></div>
+<h2 id="what-it-breaks">What it breaks <a class="anchor" href="#what-it-breaks" aria-label="Link to this heading">#</a></h2>
+<p>Anything that needs a hidden login, or writes outside the project, fails while the sandbox is on:</p>
+<div class="tablewrap"><table><thead><tr><th>Tool</th><th>Why it fails</th><th>What to do</th></tr></thead><tbody><tr><td><code>git push</code>, <code>git pull</code> over SSH, <code>ssh</code>, <code>scp</code></td><td><code>~/.ssh</code> is hidden, so there is no key and no known hosts</td><td>Push yourself, allow <code>~/.ssh</code> for the session, or run that one command outside the sandbox</td></tr><tr><td><code>gh</code></td><td><code>~/.config/gh</code> is hidden and <code>GH_TOKEN</code> is removed</td><td>Same</td></tr><tr><td><code>aws</code>, <code>gcloud</code>, <code>az</code></td><td>Their login folders are hidden and cloud variables are removed</td><td>Same</td></tr><tr><td><code>kubectl</code>, <code>helm</code></td><td><code>~/.kube</code> is hidden</td><td>Same</td></tr><tr><td><code>docker</code>, <code>podman</code></td><td>The daemon socket is hidden</td><td>Same</td></tr><tr><td><code>npm install -g</code>, <code>pip install --user</code>, <code>go install</code> to a folder outside the caches</td><td>Writes outside the project are read-only</td><td>Install into the project, or allow the folder with <code>--write</code></td></tr><tr><td>Signed commits</td><td><code>~/.gnupg</code> is hidden</td><td>Commit yourself, or allow <code>~/.gnupg</code></td></tr></tbody></table></div>
+<p>Git over HTTPS with a token in <code>~/.git-credentials</code> or <code>~/.netrc</code> fails the same way.</p>
+<h2 id="turning-it-on">Turning it on <a class="anchor" href="#turning-it-on" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>What it does</th></tr></thead><tbody><tr><td><code>/sandbox auto</code></td><td data-label="What it does">Contain commands in this session. Without a backend (see <a href="#platforms">Platforms</a>) commands still run, uncontained, and the first result says so</td></tr><tr><td><code>/sandbox<wbr> <wbr>strict</code></td><td data-label="What it does">Contain commands in this session, and refuse to run any command when there is no backend</td></tr><tr><td><code>/sandbox off</code></td><td data-label="What it does">No containment in this session</td></tr><tr><td><code>harness.<wbr>sandbox.<wbr>mode:<wbr> <wbr>auto</code> or <code>strict</code> in <code>config.yaml</code></td><td data-label="What it does">The same, for every session</td></tr></tbody></table></div>
+<p><code>/sandbox</code> changes last for the session. An explicit <code>sandbox.mode</code> (including <code>off</code>) always wins over the
+defaults and over the option below.</p>
+<h2 id="contain-commands-whenever-nobody-approves-them">Contain commands whenever nobody approves them <a class="anchor" href="#contain-commands-whenever-nobody-approves-them" aria-label="Link to this heading">#</a></h2>
+<p>In <code>ask</code> mode you see each command before it runs. In <code>auto</code> and <code>yolo</code> mode commands run without a person approving
+each one, and that is where containment matters most. This option turns the sandbox on exactly then:</p>
+<pre><code class="language-yaml">harness:
+  sandbox:
+    when_unattended: on      # off by default</code></pre>
+<p>With it on, and <code>sandbox.mode</code> not set:</p>
+<ul><li>In <code>auto</code> or <code>yolo</code> mode, commands are contained (as with <code>auto</code>).</li><li>In <code>ask</code> mode, commands run as they do today.</li><li>Switching mode with shift+tab applies to the next command. <code>/sandbox</code> says why commands are contained ("contained
+because commands run without approval") and the status bar shows it.</li><li>A helper agent (subagent) follows the same rule, from its own mode: it is contained when its asks go through
+without anyone approving them, for example when the main session is in <code>auto</code> mode.</li><li>Commands started in the background follow the rule for the mode they were started in.</li></ul>
+<p>With it off, which is the default, nothing changes. An explicit <code>sandbox.mode: off</code> keeps the sandbox off even with it
+on, and an explicit <code>auto</code> or <code>strict</code> contains every command in every mode. It covers the <code>bash</code> tool; MCP servers are
+contained by <code>sandbox.mode</code> alone.</p>
+<h2 id="when-a-command-is-blocked">When a command is blocked <a class="anchor" href="#when-a-command-is-blocked" aria-label="Link to this heading">#</a></h2>
+<p>When a contained command fails because of the sandbox, the result says so in plain words, for you and for the model.
+For example:</p>
+<pre><code class="language-text">[sandbox] Blocked by the sandbox: ~/.ssh is hidden, so ssh and git over SSH can't authenticate.</code></pre>
+<p>It says "blocked" only when the failure names a place the sandbox hides or keeps read-only, or the network is off. When
+it cannot tell (a bare "Permission denied", or a login failure that names no file) it says "may have been blocked". An
+ordinary failure, such as a failing test, gets no note. The model is told not to work around it and to tell you what
+it needed.</p>
+<p>You then have three choices:</p>
+<ul><li><strong>Allow the path for this session:</strong> <code>/sandbox allow ~/.ssh</code> makes it readable (read-only). Add <code>--write</code> to make a
+folder writable. Every contained command can then read what you allowed, so allow the one folder a task needs.
+It refuses the root folder, your home folder, any folder that contains a hidden one (allowing it would un-hide
+that too), the Maple Harness settings folder and your session's runtime folder.</li><li><strong>Allow it permanently:</strong> add <code>--save</code>, for example <code>/sandbox allow ~/bin --write --save</code>. That adds the path, made
+absolute, to <code>sandbox.extra_readonly</code> (or <code>sandbox.extra_writable</code> with <code>--write</code>) in your <code>config.yaml</code>. You can
+also edit those lists directly. For folders that hold logins or keys, the note only suggests the session form.</li><li><strong>Run that one command outside the sandbox.</strong> Ask the model to; it retries the command marked to run outside the
+sandbox. You are asked to approve each run, even in <code>auto</code> or <code>yolo</code> mode, the question says the command runs
+outside the sandbox, and "always" is not offered for it. It is refused when nobody can approve (a session with no
+one at the keyboard, or a helper agent with no way to ask you), while the session is shared with other devices,
+and when <code>sandbox.mode</code> is <code>strict</code>. The next command is contained again.</li></ul>
+<p><code>/sandbox</code> and <code>/sandbox allow</code> work only in the terminal the session runs in. A device driving the session remotely
+cannot loosen the sandbox.</p>
+<h2 id="recommended-setup">Recommended setup <a class="anchor" href="#recommended-setup" aria-label="Link to this heading">#</a></h2>
+<ul><li>Install the backend (below) and run <code>/sandbox</code> or <code>maple-harness doctor</code> to check it works.</li><li>If you use <code>auto</code> mode, turn on <code>sandbox.when_unattended</code>.</li><li>Set a password for the proxy's setup page (<strong>More &gt; Protect this page</strong>, or <code>maple-proxy setup-password set</code>). The
+sandbox keeps contained commands away from the page; the password keeps other programs and browsers on this
+computer away from it. Together they cover both. See
+<a href="proxy.html#protect-the-setup-page-with-a-password">The proxy</a>.</li><li>Allow only the paths a task needs, and prefer <code>/sandbox allow</code> for the session over <code>--save</code>.</li></ul>
+<h2 id="platforms">Platforms <a class="anchor" href="#platforms" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>System</th><th>Backend</th><th>Status</th></tr></thead><tbody><tr><td>Linux</td><td>bubblewrap (optional install, below)</td><td>Verified. Blocking the setup page needs Linux 6.7 or later; on an older kernel commands can still reach it, and <code>/sandbox</code> says so</td></tr><tr><td>macOS</td><td>The built-in <code>sandbox-exec</code>, nothing to install</td><td>Built, but not yet run on a Mac by us: treat it as unverified</td></tr><tr><td>Windows</td><td>None</td><td>There is no sandbox on Windows. <code>auto</code> runs commands uncontained and says so; <code>strict</code> refuses to run them</td></tr></tbody></table></div>
+<p>Install bubblewrap on Linux:</p>
+<div class="tablewrap"><table><thead><tr><th>System</th><th>Command</th></tr></thead><tbody><tr><td>Arch, Manjaro</td><td><code>sudo pacman -S bubblewrap</code></td></tr><tr><td>Debian, Ubuntu</td><td><code>sudo apt install bubblewrap</code></td></tr><tr><td>Fedora, RHEL</td><td><code>sudo dnf install bubblewrap</code></td></tr><tr><td>openSUSE</td><td><code>sudo zypper install bubblewrap</code></td></tr><tr><td>Alpine</td><td><code>sudo apk add bubblewrap</code></td></tr></tbody></table></div>
+<p>Every sandbox setting is listed in <a href="configuration.html#permissions-and-safety">Harness settings</a>, and the commands
+in <a href="commands.html">Commands and keys</a>.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/search-by-meaning.html" rel="prev"><small>Previous</small>Search by meaning</a><a class="next" href="../docs/mcp.html" rel="next"><small>Next</small>Give other tools this project&#x27;s knowledge</a></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-it-does">What it does</a></li><li><a href="#what-it-breaks">What it breaks</a></li><li><a href="#turning-it-on">Turning it on</a></li><li><a href="#contain-commands-whenever-nobody-approves-them">Contain commands whenever nobody approves them</a></li><li><a href="#when-a-command-is-blocked">When a command is blocked</a></li><li><a href="#recommended-setup">Recommended setup</a></li><li><a href="#platforms">Platforms</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
+</body>
+</html>

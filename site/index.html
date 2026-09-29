@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Maple Harness · a coding agent for Copilot's models and your own machine</title>
-<meta name="description" content="Maple Harness is a coding agent that works with GitHub Copilot's models and with models on your own machine. It shows where your tokens go, keeps prompts cache-friendly, and can be controlled from your phone.">
+<meta name="description" content="Maple Harness is a terminal coding agent for GitHub Copilot's models, Claude and models on your own machine. It keeps going when an account runs out, shows where your tokens go, and can be driven from your phone.">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://kinncj.github.io/maple-harness-dist/">
@@ -21,7 +22,7 @@
 <meta name="twitter:title" content="Maple Harness">
 <meta name="twitter:description" content="A coding agent for Copilot's models and your own machine. See where your tokens go with /cost and the proxy's Cache card.">
 <meta name="twitter:image" content="https://kinncj.github.io/maple-harness-dist/img/og.png">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 <style>
 :root{
   --bg:#FAF6F2;--surface:#F3ECE5;--card:#FFFFFF;--ink:#231A16;--muted:#5E504A;--line:#DCCFC6;
@@ -36,112 +37,147 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--sans)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans)}
 img{max-width:100%;height:auto}
 a{color:var(--link);text-underline-offset:3px}
-a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+a:focus-visible,button:focus-visible,summary:focus-visible,pre:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+code{font:.88em var(--mono);background:var(--surface);padding:.1em .35em;border-radius:5px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--on-accent);padding:10px 14px;border-radius:8px;z-index:20;font-weight:700}
 .skip:focus{left:8px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 
-/* header */
-.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;flex-wrap:wrap}
+/* header: docs, download, theme */
+.top{position:sticky;top:0;z-index:10;background:var(--bg);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px}
 .brand{display:inline-flex;align-items:center}
-.top nav{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
+.brand img{display:block}
+.top nav{display:flex;align-items:center;gap:18px}
 .top nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:6px 2px}
 .top nav a:hover{color:var(--link);text-decoration:underline}
-.theme{display:inline-grid;place-items:center;font:inherit;line-height:1;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;width:38px;height:38px;cursor:pointer}
+.theme{display:inline-grid;place-items:center;font:inherit;line-height:1;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;width:38px;height:38px;cursor:pointer;padding:0}
 .theme:hover{border-color:var(--accent)}
 
 /* hero */
-.hero{padding:48px 0 32px;text-align:center}
-.hero .logo{width:min(520px,88vw);height:auto;margin:0 auto 8px;display:block}
-.hero h1{font-size:clamp(1.7rem,4.2vw,2.6rem);line-height:1.15;margin:12px auto 14px;max-width:26ch;letter-spacing:-.01em}
-.lede{font-size:1.15rem;color:var(--muted);max-width:60ch;margin:0 auto 22px}
-.lede strong{color:var(--ink)}
-.cta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:22px 0 8px}
-.btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:700;text-decoration:none;border:2px solid var(--accent);min-height:46px}
-.btn.primary{background:var(--accent);color:var(--on-accent)}
-.btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
-.btn.ghost{color:var(--accent);background:transparent}
-.btn.ghost:hover{background:var(--surface)}
-:root[data-theme=dark] .btn.ghost,:root:not([data-theme=light]) .btn.ghost{color:var(--link)}
-.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px;padding:0;list-style:none}
-.badges li{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 12px;font-size:.85rem;color:var(--muted)}
-
-/* code blocks */
-.cmd{background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;text-align:left;margin:10px 0;box-shadow:var(--shadow)}
-.cmd .label{display:block;font:600 .72rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#E9A48B;margin-bottom:4px}
-.cmd pre{margin:0;flex:1;min-width:0;overflow-x:auto;font:.86rem/1.5 var(--mono)}
-.cmd button{flex:none;font:600 .8rem var(--sans);color:#F6ECE6;background:transparent;border:1px solid #6a5750;border-radius:8px;padding:6px 10px;cursor:pointer}
+.hero{padding-top:52px;padding-bottom:40px;text-align:center}
+.hero h1{font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.12;margin:0 auto 16px;max-width:21ch;letter-spacing:-.015em}
+.lede{font-size:1.16rem;color:var(--muted);max-width:52ch;margin:0 auto 28px}
+.install{max-width:880px;margin:0 auto;text-align:left}
+.seg{display:inline-flex;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;background:var(--surface);overflow:hidden}
+.seg button{font:600 .85rem var(--sans);border:0;background:none;color:var(--muted);padding:8px 14px;cursor:pointer}
+.seg button[aria-selected=true]{background:var(--code-bg);color:var(--code-ink)}
+.cmd{display:flex;gap:10px;align-items:center;background:var(--code-bg);color:var(--code-ink);border-radius:0 12px 12px 12px;padding:14px 14px 14px 18px;box-shadow:var(--shadow)}
+.cmd pre{margin:0;flex:1;min-width:0;overflow-x:auto;font:.84rem/1.5 var(--mono);white-space:pre}
+.cmd button{flex:none;font:600 .85rem var(--sans);border:1px solid #6b5a52;background:transparent;color:var(--code-ink);border-radius:8px;padding:6px 12px;cursor:pointer}
 .cmd button:hover{border-color:#E4572E;color:#fff}
 .cmd button:focus-visible{outline:3px solid #E4572E}
-.hero .cmd{max-width:900px;margin-left:auto;margin-right:auto}
-code{font:.88em var(--mono);background:var(--surface);padding:.1em .35em;border-radius:5px}
-.note{color:var(--muted);font-size:.92rem}
+.nojs-cmd{display:none}
+html:not(.js) .seg{display:none}
+html:not(.js) .cmd{border-radius:12px}
+html:not(.js) .nojs-cmd{display:block;margin-top:10px}
+html:not(.js) #copy{display:none}
+.small{font-size:.9rem;color:var(--muted)}
+.hero .small{margin:12px auto 0;max-width:820px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:28px 0 22px}
+.btn{display:inline-block;font-weight:700;text-decoration:none;border-radius:12px;padding:12px 22px;border:2px solid var(--accent);min-height:48px}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.ghost{color:var(--link);background:transparent}
+.btn.ghost:hover{background:var(--surface)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:0;margin:0;list-style:none}
+.badges li{font-size:.85rem;border:1px solid var(--line);border-radius:999px;padding:3px 12px;color:var(--muted);background:var(--card)}
 
-/* sections */
-section{padding:56px 0;border-top:1px solid var(--line)}
-section h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
-section h2::before{content:"";display:inline-block;width:6px;height:1em;background:var(--accent);border-radius:2px;margin-right:12px;vertical-align:-.12em}
-.sub{color:var(--muted);max-width:68ch;margin:0 0 28px}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));padding:0;margin:0;list-style:none}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
-.card h3{margin:0 0 6px;font-size:1.05rem}
-.card p{margin:0;color:var(--muted);font-size:.96rem}
-.card .tag{font:600 .72rem var(--mono);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
-:root[data-theme=dark] .card .tag,:root:not([data-theme=light]) .card .tag{color:var(--link)}
-.card ul{margin:10px 0 0;padding-left:1.1em;color:var(--muted);font-size:.95rem}
+section{padding:60px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 26px;max-width:64ch}
 
-.diagram{background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:16px 18px;overflow-x:auto;font:.8rem/1.45 var(--mono);margin:24px 0 0}
+/* the three parts, as tabs; without scripts every panel shows, one under another */
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:28px;overflow-x:auto}
+.tabs [role=tab]{font:700 1rem var(--sans);border:0;background:none;color:var(--muted);padding:10px 16px 8px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-align:left}
+.tabs [role=tab]:hover{color:var(--ink)}
+.tabs [role=tab][aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs .prog{display:block;font:500 .75rem var(--mono);color:var(--muted)}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:36px;align-items:start}
+.panel h3{margin:0 0 10px;font-size:1.3rem}
+.panel ul{padding-left:1.1em;margin:0 0 18px}
+.panel li{margin:.4em 0}
+.panel figure{margin:0}
+.more{font-weight:700}
+.frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:var(--card)}
+.frame img{display:block;width:100%}
+.crop{max-height:440px}
+.phones{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin:0 auto}
+.only-dark{display:none!important}
+:root[data-theme=dark] .only-light{display:none!important}
+:root[data-theme=dark] .only-dark{display:block!important}
+figcaption{color:var(--muted);font-size:.88rem;margin-top:8px}
+.js .panel[hidden]{display:none}
+.nojs-h{display:none}
+html:not(.js) .nojs-h{display:block;margin:34px 0 14px;font-size:1.05rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+html:not(.js) .tabs{display:none}
 
-/* numbers */
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-table{border-collapse:collapse;width:100%;min-width:520px;font-size:.96rem}
-th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-tr:last-child td{border-bottom:0}
+/* highlights */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr));padding:0;margin:0;list-style:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card h3{margin:0 0 6px;font-size:1.06rem;line-height:1.3}
+.card p{margin:0 0 10px;color:var(--muted);font-size:.95rem}
+.card a{font-size:.92rem;font-weight:700;margin-top:auto}
+
+/* check it yourself, and the measured result */
+.band{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.panelbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+.panelbox h3{margin:0 0 8px;font-size:1.2rem}
+.panelbox p{margin:0 0 12px}
+.checks{list-style:none;padding:0;margin:0 0 14px}
+.checks li{padding:8px 0;border-top:1px solid var(--line)}
+.checks li:first-child{border-top:0;padding-top:0}
+.label{display:inline-block;font:700 .72rem var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ok);border:1px solid currentColor;border-radius:999px;padding:1px 9px;margin-bottom:10px}
+.result{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;padding:22px 24px;box-shadow:var(--shadow)}
+.result h3{margin:0 0 8px;font-size:1.2rem}
+.result .big{font-size:1.08rem;margin:0 0 12px}
+.basis{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 14px;font-size:.92rem}
+.basis dt{color:var(--muted);font-weight:600}
+.basis dd{margin:0}
+.caveat{font-size:.92rem;color:var(--muted);margin:0}
+div.example{margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 18px}
+div.example h3{margin:6px 0 8px}
+div.example p{font-size:.93rem;color:var(--muted)}
+.tablewrap{overflow-x:auto;margin-top:12px}
+table{border-collapse:collapse;width:100%;min-width:420px;font-size:.93rem}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 thead th{background:var(--surface)}
-caption{text-align:left;padding:10px 14px;color:var(--muted);font-size:.9rem;caption-side:bottom}
+caption{caption-side:bottom;text-align:left;color:var(--muted);font-size:.86rem;padding-top:8px}
 
-.subhead{margin:32px 0 12px;font-size:1.15rem}
-@media (max-width:640px){
-  .findings{min-width:0}
-  .findings thead{display:none}
-  .findings tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
-  .findings tr:last-child{border-bottom:0}
-  .findings th[scope=row],.findings td{display:block;border:0;padding:4px 14px}
-  .findings td[data-label]::before{content:attr(data-label);display:block;font:600 .72rem var(--mono);color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
-}
-
-/* screenshots */
-.shots{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));align-items:start}
-figure{margin:0}
-figure .frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
-figure img{display:block;width:100%}
-figure.crop img{max-height:560px;object-fit:cover;object-position:top}
-figure.phone .frame{max-width:340px;margin:0 auto}
-figcaption{color:var(--muted);font-size:.92rem;margin-top:8px}
-.only-dark{display:none}
-:root[data-theme=dark] .only-light{display:none}
-:root[data-theme=dark] .only-dark{display:block}
-:root[data-theme=light] .only-light{display:block}
-
-/* install */
-.os{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
-.os .card h3{margin-bottom:10px}
-.os .cmd pre{white-space:pre-wrap;word-break:break-all}
-.split{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));align-items:start}
-ul.plain{padding-left:1.2em;margin:.4em 0}
-ul.plain li{margin:.3em 0}
-.licence{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px}
+/* docs columns */
+.cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.cols h3{font-size:.85rem;margin:0 0 8px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.cols ul{list-style:none;padding:0;margin:0}
+.cols li{margin:.45em 0}
+.cols a{font-weight:600}
+.licence{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:22px}
 .licence p{margin:.4em 0}
-footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:.93rem}
-footer .wrap{display:flex;gap:12px 24px;flex-wrap:wrap;justify-content:space-between}
+footer{border-top:1px solid var(--line);padding:30px 0 44px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
 footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
 #copied{position:absolute;left:-9999px}
-@media (max-width:560px){body{font-size:16px}section{padding:40px 0}.top nav a.hide-sm{display:none}}
+@media (max-width:820px){
+  .panel,.band{grid-template-columns:1fr}
+  .panel figure{order:2}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .hero{padding-top:34px}
+  .hero h1{font-size:1.85rem}
+  .tabs .prog{display:none}
+  .tabs [role=tab]{padding:10px 10px 8px;font-size:.95rem}
+  section{padding:42px 0}
+  .cmd{padding:12px 10px 12px 14px}
+  .cmd pre{font-size:.8rem;white-space:pre-wrap;word-break:break-all}
+  .seg button{padding:8px 11px}
+  .panelbox,.result{padding:18px}
+  .basis{grid-template-columns:1fr}
+  .basis dd{margin-bottom:6px}
+}
 </style>
 </head>
 <body>
@@ -150,350 +186,197 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Maple Harness, top of page"><img src="img/logo.svg" alt="" width="132" height="34"></a>
     <nav aria-label="Main">
-      <a class="hide-sm" href="#what">What it is</a>
-      <a class="hide-sm" href="#features">Features</a>
-      <a class="hide-sm" href="#tokens">Tokens</a>
-      <a class="hide-sm" href="#why">Why Maple</a>
-      <a class="hide-sm" href="#numbers">Example</a>
-      <a class="hide-sm" href="#remote">Remote</a>
-      <a class="hide-sm" href="#security">Security</a>
-      <a href="#install">Install</a>
       <a href="docs/index.html">Docs</a>
-      <button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+      <a href="#download">Download</a>
+      <button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
     </nav>
   </div>
 </header>
 
 <main id="main">
-<div class="wrap" id="top">
-  <div class="hero">
-    <img class="logo" src="img/logo.svg" alt="Maple Harness" width="520" height="132">
-    <h1>The coding agent that doesn't stop when your account does</h1>
-    <p class="lede">Works with GitHub Copilot's models and with models on your own machine. Shows you where your tokens go, so you can see what a task costs and why. Local models through Ollama, LM Studio, oMLX or Apple's on-device model. Drive it from your phone.</p>
+<div class="wrap hero" id="top">
+  <h1>The coding agent that doesn't stop when your account does</h1>
+  <p class="lede">A terminal coding agent for GitHub Copilot's models, Claude and models on your own machine. It shows where your tokens go, and you can drive it from your phone.</p>
 
-    <div class="cmd">
-      <div style="flex:1;min-width:0"><span class="label">macOS and Linux</span>
-      <pre tabindex="0" id="cmd-sh">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</pre></div>
-      <button type="button" data-copy="cmd-sh" aria-label="Copy the macOS and Linux install command">Copy</button>
+  <div class="install" id="install">
+    <div class="seg" role="tablist" aria-label="Your system">
+      <button type="button" role="tab" id="os-sh" aria-selected="true" aria-controls="cmdbox" data-os="sh">macOS and Linux</button>
+      <button type="button" role="tab" id="os-ps" aria-selected="false" aria-controls="cmdbox" data-os="ps" tabindex="-1">Windows</button>
     </div>
-    <div class="cmd">
-      <div style="flex:1;min-width:0"><span class="label">Windows (PowerShell)</span>
-      <pre tabindex="0" id="cmd-ps">irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</pre></div>
-      <button type="button" data-copy="cmd-ps" aria-label="Copy the Windows install command">Copy</button>
-    </div>
-    <p class="note">No account or token is needed. The installer downloads from the public releases and checks every file against the release's <code>SHA256SUMS</code> before installing.</p>
-
-    <div class="cta">
-      <a class="btn primary" href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download the latest release</a>
-      <a class="btn ghost" href="docs/index.html">Read the docs</a>
-    </div>
-    <ul class="badges" aria-label="At a glance">
-      <li>GitHub Copilot</li><li>Anthropic (Claude)</li><li>Ollama</li><li>LM Studio</li><li>oMLX</li><li>Lemonade</li><li>Unsloth</li><li>Apple on-device</li>
-    </ul>
+    <div class="cmd" id="cmdbox" role="tabpanel" aria-labelledby="os-sh"><pre tabindex="0" id="cmd" aria-label="Install command">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</pre><button type="button" id="copy">Copy</button></div>
+    <div class="cmd nojs-cmd"><pre tabindex="0">irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</pre></div>
   </div>
+  <p class="small">No account or token needed. The installer checks every file against the release's <code>SHA256SUMS</code>. <a href="docs/install.html">Other ways to install, and what gets installed</a></p>
+
+  <div class="cta">
+    <a class="btn primary" href="docs/getting-started.html">Get started</a>
+    <a class="btn ghost" href="docs/index.html">Read the docs</a>
+  </div>
+  <ul class="badges" aria-label="Works with">
+    <li>GitHub Copilot</li><li>Anthropic (Claude)</li><li>Ollama</li><li>LM Studio</li><li>oMLX</li><li>Lemonade</li><li>Unsloth</li><li>Apple on-device</li>
+  </ul>
 </div>
 
-<section id="what">
+<section id="what" aria-labelledby="what-h">
   <div class="wrap">
-    <h2>What it is</h2>
-    <p class="sub">Three programs that work together. You start the proxy once, and everything else talks to it.</p>
-    <ul class="grid">
-      <li class="card"><span class="tag">maple-harness</span><h3>The agent</h3>
-        <p>The coding agent, in a full-screen terminal interface. It asks before it acts, uses tools, skills and MCP servers, and works with small local models as well as large cloud ones.</p></li>
-      <li class="card"><span class="tag">maple-proxy</span><h3>The proxy</h3>
-        <p>Connects your accounts and local servers, and speaks the OpenAI and Anthropic APIs, so Claude Code, OpenCode and other tools can use your models too. It holds every sign-in and has a local web page for setup.</p></li>
-      <li class="card"><span class="tag">maple-sidecar</span><h3>Apple on-device model</h3>
-        <p>A small helper that lets a Mac run the agent on Apple's on-device model with no network at all. macOS 26 on Apple silicon only; the other two programs run everywhere.</p></li>
-    </ul>
-
-  </div>
-</section>
-
-<section id="features">
-  <div class="wrap">
-    <h2>Features at a glance</h2>
-    <p class="sub">Everything below is in the current release.</p>
-    <ul class="grid">
-      <li class="card"><h3>A real terminal interface</h3><p>Light or dark, with a live status bar: context used, tokens spent, your account's remaining allowance, git branch and permission mode.</p></li>
-      <li class="card"><h3>Tools, skills and MCP</h3><p>Subagents, slash commands, hooks, MCP servers and code diagnostics, read from Claude Code's own on-disk conventions, so an existing repo needs no second setup.</p></li>
-      <li class="card"><h3>Asks before it acts</h3><p>A permission engine asks before writing a file or running a command. <code>deny</code> rules are absolute. Sessions are saved and resumable.</p></li>
-      <li class="card"><h3>Remembers your project</h3><p>Plain Markdown notes that live with your project, open in any editor, and that the agent can search, so a small model does not start from nothing each time.</p></li>
-      <li class="card"><h3>Copilot, Claude and local</h3><p>Sign in from the terminal or the proxy's page. Free-plan Copilot works, including auto mode, with a live quota meter. Any OpenAI-compatible server works too.</p></li>
-      <li class="card"><h3>Built to spend less</h3><p>Prompt caching you can see: <code>/cost</code> and the proxy's Cache card show the hit rate, tokens read and written, and AI units per request. Fallback to another model when an account runs out, daily budgets, a guard that stops a model repeating itself, a guard for context overflow, and optional trimming of old tool output. All in the proxy, so every client that uses it benefits.</p></li>
-      <li class="card"><h3>Auto model choice</h3><p>Picks a model per turn from your current provider's own ranking, tells you what it chose and why, and lets you pin heavy, medium and light work to models you name.</p></li>
-      <li class="card"><h3>Big tasks, checked</h3><p>A large request becomes a checklist whose items are verified before they are called done.</p></li>
-      <li class="card"><h3>Easy to keep running</h3><p><code>doctor</code> checks the install and says how to fix what is wrong. <code>service install</code> keeps the proxy and gateway running. Notifications reach your phone or desktop when a session needs you.</p></li>
-    </ul>
-  </div>
-</section>
-
-<section id="tokens">
-  <div class="wrap">
-    <h2>Fewer tokens, checked against the bill</h2>
-    <p class="sub">Tools that shrink one part of a run often change how the agent behaves, and the bill is for the whole run. Independent measurements of popular token-saving tools show how far an advertised saving can be from the result. They are other people's measurements, of other tools, on other models and workloads: they are here for context, not as a claim about Maple.</p>
-    <div class="tablewrap">
-      <table class="findings">
-        <caption>Independent findings, each in its own source's scope. Sources: JetBrains AI blog (Denis Shiryaev, July 2026) and Code Pointer (Yongkyun Lee, June 2026).</caption>
-        <thead><tr><th scope="col">Tool</th><th scope="col">Advertised</th><th scope="col">What was measured</th><th scope="col">Source</th></tr></thead>
-        <tbody>
-          <tr>
-            <th scope="row">rtk, a filter for shell command output</th>
-            <td data-label="Advertised">60&ndash;90% fewer tokens</td>
-            <td data-label="What was measured">In JetBrains' benchmark (86 tasks, 425 billed trials, Claude Code with <code>claude-sonnet-5</code>): at low reasoning effort a median +7.6% cost per task (p=0.004) and +13.8% more turns (p=0.03); new input tokens +3.2%, not significant (p=0.23). At high effort +0.1%, not significant (p=0.99). Quality was indistinguishable. JetBrains' conclusion: no token saving.</td>
-            <td data-label="Source"><a href="https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/" rel="noopener">JetBrains: rtk</a></td>
-          </tr>
-          <tr>
-            <th scope="row">Caveman-style prompting, asking the model to answer in shorthand</th>
-            <td data-label="Advertised">65% fewer tokens</td>
-            <td data-label="What was measured">In JetBrains' study (about 240 billed trials, <code>claude-sonnet-5</code>, low effort): output tokens &minus;8.5%, quality not significantly different (p=0.82). A first 10-task run had shown about &minus;30%, which faded as the sample grew. JetBrains calls a high-single-digit percentage the realistic ceiling.</td>
-            <td data-label="Source"><a href="https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/" rel="noopener">JetBrains: Caveman</a></td>
-          </tr>
-          <tr>
-            <th scope="row">rtk again, from recorded sessions</th>
-            <td data-label="Advertised">Per-command savings of 60&ndash;99%</td>
-            <td data-label="What was measured">An analysis of 500 recorded Claude Code sessions, not a controlled trial: the advertised per-command savings came to about 0.5% of total spend, because most tool output never passes through the shell hook and re-reading cached context is cheap.</td>
-            <td data-label="Source"><a href="https://codepointer.dev/p/cutting-llm-token-costs-with-rtk" rel="noopener">Code Pointer: rtk</a></td>
-          </tr>
-        </tbody>
-      </table>
+    <h2 id="what-h">One install, three parts</h2>
+    <p class="sub">Start the proxy once. The agent, your phone and your other tools all talk to it.</p>
+    <div class="tabs" role="tablist" aria-label="Parts of Maple Harness">
+      <button type="button" role="tab" id="t-agent" aria-controls="terminal" aria-selected="true">The agent<span class="prog">maple-harness</span></button>
+      <button type="button" role="tab" id="t-proxy" aria-controls="setup" aria-selected="false" tabindex="-1">The proxy<span class="prog">maple-proxy</span></button>
+      <button type="button" role="tab" id="t-phone" aria-controls="remote" aria-selected="false" tabindex="-1">Your phone<span class="prog">remote control</span></button>
     </div>
-    <p class="note">Maple does not put a filter between your commands and the model, and does not ask the model to talk in shorthand. Very large outputs are cut at a limit, with a note saying so.</p>
 
-    <h3 class="subhead">How we approach it</h3>
-    <ul class="grid">
-      <li class="card"><h3>Efficiency</h3><p>Pay less for the same work. Keep requests in a shape the provider can cache, and show the receipts: hit rate, tokens read and written, and AI units per request.</p></li>
-      <li class="card"><h3>Efficacy</h3><p>Do not cut what the model sees or does. Check its work with compiler and test feedback right after each edit, so fewer turns are wasted.</p></li>
-      <li class="card"><h3>Effectiveness</h3><p>Stop waste, not work. Notice when a model is going in circles, and keep the model you chose when it fits the job.</p></li>
-    </ul>
-    <p class="note">We measure whole tasks, not single commands, and count our own costs too. <code>/cost</code> and the Cache card let you check us. <a href="docs/proof.html">How to check it yourself</a>, and <a href="docs/saving-tokens.html">where your spend goes</a>.</p>
-  </div>
-</section>
-
-<section id="why">
-  <div class="wrap">
-    <h2>Why choose Maple Harness</h2>
-    <p class="sub">Checked against GitHub Copilot CLI directly, not assumed. Two things held up.</p>
-
-    <h3 class="subhead">It keeps going when an account runs out</h3>
-    <p>GitHub Copilot CLI's bring-your-own-key mode talks to one fixed endpoint. When that account's usage limit
-    is reached, it stops and asks you to raise or unset the limit before continuing. Maple's proxy can be
-    configured with more than one account of the same provider, or a different model entirely, and reroute
-    to the next one automatically, mid-task, with nothing for you to do.</p>
-    <p class="note">Demonstrated on a real coding task: with the primary account's daily budget set to one
-    request, the other fourteen requests of the same task rerouted to a second account automatically. The task
-    finished unattended, with full test coverage and a real bug found and fixed. Set it up with
-    <code>model_fallbacks</code> on the <a href="#setup">setup page</a>.</p>
-
-    <h3 class="subhead">It used fewer AI units on a real account</h3>
-    <p>Running the same tasks on the same model, <code>gpt-6-sol</code>, on a real GitHub Copilot business-seat
-    account, Maple used fewer AI units than Copilot CLI on every one of seven paired runs &mdash; no exceptions,
-    on the tasks measured.</p>
-    <p class="note">One account, one day, four tasks: roughly 23&ndash;40% fewer AI
-    units, depending on how the four tasks are averaged. A real result, not a guarantee for every task or every
-    account.</p>
-  </div>
-</section>
-
-<section id="numbers">
-  <div class="wrap">
-    <h2>One measured example</h2>
-    <p class="sub"><strong>One task, one run each, <code>gpt-6-sol</code>.</strong> Results vary from run to run and task to task, so measure your own: <code>/cost</code> and the proxy's Cache card show where your spend goes.</p>
-    <div class="tablewrap">
-      <table>
-        <caption>Both agents were given the same specification, the same model and the same machine. Each side's figures come from its own accounting, and wall time is taken from outside the process. Both runs produced every required document, a clean tree and passing checks.</caption>
-        <thead><tr><th scope="col"></th><th scope="col">Maple Harness</th><th scope="col">Copilot CLI</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Wall time</th><td>17m 16s</td><td>49m 13s</td></tr>
-          <tr><th scope="row">AI units</th><td>188.00</td><td>1,165.66</td></tr>
-          <tr><th scope="row">Input served from cache</th><td>6,504.1k of 6,585.8k tokens</td><td>not reported</td></tr>
-          <tr><th scope="row">Turns</th><td>142</td><td>not reported</td></tr>
-          <tr><th scope="row">Files produced</th><td>65</td><td>57</td></tr>
-          <tr><th scope="row">Commits</th><td>5, clean tree</td><td>6, clean tree</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">The Copilot CLI's report gives the AI-unit total and the wall time but not the token breakdown, so only those two rows are directly comparable.</p>
-  </div>
-</section>
-
-<section id="terminal">
-  <div class="wrap">
-    <h2>In the terminal</h2>
-    <p class="sub">A full-screen interface with a live status bar: permission mode, context used, the model, tokens spent, the project's branch and the effort setting.</p>
-    <div class="shots">
-      <figure style="grid-column:1/-1">
-        <div class="frame"><img src="img/terminal.webp" width="1000" height="783" loading="lazy" alt="The terminal interface in a demo session: bash tool calls that run the tests and commit a fix, the /context report with a small table of graph counts, the input box and the status bar showing mode, context, model and tokens."></div>
-        <figcaption>A demo session against a scripted model, not a real project: its <code>/context</code> report and status bar.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<section id="setup">
-  <div class="wrap">
-    <h2>The proxy's setup page</h2>
-    <p class="sub">A local page at <code>127.0.0.1:11539</code> for signing in, adding providers and creating access tokens. It only listens on this machine, and it looks after the credentials: keys and sign-ins go in your system keyring, not in a config file.</p>
-    <div class="shots">
-      <figure class="crop">
-        <div class="frame">
-          <img class="only-light" src="img/proxy-setup-light.webp" width="1000" height="1621" loading="lazy" alt="The proxy's setup page in the light theme: the Maple logo, links to every section, and the At a glance cards for savings, cache, sessions and usage data, still empty on a fresh install.">
-          <img class="only-dark" src="img/proxy-setup-dark.webp" width="1000" height="1621" loading="lazy" alt="The proxy's setup page in the dark theme: the Maple logo, links to every section, and the At a glance cards for savings, cache, sessions and usage data, still empty on a fresh install.">
-        </div>
-        <figcaption>At a glance first, then accounts, providers, settings and remote access, with links to each. Light or dark, your choice.</figcaption>
-      </figure>
+    <h3 class="nojs-h">The agent</h3>
+    <div class="panel" id="terminal" role="tabpanel" aria-labelledby="t-agent" tabindex="0">
       <div>
-        <ul class="plain">
-          <li><b>Sign in</b> to GitHub Copilot with a browser flow, or save an Anthropic API key. The right models for your plan are configured for you.</li>
-          <li><b>Add local backends</b>: Ollama, LM Studio, oMLX, Lemonade and Unsloth are detected and probed.</li>
-          <li><b>Pair a device</b> with a short code or a link, choose what it may do (<code>remote</code>, <code>mcp</code>, <code>proxy</code>), and revoke it any time.</li>
-          <li><b>Choose folders</b> a phone may start sessions in, and nowhere else.</li>
-          <li>A <b>recent activity</b> log records sign-ins, token changes and remote switches.</li>
+        <h3>A coding agent in your terminal</h3>
+        <ul>
+          <li>Asks before it writes a file or runs a command. <code>deny</code> rules are absolute.</li>
+          <li>Reads Claude Code's subagents, slash commands, skills, hooks and MCP servers from the repo, so an existing project needs no second setup.</li>
+          <li>Compile errors right after each edit, from the language servers you already have.</li>
+          <li>A live status bar: context used, tokens spent, the model and your remaining allowance. Paste or drop an image into the prompt.</li>
         </ul>
-        <p class="note">The address in the screenshot is an example.</p>
+        <a class="more" href="docs/getting-started.html">Your first session →</a>
+      </div>
+      <figure>
+        <div class="frame"><img src="img/terminal.webp" width="1000" height="783" loading="lazy" alt="The terminal interface in a demo session: bash tool calls that run the tests and commit a fix, the /context report, the input box and the status bar showing mode, context, model and tokens."></div>
+        <figcaption>A demo session against a scripted model, not a real project.</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="nojs-h">The proxy</h3>
+    <div class="panel" id="setup" role="tabpanel" aria-labelledby="t-proxy" tabindex="0">
+      <div>
+        <h3>Your accounts and models in one place</h3>
+        <ul>
+          <li>Sign in to GitHub Copilot in the browser, or save an Anthropic API key. Keys go in your system keyring, not a config file.</li>
+          <li>Ollama, LM Studio, oMLX, Lemonade and Unsloth are detected and probed. Any OpenAI-compatible server works.</li>
+          <li>When an account runs out, requests move on to the next account or model, mid-task.</li>
+          <li>Speaks the OpenAI and Anthropic APIs, so Claude Code, OpenCode and other tools can use your models too.</li>
+          <li>A setup page at <code>127.0.0.1:11539</code> that only listens on this machine, with an optional password.</li>
+        </ul>
+        <a class="more" href="docs/proxy.html">The proxy and its setup page →</a>
+      </div>
+      <figure>
+        <div class="frame crop">
+          <img class="only-light" src="img/proxy-setup-light.webp" width="1000" height="1621" loading="lazy" alt="The proxy's setup page in the light theme: links to every section, and the At a glance cards for savings, cache, sessions and usage data, still empty on a fresh install.">
+          <img class="only-dark" src="img/proxy-setup-dark.webp" width="1000" height="1621" loading="lazy" alt="The proxy's setup page in the dark theme: links to every section, and the At a glance cards for savings, cache, sessions and usage data, still empty on a fresh install.">
+        </div>
+        <figcaption>The setup page on a fresh install. The address shown is an example.</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="nojs-h">Your phone</h3>
+    <div class="panel" id="remote" role="tabpanel" aria-labelledby="t-phone" tabindex="0">
+      <div>
+        <h3>Approve and steer from your phone</h3>
+        <ul>
+          <li>Pair with a short code that works once, or scan a QR code. Set it up with <a href="https://tailscale.com" rel="noopener">Tailscale</a> for a real HTTPS certificate.</li>
+          <li>See the exact diff before you approve a tool call. Start new sessions in folders you allowed.</li>
+          <li>Notifications when a session needs you, with no commands, paths or error text in them.</li>
+          <li>Share one session read-only: a link that lets one person watch it live, with no sending and no approvals, until the share ends.</li>
+        </ul>
+        <p class="small">Used from an iPhone on a home network. Other setups are not yet verified.</p>
+        <a class="more" href="docs/remote-control.html">Control it from your phone →</a>
+      </div>
+      <figure>
+        <div class="phones">
+          <div class="frame"><img src="img/remote-approval-dark.webp" width="780" height="1688" loading="lazy" alt="The phone page showing an approval card for an edit to app.go with a diff of the changed line, and Allow, Always and Deny buttons."></div>
+          <div class="frame"><img src="img/remote-sessions-light.webp" width="780" height="1688" loading="lazy" alt="The phone page's session list in the light theme, showing three sessions: one needing approval, one working and one idle."></div>
+        </div>
+        <figcaption>An approval with its diff, and every shared session in one list.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="features" aria-labelledby="features-h">
+  <div class="wrap">
+    <h2 id="features-h">Highlights</h2>
+    <p class="sub">Everything here is in the documentation, with the settings that control it.</p>
+    <ul class="grid">
+      <li class="card"><h3>Keeps going when an account runs out</h3><p>Add a second account or another model. When the first runs out of quota, is rate limited or is down, the task continues on the next one, with nothing for you to do.</p><a href="docs/proxy-settings.html#fallbacks">Fallbacks</a></li>
+      <li class="card"><h3>See where your tokens go</h3><p><code>/cost</code> and the proxy's Cache card show the cache hit rate, tokens read and written, and AI units per request. Your usage log is yours to query.</p><a href="docs/cost.html">What /cost tells you</a></li>
+      <li class="card"><h3>Local and on-device models</h3><p>Your own model server, or Apple's on-device model on a Mac with no network at all (macOS 26 on Apple silicon).</p><a href="docs/endpoints.html">Connect a model server</a></li>
+      <li class="card" id="security"><h3>Careful by default</h3><p>Permission rules, file tools that refuse your keys and shell history, a contained shell, and scoped, revocable device tokens.</p><a href="docs/security.html">Security</a></li>
+    </ul>
+  </div>
+</section>
+
+<section id="tokens" aria-labelledby="tokens-h">
+  <div class="wrap">
+    <h2 id="tokens-h">Don't take our word for it</h2>
+    <p class="sub">Costs vary from task to task and run to run. Measure your own work, and read what we measured with its limits.</p>
+    <div class="band">
+      <div class="panelbox">
+        <h3>Check it yourself</h3>
+        <ul class="checks">
+          <li><code>/cost</code> in a session: what the task used, and what was read from the cache.</li>
+          <li>The proxy's Cache card: the hit rate and AI units per request, for every tool that uses the proxy.</li>
+          <li><code>maple-harness bench</code>: repeated, paired runs of your own tasks, with a spending cap.</li>
+        </ul>
+        <a class="more" href="docs/proof.html">How to check it yourself →</a>
+      </div>
+
+      <div class="result" id="why">
+        <span class="label">Measured</span>
+        <h3>Against GitHub Copilot CLI, on the same model</h3>
+        <p class="big">In seven paired runs over four tasks, Maple Harness used fewer AI units than Copilot CLI in every pair: task by task, between 21% and 40% fewer, and about 27% fewer at the median.</p>
+        <dl class="basis">
+          <dt>When</dt><dd>27 September 2026, one day</dd>
+          <dt>Account</dt><dd>One GitHub Copilot business-seat account, used by both tools</dd>
+          <dt>Model</dt><dd><code>gpt-6-sol</code> for both</dd>
+          <dt>Tasks</dt><dd>Four small coding tasks (Go tests, BDD specifications, a small web app): three run twice and one once per tool, seven paired runs in all</dd>
+          <dt>Counted by</dt><dd>GitHub's own AI-unit count for each tool's requests</dd>
+        </dl>
+        <p class="caveat">Copilot CLI finished each task faster, by about 14% at the median. Both tools passed the tasks' automated checks on the same one run of seven, so this compares cost, not quality. One account, one model, one day: a real result, not a promise for your tasks.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section id="remote">
-  <div class="wrap">
-    <h2>Control it from your phone</h2>
-    <p class="sub">Set it up with <a href="https://tailscale.com">Tailscale</a>: run <code>maple-harness gateway start</code> (or type <code>/remote pair</code> in a session), scan the QR code, and your phone gets a real HTTPS certificate, which is what makes notifications with the page closed and Home Screen install work. Nothing is exposed beyond your tailnet. One gateway per machine lists every shared session; you can open several, approve tool calls with a look at the exact diff, and start new sessions in folders you allowed.</p>
-    <div class="shots">
-      <figure class="phone">
-        <div class="frame"><img src="img/remote-approval-dark.webp" width="780" height="1688" loading="lazy" alt="The phone page showing an approval card for an edit to app.go with a diff of the changed line, and Allow, Always and Deny buttons."></div>
-        <figcaption>An approval, with the real diff, on a phone.</figcaption>
-      </figure>
-      <figure class="phone">
-        <div class="frame"><img src="img/remote-sessions-light.webp" width="780" height="1688" loading="lazy" alt="The phone page's session list in the light theme, showing three sessions: one needing approval, one working and one idle."></div>
-        <figcaption>Every shared session in one list, light theme.</figcaption>
-      </figure>
-      <figure style="grid-column:1/-1">
-        <div class="frame"><img src="img/remote-desktop-dark.webp" width="1000" height="661" loading="lazy" alt="The remote page on a wide screen: a session list on the left, the conversation with a running bash command in the middle, and an approval card at the bottom."></div>
-        <figcaption>The same page on a wide screen.</figcaption>
-      </figure>
-    </div>
-    <ul class="plain">
-      <li><b>Pair with a short code</b> that works once and expires in five minutes, or scan a QR code. <code>/remote pair</code> lets you pick the address (Tailscale first, then LAN). A token can be limited to some folders, and a long-lived fixed token is there if you want to sign in directly.</li>
-      <li><b>Notifications</b> reach you when a session needs approval, stops with an error or finishes: from the open page, as web push with the page closed (needs a real HTTPS certificate), or through ntfy, a webhook or a desktop notification. They never include your commands, paths or error text.</li>
-      <li><b>Markdown, tables and code</b> render properly as the reply streams, and nothing the model writes is inserted as HTML.</li>
-      <li>Reachable on your network over TLS. It has been used from an iPhone on a home network; other setups are not yet verified, and the docs say which.</li>
-    </ul>
-    <p><a href="docs/remote-control.html">Remote control in detail →</a></p>
-  </div>
-</section>
-
-<section id="security">
-  <div class="wrap">
-    <h2>Security and the sandbox</h2>
-    <p class="sub">An agent runs commands and writes files on your machine; that is the job. These controls limit what a model, a prompt injection or a paired device can reach.</p>
-    <ul class="grid">
-      <li class="card"><h3>Permissions first</h3><p>Every tool call passes a rule engine. <code>deny</code> is absolute, and <code>--yolo</code> skips the asking but never the denying.</p></li>
-      <li class="card"><h3>A contained shell</h3><p>Bash can run with writes only in the project, credentials hidden and, while a session is shared, no network unless you allow it. Uses bubblewrap on Linux (optional) and the built-in sandbox on macOS, which has not yet been verified on a Mac.</p></li>
-      <li class="card"><h3>Careful with your files</h3><p>The file tools refuse your SSH keys, cloud credentials and shell history, and write only in your project.</p></li>
-      <li class="card"><h3>Credentials in the keyring</h3><p>Provider keys and sign-ins live in Keychain or Secret Service, referenced from config as <code>${secret:name}</code>.</p></li>
-      <li class="card"><h3>Scoped, revocable tokens</h3><p>Devices get their own tokens, limited to what you choose and to folders you name, and you can revoke any of them. The setup page refuses to listen beyond this machine.</p></li>
-      <li class="card"><h3>Verified downloads</h3><p>The installer and <code>update</code> check every file against the release's <code>SHA256SUMS</code>. Third-party licences ship with every release.</p></li>
-    </ul>
-    <p class="note">Nothing here is magic, and a model can still be steered by text it reads, so the prompts are your protection. <a href="docs/security.html">What it does, and what you should do →</a></p>
-  </div>
-</section>
-
-<section id="install">
-  <div class="wrap">
-    <h2>Install</h2>
-    <p class="sub">The installers detect your platform, download the binaries and verify them. To read the installer first, <a href="https://github.com/kinncj/maple-harness-dist/blob/main/install.sh" rel="noopener">open it on GitHub</a>.</p>
-    <div class="os">
-      <div class="card"><h3>macOS</h3>
-        <div class="cmd"><pre tabindex="0" id="i-mac">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</pre><button type="button" data-copy="i-mac" aria-label="Copy the macOS install command">Copy</button></div>
-        <p class="note">Apple silicon and Intel. The sandbox uses the built-in <code>sandbox-exec</code>, nothing to install. The Apple on-device model needs macOS 26 on Apple silicon.</p></div>
-      <div class="card"><h3>Linux</h3>
-        <div class="cmd"><pre tabindex="0" id="i-lin">curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</pre><button type="button" data-copy="i-lin" aria-label="Copy the Linux install command">Copy</button></div>
-        <p class="note">amd64 and arm64. <code>.deb</code>, <code>.rpm</code> and <code>.apk</code> packages are attached to stable releases.</p></div>
-      <div class="card"><h3>Windows</h3>
-        <div class="cmd"><pre tabindex="0" id="i-win">irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</pre><button type="button" data-copy="i-win" aria-label="Copy the Windows install command">Copy</button></div>
-        <p class="note">amd64. There is no shell sandbox on Windows, and the installer has had less testing there.</p></div>
-    </div>
-
-    <div class="split" style="margin-top:28px">
-      <div>
-        <h3>Optional: the bash sandbox on Linux</h3>
-        <p class="note">Nothing needs bubblewrap. Without it, bash still works, uncontained, and says so; only <code>strict</code> mode refuses. Install it to turn containment on:</p>
-        <div class="tablewrap"><table>
-          <thead><tr><th scope="col">System</th><th scope="col">Command</th></tr></thead>
+    <div class="example" id="numbers">
+      <span class="label">Measured</span>
+      <h3>A larger task, one run each</h3>
+      <p>Both agents were given the same specification (an offline expense-tracker app with 20 named BDD scenarios), the same model (<code>gpt-6-sol</code>) and the same machine. Each side's figures come from its own accounting, and wall time is taken from outside the process. This is a single run: a later comparable run on another machine went the other way, so treat it as an example, not a rule, and measure your own with <code>/cost</code> and the proxy's Cache card.</p>
+      <div class="tablewrap">
+        <table>
+          <caption>The Copilot CLI's report gives the AI-unit total and the wall time but not the token breakdown, so only those two rows are directly comparable. Both runs produced every required document, a clean tree and passing checks.</caption>
+          <thead><tr><th scope="col"></th><th scope="col">Maple Harness</th><th scope="col">Copilot CLI</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Arch</th><td><code>sudo pacman -S bubblewrap</code></td></tr>
-            <tr><th scope="row">Debian, Ubuntu</th><td><code>sudo apt install bubblewrap</code></td></tr>
-            <tr><th scope="row">Fedora</th><td><code>sudo dnf install bubblewrap</code></td></tr>
-            <tr><th scope="row">macOS</th><td>built in, nothing to install</td></tr>
-          </tbody></table></div>
-        <p class="note">Only the Arch command has been run on a real machine here. <code>maple-harness doctor</code> tells you whether it works.</p>
-      </div>
-      <div>
-        <h3>Then</h3>
-        <ol class="plain">
-          <li>Start the proxy: <code>maple-proxy serve</code>, then open <code>http://127.0.0.1:11539</code> and sign in or add a local provider.</li>
-          <li>Start the agent: <code>maple-harness</code> (or <code>mpl</code>). It starts the proxy itself if nothing is listening.</li>
-          <li>Run <code>maple-harness doctor</code> if anything looks off.</li>
-        </ol>
-        <p class="note">Full instructions, uninstalling, and building from source: <a href="docs/install.html">install guide</a>.</p>
+            <tr><th scope="row">Wall time</th><td>17m 16s</td><td>49m 13s</td></tr>
+            <tr><th scope="row">AI units</th><td>188.00</td><td>1,165.66</td></tr>
+            <tr><th scope="row">Input served from cache</th><td>6,504.1k of 6,585.8k tokens</td><td>not reported</td></tr>
+            <tr><th scope="row">Turns</th><td>142</td><td>not reported</td></tr>
+            <tr><th scope="row">Files produced</th><td>65</td><td>57</td></tr>
+            <tr><th scope="row">Commits</th><td>5, clean tree</td><td>6, clean tree</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </section>
 
-<section id="download">
+<section id="docs" aria-labelledby="docs-h">
   <div class="wrap">
-    <h2>Download</h2>
-    <p class="sub">Binaries are published on the public releases page. If no release is listed yet, the first one is on its way and the installers have nothing to fetch until it is.</p>
-    <p><a class="btn primary" href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Latest release</a>
+    <h2 id="docs-h">Documentation</h2>
+    <p class="sub">Guides for what you want to do, and a reference for every setting, command and key. <a href="docs/index.html">All documentation →</a></p>
+    <div class="cols">
+      <div><h3>Get started</h3><ul><li><a href="docs/install.html">Install</a></li><li><a href="docs/getting-started.html">Your first session</a></li><li><a href="docs/sign-in.html">Sign in</a></li><li><a href="docs/endpoints.html">Connect a model server</a></li></ul></div>
+      <div><h3>Guides</h3><ul><li><a href="docs/proxy.html">The proxy and its setup page</a></li><li><a href="docs/remote-control.html">Control it from your phone</a></li><li><a href="docs/sandbox.html">The shell sandbox</a></li><li><a href="docs/saving-tokens.html">See and reduce what a task costs</a></li></ul></div>
+      <div><h3>Reference</h3><ul><li><a href="docs/commands.html">Commands and keys</a></li><li><a href="docs/configuration.html">Harness settings</a></li><li><a href="docs/proxy-settings.html">Proxy settings</a></li><li><a href="docs/troubleshooting.html">Troubleshooting</a></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="download" aria-labelledby="download-h">
+  <div class="wrap">
+    <h2 id="download-h">Download and licence</h2>
+    <p class="sub">Binaries for macOS, Linux and Windows are on the public releases page, with checksums.</p>
+    <p class="cta" style="justify-content:flex-start;margin:0"><a class="btn primary" href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Latest release</a>
        <a class="btn ghost" href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">All releases</a></p>
-    <div class="tablewrap">
-      <table>
-        <caption>Release assets are named <code>&lt;program&gt;_&lt;os&gt;_&lt;arch&gt;</code>, with <code>.exe</code> on Windows.</caption>
-        <thead><tr><th scope="col">Asset</th><th scope="col">What it is</th></tr></thead>
-        <tbody>
-          <tr><th scope="row"><code>maple-harness_linux_amd64</code>, <code>_linux_arm64</code>, <code>_darwin_arm64</code>, <code>_darwin_amd64</code>, <code>_windows_amd64.exe</code></th><td>The agent</td></tr>
-          <tr><th scope="row"><code>maple-proxy_&lt;os&gt;_&lt;arch&gt;</code>, the same five platforms</th><td>The proxy</td></tr>
-          <tr><th scope="row"><code>maple-sidecar_darwin_arm64</code></th><td>Apple on-device model helper (Apple silicon)</td></tr>
-          <tr><th scope="row"><code>SHA256SUMS</code></th><td>Checksums of every file above; the installer checks them</td></tr>
-          <tr><th scope="row"><code>LICENSE</code>, <code>THIRD_PARTY_NOTICES.md</code></th><td>Licence and the licences of the software inside the binaries</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">macOS binaries are not notarised yet, so a download made by hand may need a right-click to open. The installer avoids this.</p>
-  </div>
-</section>
-
-<section id="docs">
-  <div class="wrap">
-    <h2>Documentation</h2>
-    <ul class="grid">
-      <li class="card"><h3><a href="docs/install.html">Install</a></h3><p>Platforms, updating, uninstalling, and the optional sandbox.</p></li>
-      <li class="card"><h3><a href="docs/getting-started.html">Getting started</a></h3><p>A first session in three steps.</p></li>
-      <li class="card"><h3><a href="docs/sign-in.html">Signing in</a></h3><p>GitHub Copilot in the browser, Claude with an API key.</p></li>
-      <li class="card"><h3><a href="docs/proxy.html">The proxy</a></h3><p>Its setup page, its addresses, and fallbacks, guards and budgets.</p></li>
-      <li class="card"><h3><a href="docs/endpoints.html">Connect a model server</a></h3><p>Ollama, LM Studio, oMLX, Lemonade, Unsloth or any OpenAI-compatible server, and other tools.</p></li>
-      <li class="card"><h3><a href="docs/models.html">Models</a></h3><p>Switching models, and letting the agent choose.</p></li>
-      <li class="card"><h3><a href="docs/remote-control.html">Remote control</a></h3><p>Your phone, with Tailscale: pairing, notifications and new sessions.</p></li>
-      <li class="card"><h3><a href="docs/proxy-settings.html">Proxy reference</a></h3><p>Every proxy setting, setup-page card, command and response header.</p></li>
-      <li class="card"><h3><a href="docs/commands.html">Commands and keys</a></h3><p>Every slash command, key, mode and shell command of the harness.</p></li>
-      <li class="card"><h3><a href="docs/configuration.html">Harness configuration</a></h3><p>Every <code>config.yaml</code> setting, with defaults and trade-offs.</p></li>
-      <li class="card"><h3><a href="docs/three-es.html">Which setting for which goal</a></h3><p>Spend less, keep quality, stop runaways: the settings that serve each.</p></li>
-      <li class="card"><h3><a href="docs/troubleshooting.html">Troubleshooting</a></h3><p>What to try when something is not working, starting with <code>doctor</code>.</p></li>
-      <li class="card"><h3><a href="docs/security.html">Security</a></h3><p>What it does to keep you safe, and what you should do.</p></li>
-    </ul>
-    <p><a href="docs/index.html">All documentation →</a> · <a href="docs/mcp.html">MCP server</a> · <a href="docs/services.html">Running as a service</a></p>
-  </div>
-</section>
-
-<section id="licence">
-  <div class="wrap">
-    <h2>Licence</h2>
-    <div class="licence">
+    <div class="licence" id="licence">
       <p><b>The binaries are free for non-commercial use</b>: personal, hobby, education, research and non-profit. You may redistribute them unmodified with the licence text attached.</p>
-      <p><b>Commercial use needs access granted by the owner</b>; otherwise a commercial agreement has to be negotiated first. To ask, write to <a href="mailto:kinncj@gmail.com">kinncj@gmail.com</a>.</p>
-      <p><b>The source code is private and not licensed for reuse.</b> This site and the releases repository hold binaries, installers and documentation only. Read the full <a href="docs/license.html">licence</a>.</p>
+      <p><b>Commercial use needs access granted by the owner.</b> To ask, write to <a href="mailto:kinncj@gmail.com">kinncj@gmail.com</a>. The source code is private and not licensed for reuse. Read the full <a href="docs/license.html">licence</a>.</p>
     </div>
   </div>
 </section>
@@ -507,41 +390,6 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
   </div>
 </footer>
 <span id="copied" role="status" aria-live="polite"></span>
-
-<script>
-(function () {
-  var root = document.documentElement, KEY = 'maple-theme', btn = document.getElementById('theme');
-  function get() { try { return localStorage.getItem(KEY) === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; } }
-  function set(v) {
-    root.setAttribute('data-theme', v);
-    btn.setAttribute('title', 'Colour theme: ' + v + ' (click to change)');
-    btn.setAttribute('aria-label', 'Colour theme: ' + v + '. Activate to change.');
-  }
-  set(get());
-  btn.addEventListener('click', function () {
-    var next = get() === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem(KEY, next); } catch (e) {}
-    set(next);
-  });
-  var live = document.getElementById('copied');
-  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
-    b.addEventListener('click', function () {
-      var text = document.getElementById(b.getAttribute('data-copy')).textContent.trim();
-      function done(ok) {
-        var old = b.textContent; b.textContent = ok ? 'Copied' : 'Press Ctrl+C';
-        live.textContent = ok ? 'Copied to the clipboard' : 'Select the command and copy it';
-        setTimeout(function () { b.textContent = old; }, 1600);
-      }
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-      } else {
-        var r = document.createRange(); r.selectNodeContents(document.getElementById(b.getAttribute('data-copy')));
-        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-        var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} done(ok);
-      }
-    });
-  });
-})();
-</script>
+<script src="landing.js" defer></script>
 </body>
 </html>

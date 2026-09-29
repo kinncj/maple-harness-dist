@@ -3,32 +3,57 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Run the proxy as a background service · Maple Harness docs</title>
-<meta name="description" content="Contents: What you get · Debian and Ubuntu · Arch Linux · Fedora · macOS · Keep the phone gateway running too · Machines with no desktop · Reach the setup page from another machine · Update · Troubles">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Keep it running in the background · Maple Harness docs</title>
+<meta name="description" content="By default the agent starts the proxy for you when you open it, and it stops when you are done. Run the proxy as a service when you want it to be already there: before you open a terminal, for other t">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html" aria-current="page">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">Keep it running in the background</li></ol></nav>
 <article>
-<h1 id="run-the-proxy-as-a-background-service">Run the proxy as a background service <a class="anchor" href="#run-the-proxy-as-a-background-service" aria-label="Link to this heading">#</a></h1>
-<p><strong>Contents:</strong> <a href="#what-you-get">What you get</a> · <a href="#debian-and-ubuntu">Debian and Ubuntu</a> · <a href="#arch-linux">Arch Linux</a> ·
-<a href="#fedora">Fedora</a> · <a href="#macos">macOS</a> · <a href="#keep-the-phone-gateway-running-too">Keep the phone gateway running too</a> ·
-<a href="#machines-with-no-desktop">Machines with no desktop</a> · <a href="#reach-the-setup-page-from-another-machine">Reach the setup page from another machine</a> ·
-<a href="#update">Update</a> · <a href="#troubleshooting">Troubleshooting</a> · <a href="#remove-it">Remove it</a> ·
-<a href="#advanced-one-system-wide-service">Advanced: one system-wide service</a></p>
+<h1 id="keep-it-running-in-the-background">Keep it running in the background <a class="anchor" href="#keep-it-running-in-the-background" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-short">In short</a></li><li><a href="#what-you-get">What you get</a></li><li><a href="#debian-and-ubuntu">Debian and Ubuntu</a></li><li><a href="#arch-linux">Arch Linux</a></li><li><a href="#fedora">Fedora</a></li><li><a href="#macos">macOS</a></li><li><a href="#keep-the-phone-gateway-running-too">Keep the phone gateway running too</a></li><li><a href="#machines-with-no-desktop">Machines with no desktop</a></li><li><a href="#reach-the-setup-page-from-another-machine">Reach the setup page from another machine</a></li><li><a href="#update">Update</a></li><li><a href="#troubleshooting">Troubleshooting</a></li><li><a href="#remove-it">Remove it</a></li><li><a href="#advanced-one-system-wide-service">Advanced: one system-wide service</a></li></ol></details>
+
 <p>By default the agent starts the proxy for you when you open it, and it stops when you are done. Run the proxy as
 a service when you want it to be already there: before you open a terminal, for other tools that use your models,
 or for your phone.</p>
 <p><code>maple-harness service install</code> does it in one command. It writes one small file for your own account (a systemd
 <strong>user</strong> service on Linux, a launchd <strong>agent</strong> on macOS) and starts it. Nothing runs as root, nothing is installed
 system-wide, and the file contains no key or token: those stay where they always are. Windows is not supported.</p>
+<h2 id="in-short">In short <a class="anchor" href="#in-short" aria-label="Link to this heading">#</a></h2>
+<p><code>maple-harness service</code> keeps the proxy and the phone gateway running in the background and starts them when you
+log in. On Linux it writes systemd <strong>user</strong> units; on macOS, launchd <strong>agents</strong>.</p>
+<pre><code class="language-sh">maple-harness service install            # the proxy and the gateway
+maple-harness service install proxy      # one of them
+maple-harness service status             # installed? running?
+maple-harness service print gateway      # show what would be written; write nothing
+maple-harness service uninstall          # stop and remove what install wrote</code></pre>
+<p>You do not need this to use the agent: it starts the proxy itself, and <code>/remote</code> starts the gateway. Install a
+service when you want the phone to work without a session open, or the proxy running before you open a
+terminal.</p>
+<ul><li><strong>Logs.</strong> Linux: <code>journalctl --user -u 'maple-*' -f</code>. macOS: <code>~/.config/maple-harness/run/maple-&lt;name&gt;.log</code>.</li><li><strong>Start at boot, not at login (Linux).</strong> <code>loginctl enable-linger "$USER"</code>.</li><li><strong>After moving or reinstalling the programs</strong>, run <code>service install</code> again so the file points at the new path.</li><li><strong>A file you edited</strong> is left alone unless you pass <code>--force</code>.</li><li><strong>In a container or an SSH session with no user manager</strong>, <code>install</code> says so and writes nothing; use
+<code>service print</code> and place the file yourself.</li></ul>
+<p>The step-by-step guides for each system follow.</p>
 <h2 id="what-you-get">What you get <a class="anchor" href="#what-you-get" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th></th><th>Linux</th><th>macOS</th></tr></thead><tbody><tr><td>The file it writes</td><td><code>~/.config/systemd/user/maple-proxy.service</code></td><td><code>~/Library/LaunchAgents/com.kinncj.maple-proxy.plist</code></td></tr><tr><td>Starts</td><td>when you log in (at boot too, after one extra command below)</td><td>when you log in</td></tr><tr><td>If it stops with an error</td><td>restarted 3 seconds later</td><td>restarted 5 seconds later</td></tr><tr><td>Logs</td><td><code>journalctl --user -u maple-proxy</code></td><td><code>~/.config/maple-harness/run/maple-proxy.log</code></td></tr><tr><td>Runs</td><td><code>maple-proxy serve --logs stdout</code></td><td><code>maple-proxy serve --logs stdout</code></td></tr></tbody></table></div>
 <p>The proxy still listens on the same addresses as always: the setup page on <code>127.0.0.1:11539</code>, the
@@ -53,7 +78,7 @@ when it is installed. Install it before the next step so it is on the <code>PATH
 <pre><code class="language-sh">maple-harness service status
 systemctl --user status maple-proxy
 curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:11539/    # 200</code></pre>
-<p>Then open <code>http://127.0.0.1:11539</code> to sign in (<a href="sign-in.html">Signing in</a>).</p></li><li><p><strong>Start at boot, not only at login.</strong> A user service normally stops when you log out. On a machine that should
+<p>Then open <code>http://127.0.0.1:11539</code> to sign in (<a href="sign-in.html">Sign in</a>).</p></li><li><p><strong>Start at boot, not only at login.</strong> A user service normally stops when you log out. On a machine that should
 keep serving, turn on <em>lingering</em>, which keeps your user services running without a login session:</p>
 <pre><code class="language-sh">loginctl enable-linger "$USER"</code></pre></li><li><p><strong>Over SSH.</strong> If <code>service install</code> says the systemd user manager is not reachable, install the user bus
 (<code>sudo apt install dbus-user-session</code>), log in again, and if needed point the tools at your session:</p>
@@ -114,7 +139,7 @@ nothing from you.</li><li><strong>Your keys are in the login Keychain</strong>, 
 proxy may use the Keychain, choose to allow it.</li><li><strong>The command must run from a desktop login.</strong> Over SSH without a desktop session the <code>gui/&lt;uid&gt;</code> domain does not
 exist, so <code>launchctl</code> is likely to refuse to load the agent.</li></ul>
 <h2 id="keep-the-phone-gateway-running-too">Keep the phone gateway running too <a class="anchor" href="#keep-the-phone-gateway-running-too" aria-label="Link to this heading">#</a></h2>
-<p>The gateway is the address your phone connects to (<a href="remote-control.html">Remote control</a>). To keep it up as well:</p>
+<p>The gateway is the address your phone connects to (<a href="remote-control.html">Control it from your phone</a>). To keep it up as well:</p>
 <pre><code class="language-sh">maple-harness service install gateway      # or: maple-harness service install     (both)</code></pre>
 <p>This also switches remote control on and starts the gateway listening on your network (port 11541) with HTTPS: a
 real certificate when Tailscale is signed in, otherwise a self-signed one that works after a browser warning but
@@ -226,16 +251,13 @@ may write (<code>ProtectSystem=strict</code> makes everything else read-only). I
 and check where secrets are kept with <code>sudo -u maple -H maple-proxy secrets status</code>. There is no keyring for a
 system account, so they will be in the private file.</p>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/proxy.html" rel="prev"><small>Previous</small>The proxy and its setup page</a><a class="next" href="../docs/remote-control.html" rel="next"><small>Next</small>Control it from your phone</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-short">In short</a></li><li><a href="#what-you-get">What you get</a></li><li><a href="#debian-and-ubuntu">Debian and Ubuntu</a></li><li><a href="#arch-linux">Arch Linux</a></li><li><a href="#fedora">Fedora</a></li><li><a href="#macos">macOS</a></li><li><a href="#keep-the-phone-gateway-running-too">Keep the phone gateway running too</a></li><li><a href="#machines-with-no-desktop">Machines with no desktop</a></li><li><a href="#reach-the-setup-page-from-another-machine">Reach the setup page from another machine</a></li><li><a href="#update">Update</a></li><li><a href="#troubleshooting">Troubleshooting</a></li><li><a href="#remove-it">Remove it</a></li><li><a href="#advanced-one-system-wide-service">Advanced: one system-wide service</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

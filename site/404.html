@@ -3,26 +3,44 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found · Maple Harness</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Page not found · Maple Harness docs</title>
+<meta name="description" content="Page not found">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="/maple-harness-dist/favicon.svg" type="image/svg+xml">
-<style>
-:root{--bg:#FAF6F2;--ink:#231A16;--muted:#5E504A;--accent:#B23A1B;--on-accent:#fff;color-scheme:light}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px;text-align:center}
-img{max-width:min(420px,90vw);height:auto}
-a.btn{display:inline-block;margin:6px;padding:12px 20px;border-radius:12px;background:var(--accent);color:var(--on-accent);font-weight:700;text-decoration:none}
-a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-p{color:var(--muted)}
-</style>
+<link rel="stylesheet" href="/maple-harness-dist/docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
-<main>
-<img src="/maple-harness-dist/img/logo.svg" alt="Maple Harness" width="420" height="107">
-<h1>That page is not here</h1>
-<p>It may have moved, or the link may be old.</p>
-<a class="btn" href="/maple-harness-dist/">Home</a>
-<a class="btn" href="/maple-harness-dist/docs/index.html">Documentation</a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="/maple-harness-dist/index.html"><img src="/maple-harness-dist/img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="/maple-harness-dist/docs/index.html">Get started</a><a href="/maple-harness-dist/docs/proxy.html">Guides</a><a href="/maple-harness-dist/docs/saving-tokens.html">Cost and usage</a><a href="/maple-harness-dist/docs/commands.html">Reference</a><a href="/maple-harness-dist/docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="/maple-harness-dist/docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout notoc">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="/maple-harness-dist/docs/index.html">Get started</a><a href="/maple-harness-dist/docs/proxy.html">Guides</a><a href="/maple-harness-dist/docs/saving-tokens.html">Cost and usage</a><a href="/maple-harness-dist/docs/commands.html">Reference</a><a href="/maple-harness-dist/docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="/maple-harness-dist/docs/index.html">Overview</a></li><li><a href="/maple-harness-dist/docs/install.html">Install</a></li><li><a href="/maple-harness-dist/docs/getting-started.html">Your first session</a></li><li><a href="/maple-harness-dist/docs/sign-in.html">Sign in</a></li><li><a href="/maple-harness-dist/docs/endpoints.html">Connect a model server</a></li><li><a href="/maple-harness-dist/docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="/maple-harness-dist/docs/proxy.html">The proxy and its setup page</a></li><li><a href="/maple-harness-dist/docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="/maple-harness-dist/docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="/maple-harness-dist/docs/subagents.html">Subagents</a></li><li><a href="/maple-harness-dist/docs/language-servers.html">Language servers</a></li><li><a href="/maple-harness-dist/docs/search-by-meaning.html">Search by meaning</a></li><li><a href="/maple-harness-dist/docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="/maple-harness-dist/docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="/maple-harness-dist/docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="/maple-harness-dist/docs/rpc.html">Drive it from another program</a></li><li><a href="/maple-harness-dist/docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="/maple-harness-dist/docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="/maple-harness-dist/docs/cost.html">What /cost tells you</a></li><li><a href="/maple-harness-dist/docs/three-es.html">Settings by goal</a></li><li><a href="/maple-harness-dist/docs/usage-export.html">Your usage data</a></li><li><a href="/maple-harness-dist/docs/proof.html">Check it yourself</a><ul><li><a href="/maple-harness-dist/docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="/maple-harness-dist/docs/commands.html">Commands and keys</a></li><li><a href="/maple-harness-dist/docs/configuration.html">Harness settings</a></li><li><a href="/maple-harness-dist/docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="/maple-harness-dist/docs/troubleshooting.html">Troubleshooting</a></li><li><a href="/maple-harness-dist/docs/security.html">Security</a></li><li><a href="/maple-harness-dist/docs/glossary.html">Glossary</a></li><li><a href="/maple-harness-dist/docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<article>
+<h1 id="not-found">That page is not here</h1>
+<p>It may have moved, or the link may be old. Search the documentation above, or start from one of its sections:</p>
+<ul class="cards"><li><a href="/maple-harness-dist/docs/index.html">Get started</a></li><li><a href="/maple-harness-dist/docs/proxy.html">Guides</a></li><li><a href="/maple-harness-dist/docs/saving-tokens.html">Cost and usage</a></li><li><a href="/maple-harness-dist/docs/commands.html">Reference</a></li><li><a href="/maple-harness-dist/docs/troubleshooting.html">Help</a></li></ul>
+<p><a href="/maple-harness-dist/index.html">Maple Harness home</a></p>
+</article>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="/maple-harness-dist/docs/license.html">Licence</a> · <a href="/maple-harness-dist/index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
+</div>
+<script src="/maple-harness-dist/docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>

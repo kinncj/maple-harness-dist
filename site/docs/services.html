@@ -3,48 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Running as a service · Maple Harness docs</title>
-<meta name="description" content="Step-by-step guides for Debian and Ubuntu, Arch, Fedora and macOS are in Run the proxy as a service. This page is the short reference.">
-<meta name="theme-color" content="#E4572E">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-DGn/EHnzOSMMvudYnXn7QOmMgbkvJPOIZbu6jgAkbKs='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Keep it running in the background · Maple Harness docs</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://kinncj.github.io/maple-harness-dist/docs/proxy-service.html">
+<meta http-equiv="refresh" content="0; url=proxy-service.html#in-short">
+<script>location.replace("proxy-service.html#in-short")</script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
-<article>
-<h1 id="running-as-a-service">Running as a service <a class="anchor" href="#running-as-a-service" aria-label="Link to this heading">#</a></h1>
-<p>Step-by-step guides for Debian and Ubuntu, Arch, Fedora and macOS are in
-<a href="proxy-service.html">Run the proxy as a service</a>. This page is the short reference.</p>
-<p><code>maple-harness service</code> keeps the proxy and the remote gateway running in the background and starts them
-when you log in. On Linux it writes systemd <strong>user</strong> units; on macOS, launchd <strong>agents</strong>. Nothing runs as
-root and nothing is installed system-wide. Windows is not supported.</p>
-<pre><code class="language-sh">maple-harness service install            # the proxy and the gateway
-maple-harness service install proxy      # one of them
-maple-harness service status             # installed? running?
-maple-harness service print gateway      # show what would be written; write nothing
-maple-harness service uninstall          # stop and remove what install wrote</code></pre>
-<p>You do not need this to use the agent: it starts the proxy itself, and <code>/remote</code> starts the gateway. Install a
-service when you want the phone to work without a session open, or the proxy running before you open a
-terminal.</p>
-<ul><li><strong>Logs.</strong> Linux: <code>journalctl --user -u 'maple-*' -f</code>. macOS: <code>~/.config/maple-harness/run/maple-&lt;name&gt;.log</code>.</li><li><strong>Start at boot, not at login (Linux).</strong> <code>loginctl enable-linger $USER</code>.</li><li><strong>After moving or reinstalling the binaries</strong>, run <code>service install</code> again so the unit points at the new path.</li><li><strong>A file you edited</strong> is left alone unless you pass <code>--force</code>.</li><li><strong>In a container or an SSH session with no user manager</strong>, <code>install</code> says so and writes nothing; use
-<code>service print</code> and place the file yourself.</li></ul>
-<p>The files hold no secret. Tokens and keys are read from where they are always kept.</p>
-</article>
-<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
-<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
-</main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<p>This page has moved to <a href="proxy-service.html#in-short">Keep it running in the background</a>.</p>
 </body>
 </html>

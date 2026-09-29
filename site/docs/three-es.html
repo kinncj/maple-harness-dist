@@ -3,21 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Which setting for which goal · Maple Harness docs</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Settings by goal · Maple Harness docs</title>
 <meta name="description" content="Maple Harness aims at three things at once: to be efficient (fewer tokens for the same work), efficacious (the work stays as good, and defaults are safe) and effective (whole tasks succeed and waste s">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=85072f51">
-<script>(function(){try{var t=localStorage.getItem('maple-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="brand" href="../index.html"><img src="../img/logo.svg" alt="" width="132" height="34"><span class="sr">Maple Harness</span></a>
-<nav aria-label="Main"><a href="../index.html#install">Install</a><a href="../docs/index.html">Docs</a><a href="https://github.com/kinncj/maple-harness-dist/releases/latest" rel="noopener">Download</a>
-<button type="button" class="theme" id="theme" aria-label="Colour theme" title="Colour theme: light (click to change)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button></nav></header>
-<main id="main" class="doc">
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html" aria-current="page">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">Settings by goal</li></ol></nav>
 <article>
-<h1 id="which-setting-for-which-goal">Which setting for which goal <a class="anchor" href="#which-setting-for-which-goal" aria-label="Link to this heading">#</a></h1>
+<h1 id="settings-by-goal">Settings by goal <a class="anchor" href="#settings-by-goal" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#i-want-to-spend-less-on-long-runs">I want to spend less on long runs</a></li><li><a href="#i-want-the-work-to-stay-as-good">I want the work to stay as good</a></li><li><a href="#i-want-to-stop-runaways">I want to stop runaways</a></li><li><a href="#i-want-results-i-can-rely-on">I want results I can rely on</a></li></ol></details>
+
 <p>Maple Harness aims at three things at once: to be <strong>efficient</strong> (fewer tokens for the same work), <strong>efficacious</strong>
 (the work stays as good, and defaults are safe) and <strong>effective</strong> (whole tasks succeed and waste stops early). This
 page maps a goal to the settings and commands that serve it. It makes no promise about your bill: results vary
@@ -31,19 +47,16 @@ help on your work. Every setting listed has an off switch.</p>
 <div class="tablewrap"><table><thead><tr><th>Do this</th><th>Where</th><th>Trade-off</th></tr></thead><tbody><tr><td>End a turn that keeps failing the same way, with a summary</td><td><code>loop_guard.mode: stop</code>, <code>loop_guard.stop_after</code></td><td>See above</td></tr><tr><td>Cut a reply that repeats itself</td><td><code>degenerate_guard</code> (the repeat guard) on the proxy's Guards card</td><td>A repetitive answer could be cut short</td></tr><tr><td>Refuse or trim a request bigger than the model's window</td><td><code>context_guard</code></td><td><code>truncate</code> forgets old turns</td></tr><tr><td>Cap the turns a subagent may take</td><td><code>subagents.max_turns</code></td><td>A long job may need more</td></tr><tr><td>Limit how fast a client may call the proxy</td><td><code>server.rate_limit.*</code></td><td>Bursts are slowed</td></tr><tr><td>Move to another model when one runs out</td><td><code>model_fallbacks</code></td><td>The fallback may be different or weaker</td></tr></tbody></table></div>
 <h2 id="i-want-results-i-can-rely-on">I want results I can rely on <a class="anchor" href="#i-want-results-i-can-rely-on" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Do this</th><th>Where</th><th>Trade-off</th></tr></thead><tbody><tr><td>Get told when a session needs you</td><td><code>notifications.*</code>, <code>maple-harness notify test</code></td><td>None</td></tr><tr><td>Resume where you left off</td><td><code>--continue</code>, <code>--resume</code>, <code>/sessions</code></td><td>Old sessions take disk; <code>cleanup</code> removes them</td></tr><tr><td>Keep a checklist for a big request</td><td><code>ledger: auto</code>, <code>/ledger</code></td><td>One extra model call</td></tr><tr><td>Make the model carry on when it stops early</td><td>on by default; <code>disable_auto_continue</code> turns it off</td><td>None for the default</td></tr><tr><td>Check a change against your own tasks</td><td><code>maple-harness --prompt</code> with <code>--json-summary</code>, repeated with a setting on and off</td><td>It costs the runs you make</td></tr></tbody></table></div>
-<p>Read next: <a href="proxy-settings.html">Proxy reference</a>, <a href="commands.html">Harness commands and keys</a> and
-<a href="configuration.html">Harness configuration</a>.</p>
+<p>Read next: <a href="proxy-settings.html">Proxy settings</a>, <a href="commands.html">Commands and keys</a> and
+<a href="configuration.html">Harness settings</a>.</p>
 </article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/cost.html" rel="prev"><small>Previous</small>What /cost tells you</a><a class="next" href="../docs/usage-export.html" rel="next"><small>Next</small>Your usage data</a></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
-<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a></p>
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<script>(function(){var r=document.documentElement,k='maple-theme',b=document.getElementById('theme');
-function get(){try{return localStorage.getItem(k)==='dark'?'dark':'light'}catch(e){return 'light'}}
-function set(v){r.setAttribute('data-theme',v);
-if(b)b.setAttribute('title','Colour theme: '+v+' (click to change)');}
-set(get());
-if(b)b.addEventListener('click',function(){var n=get()==='dark'?'light':'dark';
-try{localStorage.setItem(k,n)}catch(e){}set(n);});})();</script>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#i-want-to-spend-less-on-long-runs">I want to spend less on long runs</a></li><li><a href="#i-want-the-work-to-stay-as-good">I want the work to stay as good</a></li><li><a href="#i-want-to-stop-runaways">I want to stop runaways</a></li><li><a href="#i-want-results-i-can-rely-on">I want results I can rely on</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
 </html>
