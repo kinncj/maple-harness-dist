@@ -58,9 +58,13 @@ in with it can; the Maple Harness commands keep working without it. When the pas
 open the page, or turn a password on from the page itself, and send one of your keys to a server of its choosing. See
 <a href="proxy.html#protect-the-setup-page-with-a-password">The proxy</a> and
 <a href="proxy-settings.html">Proxy settings</a>.</li><li><strong>Devices get their own tokens.</strong> Each paired device has its own token that you can limit to some folders
-and revoke at any time. Pairing codes work once and expire in five minutes.</li><li><strong>A share is read-only.</strong> A share link lets one person watch one session until it ends: they cannot send,
-approve or see any other session. They do see everything that session shows, so do not share one that works
-with secrets. See <a href="remote-control.html#sharing-one-session-read-only">Sharing one session read-only</a>.</li><li><strong>Downloads are checked.</strong> The installer and <code>update</code> verify every file against the release's <code>SHA256SUMS</code>.</li></ul>
+and revoke at any time. Pairing codes work once and expire in five minutes.</li><li><strong>A share reaches one session.</strong> A share link lets one person watch one session until it ends, and by default
+that is all: they cannot send, approve or see any other session. A link made with <em>Can drive this session</em> also
+lets them send messages and answer approvals in that session, which means <strong>they can run commands on this
+computer through it</strong>, within the sandbox and permission rules that session has, and only while the session is in
+ask mode; it still cannot reach other sessions, change settings, answer "always allow" or approve a command
+outside the sandbox, and it asks you to confirm before it is made. Revoking the device that made a share stops it. Either way they see everything that
+session shows, so do not share one that works with secrets. See <a href="remote-control.html#sharing-one-session">Sharing one session</a>.</li><li><strong>Downloads are checked.</strong> The installer and <code>update</code> verify every file against the release's <code>SHA256SUMS</code>.</li></ul>
 <h2 id="what-you-should-do">What you should do <a class="anchor" href="#what-you-should-do" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>Treat a device token like an SSH key.</strong> It is a shell on your computer. Prefer pairing codes, keep tokens
 out of chats and screenshots, and revoke a lost phone straight away.</li><li><strong>Use Tailscale, or another private network, for remote control.</strong> Do not forward the port through your

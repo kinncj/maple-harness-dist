@@ -32,7 +32,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Your phone</li><li aria-current="page">Control it from your phone</li></ol></nav>
 <article>
 <h1 id="control-it-from-your-phone">Control it from your phone <a class="anchor" href="#control-it-from-your-phone" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session-read-only">Sharing one session read-only</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></details>
 
 <p>Share a session and drive it from your phone's browser or from another machine. You can approve tool calls
 (with a look at exactly what will change), open several sessions in one list, and start new ones in folders
@@ -82,11 +82,23 @@ certificate by itself; pass <code>--tls tailscale</code> to ask.</p>
 <p>A <strong>pairing code</strong> (eight characters like <code>K7QM-4XPT</code>) works once and expires after five minutes. The phone
 trades it for a token of its own, which you can see and revoke in the device list on the setup page at
 <code>http://127.0.0.1:11539</code>. Scan the QR code, open the link, or type the code.</p>
+<p>Turning <strong>Remote control</strong> on in the setup page starts the gateway if it is not running and a device is already
+paired, the same way <code>/remote</code> does (on every interface, on the port set there), and the page says whether it is
+listening. It makes no pairing code. If it cannot start, or no device is paired yet, the switch stays on and the
+page says how to start it yourself. To keep the proxy from starting it, set
+<code>MAPLE_GATEWAY_NO_START=1</code> in the proxy's environment. Turning the switch off does not stop a running gateway, but
+it refuses every request while the switch is off. Adding a device there shows its QR code. To keep the gateway
+running after you log in, use <code>maple-harness service install gateway</code>.</p>
 <p>You can also make a token on the setup page and paste it into the phone. A token is a <strong>shell on this
 machine</strong>: keep it private like an SSH key, prefer pairing codes, and revoke a lost phone at once. If you
 want a long-lived token for direct login, <code>maple-harness gateway pair --fixed</code> makes one; store it in a
 password manager.</p>
-<p>Each device can be limited to some folders, so a phone can be allowed into one project and nowhere else.</p>
+<p>Each device can be limited to some folders, so a phone can be allowed into one project and nowhere else. Such a
+device sees, opens, starts and resumes only sessions whose folder is one of them: a conversation saved in another
+folder stays out of its reach even if it asks to run it in an allowed folder, and so does a session running a
+conversation that was saved in another folder. It cannot list your saved conversations with <code>/sessions</code>, since that
+list covers every folder. Devices that are not limited to folders (the default) see and drive every session, as
+before.</p>
 <p><strong>Watch-only devices.</strong> A device paired with <code>--watch-only</code> can follow sessions and get notifications, but it
 cannot send messages, answer approvals, change the mode or model, run commands, or start and stop sessions:</p>
 <pre><code class="language-sh">maple-harness gateway pair wall-screen --watch-only
@@ -103,43 +115,69 @@ signs in the browser.</p>
 <p>A device stays signed in until you sign out or revoke it. If the computer restarts or the network drops, the
 page says it is reconnecting and carries on; it does not sign you out. If a session's host itself restarted, the
 page says so and carries on with what the host has now; approvals that were waiting before are cancelled.</p>
-<h2 id="sharing-one-session-read-only">Sharing one session read-only <a class="anchor" href="#sharing-one-session-read-only" aria-label="Link to this heading">#</a></h2>
-<p>You can let someone watch one session, and nothing else, with a link. On the remote page, open the session and
-tap <strong>Share</strong> (the arrow button at the top; a watch-only device does not have it). Give the share a label, such as
-who it is for, pick when it ends (1 hour, 8 hours, 24 hours or 7 days; 24 hours unless you choose), and tap
-<strong>Create link</strong>. You get a QR code and a link to copy.</p>
-<p>The link carries a one-time code, like a pairing code: the first person to open it, within 10 minutes, gets the
-view, and it works for no one after that. Send it privately.</p>
+<h2 id="sharing-one-session">Sharing one session <a class="anchor" href="#sharing-one-session" aria-label="Link to this heading">#</a></h2>
+<p>You can give someone a link to one session, and nothing else. On the remote page, open the session and tap
+<strong>Share</strong> (the arrow button at the top; a watch-only device does not have it). Give the share a label, such as
+who it is for, and choose what they can do:</p>
+<ul><li><strong>Watch only</strong> (the default): they follow the session live and can do nothing in it.</li><li><strong>Can drive this session</strong>: they can also send messages and answer approvals in that session.
+<strong>They can run commands on this computer through this session</strong>, so share it only with someone you trust with
+this computer. The sandbox and your permission rules apply to them as they do to you, and with the sandbox off,
+commands they approve run directly on this computer. The sheet says so and asks you to confirm before it makes
+the link. Only a session in ask mode can be shared this way: in auto and yolo mode tool calls run without anyone
+approving them. If the session is switched to auto or yolo later, the link can still watch but cannot send or
+answer until it is back in ask mode.</li></ul>
+<p>Pick when it ends (1 hour, 8 hours, 24 hours or 7 days; 24 hours for watch only and 8 hours for a link that can
+drive, unless you choose), and tap <strong>Create link</strong>. You get a QR code and a link to copy.</p>
+<p>The link carries a one-time code, like a pairing code: the first person to open it, within 10 minutes, gets in,
+and it works for no one after that. Send it privately.</p>
 <p><strong>What the person who opens it sees:</strong> that session's conversation as it happens, the tool calls and their output,
-the changes proposed with their diffs, approval requests as they appear (without buttons), and the model, mode and
-context use. They are not shown the session's folder or your account's quota and spend (though file paths can
-appear in the conversation itself). They can turn on notifications for that session in one browser.</p>
-<p><strong>What they cannot do:</strong> send messages, answer approvals, stop the session, change its mode or model, run
-commands, start sessions, share it further, or see any other session, your folders or your saved sessions. The
-page leaves these out and the gateway refuses them either way.</p>
-<p><strong>When the session stops and is resumed,</strong> the share follows it: it recognises the session by its folder and the
-name it is saved under. While the session is not running, the view says so and waits. A different session in the
-same folder, or the conversation saved under another name, is not shared.</p>
-<p><strong>Stopping a share.</strong> A share ends by itself when its time is up. To end it sooner:</p>
-<ul><li>on the remote page, <strong>Share</strong> lists the session's shares under <em>Shared now</em>, each with <strong>Stop sharing</strong>;</li><li>the device list on the setup page shows each share as a read-only share, with the session and when it ends, and
+the changes proposed with their diffs, approval requests as they appear, and the model, mode and context use. They
+are not shown the session's folder or your account's quota and spend (though file paths can appear in the
+conversation itself). They can turn on notifications for that session in one browser.</p>
+<p><strong>With a link that can drive,</strong> they can also type messages to the session, stop the current turn, and answer its
+approvals with <strong>Allow</strong> or <strong>Deny</strong>, one at a time. Their messages and answers are labelled with the share's label
+and "(shared link)", so you can tell them apart from your own devices.</p>
+<p>A person with such a link can have the session read or change whatever it can reach, so the link is only as
+narrow as the session. A link made from a device limited to some folders only works while the session runs in
+those folders. To keep one person from flooding the session, a link can send about 20 messages or answers a minute.</p>
+<p><strong>What neither kind can do:</strong> see or reach any other session, your folders or your saved sessions; start or stop
+sessions; change the session's mode or model; run the session's text commands (such as <code>/sessions</code> or <code>/clear</code>);
+pair a device or share further; answer "always allow"; or approve running a command outside the sandbox. The page
+leaves these out and the gateway refuses them either way.</p>
+<p><strong>When the session stops and is resumed,</strong> the share follows it. A share is tied to that conversation, not to the
+name or the folder: after a stop and resume, and after the gateway restarts, it finds the same conversation again.
+While the session is not running, the view says so and waits. A new conversation is never shared by an old link,
+even one started in the same folder under the same name, and neither is a fork or a clone of the shared one.</p>
+<p>Shares made with 1.12 keep working. The first time such a share reaches its session after you update, it is tied to
+that session's conversation, and from then on it follows only that conversation. It is only tied to a conversation
+that already existed when the share was made: a newer conversation saved under the same name is not shared.</p>
+<p><strong>Stopping a share.</strong> A share ends by itself when its time is up. Revoking the device that made it stops it too. To
+end it sooner:</p>
+<ul><li>on the remote page, <strong>Share</strong> lists the session's shares under <em>Shared now</em>, each marked <em>watch only</em> or
+<em>can drive</em>, with <strong>Stop sharing</strong>;</li><li>the device list on the setup page shows each share with what it can do, the session and when it ends, and
 <strong>Revoke</strong> ends it;</li><li>from a terminal:</li></ul>
-<pre><code class="language-sh">maple-harness gateway shares            # every live share, with its id and when it ends
+<pre><code class="language-sh">maple-harness gateway shares            # every live share: its id, what it can do, when it ends
 maple-harness gateway unshare &lt;id&gt;      # stop one now</code></pre>
 <ul><li>inside the session itself:</li></ul>
-<pre><code>/remote share [label] [--for 1h|8h|24h|7d]   make a link to this session (24h unless you choose)
+<pre><code>/remote share [label] [--for 1h|8h|24h|7d]   make a watch-only link to this session (24h unless you choose)
+/remote share [label] --drive                make a link that can drive (8h unless you choose); it explains
+                                             what that allows and asks you to repeat it with --confirm
 /remote shares                               this session's shares
 /remote unshare &lt;id&gt;                         stop one now</code></pre>
-<p>A viewer whose share ends or is stopped is signed out of the view at once, including a page left open.</p>
+<p>A person whose share ends or is stopped is signed out at once, including a page left open.</p>
 <p>Good to know:</p>
 <ul><li>Opening the link in a browser that is already signed in to your remote page keeps your own sign-in and ignores
-the link. To try it yourself, use a private window or another browser.</li><li>Sharing works through the gateway. A session served on its own port (<code>serve --direct</code>) cannot be shared.</li><li>The viewer sees everything the session shows, including file contents and command output. Do not share a
-session that works with secrets.</li><li>Each share made, opened, watched and stopped is recorded in the audit log on your machine
-(<code>maple-proxy audit tail</code> shows it).</li></ul>
+the link. To try it yourself, use a private window or another browser.</li><li>Sharing works through the gateway. A session served on its own port (<code>serve --direct</code>) cannot be shared.</li><li>A session started by 1.12 or older cannot be shared: restart it first.</li><li>Anyone with the link sees everything the session shows, including file contents and command output. Do not share
+a session that works with secrets.</li><li>Each share made, opened, used and stopped is recorded, with its kind, in the audit log on your machine
+(<code>maple-proxy audit tail</code> shows it).</li><li>1.12 and older refuse links that can drive: if you go back to an older version, those links stop working, and so
+do shares that were already tied to their conversation.</li></ul>
 <h2 id="starting-sessions-from-the-phone">Starting sessions from the phone <a class="anchor" href="#starting-sessions-from-the-phone" aria-label="Link to this heading">#</a></h2>
 <p>The <strong>New session</strong> sheet starts a session in a folder you have allowed:</p>
 <pre><code class="language-sh">maple-harness gateway workspaces add ~/code
 maple-harness gateway workspaces list</code></pre>
-<p>A phone can only start sessions in those folders, and never anywhere else.</p>
+<p>A phone can only start sessions in those folders, and never anywhere else. A folder inside one of them that
+does not exist yet, such as a new project, is created when the session starts. Resuming a saved session whose
+folder has been deleted is refused rather than given an empty folder.</p>
 <h3 id="starting-in-yolo-mode">Starting in yolo mode <a class="anchor" href="#starting-in-yolo-mode" aria-label="Link to this heading">#</a></h3>
 <p>Yolo mode allows every tool call that would otherwise ask, without asking. Your <code>deny</code> rules still apply.
 Because a stray tap on a phone is easy, starting a session as yolo from the phone is <strong>off</strong> until you turn
@@ -180,7 +218,7 @@ notifications.</li></ul>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session-read-only">Sharing one session read-only</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
