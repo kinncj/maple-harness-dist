@@ -164,8 +164,8 @@ server:
     max_concurrent: 4
   usage_ledger: /data/maple/usage.jsonl   # leave it out for the default place; off turns it off
   usage_retention_days: 90                # days of daily files to keep; 0 keeps everything</code></pre>
-<p>Saving from the setup page rewrites <code>config.yaml</code> in its standard form, so comments you added by hand are not
-kept. Keys are never in it: they stay in your system keyring, and the file holds only a reference.</p>
+<p>Saving from the setup page changes only the settings you changed in <code>config.yaml</code>, so comments you added by hand
+stay, except inside the provider list when you move a provider up or down it. Keys are never in it: they stay in your system keyring, and the file holds only a reference.</p>
 <h2 id="using-it-from-another-machine">Using it from another machine <a class="anchor" href="#using-it-from-another-machine" aria-label="Link to this heading">#</a></h2>
 <p>By default only this machine can reach the model APIs. To let another machine on your network use them, set
 the listen address and create an <strong>access token</strong> with the <code>proxy</code> scope on the setup page:</p>
