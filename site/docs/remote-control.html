@@ -37,7 +37,8 @@ certificate for you.</p></li><li>On the phone, scan the QR code. It signs itself
 using the <code>.ts.net</code> name (the certificate does not match a bare IP address).</li><li>Add the page to your Home Screen (iPhone: Share, then Add to Home Screen), open the app from its icon,
 and sign in from inside it: tap <strong>Scan QR code</strong> or type the code. Then turn on notifications below.</li></ol>
 <p>Without Tailscale, the gateway serves a self-signed certificate on your local network. The phone warns once;
-compare the certificate fingerprint it shows with the one printed on the computer before you continue.
+compare the certificate fingerprint it shows with the one printed on the computer (under the pairing code, and
+in <code>maple-harness gateway status</code>) before you continue.
 Everything works except notifications with the page closed, which browsers refuse on a self-signed
 certificate. Never forward the port through your router to the internet.</p>
 <h2 id="sharing-a-session">Sharing a session <a class="anchor" href="#sharing-a-session" aria-label="Link to this heading">#</a></h2>
@@ -49,6 +50,21 @@ certificate. Never forward the port through your router to the internet.</p>
 <p><code>/remote</code> starts the gateway if it is not running. The <strong>gateway</strong> is the one address on your machine that
 lists every shared session, so a phone sees them all. A session shared through it stays shared until you
 turn it off or close the session. To start without any session open, use <code>maple-harness gateway start</code>.</p>
+<p><strong>Pairing starts the gateway too.</strong> <code>maple-harness gateway pair</code> and <code>/remote pair</code> start the gateway when none is
+running, the same way <code>gateway start</code> does: on every network interface (your local network, and your Tailscale
+network when Tailscale is up), with a Tailscale certificate when Tailscale is signed in (<code>gateway pair</code>) or a
+self-signed one otherwise. When they start it, they print the address it listens on, who can reach it, its
+certificate, and how to stop it:</p>
+<pre><code class="language-sh">maple-harness gateway stop</code></pre>
+<p>It also stops by itself after ten minutes with no sessions and no one connected. To pair only with a gateway that is
+already running, add <code>--no-start</code> (or set <code>MAPLE_GATEWAY_NO_START=1</code>, for example in a script): with no gateway
+running, the command stops with a message and makes nothing. <code>gateway pair</code> also takes <code>--listen</code> and <code>--tls</code>, as
+<code>gateway start</code> does, for the gateway it starts; for example <code>--listen 127.0.0.1:11541</code> keeps it on this machine.
+If a gateway is already running somewhere else or with another certificate, <code>gateway pair</code> with those options stops
+with a message instead of using it. <code>--no-start</code> never starts a gateway, but <code>--via tailscale</code> may still restart the
+running one to switch its certificate.
+A configuration folder under the system's temporary directory (a test or an experiment) never asks Tailscale for a
+certificate by itself; pass <code>--tls tailscale</code> to ask.</p>
 <h2 id="pairing">Pairing <a class="anchor" href="#pairing" aria-label="Link to this heading">#</a></h2>
 <p>A <strong>pairing code</strong> (eight characters like <code>K7QM-4XPT</code>) works once and expires after five minutes. The phone
 trades it for a token of its own, which you can see and revoke in the device list on the setup page at
@@ -58,13 +74,22 @@ machine</strong>: keep it private like an SSH key, prefer pairing codes, and rev
 want a long-lived token for direct login, <code>maple-harness gateway pair --fixed</code> makes one; store it in a
 password manager.</p>
 <p>Each device can be limited to some folders, so a phone can be allowed into one project and nowhere else.</p>
+<p><strong>Watch-only devices.</strong> A device paired with <code>--watch-only</code> can follow sessions and get notifications, but it
+cannot send messages, answer approvals, change the mode or model, run commands, or start and stop sessions:</p>
+<pre><code class="language-sh">maple-harness gateway pair wall-screen --watch-only
+/remote pair tablet --watch-only</code></pre>
+<p>Approvals show on it without buttons, to be answered at the computer or on a device that can approve. Devices
+paired before this option existed keep the access they have. The setup page does not offer the option yet.
+A watch-only device can turn on notifications in up to three browsers, and cannot take over notifications another
+paired device receives.</p>
 <p><strong>iPhone Home Screen app.</strong> An app added to the Home Screen keeps its own storage, separate from Safari, so a
 code or link you opened in Safari does not sign the app in. Open the app and sign in there: tap <strong>Scan QR code</strong>
 and point the camera at the code on your computer, or type the code. The camera only turns on when you tap the
 button, and it turns off as soon as a code is read. Scanning with the phone's own camera app still works and
 signs in the browser.</p>
 <p>A device stays signed in until you sign out or revoke it. If the computer restarts or the network drops, the
-page says it is reconnecting and carries on; it does not sign you out.</p>
+page says it is reconnecting and carries on; it does not sign you out. If a session's host itself restarted, the
+page says so and carries on with what the host has now; approvals that were waiting before are cancelled.</p>
 <h2 id="starting-sessions-from-the-phone">Starting sessions from the phone <a class="anchor" href="#starting-sessions-from-the-phone" aria-label="Link to this heading">#</a></h2>
 <p>The <strong>New session</strong> sheet starts a session in a folder you have allowed:</p>
 <pre><code class="language-sh">maple-harness gateway workspaces add ~/code
@@ -84,13 +109,18 @@ and the session shows a YOLO badge for as long as it is in that mode.</p>
 you get a notification, a vibration and a count in the tab title when a session needs approval, stops with an
 error or finishes. It says only that, plus the project's name, never your commands or paths.</p>
 <ul><li><strong>With the page closed</strong> needs a real HTTPS certificate: use the Tailscale setup above. On iPhone the page
-must be added to the Home Screen (iOS 16.4 or later). Android works in Chrome.</li><li><strong>A test button</strong> in the sheet sends a notification to your phone so you can check it works.</li><li><strong>Other ways to be told</strong>: <code>maple-harness</code> can send messages to <a href="https://ntfy.sh" rel="noopener noreferrer">ntfy</a>, a webhook, or a
+must be added to the Home Screen (iOS 16.4 or later). Android works in Chrome.</li><li><strong>Without a trusted certificate</strong> (a self-signed one), notifications still work while the page is open in a
+browser that shows them from a page, which is usually a desktop browser; a phone may not.</li><li><strong>A test button</strong> in the sheet sends a notification to your phone so you can check it works.</li><li><strong>Other ways to be told</strong>: <code>maple-harness</code> can send messages to <a href="https://ntfy.sh" rel="noopener noreferrer">ntfy</a>, a webhook, or a
 desktop notification when a session needs you. Add a <code>harness.notifications</code> section with a <code>sinks:</code> list, or
 simply <code>desktop: true</code>, then check with <code>maple-harness notify test</code>.</li></ul>
 <h2 id="using-the-page">Using the page <a class="anchor" href="#using-the-page" aria-label="Link to this heading">#</a></h2>
 <ul><li>Replies render as Markdown as they stream: headings, lists, tables and code blocks. Code blocks and tables
 have <strong>Copy</strong> buttons, and each reply has <strong>Copy Markdown</strong>.</li><li><strong>Send with</strong> in the session sheet chooses the key that sends: Ctrl/Cmd+Enter (the default), Enter, Shift+Enter or a
-combination you record. The Send button always works.</li><li>Approvals show the exact command or a diff of the file change before you allow it.</li><li>Light and dark themes follow your phone; a toggle overrides them.</li></ul>
+combination you record. The Send button always works.</li><li>Approvals show the exact command or a diff of the file change before you allow it.</li><li><strong>Host commands.</strong> Type <code>/graph</code>, <code>/memory</code>, <code>/mcp</code>, <code>/jobs</code>, <code>/sessions</code>, <code>/compress</code>, <code>/clear</code>, <code>/effort</code>,
+<code>/thinking</code> or <code>/plan</code> as you would in the terminal. The report appears in the conversation in the host's
+own layout and colours, with a <strong>Copy</strong> button; a wide table scrolls sideways on a phone instead of wrapping.
+<code>/help</code> lists them. The model and permission mode are in the session sheet; other commands work in the
+terminal only. What a command prints is shown only on the device that ran it.</li><li>Light and dark themes follow your phone; a toggle overrides them.</li></ul>
 <h2 id="attach-from-another-computer">Attach from another computer <a class="anchor" href="#attach-from-another-computer" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">MAPLE_TOKEN=&lt;token&gt; maple-harness attach https://my-machine.my-tailnet.ts.net:11541</code></pre>
 <h2 id="if-it-does-not-work">If it does not work <a class="anchor" href="#if-it-does-not-work" aria-label="Link to this heading">#</a></h2>

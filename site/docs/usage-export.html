@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Query and export your usage data · Maple Harness docs</title>
-<meta name="description" content="Turn on the usage log and you get one JSON object per request, forever, in your own files — not locked inside Maple. This page is about actually using that data: querying it directly, exporting it for">
+<meta name="description" content="The usage log is on by default: one JSON object per request, in your own files — not locked inside Maple. It holds counts and labels only (model, tokens, cache figures, AI units, timing), never prompt">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../docs/docs.css?v=85072f51">
@@ -18,26 +18,61 @@
 <main id="main" class="doc">
 <article>
 <h1 id="query-and-export-your-usage-data">Query and export your usage data <a class="anchor" href="#query-and-export-your-usage-data" aria-label="Link to this heading">#</a></h1>
-<p>Turn on the usage log and you get one JSON object per request, forever, in your own files — not locked inside
-Maple. This page is about actually using that data: querying it directly, exporting it for another tool, and
-wiring it into Grafana. Turn it on with <code>server.usage_ledger</code> — see <a href="proxy.html#limits-and-hosts-restart-required">The proxy</a>.</p>
-<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#from-the-setup-page">From the setup page</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#the-usage-record-schema">The usage record schema</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
+<p>The usage log is on by default: one JSON object per request, in your own files — not locked inside Maple. It holds
+counts and labels only (model, tokens, cache figures, AI units, timing), never prompts or answers. This page is about
+where it lives, how long it is kept, and actually using that data: querying it directly, exporting it for another
+tool, and wiring it into Grafana. The settings are <code>server.usage_ledger</code> and <code>server.usage_retention_days</code> — see
+<a href="proxy-settings.html#the-usage-log">The usage log</a>.</p>
+<p><strong>Contents:</strong> <a href="#where-the-files-are">Where the files are</a> · <a href="#how-long-it-is-kept">How long it is kept</a> · <a href="#turn-it-off">Turn it off</a> · <a href="#from-the-setup-page">From the setup page</a> · <a href="#query-it-directly-with-duckdb">Query it directly with DuckDB</a> · <a href="#the-usage-record-schema">The usage record schema</a> · <a href="#export-to-csv-or-parquet">Export to CSV or Parquet</a> · <a href="#keep-it-tidy-prune">Keep it tidy: prune</a> · <a href="#wire-it-into-grafana">Wire it into Grafana</a></p>
 <h2 id="where-the-files-are">Where the files are <a class="anchor" href="#where-the-files-are" aria-label="Link to this heading">#</a></h2>
-<p>The log rotates to a new file for each UTC day, named after the path you set: <code>usage_ledger:
-/home/you/.config/maple-harness/usage.jsonl</code> writes <code>usage-2026-09-28.jsonl</code>, <code>usage-2026-09-29.jsonl</code>, and so on,
-next to it. Nothing is ever deleted on its own — see <a href="#keep-it-tidy-prune">prune</a> below for that. If you already had
-a plain <code>usage.jsonl</code> from before this existed, it is left exactly where it is: still readable, just not written to
-going forward.</p>
+<p>By default the log is in the <code>usage</code> folder of your Maple Harness config folder
+(<code>~/.config/maple-harness/usage/</code> on Linux and macOS), one file per UTC day with a name nothing else uses:
+<code>maple_harness_proxy_usage_ledger-2026-09-28.jsonl</code>, <code>maple_harness_proxy_usage_ledger-2026-09-29.jsonl</code>, and so on.
+The folder is created private to you the first time the proxy writes to it.</p>
+<p>To put it somewhere else, set <code>server.usage_ledger</code> to a path, or use <strong>Move</strong> on the setup page's Usage data card:
+<code>usage_ledger: /data/maple/usage.jsonl</code> writes <code>usage-2026-09-28.jsonl</code> and the rest next to it: the daily files are
+always named after the path, with the day before the extension. A path you set yourself, including the <code>usage.jsonl</code>
+in your config folder that the earlier <strong>Turn on</strong> button chose, keeps working exactly where it is, with the same
+names; nothing is moved or renamed. Moving the log starts new daily files in the new place and leaves the files
+already written where they are. If you have a plain, undated <code>usage.jsonl</code> from before daily files existed, it is left
+exactly where it is: still readable, just not written to going forward.</p>
+<p>How much disk it takes, as an estimate: about 0.4 KB per request (measured on a test run; lines with more labels are a
+little larger), so 1,000 requests a day for 90 days is about 36 MB. The Usage data card and <code>maple-proxy usage status</code>
+show what your own files take.</p>
 <p>Each line is one request: the model, provider, tokens, cache figures, AI units, timing, and who asked (a client
 label and, if it came through a subagent, its own session grouping) — never prompt or answer content. The exact
 field list is in <a href="proxy-settings.html#files-and-environment">Files and environment</a>.</p>
+<h2 id="how-long-it-is-kept">How long it is kept <a class="anchor" href="#how-long-it-is-kept" aria-label="Link to this heading">#</a></h2>
+<p><code>server.usage_retention_days</code> (<strong>Keep</strong> on the Usage data card) is how many days of daily files to keep. Older daily
+files are deleted when the proxy starts and then once a day, the proxy logs one line saying what it removed, and each
+cleanup that deletes files is recorded in the audit log (how many, and the folder). <code>0</code> keeps everything.</p>
+<p>Left unset, it is 90 days in the default place (in the <code>usage</code> folder the proxy created, only files named exactly
+<code>maple_harness_proxy_usage_ledger-YYYY-MM-DD.jsonl</code>). For a path you chose yourself, nothing is deleted automatically
+until you set <strong>Keep</strong>; the card says so ("Automatic cleanup is off for a custom location"). Only the log's own dated
+files next to the configured path are ever deleted, and only when they are empty or start with a usage record: never today's file, never the plain undated file from earlier
+releases, never any other file in the folder, and never a link. Budgets count only today, so a shorter retention does
+not change them. A change on the card applies without a restart, from the next cleanup.</p>
+<p>A path you give for the log must be a full path, or start with <code>~/</code> for your home folder.</p>
+<h2 id="turn-it-off">Turn it off <a class="anchor" href="#turn-it-off" aria-label="Link to this heading">#</a></h2>
+<p>Press <strong>Turn off</strong> on the Usage data card (or on the one-time notice the setup page shows after upgrading), or set
+<code>usage_ledger: off</code> in <code>config.yaml</code>. For one run of the proxy, <code>CCH_USAGE_LEDGER=off</code> in its environment does the
+same (and <code>CCH_USAGE_LEDGER=/some/path</code> sends that run's log elsewhere). Nothing already written is deleted. Only
+<code>off</code> turns it off: an empty <code>usage_ledger: ""</code>, which earlier releases saved while the log was off, now means the
+default place, so an upgraded install starts logging. With the log off, budgets restart from zero whenever the proxy
+restarts.</p>
+<p>After upgrading, the setup page shows a one-time notice (at the top of the page and on the Usage data card) while
+the log is on because of the default: <strong>OK</strong> keeps it on, <strong>Turn off</strong> turns it off. Either answer is saved in
+<code>config.yaml</code>, so no other browser shows it again, and the proxy logs one line at start saying the log is on by
+default.</p>
 <h2 id="from-the-setup-page">From the setup page <a class="anchor" href="#from-the-setup-page" aria-label="Link to this heading">#</a></h2>
-<p>The proxy's setup page has a <strong>Usage data</strong> card with everything below without a terminal: how many daily files
-there are, the days they cover and their size on disk; an <strong>Export</strong> button that downloads CSV or Parquet for an
+<p>The proxy's setup page has a <strong>Usage data</strong> card with everything below without a terminal: whether the log is on and
+where; how much disk the daily files take, how many there are and the days they cover, with an estimate at the
+retention limit once there is a whole day of data; <strong>Location</strong> (Move, Use the default place, Turn off); <strong>Keep</strong>,
+the retention in days; an <strong>Export</strong> button that downloads CSV or Parquet for an
 optional range of days; and <strong>Remove old days</strong>, which shows you exactly which files would go and deletes them only
 after you confirm that list. It uses the same code as <code>maple-proxy usage</code>, so the card and the command always agree
 on which requests a range covers and which files a prune removes. If the usage log is off, the card says so and
-points you at the setting that turns it on.</p>
+has a <strong>Turn on</strong> button.</p>
 <h2 id="query-it-directly-with-duckdb">Query it directly with DuckDB <a class="anchor" href="#query-it-directly-with-duckdb" aria-label="Link to this heading">#</a></h2>
 <p>This is the fastest way to ask a real question of your own data — no export step, no code. <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a>
 reads JSON Lines natively. Start by creating a typed view named <code>usage</code>:</p>
@@ -64,11 +99,13 @@ GROUP BY ALL
 ORDER BY day, provider;</code></pre>
 <p><code>at</code> is a reserved word in DuckDB, so write it in double quotes. In the view it is a timestamp; in the files it is
 ISO-8601 text in UTC. To narrow by file instead, name fewer files: <code>--path</code> still takes the base path, but a
-hand-written query can use a narrower glob such as <code>usage-2026-09-2*.jsonl</code>.</p>
+hand-written query can use a narrower glob built the same way from your log's name, such as
+<code>maple_harness_proxy_usage_ledger-2026-09-2*.jsonl</code> in the default place (or <code>usage-2026-09-2*.jsonl</code> for a log you
+named <code>usage.jsonl</code>).</p>
 <p>Without <code>maple-proxy</code> at hand (on another machine, say), declare the columns you use yourself and give the ones a
 line may leave out a default:</p>
 <pre><code class="language-sql">SELECT model, count(*) AS requests, sum(COALESCE(ai_units, 0)) AS ai_units
-FROM read_json('~/.config/maple-harness/usage-*.jsonl',
+FROM read_json('~/.config/maple-harness/usage/maple_harness_proxy_usage_ledger-*.jsonl',
                format = 'newline_delimited', ignore_errors = true,
                columns = {'at': 'VARCHAR', 'model': 'VARCHAR', 'ai_units': 'DOUBLE'})
 WHERE "at" IS NOT NULL
@@ -94,17 +131,18 @@ It is also published at <a href="https://kinncj.github.io/maple-harness-dist/sch
 <p>For handing the data to a tool that cannot read JSON Lines directly:</p>
 <pre><code class="language-sh">maple-proxy usage export --format csv --out usage.csv
 maple-proxy usage export --format parquet --out usage.parquet --since 2026-09-01 --until 2026-10-01</code></pre>
-<p><code>--since</code>/<code>--until</code> are UTC-day boundaries (<code>YYYY-MM-DD</code>); <code>--until</code> is exclusive. Without <code>--path</code>, it reads
-<code>usage_ledger</code> from your <code>config.yaml</code> the same way the running proxy does — the proxy does not need to be running
-for this, it only reads files.</p>
+<p><code>--since</code>/<code>--until</code> are UTC-day boundaries (<code>YYYY-MM-DD</code>); <code>--until</code> is exclusive. Without <code>--path</code>, it finds the log
+the same way the running proxy does (<code>usage_ledger</code> from your <code>config.yaml</code>, the default place when that is unset, and
+<code>CCH_USAGE_LEDGER</code> over both) — the proxy does not need to be running for this, it only reads files.
+<code>maple-proxy usage status</code> prints where that is and how much disk it takes.</p>
 <p>CSV and Parquet get the exact same columns as the raw JSON lines, so a query against either sees the same shape.
 Parquet is the better choice for a large range you want to archive compactly or hand to a tool that reads it
 natively (Grafana's DuckDB plugin, a notebook, a data warehouse's own loader) — it compresses well and DuckDB reads
 it just as directly as JSON:</p>
 <pre><code class="language-sh">duckdb -c "SELECT * FROM read_parquet('usage.parquet') LIMIT 20"</code></pre>
 <h2 id="keep-it-tidy-prune">Keep it tidy: prune <a class="anchor" href="#keep-it-tidy-prune" aria-label="Link to this heading">#</a></h2>
-<p>Rotation only splits the log into per-day files — it does not delete anything. If you want to bound how much
-history stays on disk:</p>
+<p>The proxy already deletes daily files older than <code>server.usage_retention_days</code> (see
+<a href="#how-long-it-is-kept">How long it is kept</a>). To remove more now, by hand:</p>
 <pre><code class="language-sh">maple-proxy usage prune --keep-days 90        # lists what would be deleted; nothing removed yet
 maple-proxy usage prune --keep-days 90 --yes  # actually deletes it</code></pre>
 <p>Only rotated, dated files are ever candidates for deletion. A plain, undated file left over from before rotation
@@ -115,8 +153,8 @@ however you actually run Grafana:</p>
 <p><strong><a href="https://grafana.com/grafana/plugins/yesoreyeram-infinity-datasource/" rel="noopener noreferrer">Infinity</a></strong> (maintained by Grafana Labs,
 in the official plugin catalog) reads CSV and JSON directly, by path or URL, and is the simpler route:</p>
 <pre><code class="language-sh">grafana-cli plugins install yesoreyeram-infinity-datasource</code></pre>
-<p>Add it as a data source, point a CSV query at an exported <code>usage.csv</code> (or a JSON query at a rotated
-<code>usage-2026-09-28.jsonl</code> — Infinity reads newline-delimited JSON too), and build panels from the columns above:
+<p>Add it as a data source, point a CSV query at an exported <code>usage.csv</code> (or a JSON query at a daily file
+such as <code>maple_harness_proxy_usage_ledger-2026-09-28.jsonl</code> — Infinity reads newline-delimited JSON too), and build panels from the columns above:
 AI units over time, requests by model, cache hit rate.</p>
 <p><strong><a href="https://github.com/motherduckdb/grafana-duckdb-datasource" rel="noopener noreferrer">DuckDB</a></strong> (maintained by MotherDuck) gives you real
 SQL against the files instead of Infinity's simpler per-panel queries — worth it if you want to join, filter or

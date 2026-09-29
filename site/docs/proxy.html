@@ -35,13 +35,29 @@ providers and settings without a restart.</p>
 <h2 id="the-setup-page">The setup page <a class="anchor" href="#the-setup-page" aria-label="Link to this heading">#</a></h2>
 <p>Open <code>http://127.0.0.1:11539</code> on the machine running the proxy. A row of links at the top jumps to each part of
 the page, which comes in three groups:</p>
-<ul><li><strong>At a glance</strong>: the Savings, Cache and Sessions cards, and Usage data: what the proxy did for you.</li><li><strong>Set up</strong>: your account, your model servers (Providers), the Proxy settings, and Search by meaning.</li><li><strong>More</strong>: Remote access, Recent activity, and the raw configuration.</li></ul>
+<ul><li><strong>At a glance</strong>: the Savings, Cache and Sessions cards, and Usage data: what the proxy did for you.</li><li><strong>Set up</strong>: your account, your model servers (Providers), the Proxy settings, and Search by meaning.</li><li><strong>More</strong>: Remote access, Protect this page, Recent activity, and the raw configuration.</li></ul>
 <p>From there you can:</p>
 <ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key. See <a href="sign-in.html">Signing in</a>.</li><li><strong>Add model servers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any OpenAI-compatible
 server), press <strong>Detect models</strong>, and save. See <a href="endpoints.html">Connect a model server</a>.</li><li><strong>See your Copilot allowance</strong>: the plan, how many chats are left, and when they reset.</li><li><strong>Manage remote access</strong>: switch remote control on, pair a phone with a short code or a link, choose what
 each device may do, choose the folders a phone may start sessions in, and revoke a device at any time. See
 <a href="remote-control.html">Remote control</a>.</li><li><strong>Read recent activity</strong>: sign-ins, token changes and remote switches.</li></ul>
 <p>Keys and sign-ins you enter here are stored in your system keyring, not in the configuration file.</p>
+<h3 id="protect-the-setup-page-with-a-password">Protect the setup page with a password <a class="anchor" href="#protect-the-setup-page-with-a-password" aria-label="Link to this heading">#</a></h3>
+<p>By default the setup page has no password: any program or browser on this computer can open it and change what it
+manages. To require one, open <strong>More &gt; Protect this page</strong>, type a password twice (at least 8 characters) and press
+<strong>Turn on</strong>. The browser you did it in stays signed in for 30 days; any other browser shows a sign-in form.</p>
+<ul><li><strong>Maple's own commands keep working</strong> (<code>maple-proxy savings</code>, <code>cache</code>, <code>auth</code>, <code>maple-harness auth</code>, <code>savings</code>,
+<code>doctor</code>, the status bar): they use a separate credential that the proxy keeps in your secret store, and they never
+need the password.</li><li><strong>Change it</strong> on the same card; it needs the current password and signs out every other browser.</li><li><strong>Sign out other browsers</strong> ends every session but yours. <strong>Turn off</strong> asks for the password and a confirmation.</li><li>The password itself is never stored, only a slow, salted hash of it, in the Maple Harness config folder.</li></ul>
+<p>From a terminal, as the same user:</p>
+<pre><code class="language-sh">maple-proxy setup-password status   # on or off, and how many browsers are signed in
+maple-proxy setup-password set      # set or change it (asked twice, not shown); signs every browser out
+maple-proxy setup-password reset    # forgot it? removes it, so the page is open again</code></pre>
+<p>A running proxy picks these up at once, with no restart.</p>
+<p>What it protects against: other programs and other people's browsers on this computer. It does not protect against
+something running as you that can open a terminal: that could run <code>setup-password reset</code>. That includes a command the
+model runs while the sandbox is off; with the sandbox on, model commands can neither reach the page nor read the
+credential Maple's commands use. See <a href="security.html">Security</a>.</p>
 <h2 id="settings-you-may-want">Settings you may want <a class="anchor" href="#settings-you-may-want" aria-label="Link to this heading">#</a></h2>
 <p>Everything below is a card under <strong>Proxy settings</strong> on the setup page. Each control has a one-line
 explanation and a link back here. You do not need to edit any file.</p>
@@ -170,15 +186,14 @@ is the exception: it applies as soon as you save.</p>
 <ul><li><strong>Rate limit</strong>: how many requests one client may make. The default is off for this machine and on,
 conservatively, for other machines. You can force it on or off and set the requests per minute, the burst,
 how many may run at once, and whether clients are counted per token or per address.</li><li><strong>Allowed hosts</strong>: extra names the proxy answers to, one per line, for example a Tailscale name such as
-<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line per request. The quickest way to turn it on is <strong>Turn on</strong> in the
-<strong>Usage data</strong> card, which suggests <code>usage.jsonl</code> in your config folder and starts recording at once. Budget
-counts (not the Cache, Sessions or Savings cards, which now survive a restart on their own) come from it, so set
-it if you use budgets and want their counts to survive a restart too. It rotates to a new file for each UTC day
-(<code>usage-2026-09-28.jsonl</code> next to the path you set), so it never grows into one unbounded file — nothing is ever
-deleted on its own. The <strong>Usage data</strong> card, under <strong>At a glance</strong> near the top of the page, shows what the log
-holds, downloads it as CSV or Parquet, and removes
-old days after you confirm the list; see <a href="usage-export.html">Query and export your usage data</a> for the same from a
-terminal (<code>maple-proxy usage export</code>, <code>usage prune</code>) and how to point DuckDB or Grafana straight at it.</li></ul>
+<code>box.tailnet-name.ts.net</code>. Names only: no <code>https://</code>, no path.</li><li><strong>Usage log</strong>: a file that gets one line of counts per request, never prompts or answers. It is on by default,
+in the <code>usage</code> folder of your Maple Harness config folder, one file per UTC day (<code>maple_harness_proxy_usage_ledger-2026-09-28.jsonl</code>), and
+daily files older than 90 days are deleted when the proxy starts and once a day. Budget counts (not the Cache, Sessions
+or Savings cards, which survive a restart on their own) come from it, so they survive a restart too. The
+<strong>Usage data</strong> card, under <strong>At a glance</strong> near the top of the page, shows where it is and how much disk it takes,
+moves it or turns it off at once, sets how many days to keep, downloads it as CSV or Parquet, and removes old days
+after you confirm the list; see <a href="usage-export.html">Query and export your usage data</a> for the same from a terminal
+(<code>maple-proxy usage status</code>, <code>usage export</code>, <code>usage prune</code>) and how to point DuckDB or Grafana straight at it.</li></ul>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
 <pre><code class="language-yaml">model_fallbacks:
   cloud: [local]            # cloud and local are model aliases (see Connect a model server)
@@ -194,7 +209,8 @@ server:
     requests_per_minute: 120
     burst: 20
     max_concurrent: 4
-  usage_ledger: /home/you/.config/maple-harness/usage.jsonl</code></pre>
+  usage_ledger: /data/maple/usage.jsonl   # leave it out for the default place; off turns it off
+  usage_retention_days: 90                # days of daily files to keep; 0 keeps everything</code></pre>
 <p>Saving from the setup page rewrites <code>config.yaml</code> in its standard form, so comments you added by hand are not
 kept. Keys are never in it: they stay in your system keyring, and the file holds only a reference.</p>
 <h2 id="using-it-from-another-machine">Using it from another machine <a class="anchor" href="#using-it-from-another-machine" aria-label="Link to this heading">#</a></h2>
@@ -219,6 +235,7 @@ changes the size (1,500 to 50,000) and <code>--wait</code> the pause between the
 <h2 id="other-useful-commands">Other useful commands <a class="anchor" href="#other-useful-commands" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">maple-proxy auth status         # what is signed in
 maple-proxy secrets status      # where each secret is stored (never its value)
+maple-proxy setup-password status   # whether the setup page has a password
 maple-proxy audit tail          # who did what: token changes, refused requests
 maple-proxy update              # install a newer release</code></pre>
 </article>

@@ -33,13 +33,18 @@ Where the system supports it (<code>/sandbox</code> says), contained commands ca
 cannot change your settings or read your keys through it. While a session is shared for remote control the shell also has no network unless you allow it. See
 <a href="install.html#optional-contain-the-shell-bubblewrap">Install</a>.</li><li><strong>The file tools keep out of secrets.</strong> They refuse your SSH keys, cloud credentials and shell history, and
 write only in your project, the temp directory and folders you list.</li><li><strong>Your sign-ins stay out of the config.</strong> Keys go in your system keyring, and the configuration holds only a
-reference.</li><li><strong>The setup page is local.</strong> It listens on this machine only, and refuses to listen anywhere else.</li><li><strong>Devices get their own tokens.</strong> Each paired device has its own token that you can limit to some folders
+reference.</li><li><strong>The setup page is local.</strong> It listens on this machine only, and refuses to listen anywhere else.</li><li><strong>The setup page can have a password.</strong> Off by default, so any program or browser on this computer can open the
+page. Set one under <strong>More &gt; Protect this page</strong> (or <code>maple-proxy setup-password set</code>) and only a browser that signs
+in with it can; Maple's own commands keep working without it. See
+<a href="proxy.html#protect-the-setup-page-with-a-password">The proxy</a>.</li><li><strong>Devices get their own tokens.</strong> Each paired device has its own token that you can limit to some folders
 and revoke at any time. Pairing codes work once and expire in five minutes.</li><li><strong>Downloads are checked.</strong> The installer and <code>update</code> verify every file against the release's <code>SHA256SUMS</code>.</li></ul>
 <h2 id="what-you-should-do">What you should do <a class="anchor" href="#what-you-should-do" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>Treat a device token like an SSH key.</strong> It is a shell on your computer. Prefer pairing codes, keep tokens
 out of chats and screenshots, and revoke a lost phone straight away.</li><li><strong>Use Tailscale, or another private network, for remote control.</strong> Do not forward the port through your
 router to the internet. See <a href="remote-control.html#recommended-setup-tailscale">Remote control</a>.</li><li><strong>Install bubblewrap on Linux</strong> if you share a session or run untrusted projects, and run
-<code>maple-harness doctor</code> to confirm the sandbox works.</li><li><strong>Only add MCP servers you trust.</strong> A server that runs as a program on your machine has your permissions.</li><li><strong>Use <code>--yolo</code> only in a throwaway checkout or a container.</strong></li><li><strong>Keep it up to date:</strong> <code>maple-harness update</code>.</li></ul>
+<code>maple-harness doctor</code> to confirm the sandbox works.</li><li><strong>Set a password for the setup page</strong> if other people or programs you do not trust use this computer. Forgot it?
+Run <code>maple-proxy setup-password reset</code> in a terminal. A command the model runs as you, with the sandbox off, could
+run that too: the password protects against other programs and browsers, and turning the sandbox on closes the rest.</li><li><strong>Only add MCP servers you trust.</strong> A server that runs as a program on your machine has your permissions.</li><li><strong>Use <code>--yolo</code> only in a throwaway checkout or a container.</strong></li><li><strong>Keep it up to date:</strong> <code>maple-harness update</code>.</li></ul>
 <p>A model can be steered by text in a file it reads or a web page it is shown, and nothing can make a model
 reliably ignore hostile text. The permission prompts are your protection, so read them.</p>
 <p>The models you configure receive what you send them. With Apple's on-device model or a local server, nothing
