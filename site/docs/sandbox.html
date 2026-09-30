@@ -8,7 +8,7 @@
 <meta name="description" content="The agent runs shell commands for you through its bash tool. Those commands run as you, with your files, your logins and your network. The sandbox contains them: when it is on, a command the model run">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -67,6 +67,10 @@ contained by <code>sandbox.mode</code> alone.</p>
 <p>When a contained command fails because of the sandbox, the result says so in plain words, for you and for the model.
 For example:</p>
 <pre><code class="language-text">[sandbox] Blocked by the sandbox: ~/.ssh is hidden, so ssh and git over SSH can't authenticate.</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-sandbox-blocked-light.webp" alt="A git push that failed inside the sandbox: the command&#x27;s own error, then the note Blocked by the sandbox: ~/.ssh is hidden, so ssh and git over SSH can&#x27;t authenticate, the ways to allow it, and the model&#x27;s reply saying what it needed" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-sandbox-blocked-dark.webp" alt="A git push that failed inside the sandbox: the command&#x27;s own error, then the note Blocked by the sandbox: ~/.ssh is hidden, so ssh and git over SSH can&#x27;t authenticate, the ways to allow it, and the model&#x27;s reply saying what it needed" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>A <code>git push</code> over SSH blocked by the sandbox: the note says why, and the model stops and tells you what it needed.</figcaption>
+</figure>
 <p>It says "blocked" only when the failure names a place the sandbox hides or keeps read-only, or the network is off. When
 it cannot tell (a bare "Permission denied", or a login failure that names no file) it says "may have been blocked". An
 ordinary failure, such as a failing test, gets no note. The model is told not to work around it and to tell you what

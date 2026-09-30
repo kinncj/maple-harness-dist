@@ -8,7 +8,7 @@
 <meta name="description" content="maple-proxy is the program that holds your sign-ins and talks to the models. The agent uses it, and so can any other tool that speaks the OpenAI or Anthropic API. Start it with:">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -58,6 +58,14 @@ each device may do, choose the folders a phone may start sessions in, and revoke
 <p>By default the setup page has no password: any program or browser on this computer can open it and change what it
 manages. To require one, open <strong>More &gt; Protect this page</strong>, type a password twice (at least 8 characters) and press
 <strong>Turn on</strong>. The browser you did it in stays signed in for 30 days; any other browser shows a sign-in form.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-protect-page-light.webp" alt="The Protect this page card with the password on: change it, sign out other browsers, sign out, or turn it off" width="964" height="501" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-protect-page-dark.webp" alt="The Protect this page card with the password on: change it, sign out other browsers, sign out, or turn it off" width="964" height="501" loading="lazy" decoding="async">
+<figcaption>The Protect this page card after turning the password on.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-sign-in-light.webp" alt="The setup page&#x27;s sign-in form: a password field and a Sign in button" width="628" height="449" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-sign-in-dark.webp" alt="The setup page&#x27;s sign-in form: a password field and a Sign in button" width="628" height="449" loading="lazy" decoding="async">
+<figcaption>What another browser sees until it signs in.</figcaption>
+</figure>
 <ul><li><strong>The Maple Harness commands keep working</strong> (<code>maple-proxy savings</code>, <code>cache</code>, <code>auth</code>, <code>maple-harness auth</code>, <code>savings</code>,
 <code>doctor</code>, the status bar): they use a separate credential that the proxy keeps in your secret store, and they never
 need the password.</li><li><strong>Change it</strong> on the same card; it needs the current password and signs out every other browser.</li><li><strong>Sign out other browsers</strong> ends every session but yours. <strong>Turn off</strong> asks for the password and a confirmation.</li><li>The password itself is never stored, only a slow, salted hash of it, in the Maple Harness config folder.</li></ul>

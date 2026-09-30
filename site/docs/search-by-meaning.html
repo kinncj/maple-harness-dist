@@ -8,7 +8,7 @@
 <meta name="description" content="The agent looks things up with three tools: historysearch (older parts of the conversation that were moved out of view to make room), recall (memory notes) and graphsearch (the project index of files ">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -58,6 +58,10 @@ model the proxy does not have built in.</li></ul>
 selected and press <strong>Download</strong> on bge-small-en-v1.5. The card shows the download's progress (with <strong>Cancel</strong>), this
 machine's memory and CPU cores, and a note if the machine is below what the model is comfortable on. It is installed as
 soon as the download finishes. There is no restart.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-search-by-meaning-light.webp" alt="The Search by meaning card: this machine&#x27;s cores and memory, the Built-in and Your own server switch, bge-small-en-v1.5 downloading with a progress bar and Cancel, and the cache with its size, how many texts it answered, and a Clear button" width="964" height="1481" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-search-by-meaning-dark.webp" alt="The Search by meaning card: this machine&#x27;s cores and memory, the Built-in and Your own server switch, bge-small-en-v1.5 downloading with a progress bar and Cancel, and the cache with its size, how many texts it answered, and a Clear button" width="964" height="1481" loading="lazy" decoding="async">
+<figcaption>The Search by meaning card while bge-small-en-v1.5 downloads again after being removed; the cache still holds the vectors computed before.</figcaption>
+</figure>
 <p><strong>From a terminal:</strong></p>
 <pre><code class="language-bash">maple-proxy embeddings list                        # the models, what is installed, and this machine
 maple-proxy embeddings install                     # bge-small-en-v1.5

@@ -8,7 +8,7 @@
 <meta name="description" content="The usage log is on by default: one JSON object per request, in your own files — not locked inside Maple. It holds counts and labels only (model, tokens, cache figures, AI units, timing), never prompt">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -89,6 +89,10 @@ optional range of days; and <strong>Remove old days</strong>, which shows you ex
 after you confirm that list. It uses the same code as <code>maple-proxy usage</code>, so the card and the command always agree
 on which requests a range covers and which files a prune removes. If the usage log is off, the card says so and
 has a <strong>Turn on</strong> button.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-usage-data-light.webp" alt="The Usage data card: the one-time notice with Turn off and OK, where the log is kept, its size on disk, Location, Keep (days), Export and Remove old days" width="964" height="1330" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-usage-data-dark.webp" alt="The Usage data card: the one-time notice with Turn off and OK, where the log is kept, its size on disk, Location, Keep (days), Export and Remove old days" width="964" height="1330" loading="lazy" decoding="async">
+<figcaption>The Usage data card after a first day of use, with the one-time notice that the log is on by default.</figcaption>
+</figure>
 <h2 id="query-it-directly-with-duckdb">Query it directly with DuckDB <a class="anchor" href="#query-it-directly-with-duckdb" aria-label="Link to this heading">#</a></h2>
 <p>This is the fastest way to ask a real question of your own data — no export step, no code. <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a>
 reads JSON Lines natively. Start by creating a typed view named <code>usage</code>:</p>

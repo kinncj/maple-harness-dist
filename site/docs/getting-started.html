@@ -8,7 +8,7 @@
 <meta name="description" content="A first session in three steps.">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -51,6 +51,10 @@ maple-harness auth login claude</code></pre>
 <h2 id="3-start-the-agent">3. Start the agent <a class="anchor" href="#3-start-the-agent" aria-label="Link to this heading">#</a></h2>
 <p>Go to a project directory and run:</p>
 <pre><code class="language-sh">maple-harness</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-start-screen-light.webp" alt="The start screen: a pixel-art beaver next to the name and version, a tip, the message box for the acme-api project and the status bar" width="1000" height="351" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-start-screen-dark.webp" alt="The start screen: a pixel-art beaver next to the name and version, a tip, the message box for the acme-api project and the status bar" width="1000" height="351" loading="lazy" decoding="async">
+<figcaption>The start screen in a project called acme-api. Type in the box at the bottom; <code>/help</code> lists every command.</figcaption>
+</figure>
 <p>Type what you want done. Useful first commands:</p>
 <div class="tablewrap"><table class="ref"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>/model</code></td><td data-label="What it does">Choose a model from the list, or <code>/model auto</code> to let the agent choose per message</td></tr><tr><td><code>/help</code></td><td data-label="What it does">List every command</td></tr><tr><td><code>/remote</code></td><td data-label="What it does">Share this session with your phone (<a href="remote-control.html">Control it from your phone</a>)</td></tr><tr><td><code>/sandbox</code></td><td data-label="What it does">See whether shell commands are contained</td></tr><tr><td><code>/lsp</code></td><td data-label="What it does">See which language servers are in use, so the agent sees compile errors after each edit (<a href="language-servers.html">Language servers</a>)</td></tr><tr><td><code>/clear</code></td><td data-label="What it does">Start over</td></tr></tbody></table></div>
 <p>By default the agent <strong>asks before it writes a file or runs a command</strong>. Answer with the keys shown. Rules

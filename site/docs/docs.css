@@ -181,3 +181,12 @@ ul.cards a:hover{border-color:var(--accent)}
   .doc{max-width:none;padding:0}
   a{color:inherit}
 }
+
+/* Screenshots in the documentation: a light and a dark copy, the one matching the page's theme is shown
+   (the hidden one is lazy and never fetched). Phone-width shots stay phone-sized. */
+figure{margin:1.4em 0}
+figure .shot{display:block;border:1px solid var(--line);border-radius:10px}
+figure .shot.phone{max-width:min(100%,360px)}
+figure .shot-dark,[data-theme=dark] figure .shot-light{display:none}
+[data-theme=dark] figure .shot-dark{display:block}
+figcaption{margin-top:.5em;font-size:.88rem;color:var(--muted)}

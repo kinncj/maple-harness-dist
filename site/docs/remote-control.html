@@ -8,7 +8,7 @@
 <meta name="description" content="Share a session and drive it from your phone&#x27;s browser or from another machine. You can approve tool calls (with a look at exactly what will change), open several sessions in one list, and start new o">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=438b1051">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
 </head>
 <body>
@@ -126,14 +126,26 @@ commands they approve run directly on this computer. The sheet says so and asks 
 the link. Only a session in ask mode can be shared this way: in auto and yolo mode tool calls run without anyone
 approving them. If the session is switched to auto or yolo later, the link can still watch but cannot send or
 answer until it is back in ask mode.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/remote-share-drive-light.webp" alt="The Share sheet with Can drive this session selected: a warning that they can run commands on this computer through this session, 8 hours chosen, and a confirm step before the link is made." width="564" height="771" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/remote-share-drive-dark.webp" alt="The Share sheet with Can drive this session selected: a warning that they can run commands on this computer through this session, 8 hours chosen, and a confirm step before the link is made." width="564" height="771" loading="lazy" decoding="async">
+<figcaption>Choosing Can drive shows the warning and asks you to confirm before the link is made.</figcaption>
+</figure>
 <p>Pick when it ends (1 hour, 8 hours, 24 hours or 7 days; 24 hours for watch only and 8 hours for a link that can
 drive, unless you choose), and tap <strong>Create link</strong>. You get a QR code and a link to copy.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/remote-share-qr-light.webp" alt="The Share sheet after making a watch-only link: a QR code, the link with a Copy link button, and a Shared now list with one watch-only and one can-drive share, each with Stop sharing." width="564" height="834" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/remote-share-qr-dark.webp" alt="The Share sheet after making a watch-only link: a QR code, the link with a Copy link button, and a Shared now list with one watch-only and one can-drive share, each with Stop sharing." width="564" height="834" loading="lazy" decoding="async">
+<figcaption>A watch-only link as a QR code and a link to copy, with the session's live shares under Shared now.</figcaption>
+</figure>
 <p>The link carries a one-time code, like a pairing code: the first person to open it, within 10 minutes, gets in,
 and it works for no one after that. Send it privately.</p>
 <p><strong>What the person who opens it sees:</strong> that session's conversation as it happens, the tool calls and their output,
 the changes proposed with their diffs, approval requests as they appear, and the model, mode and context use. They
 are not shown the session's folder or your account's quota and spend (though file paths can appear in the
 conversation itself). They can turn on notifications for that session in one browser.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/remote-watch-only-phone-light.webp" alt="A phone showing a shared session read-only: the conversation, the model, mode and context, a note saying Watching acme-api (read-only) and when it ends, and no message box." width="780" height="1688" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/remote-watch-only-phone-dark.webp" alt="A phone showing a shared session read-only: the conversation, the model, mode and context, a note saying Watching acme-api (read-only) and when it ends, and no message box." width="780" height="1688" loading="lazy" decoding="async">
+<figcaption>What the person sees on a phone with a watch-only link: the conversation, and no way to send.</figcaption>
+</figure>
 <p><strong>With a link that can drive,</strong> they can also type messages to the session, stop the current turn, and answer its
 approvals with <strong>Allow</strong> or <strong>Deny</strong>, one at a time. Their messages and answers are labelled with the share's label
 and "(shared link)", so you can tell them apart from your own devices.</p>
