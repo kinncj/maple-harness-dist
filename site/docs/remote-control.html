@@ -45,9 +45,9 @@ certificate for your machine, which is what lets a phone show notifications with
 (<a href="https://tailscale.com/kb/1153/enabling-https" rel="noopener noreferrer">how</a>).</li><li>On the computer, start the gateway and allow a folder the phone may work in:
 <pre><code class="language-sh">maple-harness gateway start --workspace ~/code</code></pre>
 <p>It prints a one-time pairing code, a QR code and an address like
-<code>https://my-machine.my-tailnet.ts.net:11541/</code>. When Tailscale is signed in, it uses a Tailscale
-certificate for you.</p></li><li>On the phone, scan the QR code. It signs itself in. Open the address on your phone's Tailscale network,
-using the <code>.ts.net</code> name (the certificate does not match a bare IP address).</li><li>Add the page to your Home Screen (iPhone: Share, then Add to Home Screen), open the app from its icon,
+<code>https://my-computer.example:11541/</code>, where <code>my-computer.example</code> stands for this machine's Tailscale name.
+When Tailscale is signed in, it uses a Tailscale certificate for you.</p></li><li>On the phone, scan the QR code. It signs itself in. Open the address on your phone's Tailscale network,
+using the machine's Tailscale name (the certificate does not match a bare IP address).</li><li>Add the page to your Home Screen (iPhone: Share, then Add to Home Screen), open the app from its icon,
 and sign in from inside it: tap <strong>Scan QR code</strong> or type the code. Then turn on notifications below.</li></ol>
 <p>Without Tailscale, the gateway serves a self-signed certificate on your local network. The phone warns once;
 compare the certificate fingerprint it shows with the one printed on the computer (under the pairing code, and
@@ -217,10 +217,10 @@ own layout and colours, with a <strong>Copy</strong> button; a wide table scroll
 <code>/help</code> lists them. The model and permission mode are in the session sheet; other commands work in the
 terminal only. What a command prints is shown only on the device that ran it.</li><li>Light and dark themes follow your phone; a toggle overrides them.</li></ul>
 <h2 id="attach-from-another-computer">Attach from another computer <a class="anchor" href="#attach-from-another-computer" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">MAPLE_TOKEN=&lt;token&gt; maple-harness attach https://my-machine.my-tailnet.ts.net:11541</code></pre>
+<pre><code class="language-sh">MAPLE_TOKEN=&lt;token&gt; maple-harness attach https://my-computer.example:11541</code></pre>
 <h2 id="if-it-does-not-work">If it does not work <a class="anchor" href="#if-it-does-not-work" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>The phone cannot reach the address.</strong> Check that both devices are on the same Tailscale network, or the
-same local network for the LAN address, and that a firewall is not blocking port 11541.</li><li><strong>Certificate warning on the <code>.ts.net</code> name.</strong> HTTPS certificates are not enabled for your tailnet yet; see
+same local network for the LAN address, and that a firewall is not blocking port 11541.</li><li><strong>Certificate warning on the Tailscale name.</strong> HTTPS certificates are not enabled for your tailnet yet; see
 step 2.</li><li><strong><code>+ New session</code> is refused.</strong> No folder is allowed yet: <code>maple-harness gateway workspaces add &lt;dir&gt;</code>.</li><li>Run <code>maple-harness doctor</code>; it reports which certificate the gateway serves and what that means for
 notifications.</li></ul>
 <p>See also <a href="security.html">Security</a> and <a href="troubleshooting.html">Troubleshooting</a>.</p>

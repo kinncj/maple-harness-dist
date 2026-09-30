@@ -165,7 +165,7 @@ budgets:
     max_requests_per_day: 150
     max_ai_units_per_day: 20
 server:
-  allowed_hosts: [box.tailnet-name.ts.net]
+  allowed_hosts: [my-computer.example]   # this machine's Tailscale name, or another name clients use
   rate_limit:
     requests_per_minute: 120
     burst: 20

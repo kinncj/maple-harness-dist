@@ -32,7 +32,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></nav>
 <article>
 <h1 id="connect-a-model-server">Connect a model server <a class="anchor" href="#connect-a-model-server" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="#check-it">Check it</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></details>
 
 <p>Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio,
 vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editing the
@@ -66,15 +66,65 @@ configuration file.</p>
 <p>A key you type on the setup page is stored in the keyring for you.</p>
 <h2 id="use-your-models-from-other-tools">Use your models from other tools <a class="anchor" href="#use-your-models-from-other-tools" aria-label="Link to this heading">#</a></h2>
 <p>Any tool that speaks the OpenAI or Anthropic API can use the proxy. Point it at the proxy's addresses:</p>
-<pre><code class="language-sh"># Claude Code, against one of your models
-ANTHROPIC_BASE_URL=http://127.0.0.1:11537 ANTHROPIC_MODEL=local claude
-
-# anything OpenAI-compatible
+<div class="tablewrap"><table><thead><tr><th>API</th><th>Address</th><th>Path</th></tr></thead><tbody><tr><td>OpenAI-compatible</td><td><code>http://127.0.0.1:11535/v1</code></td><td>give it <strong>with</strong> <code>/v1</code></td></tr><tr><td>Anthropic-compatible</td><td><code>http://127.0.0.1:11537</code></td><td>give it <strong>without</strong> <code>/v1</code>: the tool adds it</td></tr></tbody></table></div>
+<pre><code class="language-sh"># anything OpenAI-compatible
 OPENAI_BASE_URL=http://127.0.0.1:11535/v1</code></pre>
-<p><code>local</code> is the alias from the example above. You can list your models at <code>http://127.0.0.1:11535/v1/models</code>.
-To give a tool a fixed name for a model, add it under <code>model_aliases:</code> in the configuration.</p>
-<p>Tools on <strong>other machines</strong> need an access token: see
+<p><strong>Which model.</strong> Use a name the proxy lists: a model's <code>id</code>, or its alias. <code>local</code> is the alias from the example
+above. See every name with <code>curl http://127.0.0.1:11535/v1/models</code>, or on the setup page. To give a tool a fixed name
+for a model, add it under <code>model_aliases:</code> in the configuration; to let the proxy choose, see
+<a href="proxy.html#auto-mode-at-the-proxy">Auto mode at the proxy</a>.</p>
+<p><strong>API key.</strong> On this machine the proxy needs no key. Tools that insist on one get any placeholder, such as <code>maple</code>.
+Tools on <strong>other machines</strong> need an access token in its place: see
 <a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>.</p>
+<h3 id="claude-code">Claude Code <a class="anchor" href="#claude-code" aria-label="Link to this heading">#</a></h3>
+<p>Claude Code speaks the Anthropic API. Set these in your shell, or in the <code>env</code> block of <code>~/.claude/settings.json</code>:</p>
+<pre><code class="language-sh">export ANTHROPIC_BASE_URL=http://127.0.0.1:11537
+export ANTHROPIC_AUTH_TOKEN=maple            # any value on this machine
+export ANTHROPIC_MODEL=local                 # the model for the session
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=local   # the model for its background tasks
+claude</code></pre>
+<p>Without <code>ANTHROPIC_DEFAULT_HAIKU_MODEL</code>, Claude Code asks the proxy for its own small model by name for background
+work, which fails unless the proxy serves that name.</p>
+<h3 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h3>
+<p>Add a provider to <code>~/.config/opencode/opencode.json</code>:</p>
+<pre><code class="language-json">{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "maple": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Maple",
+      "options": { "baseURL": "http://127.0.0.1:11535/v1" },
+      "models": {
+        "local": { "name": "local" }
+      }
+    }
+  },
+  "model": "maple/local"
+}</code></pre>
+<p>Each key under <code>models</code> is a name the proxy lists. Pick one with <code>/models</code>, or <code>opencode run -m maple/local "..."</code>.</p>
+<h3 id="pi">pi <a class="anchor" href="#pi" aria-label="Link to this heading">#</a></h3>
+<p>Add a provider to <code>~/.pi/agent/models.json</code>:</p>
+<pre><code class="language-json">{
+  "providers": {
+    "maple": {
+      "baseUrl": "http://127.0.0.1:11535/v1",
+      "api": "openai-completions",
+      "apiKey": "maple",
+      "models": [
+        { "id": "local" }
+      ]
+    }
+  }
+}</code></pre>
+<p>pi needs the <code>apiKey</code> to show the models; any value works on this machine. Pick a model with <code>/model</code>, or
+<code>pi --model maple/local</code>.</p>
+<h3 id="github-copilot-cli">GitHub Copilot CLI <a class="anchor" href="#github-copilot-cli" aria-label="Link to this heading">#</a></h3>
+<p>Copilot CLI's bring-your-own-model mode is set with environment variables, and needs no GitHub sign-in:</p>
+<pre><code class="language-sh">export COPILOT_PROVIDER_BASE_URL=http://127.0.0.1:11535/v1
+export COPILOT_MODEL=local
+copilot</code></pre>
+<p>Leave <code>COPILOT_PROVIDER_TYPE</code> and <code>COPILOT_PROVIDER_WIRE_API</code> at their defaults (<code>openai</code> and <code>completions</code>). For a
+proxy on another machine, put the access token in <code>COPILOT_PROVIDER_API_KEY</code>.</p>
 <h2 id="check-it">Check it <a class="anchor" href="#check-it" aria-label="Link to this heading">#</a></h2>
 <pre><code class="language-sh">curl http://127.0.0.1:11535/v1/models          # your models
 maple-harness doctor                           # checks the install and each provider</code></pre>
@@ -86,7 +136,7 @@ See <a href="troubleshooting.html">Troubleshooting</a>.</p>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="#check-it">Check it</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
