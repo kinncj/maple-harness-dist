@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>What the proxy adds for other tools · Maple Harness docs</title>
+<meta name="description" content="Claude Code, OpenCode, pi and GitHub Copilot CLI can send their requests through the Maple proxy instead of straight to a provider. Use your models from other tools has a tested setup for each. This p">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html" aria-current="page">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">What the proxy adds for other tools</li></ol></nav>
+<article>
+<h1 id="what-the-proxy-adds-for-other-tools">What the proxy adds for other tools <a class="anchor" href="#what-the-proxy-adds-for-other-tools" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#at-a-glance">At a glance</a></li><li><a href="#one-address-for-many-models">One address for many models</a></li><li><a href="#keeps-going-when-an-account-runs-out">Keeps going when an account runs out</a></li><li><a href="#budgets">Budgets</a></li><li><a href="#see-what-each-tool-spends">See what each tool spends</a></li><li><a href="#prompt-cache">Prompt cache</a></li><li><a href="#settings-you-can-turn-on">Settings you can turn on</a></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#what-stays-in-maple-harness">What stays in Maple Harness</a></li><li><a href="#measure-it-yourself">Measure it yourself</a></li></ol></details>
+
+<p>Claude Code, OpenCode, pi and GitHub Copilot CLI can send their requests through the Maple proxy instead of straight
+to a provider. <a href="endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a> has a tested setup
+for each. This page says what they get from it, and what stays in Maple Harness.</p>
+<p>Other tools that speak the OpenAI or Anthropic API, such as Hermes, can use the same addresses. There is no tested
+setup for them here.</p>
+<p>Everything below describes what the proxy does. Nothing here is a promise about your bill.</p>
+<h2 id="at-a-glance">At a glance <a class="anchor" href="#at-a-glance" aria-label="Link to this heading">#</a></h2>
+<p>What each tool sent was checked with Claude Code 2.1.284, OpenCode 1.18.33, pi 0.87.1 and Copilot CLI 1.0.89. Other
+versions may send different headers or cache marks.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>Claude Code</th><th>OpenCode</th><th>pi</th><th>Copilot CLI</th></tr></thead><tbody><tr><td>Every model the proxy serves</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Aliases, fallbacks, budgets</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td></tr><tr><td>Usage log, Cache and Savings cards</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Its name in the usage log's <code>agent</code> column</td><td><code>claude-code</code></td><td><code>opencode</code></td><td><code>other</code></td><td><code>other</code></td></tr><tr><td>Sessions card</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td>Cache marks for Claude models</td><td>Its own, and the proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td></tr><tr><td>Prefix stabiliser</td><td>Left alone</td><td>On by default</td><td>On by default</td><td>On by default</td></tr><tr><td>Image shrinking, snapshot trimming</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td></tr><tr><td>Response cache</td><td>No</td><td>No</td><td>No</td><td>No</td></tr></tbody></table></div>
+<p>Each row is explained below.</p>
+<h2 id="one-address-for-many-models">One address for many models <a class="anchor" href="#one-address-for-many-models" aria-label="Link to this heading">#</a></h2>
+<p>The tool asks for a model by name, and the proxy sends the request to whichever provider serves it: your GitHub
+Copilot account, an Anthropic account, or a model server such as Ollama, LM Studio or oMLX. The proxy translates
+between the two APIs in both directions. Claude Code, which speaks the Anthropic API, can use a Copilot model or a
+local one. OpenCode, pi and Copilot CLI, which speak the OpenAI API, can use a Claude model from an Anthropic
+account.</p>
+<p>Give the tool a name the proxy lists (<code>curl http://127.0.0.1:11535/v1/models</code>), or an alias from <code>model_aliases</code>. You
+can then change which model an alias means without touching the tool. See <a href="proxy.html#model-aliases">Model aliases</a>.</p>
+<p>The same aliases give you <a href="proxy.html#auto-mode-at-the-proxy">auto mode at the proxy</a>: point a tool at <code>auto-heavy</code>,
+and the proxy decides what answers. It does not judge each message the way Maple Harness's <code>/model auto</code> does. The
+name always means the model you mapped it to, and its fallbacks.</p>
+<h2 id="keeps-going-when-an-account-runs-out">Keeps going when an account runs out <a class="anchor" href="#keeps-going-when-an-account-runs-out" aria-label="Link to this heading">#</a></h2>
+<p>Fallbacks apply to every request through the proxy, whatever tool sent it. With <code>model_fallbacks</code>, a model that cannot
+answer (out of chats or credit, overloaded, unreachable) hands the request to the next name on its list.
+<code>provider_fallbacks</code> moves one account's requests to another account. A model that has just said it is out of quota
+is tried last for the next hour, so the tool does not wait for the same refusal on every request.</p>
+<p>A fallback happens only before any output reaches the tool, and never for bad credentials or malformed requests. The
+usage log's <code>fallback</code> column and the <code>X-Maple-Served-By</code> response header say which model answered. See
+<a href="proxy-settings.html#fallbacks">Fallbacks</a>.</p>
+<h2 id="budgets">Budgets <a class="anchor" href="#budgets" aria-label="Link to this heading">#</a></h2>
+<p>A daily limit on a provider (requests, AI units, or both) counts every request to that provider through the proxy,
+whichever tool sent it. At the limit, requests are refused or handed to a fallback. See
+<a href="proxy.html#daily-budgets">Daily budgets</a>.</p>
+<h2 id="see-what-each-tool-spends">See what each tool spends <a class="anchor" href="#see-what-each-tool-spends" aria-label="Link to this heading">#</a></h2>
+<p>Every request through the proxy gets one line in the usage log: the model asked for and the model that answered,
+tokens in and out, tokens read from and written to the cache, AI units when the provider reports them, and estimated
+cost and savings columns. The log keeps counts and labels, never prompts or answers. You can query it with DuckDB,
+or export it to CSV or Parquet (<a href="usage-export.html">Your usage data</a>).</p>
+<p>To tell tools apart:</p>
+<ul><li><strong><code>agent</code></strong> is taken from the tool's User-Agent. Claude Code shows as <code>claude-code</code> and OpenCode as <code>opencode</code>. pi
+and Copilot CLI show as <code>other</code>.</li><li><strong><code>client</code></strong> is the label of the access token a tool used. That is the reliable way to separate tools on other
+machines, or two tools that both show as <code>other</code>: give each one its own token.</li></ul>
+<p>The <strong>Cache</strong> card (hit rate and cache tokens, per model and per client) and the <strong>Savings</strong> card (what the proxy's
+own settings saved and cost, each figure marked measured or estimated) include these tools' requests. The
+<strong>Sessions</strong> card does not. It groups requests by a session id that Maple Harness sends and these four tools do not.</p>
+<h2 id="prompt-cache">Prompt cache <a class="anchor" href="#prompt-cache" aria-label="Link to this heading">#</a></h2>
+<p>Providers charge less for the start of a request they have already seen. For Claude models, reached through an
+Anthropic account or through Copilot, the provider caches only the parts of a request that are marked for caching.
+The proxy marks them (<code>prompt_cache</code>, on by default):</p>
+<ul><li><strong>Claude Code</strong> marks its own system prompt. The proxy keeps those marks and marks the conversation too.</li><li><strong>OpenCode, pi and Copilot CLI</strong>, on the OpenAI-compatible address, get the proxy's marks.</li></ul>
+<p>The <strong>prefix stabiliser</strong> (<code>prefix_stabilizer</code>, on by default) keeps the start of each request the same from turn to
+turn, so a provider's cache can keep matching it. It works with any provider, and each response that it changed
+carries <code>X-Maple-Prefix-Stabilized</code>. It leaves a request alone when the tool marks its own cache points, so it does
+not touch Claude Code's requests.</p>
+<p>Whether a request hit the cache is in the usage log and on the Cache card. See <a href="proxy-settings.html#caching">Caching</a>.</p>
+<h2 id="settings-you-can-turn-on">Settings you can turn on <a class="anchor" href="#settings-you-can-turn-on" aria-label="Link to this heading">#</a></h2>
+<p>These are off by default. When on, they apply to every tool.</p>
+<ul><li><strong>Image shrinking</strong> (<code>image_resize_tool</code>, <code>image_resize_user</code>, <code>image_superseded</code>) sends smaller images. Small text
+in a screenshot may become harder to read.</li><li><strong>Snapshot trimming</strong> (<code>snapshot_trim</code>) shortens browser page snapshots from Playwright MCP. It only acts on results
+it recognises as snapshots.</li><li><strong>Trim old tool results</strong> (<code>context_trim</code>) replaces old, large tool results in long conversations with a short note.
+The model can no longer see what was trimmed.</li><li><strong>Context guard</strong> (<code>context_guard</code>) drops the oldest turns, or refuses the request, when a request is too big for
+the model's window.</li></ul>
+<p>See <a href="proxy-settings.html#images-and-browser-snapshots">Images and browser snapshots</a> and
+<a href="proxy-settings.html#guards">Guards</a>.</p>
+<p>The <strong>response cache</strong> (<code>response_cache</code>) is different. It answers only requests that carry the header
+<code>X-Maple-Cache: allow</code>, and none of these four tools send it. It also never answers a request whose last message is a
+tool call or a tool result, and in an agent's loop most requests end with one.</p>
+<p><strong>Embeddings</strong> are served at <code>http://127.0.0.1:11535/v1/embeddings</code>, for any tool or script that asks for them. See
+<a href="search-by-meaning.html#the-proxys-cache">The proxy's cache</a>.</p>
+<h2 id="using-it-from-another-machine">Using it from another machine <a class="anchor" href="#using-it-from-another-machine" aria-label="Link to this heading">#</a></h2>
+<p>To reach the proxy from another machine, give the tool an <strong>access token</strong> as its API key, in place of the
+placeholder. The token's label then names the tool in the usage log's <code>client</code> column. The setup page
+itself is reachable only from the proxy's own machine, and you can
+<a href="proxy.html#protect-the-setup-page-with-a-password">protect it with a password</a>. See
+<a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>.</p>
+<h2 id="what-stays-in-maple-harness">What stays in Maple Harness <a class="anchor" href="#what-stays-in-maple-harness" aria-label="Link to this heading">#</a></h2>
+<p>These belong to the agent, not the proxy. Pointing another tool at the proxy does not give it any of them:</p>
+<ul><li><code>history_search</code> over earlier conversations, and the session journal of what each turn read, changed and ran.</li><li>Memory notes and the project index as the agent uses them: recalled during a turn, and kept current after each
+edit. Other tools can reach the notes and the index through a separate server:
+<a href="mcp.html">Give other tools this project's knowledge</a>.</li><li>The shell sandbox, permission modes and file-access rules.</li><li><code>/model auto</code>, which picks a model for each message.</li><li><code>/cost</code> and <code>/savings</code> for one session, and the Sessions card, which needs the session id the agent sends.</li><li>Remote control from your phone.</li><li>Subagents.</li></ul>
+<h2 id="measure-it-yourself">Measure it yourself <a class="anchor" href="#measure-it-yourself" aria-label="Link to this heading">#</a></h2>
+<p>The measured comparison on this website is between Maple Harness and Copilot CLI. What the proxy changes for these
+tools on their own has not been measured, so this page gives no figure.</p>
+<p>To measure it on your own work, use <a href="bench.html#compare-another-tool-on-the-same-model"> 0 </a>. It can
+run another tool as one arm, with the same tasks and the same check, several times each: for example, the same tool
+once pointed at your model server directly and once at the proxy. The usage log shows what each request through the
+proxy cost.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/sandbox.html" rel="prev"><small>Previous</small>The shell sandbox</a><a class="next" href="../docs/mcp.html" rel="next"><small>Next</small>Give other tools this project&#x27;s knowledge</a></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#at-a-glance">At a glance</a></li><li><a href="#one-address-for-many-models">One address for many models</a></li><li><a href="#keeps-going-when-an-account-runs-out">Keeps going when an account runs out</a></li><li><a href="#budgets">Budgets</a></li><li><a href="#see-what-each-tool-spends">See what each tool spends</a></li><li><a href="#prompt-cache">Prompt cache</a></li><li><a href="#settings-you-can-turn-on">Settings you can turn on</a></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#what-stays-in-maple-harness">What stays in Maple Harness</a></li><li><a href="#measure-it-yourself">Measure it yourself</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=c7131fda" defer></script>
+</body>
+</html>
