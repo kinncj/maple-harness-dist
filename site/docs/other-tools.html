@@ -56,6 +56,9 @@ can then change which model an alias means without touching the tool. See <a hre
 <p>The same aliases give you <a href="proxy.html#auto-mode-at-the-proxy">auto mode at the proxy</a>: point a tool at <code>auto-heavy</code>,
 and the proxy decides what answers. It does not judge each message the way Maple Harness's <code>/model auto</code> does. The
 name always means the model you mapped it to, and its fallbacks.</p>
+<p>A tool can also ask for <code>github-copilot/auto</code>, where GitHub Copilot itself picks the model for each request, when
+your Copilot account offers it. The <code>X-Maple-Served-By</code> header says which model Copilot picked. See
+<a href="models.html#copilot-auto">Copilot Auto</a>.</p>
 <h2 id="keeps-going-when-an-account-runs-out">Keeps going when an account runs out <a class="anchor" href="#keeps-going-when-an-account-runs-out" aria-label="Link to this heading">#</a></h2>
 <p>Fallbacks apply to every request through the proxy, whatever tool sent it. With <code>model_fallbacks</code>, a model that cannot
 answer (out of chats or credit, overloaded, unreachable) hands the request to the next name on its list.

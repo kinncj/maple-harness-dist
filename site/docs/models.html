@@ -32,7 +32,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Choose a model</li></ol></nav>
 <article>
 <h1 id="choose-a-model">Choose a model <a class="anchor" href="#choose-a-model" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#automatic-choice">Automatic choice</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#automatic-choice">Automatic choice</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></details>
 
 <p>Switch models at any time inside the agent:</p>
 <pre><code>/model              pick from a list
@@ -70,6 +70,25 @@ tool and often refuse long autonomous work here); <code>harness.auto_avoid</code
 weight for the work, for example a lightweight model asked to plan something large. A model that declines a
 task it can do is skipped for the rest of the session, and you are told when auto switches away from it.</p>
 <p><code>maple-harness doctor</code> shows what auto would use on your account.</p>
+<h2 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h2>
+<p>GitHub Copilot has an automatic mode of its own, in which <strong>Copilot</strong> picks the model for each request. The proxy
+lists it as a model of each Copilot account, named after the account, for example <code>github-copilot/auto</code>:</p>
+<pre><code>/model github-copilot/auto</code></pre>
+<p>In the <code>/model</code> list it reads <code>github-copilot - auto  Copilot Auto (Copilot picks the model each turn)</code>. It is a
+different thing from <code>/model auto</code>:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th><code>/model auto</code></th><th>Copilot Auto</th></tr></thead><tbody><tr><td>Who chooses</td><td>Maple Harness, from your provider's own ranking and your settings</td><td>Copilot, on GitHub's side</td></tr><tr><td>Works with</td><td>any provider with a ranking, or models you ranked yourself</td><td>GitHub Copilot only</td></tr><tr><td>How to ask for it</td><td><code>/model auto</code></td><td><code>/model github-copilot/auto</code>, or that name from any tool through the proxy</td></tr></tbody></table></div>
+<ul><li><strong>It is listed only when your account offers it.</strong> The proxy asks Copilot whether your account can use automatic
+selection; if not, it is not in the list. To hide it anyway, set <code>copilot_auto: off</code> on the provider (see
+<a href="proxy-settings.html#providers-and-models">Providers and models</a>).</li><li><strong>The plain name <code>auto</code> is never taken.</strong> If you have a model alias called <code>auto</code>, it keeps meaning what it means
+today; Copilot's Auto is only ever the name with the account in front.</li><li><strong>See what Copilot picked.</strong> Every answer names the model that wrote it: the proxy's <code>X-Maple-Served-By</code> response
+header and the <code>model</code> column of the usage log show the chosen model, the <code>requested</code> column shows
+<code>github-copilot/auto</code>, and <code>X-Maple-Router</code> says which models Copilot offered and whether it chose one for this
+request or the account's default model was used.</li><li><strong>Its limits</strong> are those of the smallest model Copilot may choose for your account, so a long conversation is kept
+to a size every one of them can take.</li><li><strong>It relies on a part of Copilot that GitHub does not document</strong>, the same one GitHub's own editors use. It may
+change without notice. If Copilot does not say which model to use for a request, the proxy uses the model your
+account's automatic selection names by default, so the request still gets an answer.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
+What a request costs is recorded as Copilot reports it, like any other model; nothing here says it costs more or
+less than choosing a model yourself.</li></ul>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
 <p>Set the model the agent starts with in <code>config.yaml</code>:</p>
 <pre><code class="language-yaml">harness:
@@ -90,7 +109,7 @@ see <a href="saving-tokens.html">See and reduce what a task costs</a>.</p>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#automatic-choice">Automatic choice</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#automatic-choice">Automatic choice</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
