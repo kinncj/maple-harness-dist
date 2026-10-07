@@ -103,25 +103,39 @@ before any output is sent, never for bad credentials or malformed requests, and 
 rule. Responses from a fallback carry <code>X-Maple-Served-By</code>. See <a href="proxy-settings.html#fallbacks">Fallbacks</a>, and
 <a href="sign-in.html#more-than-one-account">adding a second GitHub Copilot or Anthropic account</a> to set one up.</p>
 <h3 id="auto-mode-at-the-proxy">Auto mode at the proxy <a class="anchor" href="#auto-mode-at-the-proxy" aria-label="Link to this heading">#</a></h3>
-<p><code>model_aliases</code> and <code>model_fallbacks</code> together give you a name that is not a real model: request it and the proxy
-decides what answers, and every client picks up a change without being reconfigured.</p>
+<p>The proxy has four built-in model names that choose the model for you. Any tool that talks to the proxy can ask for
+them:</p>
+<div class="tablewrap"><table><thead><tr><th>Name</th><th>What answers</th></tr></thead><tbody><tr><td><code>auto</code></td><td>The proxy looks at each request and sends it to the heavy, medium or light model below</td></tr><tr><td><code>auto-heavy</code></td><td>The model for planning, diagnosing and deciding</td></tr><tr><td><code>auto-medium</code></td><td>The model for ordinary work already under way</td></tr><tr><td><code>auto-light</code></td><td>The model for short side jobs, such as a summary</td></tr></tbody></table></div>
+<p>Each weight is one model plus the models to try after it when it cannot answer, like any <a href="#fallbacks">fallback</a>.
+Budgets, the "out of quota, tried last" rule and <code>provider_fallbacks</code> apply to them as to any other model.</p>
+<ul><li><strong>Defaults.</strong> With nothing configured, the proxy takes the first provider in <code>config.yaml</code> whose models carry a
+ranking (GitHub Copilot ranks its models; for other servers add <code>category: powerful</code>, <code>versatile</code> or
+<code>lightweight</code> to a model) and uses that provider's own ranking, the same way Maple Harness's <code>/model auto</code> does:
+the best model of the matching category, then two more from the same provider as fallbacks. The defaults never
+mix providers. Models matching <code>*-codex*</code> are not chosen by default; <code>auto_avoid</code> changes that list (<code>[]</code> turns
+it off). With no ranked provider there are no defaults, and the names are not listed until you choose models.</li><li><strong>Choose them yourself</strong> on the setup page's <strong>Auto mode</strong> card (under <strong>Set up</strong>): for each weight, a model and
+an optional list of fallbacks, with a preview such as "A request for auto that looks heavy goes to X (then Y)".
+<a href="#copilot-auto">Copilot Auto</a> can be chosen for any weight. The card saves ordinary <code>model_aliases</code> and
+<code>model_fallbacks</code> entries, so the same thing written by hand works and the card shows it:
 <pre><code class="language-yaml">model_aliases:
   auto-heavy: gpt-6-sol
-  auto-medium: gpt-6-sol-mini
   auto-light: gpt-5-mini
 model_fallbacks:
-  auto-heavy: [claude-opus-5-5]
-  auto-medium: [claude-sonnet-5]</code></pre>
-<p>Maple Harness's <code>/model auto</code> picks a model itself by default (<code>harness.auto_model_resolution: client</code>). Set it
-to <code>proxy</code> and the agent still judges how much a turn is worth, but asks for <code>auto-heavy</code>, <code>auto-medium</code> or
-<code>auto-light</code> (or your own names, with <code>harness.auto_model_map</code>) and leaves the proxy to decide what they mean. This
-also works with models that publish no ranking of their own. <code>maple-harness doctor</code> checks that the proxy serves the
-names the agent would ask for. See <a href="configuration.html#model-choice">Harness settings</a>.</p>
+  auto-heavy: [claude-opus-5-5]</code></pre>
+<p>A weight with no alias keeps its default model; fallbacks given for it replace the default fallbacks.</p></li><li><strong>Your own names win.</strong> If <code>model_aliases</code> (or a provider's model) already has the name <code>auto</code> or <code>auto-heavy</code>, it
+keeps meaning exactly what you set, and the built-in one with that name is not listed.</li><li><strong>See what happened.</strong> <code>X-Maple-Router</code> says how a request for <code>auto</code> was weighed and which name it went to, for
+example <code>auto: heavy -&gt; auto-heavy</code>; <code>X-Maple-Served-By</code> names the model that answered. In the usage log,
+<code>requested</code> is <code>auto</code> and <code>model</code> is the model that answered.</li></ul>
+<p>The proxy weighs a request from what the request itself contains, so it cannot know what the tool intended. Maple
+Harness weighs each message itself: with <code>harness.auto_model_resolution: proxy</code> it asks for <code>auto-heavy</code>,
+<code>auto-medium</code> or <code>auto-light</code> (or your own names, with <code>harness.auto_model_map</code>) and the proxy decides which model
+each means. <code>maple-harness doctor</code> checks that the proxy serves those names. See
+<a href="configuration.html#model-choice">Harness settings</a> and <a href="models.html#automatic-choice">Automatic choice</a>.</p>
 <h3 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h3>
 <p>GitHub Copilot's own automatic mode, where Copilot picks the model for each request, is listed as a model of each
 Copilot account: <code>github-copilot/auto</code>. Any tool can ask for it by that name, and it works in model aliases,
-fallbacks and budgets like any other model. It never takes the plain name <code>auto</code>, so an alias of yours with that name
-is not affected. <code>X-Maple-Served-By</code> and the usage log name the model Copilot chose. See
+fallbacks and budgets like any other model. It never takes the plain name <code>auto</code>, which is the proxy's own
+<a href="#auto-mode-at-the-proxy">auto mode</a> (or your alias of that name). <code>X-Maple-Served-By</code> and the usage log name the model Copilot chose. See
 <a href="models.html#copilot-auto">Copilot Auto</a>.</p>
 <h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
 <p>The <strong>Context guard</strong> (<code>context_guard</code>) is for tools that do not know a model's window: it sends the request as is,
