@@ -1,0 +1,54 @@
+{
+  "$id": "maple-events-record.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "One line of the events log (JSON Lines, events-YYYY-MM-DD.jsonl next to the usage log). Events are not requests. Later versions may add properties or kinds; none is ever renamed, removed or retyped.",
+  "properties": {
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it happened (UTC, RFC 3339 text)."
+    },
+    "code": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "A short machine-readable code for what happened, such as changed or rate_limited. May be left out; absent means none."
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "A short note for people, such as where a change came from. Never content, never a secret. May be left out; absent means none."
+    },
+    "kind": {
+      "type": "string",
+      "maxLength": 48,
+      "description": "What happened, as a dotted name: config.change, health.change, health.demote, health.restore, alert.fired or alert.resolved. Later releases may add kinds."
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warn",
+        "error"
+      ],
+      "description": "info, warn or error."
+    },
+    "subject": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "What it happened to: a setting's key path, a provider, or an alert's scope. A label, never content. May be left out; absent means none."
+    },
+    "value": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "A figure or state, as text, when the kind has one. For a setting, only for numbers, flags and modes; never a key, a token, a path or other text. May be left out; absent means none."
+    }
+  },
+  "required": [
+    "at",
+    "kind",
+    "level"
+  ],
+  "title": "Maple events record, schema version 1",
+  "type": "object"
+}

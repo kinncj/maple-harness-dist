@@ -1,0 +1,289 @@
+{
+  "$id": "maple-usage-record.v4.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "One line of the usage log (JSON Lines). Later versions may add properties; none is ever renamed, removed or retyped.",
+  "properties": {
+    "agent": {
+      "type": "string",
+      "description": "The kind of client, from its User-Agent: claude-code, opencode, maple-harness, hermes or other. May be left out; absent means unknown."
+    },
+    "agent_version": {
+      "type": "string",
+      "description": "The client's version as major.minor, from its User-Agent, when it gives one. May be left out; absent means unknown. Added in schema version 4: lines written before it do not have it."
+    },
+    "ai_units": {
+      "type": "number",
+      "minimum": 0,
+      "description": "What the request cost in the provider's own units, when it reports them. Local models report none. Unit: AI units. May be left out; absent means 0."
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the request was recorded (UTC, RFC 3339 text)."
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "How many requests went to a provider for one client request, up to and including this one: 2 or more when fallbacks were tried before it. Each try is its own line. Empty for an answer from the response cache, which went to no provider. Unit: count. May be left out; absent means 1. Added in schema version 4: lines written before it do not have it."
+    },
+    "auto_basis": {
+      "type": "string",
+      "description": "A short code for what decided the auto weight, or what a provider's own router (Copilot Auto) did. Never content. May be left out; absent means not auto. Added in schema version 4: lines written before it do not have it."
+    },
+    "auto_weight": {
+      "type": "string",
+      "description": "heavy, medium or light, for a request to auto or to auto-heavy, auto-medium or auto-light. May be left out; absent means not auto. Added in schema version 4: lines written before it do not have it."
+    },
+    "budget_scope": {
+      "type": "string",
+      "description": "Which configured daily budget counted the request: provider. Absent when none did. May be left out; absent means none. Added in schema version 4: lines written before it do not have it."
+    },
+    "cache_class": {
+      "type": "string",
+      "description": "How the provider's prompt cache did: hit, partial, miss, lost or n/a. May be left out; absent means not classified."
+    },
+    "cache_detail": {
+      "type": "string",
+      "description": "A finer reason under cache_reason. Not filled in by this release. May be left out; absent means none. Added in schema version 4: lines written before it do not have it."
+    },
+    "cache_reason": {
+      "type": "string",
+      "description": "For a miss or a loss, a short reason. May be left out; absent means no reason given."
+    },
+    "cache_saved_estimated": {
+      "type": "number",
+      "description": "Estimated: what the provider's prompt cache saved on this request, against paying for the same tokens without the cache. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "cache_write_surcharge_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: what writing to the prompt cache cost on this request above that same price. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "cache_write_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens written to the provider's prompt cache (0 when the provider reports none). Unit: tokens."
+    },
+    "cached_response": {
+      "type": "boolean",
+      "description": "Whether the proxy answered from its response cache. Nothing was sent to the provider, so the token and cost columns are 0. May be left out; absent means false. Added in schema version 3: lines written before it do not have it."
+    },
+    "cached_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens read from the provider's prompt cache (0 when the provider reports none). Unit: tokens."
+    },
+    "client": {
+      "type": "string",
+      "description": "The access token's label, or local for a caller on this machine without one (never the token itself). May be left out; absent means unknown."
+    },
+    "conv": {
+      "type": "string",
+      "description": "An opaque label grouping the requests of one conversation (never content). May be left out; absent means unknown."
+    },
+    "cost_currency": {
+      "type": "string",
+      "description": "The currency of cost_estimated, such as USD. May be left out; absent means no estimate. Added in schema version 2: lines written before it do not have it."
+    },
+    "cost_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "An estimate of what the request cost at the provider's published list prices, from a provider set up to give one. Not a bill, and separate from ai_units: never add the two together. Unit: cost_currency. May be left out; absent means no estimate. Added in schema version 2: lines written before it do not have it."
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "How long the request took. Unit: milliseconds."
+    },
+    "error": {
+      "type": "string",
+      "description": "Why the request failed, if it did. May be left out; absent means no error."
+    },
+    "error_class": {
+      "type": "string",
+      "description": "A fixed class for error: quota exhausted, rate limited, overloaded, server error, not authorised, unreachable, request too large, daily budget spent, canceled, repeat guard, or status and the HTTP code. May be left out; absent means no error. Added in schema version 4: lines written before it do not have it."
+    },
+    "fallback": {
+      "type": "boolean",
+      "description": "Whether the request was answered by a fallback after the first choice failed. May be left out; absent means false."
+    },
+    "first_choice": {
+      "type": "string",
+      "description": "The provider/model the request would have gone to first, when another one served this line. May be left out; absent means the same as provider and model. Added in schema version 4: lines written before it do not have it."
+    },
+    "images_cost_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: the prompt-cache rewrite a newly replaced image cost on this request. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "images_saved_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: what sending fewer image tokens saved on this request. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "images_saved_tokens_estimated": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated from each provider's published image formula: image tokens avoided by resizing or replacing images in this request. Unit: tokens. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "input_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Input tokens, as the provider reported them. Unit: tokens."
+    },
+    "messages": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Messages in the request. Unit: count."
+    },
+    "model": {
+      "type": "string",
+      "description": "The model that answered."
+    },
+    "output_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Output tokens, as the provider reported them. Unit: tokens."
+    },
+    "person": {
+      "type": "string",
+      "description": "Who sent the request. Not filled in by this release: reserved for attributing requests to people. May be left out; absent means unattributed. Added in schema version 4: lines written before it do not have it."
+    },
+    "prefix": {
+      "type": "string",
+      "description": "An opaque grouping label (never content). May be left out; absent means unknown."
+    },
+    "priced": {
+      "type": "boolean",
+      "description": "Whether the proxy could put an AI-unit value on this request's savings, which needs a few earlier requests to the same model. When false, the AI-unit savings columns are 0 because nothing was valued, not because nothing was saved. May be left out; absent means false. Added in schema version 2: lines written before it do not have it."
+    },
+    "provider": {
+      "type": "string",
+      "description": "The provider that answered."
+    },
+    "request_hash": {
+      "type": "string",
+      "description": "A fingerprint of the request as it was sent, the same for identical requests from the same caller to the same account, and never content: a keyed hash salted per install, so it cannot be matched across installs or guessed. Absent for a request that can never be answered from the response cache (images, a tool turn). May be left out; absent means no value. Added in schema version 3: lines written before it do not have it."
+    },
+    "requested": {
+      "type": "string",
+      "description": "The model name the client asked for (may be a routing alias such as auto)."
+    },
+    "response_cache_saved_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated, on a request answered from the response cache: what the repeat would have cost. Shown on the Savings card on its own line, not in its headline. Unit: AI units. May be left out; absent means 0. Added in schema version 3: lines written before it do not have it."
+    },
+    "route_reason": {
+      "type": "string",
+      "description": "A short code for why this line's provider and model were used: alias, auto, fallback:\u003cclass\u003e, exhausted-order or budget. Absent when the model asked for was used directly. May be left out; absent means direct. Added in schema version 4: lines written before it do not have it."
+    },
+    "schema_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The schema version the line was written with. May be left out; absent means 1. Added in schema version 2: lines written before it do not have it."
+    },
+    "session": {
+      "type": "string",
+      "description": "An opaque id a client sends to group its requests into one session; Maple Harness sends its session's id (never content). May be left out; absent means unknown. Added in schema version 2: lines written before it do not have it."
+    },
+    "setup": {
+      "type": "string",
+      "description": "An opaque grouping label (never content). May be left out; absent means unknown."
+    },
+    "snapshots_cost_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: a request that only asked again for a snapshot straight after a trimmed one. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "snapshots_saved_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: what leaving those snapshot tokens out saved on this request. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "snapshots_saved_tokens_estimated": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated (characters divided by four): tokens left out of browser page snapshots in this request. Unit: tokens. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "stabiliser_saved_estimated": {
+      "type": "number",
+      "description": "Estimated: what the prefix stabiliser saved on this request. Shown on the Savings card on its own line, not in its headline. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "streamed": {
+      "type": "boolean",
+      "description": "Whether the answer was streamed."
+    },
+    "surface": {
+      "type": "string",
+      "description": "The API the caller used: chat (OpenAI-compatible) or messages (Anthropic-compatible). May be left out; absent means unknown."
+    },
+    "system_hash": {
+      "type": "string",
+      "description": "An opaque value, the same for the same system prompt on this install, and never content: a keyed hash salted per install. Absent for a request without a system prompt. May be left out; absent means no value. Added in schema version 4: lines written before it do not have it."
+    },
+    "team": {
+      "type": "string",
+      "description": "The team of the person who sent the request. Not filled in by this release. May be left out; absent means no team. Added in schema version 4: lines written before it do not have it."
+    },
+    "tools": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Tool definitions sent with the request. Unit: count."
+    },
+    "tools_hash": {
+      "type": "string",
+      "description": "An opaque value, the same for the same tool definitions on this install, and never content: a keyed hash salted per install. Absent for a request without tools. May be left out; absent means no value. Added in schema version 4: lines written before it do not have it."
+    },
+    "trim_cost_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated: what trimming cost on this request: rewriting the prompt cache after a batch of trimming, and a request that only repeated a call whose result was trimmed. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "trim_saved_estimated": {
+      "type": "number",
+      "description": "Estimated: what trimming saved on this request, valued at the price of a cached token, the lowest a resent token can cost. Negative when the model asked again for a trimmed result and an earlier saving was taken back. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "trim_saved_tokens_estimated": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated from their length: tokens that trimming left out of this request. Unit: tokens. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    },
+    "ttft_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Streamed requests only: the time from sending the request to the provider until its first output (text, thinking or a tool call) arrived. Unit: milliseconds. May be left out; absent means not measured. Added in schema version 4: lines written before it do not have it."
+    },
+    "upstream_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The time spent waiting on the provider for this request, apart from the proxy's own work and from waiting on the client to read a streamed answer. Unit: milliseconds. May be left out; absent means not measured. Added in schema version 4: lines written before it do not have it."
+    },
+    "warming": {
+      "type": "boolean",
+      "description": "Whether the proxy sent this request itself, to keep a provider's prompt cache from expiring while a conversation was idle. What it cost is in ai_units. May be left out; absent means false. Added in schema version 2: lines written before it do not have it."
+    },
+    "warming_expected_saved_estimated": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estimated, on a cache-warming request: the saving expected when it was sent, not a confirmed outcome. Shown on the Savings card on its own line, not in its headline. Unit: AI units. May be left out; absent means 0. Added in schema version 2: lines written before it do not have it."
+    }
+  },
+  "required": [
+    "at",
+    "duration_ms",
+    "requested",
+    "model",
+    "provider",
+    "streamed",
+    "tools",
+    "messages",
+    "input_tokens",
+    "output_tokens",
+    "cached_tokens",
+    "cache_write_tokens"
+  ],
+  "title": "Maple usage record, schema version 4",
+  "type": "object"
+}
