@@ -57,9 +57,11 @@ can then change which model an alias means without touching the tool. See <a hre
 looks at each request and sends it to a heavy, medium or light model; <code>auto-heavy</code>, <code>auto-medium</code> and <code>auto-light</code>
 fix the weight. Each means a model and its fallbacks, from your provider's own ranking unless you choose them on
 the setup page's <strong>Auto mode</strong> card. The proxy judges from the request alone, so it does not know what the tool
-meant; <code>X-Maple-Router</code> says how it weighed a request and <code>X-Maple-Served-By</code> which model answered.</p>
+meant; <code>X-Maple-Router</code> says how it weighed a request and <code>X-Maple-Served-By</code> which model answered. The proxy's
+log, the usage log and both headers are described in <a href="proxy.html#see-what-auto-chose">See what auto chose</a>.</p>
 <p>A tool can also ask for <code>github-copilot/auto</code>, where GitHub Copilot itself picks the model for each request, when
-your Copilot account offers it. The <code>X-Maple-Served-By</code> header says which model Copilot picked. See
+your Copilot account offers it. The <code>X-Maple-Served-By</code> header says which model Copilot picked. It can also be the
+model for a weight of auto mode, chosen on the setup page's <a href="proxy.html#set-up-auto-mode">Auto mode card</a>. See
 <a href="models.html#copilot-auto">Copilot Auto</a>.</p>
 <h2 id="keeps-going-when-an-account-runs-out">Keeps going when an account runs out <a class="anchor" href="#keeps-going-when-an-account-runs-out" aria-label="Link to this heading">#</a></h2>
 <p>Fallbacks apply to every request through the proxy, whatever tool sent it. With <code>model_fallbacks</code>, a model that cannot

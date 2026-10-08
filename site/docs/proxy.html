@@ -32,13 +32,14 @@
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">The proxy and its setup page</li></ol></nav>
 <article>
 <h1 id="the-proxy-and-its-setup-page">The proxy and its setup page <a class="anchor" href="#the-proxy-and-its-setup-page" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></details>
 
 <p><code>maple-proxy</code> is the program that holds your sign-ins and talks to the models. The agent uses it, and so can
 any other tool that speaks the OpenAI or Anthropic API. Start it with:</p>
 <pre><code class="language-sh">maple-proxy serve</code></pre>
 <p>It stays in the foreground. Add <code>--logs=true</code> to watch requests, <code>--logs=/path/to.log</code> to keep a record, or
-<code>--logs=stdout</code> when something else (systemd, launchd) is capturing output. To keep it running in the
+<code>--logs=stdout</code> when something else (systemd, launchd) is capturing output; <a href="#see-what-auto-chose">See what auto chose</a>
+explains a log line. To keep it running in the
 background, see <a href="proxy-service.html#in-short">Keep it running in the background</a>.</p>
 <h2 id="what-it-listens-on">What it listens on <a class="anchor" href="#what-it-listens-on" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Address</th><th>What it is</th><th>Who may use it</th></tr></thead><tbody><tr><td><code>127.0.0.1:11539</code></td><td>The setup page</td><td>This machine only. It refuses to listen anywhere else</td></tr><tr><td><code>127.0.0.1:11535</code></td><td>OpenAI-compatible API (<code>/v1</code>)</td><td>This machine; other machines only with an access token</td></tr><tr><td><code>127.0.0.1:11537</code></td><td>Anthropic-compatible API</td><td>This machine; other machines only with an access token</td></tr></tbody></table></div>
@@ -113,30 +114,89 @@ ranking (GitHub Copilot ranks its models; for other servers add <code>category: 
 <code>lightweight</code> to a model) and uses that provider's own ranking, the same way Maple Harness's <code>/model auto</code> does:
 the best model of the matching category, then two more from the same provider as fallbacks. The defaults never
 mix providers. Models matching <code>*-codex*</code> are not chosen by default; <code>auto_avoid</code> changes that list (<code>[]</code> turns
-it off). With no ranked provider there are no defaults, and the names are not listed until you choose models.</li><li><strong>Choose them yourself</strong> on the setup page's <strong>Auto mode</strong> card (under <strong>Set up</strong>): for each weight, a model and
-an optional list of fallbacks, with a preview such as "A request for auto that looks heavy goes to X (then Y)".
-<a href="#copilot-auto">Copilot Auto</a> can be chosen for any weight. The card saves ordinary <code>model_aliases</code> and
-<code>model_fallbacks</code> entries, so the same thing written by hand works and the card shows it:
-<pre><code class="language-yaml">model_aliases:
-  auto-heavy: gpt-6-sol
-  auto-light: gpt-5-mini
-model_fallbacks:
-  auto-heavy: [claude-opus-5-5]</code></pre>
-<p>A weight with no alias keeps its default model; fallbacks given for it replace the default fallbacks.</p></li><li><strong>Your own names win.</strong> If <code>model_aliases</code> (or a provider's model) already has the name <code>auto</code> or <code>auto-heavy</code>, it
-keeps meaning exactly what you set, and the built-in one with that name is not listed.</li><li><strong>See what happened.</strong> <code>X-Maple-Router</code> says how a request for <code>auto</code> was weighed and which name it went to, for
-example <code>auto: heavy -&gt; auto-heavy</code>; <code>X-Maple-Served-By</code> names the model that answered. In the usage log,
-<code>requested</code> is <code>auto</code> and <code>model</code> is the model that answered.</li></ul>
+it off). With no ranked provider there are no defaults, and the names are not listed until you choose models.</li><li><strong>Choose them yourself</strong> on the setup page's <strong>Auto mode</strong> card: for each weight, a model and an optional list
+of fallbacks. See <a href="#set-up-auto-mode">Set up auto mode</a>. <a href="#copilot-auto">Copilot Auto</a> can be chosen for any
+weight.</li><li><strong>Your own names win.</strong> If <code>model_aliases</code> (or a provider's model) already has the name <code>auto</code> or <code>auto-heavy</code>, it
+keeps meaning exactly what you set, and the built-in one with that name is not listed.</li><li><strong>See what happened.</strong> Every answer says which name a request went to and which model answered: see
+<a href="#see-what-auto-chose">See what auto chose</a>.</li></ul>
 <p>The proxy weighs a request from what the request itself contains, so it cannot know what the tool intended. Maple
 Harness weighs each message itself: with <code>harness.auto_model_resolution: proxy</code> it asks for <code>auto-heavy</code>,
 <code>auto-medium</code> or <code>auto-light</code> (or your own names, with <code>harness.auto_model_map</code>) and the proxy decides which model
 each means. <code>maple-harness doctor</code> checks that the proxy serves those names. See
 <a href="configuration.html#model-choice">Harness settings</a> and <a href="models.html#automatic-choice">Automatic choice</a>.</p>
+<h3 id="set-up-auto-mode">Set up auto mode <a class="anchor" href="#set-up-auto-mode" aria-label="Link to this heading">#</a></h3>
+<p>Open the setup page (<code>http://127.0.0.1:11539</code>) and choose <strong>Auto mode</strong> in the row of links at the top. With
+nothing set, each weight shows <strong>Use defaults</strong> with the model it uses, the fallbacks under <strong>Then try (defaults)</strong>,
+and a preview of where a request goes. The note above the weights names the provider the defaults come from and the
+models not chosen by default.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-auto-mode-light.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="964" height="1078" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-auto-mode-dark.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="964" height="1078" loading="lazy" decoding="async">
+<figcaption>The Auto mode card before you change anything: every weight uses the defaults of the first ranked provider. A demo setup with a stand-in Copilot service.</figcaption>
+</figure>
+<ol><li>To change a weight, choose a model from its dropdown. It lists every model the proxy serves, with its provider
+and ranking, and each Copilot account's Copilot Auto, as <code>github-copilot/auto (Copilot Auto: Copilot picks)</code>.</li><li>To choose the fallbacks yourself, pick them one by one from <strong>Choose your own fallbacks…</strong>. The arrows reorder
+them, ✕ removes one, and <strong>Default fallbacks</strong> goes back to the defaults.</li><li>Check the preview under the weight, then <strong>Save</strong>. "Saved. The proxy is using it now." means the next request
+uses it; nothing restarts.</li></ol>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-auto-mode-copilot-light.webp" alt="The Auto mode card after saving: auto-heavy set to github-copilot/auto (Copilot Auto) with claude-opus-5 as its only fallback; the other weights on their defaults" width="964" height="1086" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-auto-mode-copilot-dark.webp" alt="The Auto mode card after saving: auto-heavy set to github-copilot/auto (Copilot Auto) with claude-opus-5 as its only fallback; the other weights on their defaults" width="964" height="1086" loading="lazy" decoding="async">
+<figcaption>auto-heavy set to Copilot Auto, with claude-opus-5 as its fallback, after Save. A demo setup with a stand-in Copilot service.</figcaption>
+</figure>
+<p><strong>Use defaults for all</strong> clears every weight (then Save), and <strong>Discard</strong> drops changes you have not saved. If the
+<strong>Proxy settings</strong> card has unsaved changes, save or discard them first. The card writes ordinary <code>model_aliases</code>
+and <code>model_fallbacks</code> entries to <code>config.yaml</code>, keeping its comments. After the save above, the file holds:</p>
+<pre><code class="language-yaml">model_aliases:
+    auto-heavy: github-copilot/auto
+model_fallbacks:
+    auto-heavy:
+        - claude-opus-5</code></pre>
+<p>The same entries written by hand work, and the card shows them. A weight with no alias keeps its default model;
+fallbacks given for it replace the default fallbacks.</p>
 <h3 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h3>
 <p>GitHub Copilot's own automatic mode, where Copilot picks the model for each request, is listed as a model of each
-Copilot account: <code>github-copilot/auto</code>. Any tool can ask for it by that name, and it works in model aliases,
-fallbacks and budgets like any other model. It never takes the plain name <code>auto</code>, which is the proxy's own
-<a href="#auto-mode-at-the-proxy">auto mode</a> (or your alias of that name). <code>X-Maple-Served-By</code> and the usage log name the model Copilot chose. See
-<a href="models.html#copilot-auto">Copilot Auto</a>.</p>
+Copilot account: <code>github-copilot/auto</code>, when your account offers it. It never takes the plain name <code>auto</code>, which is
+the proxy's own <a href="#auto-mode-at-the-proxy">auto mode</a> (or your alias of that name). You can choose it in two ways:</p>
+<ul><li><strong>As the model.</strong> Ask for <code>github-copilot/auto</code> by name: in Maple Harness with <code>/model github-copilot/auto</code>, or in
+any other tool as its model name. It also works in model aliases, fallbacks and budgets like any other model.</li><li><strong>As the model for a weight.</strong> On the <a href="#set-up-auto-mode">Auto mode card</a>, choose
+<code>github-copilot/auto (Copilot Auto: Copilot picks)</code> for a weight. A request for <code>auto</code> judged to be that weight,
+or a request for that weight by name, then goes to Copilot Auto, and its fallbacks apply when it cannot answer.</li></ul>
+<p>See <a href="models.html#copilot-auto">Copilot Auto</a> for how it differs from Maple's auto.</p>
+<h3 id="see-what-auto-chose">See what auto chose <a class="anchor" href="#see-what-auto-chose" aria-label="Link to this heading">#</a></h3>
+<p>Three places tell you where each request went and which model answered.</p>
+<p><strong>Response headers.</strong> <code>X-Maple-Served-By</code> names the provider and model that answered. <code>X-Maple-Router</code> says how a
+request for <code>auto</code> was weighed and which name it went to and, for Copilot Auto, which models Copilot offered and
+which one it chose. For a request for <code>auto</code> that went to the heavy weight, set to Copilot Auto as above (a demo
+setup with a stand-in Copilot service), <code>curl -si</code> printed:</p>
+<pre><code>X-Maple-Prefix-Stabilized: json
+X-Maple-Router: auto: heavy -&gt; auto-heavy; copilot auto: intent chose claude-haiku-4.5; offered gpt-5-mini, claude-haiku-4.5, claude-sonnet-5
+X-Maple-Served-By: github-copilot/claude-haiku-4.5</code></pre>
+<p>A request for <code>github-copilot/auto</code> by name gets only the Copilot part of <code>X-Maple-Router</code>, and a request for
+<code>auto-light</code> by name gets no <code>X-Maple-Router</code> at all. All headers are listed under
+<a href="proxy-settings.html#response-headers">Response headers</a>.</p>
+<p><strong>The usage log.</strong> <code>requested</code> is the name the tool asked for (<code>auto</code>, <code>auto-heavy</code>, <code>github-copilot/auto</code>) and
+<code>model</code> is the model that answered, with its <code>provider</code>. The three requests above were recorded as:</p>
+<div class="tablewrap"><table><thead><tr><th>requested</th><th>model</th><th>provider</th></tr></thead><tbody><tr><td><code>auto</code></td><td><code>claude-haiku-4.5</code></td><td><code>github-copilot</code></td></tr><tr><td><code>github-copilot/auto</code></td><td><code>claude-haiku-4.5</code></td><td><code>github-copilot</code></td></tr><tr><td><code>auto-light</code></td><td><code>claude-haiku-4.5</code></td><td><code>github-copilot</code></td></tr></tbody></table></div>
+<p>See <a href="usage-export.html#the-usage-record-schema">The usage record schema</a>.</p>
+<p><strong>The proxy's log.</strong> With logs on, the proxy writes one line for every request, and a request for <code>auto</code> gets one
+more line before it with the weight it was judged to be and the name it went to:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/proxy-log-auto-light.webp" alt="A terminal running maple-proxy serve --logs=true: after the start-up lines, two requests for auto (served as auto-heavy and auto-medium) and two for github-copilot/auto, each line naming the model that answered" width="1000" height="254" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/proxy-log-auto-dark.webp" alt="A terminal running maple-proxy serve --logs=true: after the start-up lines, two requests for auto (served as auto-heavy and auto-medium) and two for github-copilot/auto, each line naming the model that answered" width="1000" height="254" loading="lazy" decoding="async">
+<figcaption>Four requests from another tool: two for auto, two for Copilot Auto. A demo setup with a stand-in Copilot service, which answers at once with a fixed token count, so the times, tokens and speeds here are the stand-in's.</figcaption>
+</figure>
+<p>Two of those lines, as text:</p>
+<pre><code>2026/10/08 00:08:06 usecase: auto: judged heavy (new instruction); serving it as auto-heavy
+2026/10/08 00:08:06 openai POST /v1/chat/completions 200 9ms  auto-heavy→claude-haiku-4.5@github-copilot · 5→3 tok · 322.9 tok/s</code></pre>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>What it means</th></tr></thead><tbody><tr><td><code>openai</code></td><td>Which API the request came in on: <code>openai</code> or <code>anthropic</code> (<code>webui</code> for the setup page)</td></tr><tr><td><code>POST /v1/chat/completions 200 9ms</code></td><td>The method, path and status, and how long the whole request took</td></tr><tr><td><code>auto-heavy→claude-haiku-4.5@github-copilot</code></td><td>The name the request was served as, the model that answered, and the provider. For a request for <code>auto</code> the name is the weight it went to; for Copilot Auto it reads <code>github-copilot/auto→</code> and the model Copilot chose. When the name is the model itself, it appears once</td></tr><tr><td><code>5→3 tok</code></td><td>Prompt tokens and answer tokens, as the provider reported them</td></tr><tr><td><code>322.9 tok/s</code></td><td>Answer tokens per second over the whole request</td></tr><tr><td><code>cache partial 3584r/512w</code></td><td>How the provider's prompt cache did (<code>hit</code>, <code>partial</code>, <code>miss</code> or <code>lost</code>), with the tokens read from and written to it. Only when the provider reports its cache</td></tr><tr><td><code>stream</code></td><td>The answer was streamed</td></tr><tr><td><code>cancelled by caller</code></td><td>The tool hung up before the answer was complete</td></tr><tr><td><code>3 tool call(s)</code></td><td>The answer asked for tools</td></tr></tbody></table></div>
+<p>A request that fails also prints the error it was answered with, on the next line. Prompts and answers are never
+written unless you add <code>--log-bodies</code>.</p>
+<p><strong>Turn the log on.</strong> It depends on how the proxy was started:</p>
+<ul><li><strong>You start it yourself:</strong> <code>maple-proxy serve --logs=true</code> writes to the terminal, <code>maple-proxy serve --logs
+"$HOME/maple-proxy.log"</code> appends to a file, and <code>--logs=stdout</code> is for something else that captures output.</li><li><strong>It runs as a service</strong> (<code>maple-harness service install</code>): it already runs with <code>--logs stdout</code>. Read it with
+<code>journalctl --user -u maple-proxy -f</code> on Linux, or in <code>~/.config/maple-harness/run/maple-proxy.log</code> on macOS. See
+<a href="proxy-service.html#in-short">Keep it running in the background</a>.</li><li><strong>Maple Harness started it for you</strong> (the default when nothing was running): it runs without logs and its output
+is not kept, and no setting changes that. Type <code>/proxy stop</code> in the agent (other sessions on this machine share
+that proxy and lose it too, until it is started again), then in another terminal run
+<code>maple-proxy serve --logs=true</code> (with <code>--config &lt;file&gt;</code> if you start the agent with <code>--config</code>). The agent uses a
+proxy that is already running and does not start a second one.</li></ul>
 <h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
 <p>The <strong>Context guard</strong> (<code>context_guard</code>) is for tools that do not know a model's window: it sends the request as is,
 drops the oldest turns until it fits, or refuses it. The <strong>Repeat guard</strong> (<code>degenerate_guard</code>, off by default)
@@ -225,7 +285,7 @@ maple-proxy update              # install a newer release</code></pre>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=c7131fda" defer></script>
 </body>
