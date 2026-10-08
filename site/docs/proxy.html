@@ -192,11 +192,11 @@ written unless you add <code>--log-bodies</code>.</p>
 <ul><li><strong>You start it yourself:</strong> <code>maple-proxy serve --logs=true</code> writes to the terminal, <code>maple-proxy serve --logs
 "$HOME/maple-proxy.log"</code> appends to a file, and <code>--logs=stdout</code> is for something else that captures output.</li><li><strong>It runs as a service</strong> (<code>maple-harness service install</code>): it already runs with <code>--logs stdout</code>. Read it with
 <code>journalctl --user -u maple-proxy -f</code> on Linux, or in <code>~/.config/maple-harness/run/maple-proxy.log</code> on macOS. See
-<a href="proxy-service.html#in-short">Keep it running in the background</a>.</li><li><strong>Maple Harness started it for you</strong> (the default when nothing was running): it runs without logs and its output
-is not kept, and no setting changes that. Type <code>/proxy stop</code> in the agent (other sessions on this machine share
-that proxy and lose it too, until it is started again), then in another terminal run
-<code>maple-proxy serve --logs=true</code> (with <code>--config &lt;file&gt;</code> if you start the agent with <code>--config</code>). The agent uses a
-proxy that is already running and does not start a second one.</li></ul>
+<a href="proxy-service.html#in-short">Keep it running in the background</a>.</li><li><strong>Maple Harness started it for you</strong> (the default when nothing was running): set <code>proxy_logs: on</code> under
+<code>harness:</code> in <code>config.yaml</code> (or <code>/configuration set proxy_logs on</code>), start the agent again and type
+<code>/proxy restart</code> (other sessions on this machine share that proxy and lose it for a moment). The log is then
+<code>~/.config/maple-harness/logs/proxy.log</code>; <code>/proxy</code> shows where it is and <code>/proxy logs</code> shows its last lines. A
+file path in place of <code>on</code> writes there instead. See <a href="configuration.html#where-the-harness-finds-the-proxy">Where the harness finds the proxy</a>.</li></ul>
 <h3 id="guards">Guards <a class="anchor" href="#guards" aria-label="Link to this heading">#</a></h3>
 <p>The <strong>Context guard</strong> (<code>context_guard</code>) is for tools that do not know a model's window: it sends the request as is,
 drops the oldest turns until it fits, or refuses it. The <strong>Repeat guard</strong> (<code>degenerate_guard</code>, off by default)

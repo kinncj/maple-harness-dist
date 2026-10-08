@@ -79,18 +79,20 @@ fallbacks, saved with one click and used from the next request. See
 <a href="proxy.html#set-up-auto-mode">Set up auto mode</a>.</li><li><strong>See what it chose:</strong> the <code>X-Maple-Router</code> and <code>X-Maple-Served-By</code> response headers, the <code>requested</code> and <code>model</code>
 columns of the usage log, and the proxy's log. See <a href="proxy.html#see-what-auto-chose">See what auto chose</a>.</li></ul>
 <p>Inside Maple Harness, typing <code>/model auto</code> is still the agent's own choice described above. The <code>/model</code> list also
-shows the proxy's names, <code>auto</code>, <code>auto-heavy</code>, <code>auto-medium</code> and <code>auto-light</code>, each with a description that starts
-"Maple auto" (see the picture under <a href="#copilot-auto">Copilot Auto</a>); picking one of them from the list sends every
-request to the proxy's auto mode under that name. To have the agent judge each message and the proxy pick the
+shows the proxy's names as <code>auto (Maple)</code>, <code>auto-heavy (Maple)</code>, <code>auto-medium (Maple)</code> and <code>auto-light (Maple)</code>,
+each with a description that starts "Maple auto" (see the picture under <a href="#copilot-auto">Copilot Auto</a>); picking one
+of them from the list sends every request to the proxy's auto mode under that name, and the status bar then reads,
+for example, <code>model: auto (Maple)</code>. To have the agent judge each message and the proxy pick the
 model, set <code>harness.auto_model_resolution: proxy</code>.</p>
 <h2 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h2>
 <p>GitHub Copilot has an automatic mode of its own, in which <strong>Copilot</strong> picks the model for each request. The proxy
 lists it as a model of each Copilot account, named after the account, for example <code>github-copilot/auto</code>:</p>
 <pre><code>/model github-copilot/auto</code></pre>
-<p>In the <code>/model</code> list it reads <code>github-copilot - auto  Copilot Auto (Copilot picks the model each turn)</code>:</p>
+<p>In the <code>/model</code> list, and on the status bar once chosen, it reads <code>Copilot Auto (github-copilot)</code>, with the account's
+nickname in brackets when it has one:</p>
 <figure>
-<img class="shot shot-light" src="../img/docs/tui-model-auto-light.webp" alt="The /model list in Maple Harness: the proxy&#x27;s auto, auto-heavy, auto-light and auto-medium with their Maple auto descriptions, the Copilot models, a local model, and Copilot Auto selected, described as Copilot Auto (Copilot picks the model each turn)" width="1000" height="304" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-model-auto-dark.webp" alt="The /model list in Maple Harness: the proxy&#x27;s auto, auto-heavy, auto-light and auto-medium with their Maple auto descriptions, the Copilot models, a local model, and Copilot Auto selected, described as Copilot Auto (Copilot picks the model each turn)" width="1000" height="304" loading="lazy" decoding="async">
-<figcaption>The <code>/model</code> list with Copilot Auto selected. The rows above it whose description starts with "Maple auto" are the proxy's own auto names, listed under the provider their defaults come from. A demo setup with a stand-in Copilot service.</figcaption>
+<img class="shot shot-light" src="../img/docs/tui-model-auto-light.webp" alt="The /model list in Maple Harness: auto (Maple), auto-heavy (Maple), auto-light (Maple) and auto-medium (Maple) with their Maple auto descriptions, the Copilot models, a local model, and Copilot Auto (github-copilot) selected, described as Copilot Auto (Copilot picks the model each turn)" width="1000" height="304" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-model-auto-dark.webp" alt="The /model list in Maple Harness: auto (Maple), auto-heavy (Maple), auto-light (Maple) and auto-medium (Maple) with their Maple auto descriptions, the Copilot models, a local model, and Copilot Auto (github-copilot) selected, described as Copilot Auto (Copilot picks the model each turn)" width="1000" height="304" loading="lazy" decoding="async">
+<figcaption>The <code>/model</code> list with Copilot Auto selected. The rows marked "(Maple)" at the top are the proxy's own auto names. A demo setup with a stand-in Copilot service.</figcaption>
 </figure>
 <p>It is a different thing from <code>/model auto</code>:</p>
 <div class="tablewrap"><table><thead><tr><th></th><th><code>/model auto</code></th><th>Copilot Auto</th></tr></thead><tbody><tr><td>Who chooses</td><td>Maple Harness, from your provider's own ranking and your settings</td><td>Copilot, on GitHub's side</td></tr><tr><td>Works with</td><td>any provider with a ranking, or models you ranked yourself</td><td>GitHub Copilot only</td></tr><tr><td>How to ask for it</td><td><code>/model auto</code></td><td><code>/model github-copilot/auto</code>, or that name from any tool through the proxy</td></tr></tbody></table></div>
