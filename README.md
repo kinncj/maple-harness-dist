@@ -1,14 +1,14 @@
 # Maple Harness — binaries
 
 <!-- This file is the template for the README of the public binaries repository,
-     kinncj/maple-harness-dist. The release workflow renders v1.17.0 and pushes it. -->
+     kinncj/maple-harness-dist. The release workflow renders v1.17.1 and pushes it. -->
 
 Pre-built binaries of **Maple Harness**: a coding agent that works with GitHub Copilot's models, Claude and
 models running on your own machine, a proxy that holds your sign-ins, and a web page for driving a session
 from your phone.
 
 This repository holds **binaries and installers only**, plus the built website. It has no source code, no issue
-tracker and no build; releases are published to it automatically. The latest is **v1.17.0**.
+tracker and no build; releases are published to it automatically. The latest is **v1.17.1**.
 
 **Website and documentation: <https://kinncj.github.io/maple-harness-dist/>**  ·  **Downloads: [latest release](https://github.com/kinncj/maple-harness-dist/releases/latest)**
 
@@ -69,11 +69,12 @@ maple-proxy update              # the proxy updates itself the same way
 
 Copyright © 2026 Kinn Coelho Juliao. All rights reserved.
 
-- **Free for non-commercial use** — personal, hobby, education, research and non-profit use — and you may
-  redistribute the unmodified binaries with the licence text attached.
-- **Commercial use requires access granted by the owner**; otherwise a commercial agreement has to be
-  negotiated first.
-- The source code is not licensed for reuse.
+- **Free for everyone to use**, personal and commercial alike, and you may redistribute the unmodified
+  binaries with the licence text attached.
+- **Closed source:** the programs and the source code belong to the author, and the source code is not
+  licensed for reuse.
+- **Provided as is, without warranty.** You are responsible for how you use it, including the costs of the
+  model providers you connect.
 
 The full terms are in [LICENSE](LICENSE), and a copy is attached to every release. The licences of the
 third-party software inside the binaries are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
