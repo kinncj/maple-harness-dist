@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img">
+<title>Fallback across the chain, both ways</title>
+<desc>Two fallback orders on Alice&#x27;s laptop proxy. Left: her own GitHub Copilot account first, and the team hub when that account is out of credits or rate limited. Right: the team hub first, and a model on her own machine when the hub refuses the request or cannot be reached.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="470" fill="#FFFFFF"/>
+<rect x="20" y="20" width="450" height="430" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="44" y="54" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Your account first</text>
+<text x="44" y="78" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">then the hub when you run out</text>
+<rect x="44" y="100" width="402" height="62" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="245" y="126" font-size="15" fill="#231A16" font-weight="700" text-anchor="middle" class="sans">Alice&#x27;s tools</text>
+<text x="245" y="148" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="middle" class="sans">→  maple-proxy on her laptop</text>
+<path d="M245 162 L245 198" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="44" y="200" width="402" height="74" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<circle cx="74" cy="237" r="12" fill="#B23A1B"/>
+<text x="74" y="242" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">1</text>
+<text x="100" y="231" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Your own Copilot account</text>
+<text x="100" y="254" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">on this laptop</text>
+<path d="M90 274 L90 346" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-accent)"/>
+<rect x="108" y="296" width="264.25" height="24.5" rx="12.25" fill="#F6E3DA" stroke="#B23A1B" stroke-width="1"/>
+<text x="240.125" y="311.5" font-size="12.5" fill="#B23A1B" font-weight="600" text-anchor="middle" class="sans">if out of credits, rate limited</text>
+<rect x="44" y="348" width="402" height="74" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<circle cx="74" cy="385" r="12" fill="#5E504A"/>
+<text x="74" y="390" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">2</text>
+<text x="100" y="379" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">The team hub</text>
+<text x="100" y="402" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">team.example, with your token</text>
+<rect x="490" y="20" width="450" height="430" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="514" y="54" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">The hub first</text>
+<text x="514" y="78" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">then your own model if it refuses</text>
+<rect x="514" y="100" width="402" height="62" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="715" y="126" font-size="15" fill="#231A16" font-weight="700" text-anchor="middle" class="sans">Alice&#x27;s tools</text>
+<text x="715" y="148" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="middle" class="sans">→  maple-proxy on her laptop</text>
+<path d="M715 162 L715 198" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="514" y="200" width="402" height="74" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<circle cx="544" cy="237" r="12" fill="#B23A1B"/>
+<text x="544" y="242" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">1</text>
+<text x="570" y="231" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">The team hub</text>
+<text x="570" y="254" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">team.example, with your token</text>
+<path d="M560 274 L560 346" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-accent)"/>
+<rect x="578" y="296" width="303" height="24.5" rx="12.25" fill="#F6E3DA" stroke="#B23A1B" stroke-width="1"/>
+<text x="729.5" y="311.5" font-size="12.5" fill="#B23A1B" font-weight="600" text-anchor="middle" class="sans">if refused, over budget, unreachable</text>
+<rect x="514" y="348" width="402" height="74" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<circle cx="544" cy="385" r="12" fill="#5E504A"/>
+<text x="544" y="390" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">2</text>
+<text x="570" y="379" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">A local model</text>
+<text x="570" y="402" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Ollama or LM Studio on this laptop</text>
+</svg>

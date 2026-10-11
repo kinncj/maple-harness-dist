@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Upgrading to 2.0 · Maple Harness docs</title>
+<meta name="description" content="If you use Maple Harness on your own machine, upgrading to 2.0 asks nothing of you: update, restart the proxy, and carry on. The team, hub and container features are new, but they stay out of the way ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html" aria-current="page">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html" aria-current="page">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Upgrading to 2.0</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/install.html">Get started</a></li><li aria-current="page">Upgrading to 2.0</li></ol></div></nav>
+<article>
+<h1 id="upgrading-to-20">Upgrading to 2.0 <a class="anchor" href="#upgrading-to-20" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-118-or-117">Going back to 1.18 or 1.17</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>If you use Maple Harness on your own machine, upgrading to 2.0 asks nothing of you: update, restart the proxy, and
+carry on. The team, hub and container features are new, but they stay out of the way until you set them up.</p>
+<p>This page says what keeps working, what is new and on, what is new and off, what changed, how to go back to 1.18 or
+1.17 if you need to, and what 2.0 does not do yet.</p>
+<h2 id="nothing-to-do">Nothing to do <a class="anchor" href="#nothing-to-do" aria-label="Link to this heading">#</a></h2>
+<p>Everything a 1.x release left on your disk keeps working on 2.0:</p>
+<ul><li>your <code>config.yaml</code> and settings, sign-ins and provider keys;</li><li>access tokens, and the phones and computers you paired;</li><li>saved sessions, which resume where you left them;</li><li>the usage log, the events log, your exports, and the DuckDB queries you already wrote.</li></ul>
+<p>We tested this by starting 2.0 on the files that each release from 1.0 to 1.18 left behind, and asking it the same
+questions that release had answered. The install, the first run and the setup page's first steps (sign in, and
+Auto mode) are the same as before.</p>
+<h2 id="new-and-on-by-default">New, and on by default <a class="anchor" href="#new-and-on-by-default" aria-label="Link to this heading">#</a></h2>
+<p>These need no setup and change nothing about how your requests are routed.</p>
+<ul><li><strong>The setup page in tabs.</strong> Overview, Usage, Costs &amp; alerts, Cache, Health, Auto, Data and Settings, with charts of
+your usage and a live view of requests as they finish. Every card you had is still there, in a tab, and an old
+link to a card opens its tab. See <a href="proxy.html#the-setup-page">The setup page</a>.</li><li><strong>A filter bar</strong> above the data tabs: a time range and <strong>More filters</strong> (provider, model, token and more). With no
+filter, every card shows what it showed before. See <a href="proxy.html#filter-the-charts-and-cards">Filter the charts and cards</a>.</li><li><strong>Provider health.</strong> The proxy watches how each provider and model answers on your own traffic and shows it as
+healthy, degraded or demoted. It sends no requests of its own and does not change routing. See
+<a href="health.html">Provider health</a>.</li><li><strong>Budget alerts at 80% and 100%, only for budgets you set.</strong> If you have no budget, nothing fires and nothing
+changes. See <a href="alerts-and-forecasts.html">Alerts and forecasts</a>.</li><li><strong>New columns in the usage log (schema version 5):</strong> which proxy wrote a line, ids for the line and the request,
+and, for teams and hubs, where a request came from. Lines written before 2.0 keep their values and show the new
+columns empty. See <a href="usage-export.html">Your usage data</a>.</li><li><strong>More in the events log.</strong> It already recorded settings changes; it now also records provider health changes,
+spend alerts and model switches. See <a href="observability.html#the-events-log">The events log</a>.</li></ul>
+<h2 id="new-and-off-until-you-turn-it-on">New, and off until you turn it on <a class="anchor" href="#new-and-off-until-you-turn-it-on" aria-label="Link to this heading">#</a></h2>
+<p>None of these appear in your setup, ask you anything, or show up on the setup page until you configure them.</p>
+<ul><li><strong>People and teams</strong> on one proxy, each with their own budgets, models and accounts. See <a href="teams.html">Teams</a>.</li><li><strong>The self view</strong>, where a person's token can read their own budget and spend (<code>people_self_view</code>). See
+<a href="teams.html#the-self-view">The self view</a>.</li><li><strong>Health failover</strong> (<code>health_failover: on</code>): a demoted model is tried after your other fallbacks. See
+<a href="health.html#health-failover">Health failover</a>.</li><li><strong>Chaining proxies into hubs</strong>, with the new <code>maple</code> provider type. See <a href="chaining.html">Chain proxies into hubs</a>.</li><li><strong>The MCP hub (experimental)</strong>: your MCP servers run once and are offered at one address. See
+<a href="mcp-hub.html">MCP hub</a>.</li><li><strong>Several replicas</strong> sharing PostgreSQL and Redis (<code>storage.mode: central</code>). See
+<a href="kubernetes.html">Run the proxy on Kubernetes</a> and <a href="docker.html">Run the proxy in Docker</a>.</li><li><strong>Analytics files</strong>: monthly Parquet files, a DuckDB file, or a DuckLake, for long history
+(<code>server.usage_analytics</code>, and the <code>maple-proxy usage compact</code>, <code>usage duckdb</code> and <code>usage lake</code> commands). See
+<a href="your-data.html">Your data</a> and <a href="data-lake.html">The Maple data lake</a>.</li></ul>
+<h2 id="what-changed">What changed <a class="anchor" href="#what-changed" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>The setup page's sections moved into tabs.</strong> Nothing was removed; see the table in
+<a href="proxy.html#the-setup-page">The setup page</a> for where each card went.</li><li><strong><code>maple-proxy usage status</code> explains how long the usage log is kept.</strong> It used to say "everything
+(usage_retention_days: 0)" when the setting was not set. It now shows the retention the daily cleanup really
+applies (90 days in the folder the proxy made) and, when cleanup is off, why. The proxy's start log no longer says
+"0 days kept".</li><li><strong>Stopping the proxy no longer leaves a temporary file</strong> in your configuration folder. The proxy now waits for its
+last save to finish before it exits.</li><li><strong><code>GET /api/providers/health</code> says more.</strong> Each provider also has its health state and the models seen; the
+fields it always had are unchanged.</li><li><strong>Maple Harness tells the proxy when you switch model</strong> (the <code>X-Maple-Model-Switch</code> request header, with no model
+name), so <code>maple-proxy usage auto-report</code> can count what followed a choice of auto.</li><li><strong>An answer from the response cache no longer counts as an attempt</strong> in <code>usage query</code> and the DuckDB view, so they
+agree with the exports.</li></ul>
+<p>Two things worth knowing about the new features:</p>
+<ul><li><strong>Alerts in the <code>X-Maple-Alert</code> header go only to the caller they concern.</strong> A tool on the proxy's own machine
+without a token gets every alert, as you would expect. A caller using an access token, on this machine or another, gets
+only the alerts about their own budget (with people set up), and otherwise none. If you are the only one using
+your proxy and your tools use a token, set <code>alerts.header: all</code> to get every alert there too. The setup page and <code>maple-proxy usage alerts</code> always show every alert. See
+<a href="alerts-and-forecasts.html#who-gets-which-alert">Who gets which alert</a>.</li><li><strong>Forecasts use the average of the last seven complete days</strong>, so a change in your spending shows up only after a
+few days. See <a href="alerts-and-forecasts.html#forecasts">Forecasts</a>.</li></ul>
+<h2 id="upgrade">Upgrade <a class="anchor" href="#upgrade" aria-label="Link to this heading">#</a></h2>
+<p>On your own machine:</p>
+<pre><code class="language-sh">maple-harness update
+maple-proxy update</code></pre>
+<p>Or run the <a href="install.html#one-line">installer one-liner</a> again. Then restart the proxy so the new version runs (<code>/proxy restart</code> in the harness does it); if it
+runs as a background service, see <a href="proxy-service.html#update">Update</a>. Check the versions:</p>
+<pre><code class="language-sh">maple-harness version
+maple-proxy version</code></pre>
+<p><strong>In a container:</strong> no image is published, so build a new one from the 2.0 release with the sample <code>Dockerfile</code>
+(<code>--build-arg MAPLE_VERSION=v2.0.0</code>) and start it on the same volume. See
+<a href="docker.html#upgrading-and-backups">Upgrading and backups</a>, and <a href="kubernetes.html#upgrades">Upgrades</a> for several
+replicas.</p>
+<p><strong>A chain of proxies:</strong> upgrade the top hub first, then the proxies below it, one level at a time. A proxy below
+relies on what its hub offers (the hub endpoints and the details a hub reads about who asked), so the hub needs to
+have them first. A proxy on 2.0 cannot chain to a hub that is still on 1.x at all: 1.x has none of the hub
+endpoints, and <code>maple-proxy chain status</code> says the hub does not serve chained proxies.</p>
+<h2 id="going-back-to-118-or-117">Going back to 1.18 or 1.17 <a class="anchor" href="#going-back-to-118-or-117" aria-label="Link to this heading">#</a></h2>
+<p>If you need to, install the older release over 2.0. On macOS and Linux:</p>
+<pre><code class="language-sh">MAPLEHARNESS_VERSION=v1.18.0 curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
+<p>On Windows, in PowerShell:</p>
+<pre><code class="language-powershell">$env:MAPLEHARNESS_VERSION = 'v1.18.0'; irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</code></pre>
+<p>We tested going back to 1.18 and to 1.17 on the files 2.0 left, after using 2.0 with people, a team, budgets, alerts,
+health, a chain token and an MCP hub token. What we saw:</p>
+<ul><li><strong>It starts and works, with no crash.</strong> Routing, aliases, fallbacks, account fallback, budgets, provider keys,
+older tokens and their scopes, paired devices and saved sessions behave as they did before 2.0.</li><li><strong>What 1.x does not know, it ignores:</strong> people, teams, default accounts and the self view; alerts; provider health
+and health failover; the MCP hub; chaining; and central mode. While you are on 1.x, <strong>per-person budgets, model
+lists and accounts are not enforced</strong>, requests are not attributed to a person, and no alert fires.</li><li><strong>Your 2.0 settings are kept.</strong> Saving a setting on the 1.18 setup page keeps the <code>people:</code>, <code>teams:</code> and
+<code>alerts:</code> blocks in <code>config.yaml</code>, so they apply again when you return to 2.0.</li><li><strong>Tokens.</strong> 1.x lists the tokens made on 2.0. A token with only the <code>mcp-hub</code> scope opens nothing on 1.x. A
+<code>proxy-chain</code> token works there as an ordinary proxy token, and stays bound to its proxy for when you return
+to 2.0.</li><li><strong>Usage.</strong> 1.17 and 1.18 read the usage lines 2.0 wrote, in exports and in their DuckDB views, without the new
+columns.</li></ul>
+<p>See also <a href="teams.html#going-back-to-an-older-version">Going back to an older version</a> on the Teams page.</p>
+<h2 id="known-limitations-in-20">Known limitations in 2.0 <a class="anchor" href="#known-limitations-in-20" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>The setup page's live view</strong> is limited to eight open views per proxy; past that, a tab refreshes every few
+seconds instead. With several replicas, "in flight" counts the replica serving the page, and the others' requests
+reach the live view within about ten seconds.</li><li><strong>The setup page's charts read the usage log through the proxy</strong>, not the lake or other copies; for those, use the
+DuckDB queries on the Data tab. The hour-by-day chart covers the last 28 days at most.</li><li><strong>A budget can be exceeded by the requests already running when it runs out</strong>, which are allowed to finish.</li><li><strong>On a proxy that listens only on this machine, a caller can leave the token out</strong> and is counted as <code>local</code>.
+Listen off this machine to require a token for every request.</li><li><strong>Forecasts assume the next days look like the last seven</strong>, so a rise in spend shows late (optimistic) for a few
+days. A quota forecast assumes the quota is used at the rate of the AI units the provider reported.</li><li><strong>The DuckLake only ever adds</strong>, so rows the usage log's cleanup removes stay in the lake until you delete it. The
+DuckDB file and the monthly files follow the retention.</li><li><strong>The views over the monthly files list the files there were when they were printed</strong>: print them again after
+the next compaction.</li><li><strong>With several replicas:</strong>
+<ul><li>a browser sign-in (GitHub Copilot) is kept by the replica it was made on: use providers with keys in the Secret,
+or sign in on each replica;</li><li>provider budgets (<code>budgets:</code>) are counted by each replica from the others' requests within seconds, so a burst can
+pass a provider budget by a little more than with one proxy (person and team budgets are shared exactly);</li><li>usage waiting for PostgreSQL is kept in the replica's memory and is lost if that replica stops before PostgreSQL
+is back (the log says how many lines);</li><li>a single Redis (or one with a standby) only: Redis Cluster is not supported.</li></ul></li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="install.html">Install</a>: the installer, updating and choosing a release.</li><li><a href="proxy-service.html">Keep it running in the background</a>: restarting the service after an update.</li><li><a href="teams-and-hubs.html">Share Maple with a team</a>: the features that stay off until you set them up.</li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener noreferrer">Release notes</a>, with every change in each release.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/install.html" rel="prev"><small>Previous</small>Install</a><a class="next" href="../docs/getting-started.html" rel="next"><small>Next</small>Your first session</a></div><div class="mset m-teams"><a class="prev" href="../docs/install.html" rel="prev"><small>Previous</small>Install</a><a class="next" href="../docs/sign-in.html" rel="next"><small>Next</small>Sign in</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-118-or-117">Going back to 1.18 or 1.17</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

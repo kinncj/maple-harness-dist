@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Control it from your phone · Maple Harness docs</title>
 <meta name="description" content="Share a session and drive it from your phone&#x27;s browser or from another machine. You can approve tool calls (with a look at exactly what will change), open several sessions in one list, and start new o">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=58325aac">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
-<nav class="sections" aria-label="Documentation sections"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></nav>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
 <div class="search" role="search" data-docs="../docs/">
 <label class="sr" for="q">Search the documentation</label>
 <input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
@@ -25,14 +25,14 @@
 </div>
 <button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
 </header>
-<div class="scrim" id="scrim"></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html" aria-current="page">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html" aria-current="page">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
-<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Your phone</li><li aria-current="page">Control it from your phone</li></ol></nav>
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Your phone</li><li aria-current="page">Control it from your phone</li></ol></div></nav>
 <article>
 <h1 id="control-it-from-your-phone">Control it from your phone <a class="anchor" href="#control-it-from-your-phone" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></details>
 
 <p>Share a session and drive it from your phone's browser or from another machine. You can approve tool calls
 (with a look at exactly what will change), open several sessions in one list, and start new ones in folders
@@ -174,6 +174,10 @@ maple-harness gateway unshare &lt;id&gt;      # stop one now</code></pre>
 <pre><code>/remote share [label] [--for 1h|8h|24h|7d]   make a watch-only link to this session (24h unless you choose)
 /remote share [label] --drive                make a link that can drive (8h unless you choose); it explains
                                              what that allows and asks you to repeat it with --confirm
+/remote share [label] --device               pair one of your own devices for this session only (7 days
+                                             unless you choose, up to --for 30d); also asks for --confirm,
+                                             and for --confirm-unattended when the session is in auto or
+                                             yolo; it shows a QR code only, --typed gives a code to type
 /remote shares                               this session's shares
 /remote unshare &lt;id&gt;                         stop one now</code></pre>
 <p>A person whose share ends or is stopped is signed out at once, including a page left open.</p>
@@ -183,6 +187,62 @@ the link. To try it yourself, use a private window or another browser.</li><li>S
 a session that works with secrets.</li><li>Each share made, opened, used and stopped is recorded, with its kind, in the audit log on your machine
 (<code>maple-proxy audit tail</code> shows it).</li><li>1.12 and older refuse links that can drive: if you go back to an older version, those links stop working, and so
 do shares that were already tied to their conversation.</li></ul>
+<h2 id="a-device-for-one-session">A device for one session <a class="anchor" href="#a-device-for-one-session" aria-label="Link to this heading">#</a></h2>
+<p>When you want a device of your own (a tablet, a second phone, a work laptop's browser) to reach one session and
+nothing else, pair it for that session only. On the remote page, open the session, tap <strong>Share</strong>, give it a label
+(which device it is), and choose <strong>My device, this session only</strong>. If other sessions are running, you can tick
+them under <em>Also give it</em>. Pick when it ends: 1 hour, 8 hours, 24 hours, 7 days (the default) or 30 days. The sheet
+says what the device will be able to do and asks you to confirm. It then shows a QR code, and nothing else: scan it
+with that device's camera, or in the Maple app choose <strong>Scan QR</strong>, within 5 minutes; it works once.</p>
+<p><strong>It pairs by scanning only.</strong> The code inside the QR code is never shown as text or as a link to copy, and the
+page refuses it if someone types it: a device for one session is paired by holding it up to your screen, not by
+reading a code out to somebody. For a device without a camera, tick <strong>Pair by typing a code instead of scanning</strong>
+before you continue: you then get an ordinary code and link, as for other pairings. Other pairings (<code>/remote pair</code>,
+the setup page, watch and drive links) are unchanged: their codes can still be scanned or typed.</p>
+<p><strong>A session that runs without asking.</strong> If the session (or one you ticked) is in auto or yolo mode, what the
+device sends runs without anyone approving it. The sheet then shows a second box to tick: "This session runs
+actions without asking; the device can send it messages." Nothing is made until you tick it.</p>
+<p><strong>You are told when it pairs.</strong> When the device pairs, the device that made it shows a note ("Your device "work
+phone" paired: it can now use acme-api.") and the device list under <em>Shared now</em> updates. If that device has
+notifications on, it also gets a notification, and so do the <a href="#notifications">notification</a> channels you set in
+<code>harness.notifications</code> (the <code>device</code> event, on by default). If the session is switched to auto or yolo later,
+the device keeps working and you are told the same ways. Messages name the device and the session, never a code
+or token.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/remote-share-device-light.webp" alt="The Share sheet with the label work phone, My device, this session only and 7 days chosen, and an unticked box to pair by typing a code instead of scanning a QR code." width="540" height="858" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/remote-share-device-dark.webp" alt="The Share sheet with the label work phone, My device, this session only and 7 days chosen, and an unticked box to pair by typing a code instead of scanning a QR code." width="540" height="858" loading="lazy" decoding="async">
+<figcaption>Pairing a device for this session only: the sheet says what it can do and asks you to confirm.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/remote-share-device-qr-light.webp" alt="After confirming, the Share sheet shows only a QR code that pairs the device within 5 minutes, and the Shared now list shows work phone waiting for its link to be opened." width="540" height="860" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/remote-share-device-qr-dark.webp" alt="After confirming, the Share sheet shows only a QR code that pairs the device within 5 minutes, and the Shared now list shows work phone waiting for its link to be opened." width="540" height="860" loading="lazy" decoding="async">
+<figcaption>The device pairs by scanning this QR code; the code is not shown as text.</figcaption>
+</figure>
+<p>From a terminal, inside the session itself, <code>/remote share --device</code> does the same: it prints the QR code only
+(widen the window if it does not fit), asks for <code>--confirm</code>, and for <code>--confirm-unattended</code> too when the session is
+in auto or yolo. <code>--typed</code> prints a link and a code to type instead. A device made from the terminal is announced
+through the <code>harness.notifications</code> channels only.</p>
+<p><strong>What the device can do:</strong> see that session (and any others you ticked), send it messages, stop the current turn,
+and answer its approvals with <strong>Allow</strong> or <strong>Deny</strong>, one at a time, in whatever mode the session is in. Its
+messages and answers are labelled with its label and "(session-only device)". When the session is stopped and
+resumed, the device finds it again, as a share does.</p>
+<p><strong>What it cannot do:</strong> see or reach any other session, your folders or your saved sessions; start or stop
+sessions; change the mode or the model; run the session's text commands; pair a device or share; answer "always
+allow"; approve a command outside the sandbox; or see your account's quota, spend or spend alerts. The page leaves
+these out and the gateway refuses them either way.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/remote-device-phone-light.webp" alt="A phone paired for one session: a note saying this device is limited to one session, acme-api, and when it ends, the conversation, and a message box with Send." width="780" height="1688" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/remote-device-phone-dark.webp" alt="A phone paired for one session: a note saying this device is limited to one session, acme-api, and when it ends, the conversation, and a message box with Send." width="780" height="1688" loading="lazy" decoding="async">
+<figcaption>A phone paired for one session: it can send and approve there, and sees nothing else.</figcaption>
+</figure>
+<p><strong>It works only while the session's sandbox is on and working.</strong> Through a session that runs commands outside a
+sandbox, a device could reach the whole computer, so the gateway does not make such a device for that session, and
+an existing one can still watch but cannot send or answer until the sandbox is back. A shared session has the
+sandbox on by default where a sandbox is available (see <a href="sandbox.html">Sandbox</a>); <code>/sandbox</code> in the session says
+whether it is.</p>
+<p>A device for one session can still run commands on this computer through that session, so pair only devices you
+control. It ends by itself when its time is up, and stops working at once (a page left open on it signs out within
+seconds) when you:</p>
+<ul><li>tap <strong>Stop sharing</strong> next to it under <em>Shared now</em> on the remote page (it is marked <em>device</em>);</li><li>revoke it in the device list on the setup page, or revoke the device it was made from;</li><li>run <code>maple-harness gateway unshare &lt;id&gt;</code> (<code>maple-harness gateway shares</code> lists it) or <code>/remote unshare &lt;id&gt;</code>.</li></ul>
+<p>Versions before 2.0 do not know this kind of device and refuse it: if you go back to an older version, it stops
+working.</p>
 <h2 id="starting-sessions-from-the-phone">Starting sessions from the phone <a class="anchor" href="#starting-sessions-from-the-phone" aria-label="Link to this heading">#</a></h2>
 <p>The <strong>New session</strong> sheet starts a session in a folder you have allowed:</p>
 <pre><code class="language-sh">maple-harness gateway workspaces add ~/code
@@ -207,7 +267,10 @@ error or finishes. It says only that, plus the project's name, never your comman
 must be added to the Home Screen (iOS 16.4 or later). Android works in Chrome.</li><li><strong>Without a trusted certificate</strong> (a self-signed one), notifications still work while the page is open in a
 browser that shows them from a page, which is usually a desktop browser; a phone may not.</li><li><strong>A test button</strong> in the sheet sends a notification to your phone so you can check it works.</li><li><strong>Other ways to be told</strong>: <code>maple-harness</code> can send messages to <a href="https://ntfy.sh" rel="noopener noreferrer">ntfy</a>, a webhook, or a
 desktop notification when a session needs you. Add a <code>harness.notifications</code> section with a <code>sinks:</code> list, or
-simply <code>desktop: true</code>, then check with <code>maple-harness notify test</code>.</li></ul>
+simply <code>desktop: true</code>, then check with <code>maple-harness notify test</code>.</li><li><strong>About your session devices</strong>: when a <a href="#a-device-for-one-session">device for one session</a> you made pairs, or
+its session is switched to auto or yolo, the device that made it shows a note and gets a notification (if it has
+them on), and the <code>harness.notifications</code> channels are told (the <code>device</code> event). Leave <code>device</code> out of
+<code>harness.notifications.events</code> to stop those messages; the note on the page stays.</li></ul>
 <h2 id="using-the-page">Using the page <a class="anchor" href="#using-the-page" aria-label="Link to this heading">#</a></h2>
 <ul><li>Replies render as Markdown as they stream: headings, lists, tables and code blocks. Code blocks and tables
 have <strong>Copy</strong> buttons, and each reply has <strong>Copy Markdown</strong>.</li><li><strong>Send with</strong> in the session sheet chooses the key that sends: Ctrl/Cmd+Enter (the default), Enter, Shift+Enter or a
@@ -225,13 +288,13 @@ step 2.</li><li><strong><code>+ New session</code> is refused.</strong> No folde
 notifications.</li></ul>
 <p>See also <a href="security.html">Security</a> and <a href="troubleshooting.html">Troubleshooting</a>.</p>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><a class="prev" href="../docs/proxy-service.html" rel="prev"><small>Previous</small>Keep it running in the background</a><a class="next" href="../docs/subagents.html" rel="next"><small>Next</small>Subagents</a></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/mcp-hub.html" rel="prev"><small>Previous</small>MCP hub (experimental)</a><a class="next" href="../docs/subagents.html" rel="next"><small>Next</small>Subagents</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></aside>
 </div>
-<script src="../docs/site.js?v=c7131fda" defer></script>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
 </body>
 </html>

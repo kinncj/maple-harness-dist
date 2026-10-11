@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img">
+<title>One maple-proxy in a container</title>
+<desc>Tools on your machine or network send requests with an access token to one maple-proxy container. Everything it keeps, its settings, access tokens, usage log and downloaded models, is on one volume mounted at /data, so it survives a restart or an upgrade. Provider keys and tokens come from mounted secrets. The proxy sends requests on to your providers and model servers.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="380" fill="#FFFFFF"/>
+<text x="30" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">Your tools</text>
+<text x="352" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">The container</text>
+<text x="722" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">Providers</text>
+<rect x="30" y="56" width="240" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="84" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Maple Harness</text>
+<text x="46" y="108" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">token: laptop</text>
+<path d="M270 94 L350 120" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="156" width="240" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="184" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Claude Code</text>
+<text x="46" y="208" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">token: laptop</text>
+<path d="M270 194 L350 150" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="256" width="240" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="284" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">OpenCode</text>
+<text x="46" y="308" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">token: ci</text>
+<path d="M270 294 L350 180" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="352" y="56" width="320" height="280" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<text x="372" y="88" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="372" y="112" font-size="13" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">:11535 OpenAI   :11537 Anthropic</text>
+<rect x="372" y="130" width="280" height="92" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="388" y="156" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">volume /data</text>
+<text x="388" y="180" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">settings, access tokens,</text>
+<text x="388" y="200" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">usage log, models</text>
+<rect x="372" y="236" width="280" height="80" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="388" y="262" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">mounted secrets</text>
+<text x="388" y="286" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">provider keys, client tokens</text>
+<rect x="722" y="56" width="210" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="738" y="84" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">GitHub Copilot</text>
+<text x="738" y="108" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">an account</text>
+<path d="M672 120 L722 94" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="156" width="210" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="738" y="184" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Anthropic</text>
+<text x="738" y="208" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">an API key</text>
+<path d="M672 150 L722 194" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="256" width="210" height="76" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="738" y="284" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Model server</text>
+<text x="738" y="308" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Ollama, LM Studio</text>
+<path d="M672 180 L722 294" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<text x="480" y="362" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="middle" class="sans">One replica, files on one volume: the same proxy as on a machine.</text>
+</svg>

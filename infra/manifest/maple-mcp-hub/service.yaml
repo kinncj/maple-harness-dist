@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maple-mcp-hub
+spec:
+  selector: {app.kubernetes.io/name: maple-mcp-hub}
+  ports: [{name: mcp, port: 11545, targetPort: mcp}]

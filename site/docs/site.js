@@ -21,6 +21,32 @@
     label();
   });
 
+  /* The documentation mode (Single user, Teams & hubs). Each tab is a link to that mode's first page, so
+     it works without scripts; the page was painted in the right mode already (see the inline script).
+     Here: mark the current tab, remember a choice, and move between tabs with the arrow keys. */
+  var modeList = document.querySelector('.modes'), modeTabs = [], modeNames = {};
+  if (modeList) {
+    modeTabs = [].slice.call(modeList.querySelectorAll('[role=tab]'));
+    var curMode = root.getAttribute('data-mode');
+    modeTabs.forEach(function (t) {
+      var m = t.getAttribute('data-m'), on = m === curMode;
+      modeNames[m] = t.textContent;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      t.addEventListener('click', function () { try { localStorage.setItem('maple-docs-mode', m); } catch (e) {} });
+    });
+    modeList.addEventListener('keydown', function (e) {
+      var i = modeTabs.indexOf(document.activeElement), j = -1;
+      if (i < 0) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % modeTabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (i - 1 + modeTabs.length) % modeTabs.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = modeTabs.length - 1;
+      else if (e.key === ' ') { e.preventDefault(); modeTabs[i].click(); return; }
+      if (j >= 0) { e.preventDefault(); modeTabs[j].focus(); }
+    });
+  }
+
   /* The sidebar is a drawer on phones. */
   var menu = document.getElementById('menu'), scrim = document.getElementById('scrim'), side = document.getElementById('side');
   function drawer(open) {
@@ -100,6 +126,7 @@
         score += w;
       }
       if (d.h === d.p) score += 1;
+      if (d.m && (d.m === 'both' || d.m === root.getAttribute('data-mode'))) score += 2;
       hits.push([score, d]);
     });
     hits.sort(function (a, b) { return b[0] - a[0]; });
@@ -109,7 +136,11 @@
       a.id = 'r' + n;
       a.setAttribute('role', 'option');
       a.appendChild(el('span', 'where', d.h));
-      if (d.h !== d.p) a.appendChild(el('span', 'page', d.p));
+      if (d.h !== d.p || d.m) {
+        var pg = el('span', 'page', d.h !== d.p ? d.p : '');
+        if (d.m) pg.appendChild(el('span', 'mtag', d.m === 'both' ? 'Both modes' : (modeNames[d.m] || d.m)));
+        a.appendChild(pg);
+      }
       var x = d.x, at = x.toLowerCase().indexOf(terms[0]), start = at > 50 ? x.indexOf(' ', at - 40) + 1 : 0;
       if (x) a.appendChild(el('span', 'snip', (start ? '…' : '') + x.slice(start, start + 170)));
       li.appendChild(a);

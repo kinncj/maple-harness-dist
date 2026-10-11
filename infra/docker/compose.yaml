@@ -1,0 +1,35 @@
+# One maple-proxy in a container, everything it keeps on one volume.
+#
+#   mkdir -p secrets && printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   MAPLE_VERSION=v2.0.0 docker compose up -d --build
+#
+# Clients use http://127.0.0.1:11535/v1 (OpenAI) or http://127.0.0.1:11537 (Anthropic) with the
+# token after "laptop=" (prefixed mh_). See the Docker page of the documentation.
+services:
+  maple-proxy:
+    build:
+      context: .
+      args:
+        MAPLE_VERSION: ${MAPLE_VERSION:?set MAPLE_VERSION to a release tag, such as v2.0.0}
+    image: maple-proxy:${MAPLE_VERSION}
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: [/tmp]
+    ports:
+      - "127.0.0.1:11535:11535"
+      - "127.0.0.1:11537:11537"
+    volumes:
+      - maple-data:/data
+    secrets:
+      - source: proxy_tokens
+        target: /run/secrets/maple/access.proxy_tokens
+    stop_grace_period: 2m
+
+volumes:
+  maple-data: {}
+
+secrets:
+  proxy_tokens:
+    file: ./secrets/proxy_tokens

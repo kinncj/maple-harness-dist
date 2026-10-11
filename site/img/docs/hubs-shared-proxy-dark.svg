@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img">
+<title>One shared proxy for a small team</title>
+<desc>Three laptops, each with its own access token, send requests over HTTPS or a private network to one Maple proxy at hub.example. The proxy knows each token&#x27;s person and team, and sends the request on to a GitHub Copilot business account, an Anthropic API key or a model server on the network. Its setup page is reachable only on the hub machine itself.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="470" fill="#1B1513"/>
+<text x="30" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Teammates&#x27; machines</text>
+<text x="372" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">The hub</text>
+<text x="722" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Accounts and models</text>
+<rect x="30" y="56" width="250" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="84" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Alice&#x27;s laptop</text>
+<text x="46" y="108" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">maple-harness</text>
+<text x="46" y="129" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">token: alice</text>
+<path d="M280 104 L370 190" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="184" width="250" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="212" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Bob&#x27;s laptop</text>
+<text x="46" y="236" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">Claude Code</text>
+<text x="46" y="257" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">token: bob</text>
+<path d="M280 232 L370 230" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="312" width="250" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="340" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Carol&#x27;s laptop</text>
+<text x="46" y="364" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">OpenCode</text>
+<text x="46" y="385" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">token: carol</text>
+<path d="M280 360 L370 270" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="372" y="56" width="300" height="352" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="392" y="88" font-size="18" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Maple proxy</text>
+<text x="392" y="112" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">hub.example:11535</text>
+<rect x="392" y="132" width="260" height="150" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="408" y="158" font-size="14" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">people and teams</text>
+<text x="408" y="184" font-size="14" fill="#F2E9E4" font-weight="400" text-anchor="start" class="mono">alice, bob  →  platform</text>
+<text x="408" y="208" font-size="14" fill="#F2E9E4" font-weight="400" text-anchor="start" class="mono">carol  →  web</text>
+<text x="408" y="238" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">each token belongs to</text>
+<text x="408" y="258" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">one person</text>
+<rect x="392" y="298" width="260" height="90" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="408" y="324" font-size="14" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">setup page</text>
+<text x="408" y="348" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">on hub.example only:</text>
+<text x="408" y="368" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">never reachable from the network</text>
+<rect x="722" y="56" width="210" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="84" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">GitHub Copilot</text>
+<text x="738" y="108" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">business account</text>
+<path d="M672 190 L722 104" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="184" width="210" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="212" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Anthropic</text>
+<text x="738" y="236" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">API key</text>
+<path d="M672 230 L722 232" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="312" width="210" height="96" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="340" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Model server</text>
+<text x="738" y="364" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">on the network</text>
+<path d="M672 270 L722 360" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<text x="480" y="448" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Each request carries the person&#x27;s own token: HTTPS, or plain HTTP only on a private network.</text>
+</svg>

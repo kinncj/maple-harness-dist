@@ -1,0 +1,26 @@
+# EXAMPLE: the hub's config.yaml. Off loopback the hub needs TLS (tls_cert, tls_key) or
+# insecure_http behind a TLS-terminating ingress, and every request an mcp-hub token.
+#
+# MCP servers: run each one as its own container and add it here by URL (type http), as below with
+# the sidecar in sidecar.example.yaml. In this image a stdio server (a command the hub would run)
+# is refused: the image has no sandbox, and uncontained it could read everything this pod can,
+# its Secret included. mcp_hub.allow_uncontained_stdio: true runs stdio servers anyway, at that
+# risk; prefer the sidecar.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maple-mcp-hub
+data:
+  config.yaml: |
+    version: 1
+    mcp_hub:
+      enabled: true
+      listen: 0.0.0.0:11545
+      insecure_http: true
+      servers: []
+      # With sidecar.example.yaml applied (a server listening on this pod's loopback):
+      # servers:
+      #   - name: example
+      #     type: http
+      #     url: http://127.0.0.1:8000/mcp
+      #     allow_private: true   # this pod's own loopback

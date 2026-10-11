@@ -1,0 +1,37 @@
+# One replica, disk mode: the proxy as on a machine, its state on a PersistentVolumeClaim.
+# Settings are edited on the setup page (kubectl -n maple port-forward deploy/maple-proxy 11539)
+# and kept on the volume.
+#
+#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0
+#   kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: maple
+resources:
+  - namespace.yaml
+  - pvc.yaml
+  - ../../manifest/maple-proxy
+images:
+  - name: maple-proxy
+    newName: registry.example.com/REPLACE-ME/maple-proxy
+    newTag: REPLACE-ME
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        replicas: 1
+        # One writer of the volume at a time.
+        strategy: {type: Recreate}
+        template:
+          spec:
+            volumes:
+              - name: data
+                persistentVolumeClaim: {claimName: maple-data}
+                emptyDir: null
+              - name: models
+                persistentVolumeClaim: {claimName: maple-models}
+                emptyDir: null

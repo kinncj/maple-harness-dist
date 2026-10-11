@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img">
+<title>Chained hubs: a laptop, a team hub and a top hub</title>
+<desc>Three Maple proxies in a chain. Requests go up: Alice&#x27;s laptop proxy to the team hub at team.example, and the team hub to the top hub at top.example, which holds the company&#x27;s accounts. People and teams are defined once at the top hub and handed down to every proxy below it. The team hub adds a person of its own and may tighten a budget or a model list, never loosen one.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="560" fill="#1B1513"/>
+<rect x="250" y="40" width="460" height="120" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="270" y="72" font-size="18" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Top hub</text>
+<text x="690" y="72" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="end" class="mono">top.example</text>
+<text x="270" y="104" font-size="14.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">people and teams defined here:</text>
+<text x="270" y="128" font-size="14.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">alice, bob, carol  ·  platform, web</text>
+<rect x="250" y="222" width="460" height="120" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="270" y="254" font-size="18" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Team hub</text>
+<text x="690" y="254" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="end" class="mono">team.example</text>
+<text x="270" y="286" font-size="14.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">inherits alice, bob, carol from the top</text>
+<text x="270" y="310" font-size="14.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">adds its own: dana  ·  tightens platform</text>
+<rect x="250" y="404" width="460" height="120" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="270" y="436" font-size="18" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Alice&#x27;s laptop</text>
+<text x="690" y="436" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="end" class="mono">maple-proxy on 127.0.0.1</text>
+<text x="270" y="468" font-size="14.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">inherits everyone above</text>
+<text x="270" y="492" font-size="14.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">Alice&#x27;s tools: no token needed here</text>
+<rect x="770" y="40" width="160" height="120" rx="12" fill="#211A17" stroke="#54453F" stroke-width="1.5"/>
+<text x="850" y="72" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="middle" class="sans">Company</text>
+<text x="850" y="94" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="middle" class="sans">accounts</text>
+<text x="850" y="122" font-size="12.5" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Copilot, Anthropic</text>
+<path d="M710 100 L770 100" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<path d="M370 404 L370 344" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<path d="M370 222 L370 162" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="222" y="362" width="136" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="290" y="378" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">requests go up</text>
+<rect x="222" y="180" width="136" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="290" y="196" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">requests go up</text>
+<path d="M590 162 L590 222" fill="none" stroke="#6FB6C4" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-down)"/>
+<path d="M590 344 L590 404" fill="none" stroke="#6FB6C4" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-down)"/>
+<rect x="602" y="180" width="166" height="25" rx="12.5" fill="#17292D" stroke="#6FB6C4" stroke-width="1"/>
+<text x="685" y="196" font-size="13" fill="#6FB6C4" font-weight="600" text-anchor="middle" class="sans">people handed down</text>
+<rect x="602" y="362" width="166" height="25" rx="12.5" fill="#17292D" stroke="#6FB6C4" stroke-width="1"/>
+<text x="685" y="378" font-size="13" fill="#6FB6C4" font-weight="600" text-anchor="middle" class="sans">people handed down</text>
+<text x="30" y="70" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">Each hop is a</text>
+<text x="30" y="92" font-size="14" fill="#F2E9E4" font-weight="400" text-anchor="start" class="mono">type: maple</text>
+<text x="30" y="114" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">provider, with a</text>
+<text x="30" y="136" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">token from the hub</text>
+<text x="30" y="262" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">A child proxy may</text>
+<text x="30" y="284" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">tighten what it</text>
+<text x="30" y="306" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">inherits, never</text>
+<text x="30" y="328" font-size="14" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">loosen it</text>
+<text x="480" y="548" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">The setup page of each proxy is only on its own machine.</text>
+</svg>

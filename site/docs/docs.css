@@ -41,6 +41,24 @@ main:focus{outline:none}
 .top .theme{margin-left:0}
 html:not(.js) .top .theme{margin-left:auto}
 
+/* The documentation mode: Single user or Teams & hubs. Each part of the frame is made once per mode the page
+   is in (class m-<mode>), and only the set for <html data-mode> is shown. */
+.mset{display:contents}
+:root[data-mode=single] .m-teams,:root[data-mode=teams] .m-single{display:none}
+.modebar{display:flex;align-items:center;gap:14px;padding:9px 18px;border-bottom:1px solid var(--line);background:var(--surface)}
+.modes{display:inline-flex;flex:none;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.mode{position:relative;display:inline-flex;align-items:center;gap:7px;padding:5px 15px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:650;font-size:.9rem;white-space:nowrap;line-height:1.35}
+.mode::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35}
+.mode:hover{color:var(--ink)}
+:root[data-mode=single] .mode[data-m=single],:root[data-mode=teams] .mode[data-m=teams]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(35,26,22,.12),inset 0 0 0 1px var(--line)}
+:root[data-mode=single] .mode[data-m=single]::before,:root[data-mode=teams] .mode[data-m=teams]::before{background:var(--accent);opacity:1}
+.mode:focus-visible{outline-offset:1px}
+.mode-blurb{margin:0;min-width:0;color:var(--muted);font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mode-blurb.mset{display:block}
+:root[data-mode=single] .mode-blurb.m-teams,:root[data-mode=teams] .mode-blurb.m-single{display:none}
+.results .mtag{display:inline-block;margin-left:.5em;padding:0 .5em;border:1px solid var(--line);border-radius:999px;font-size:.72rem;line-height:1.5}
+.results .page:empty{display:none}
+
 /* Three columns: sidebar, article, "On this page" */
 .layout{display:grid;grid-template-columns:268px minmax(0,1fr) 230px;max-width:1480px;margin:0 auto}
 .layout.notoc{grid-template-columns:268px minmax(0,1fr)}
@@ -142,6 +160,7 @@ ul.cards a:hover{border-color:var(--accent)}
 }
 /* Phones and small tablets: the sidebar becomes a drawer, and the section tabs move into it. */
 @media (max-width:860px){
+  .modebar{padding:8px 12px}
   .layout,.layout.wide,.layout.notoc{grid-template-columns:minmax(0,1fr)}
   .sections{display:none}
   .menu-btn{display:inline-grid}
@@ -175,8 +194,13 @@ ul.cards a:hover{border-color:var(--accent)}
   .pn{grid-template-columns:1fr}
   .pn .next{grid-column:1}
 }
+@media (max-width:560px){
+  .mode-blurb,.mode-blurb.mset{display:none}
+  .modes{flex:1}
+  .mode{flex:1;justify-content:center;padding:6px 10px}
+}
 @media print{
-  .top,.side,.toc,.toc-inline,.pn,.scrim,.skip{display:none!important}
+  .top,.modebar,.side,.toc,.toc-inline,.pn,.scrim,.skip{display:none!important}
   .layout,.layout.wide,.layout.notoc{display:block}
   .doc{max-width:none;padding:0}
   a{color:inherit}

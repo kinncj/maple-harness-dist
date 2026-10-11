@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maple-proxy
+  labels: {app.kubernetes.io/name: maple-proxy}
+spec:
+  selector: {app.kubernetes.io/name: maple-proxy}
+  ports:
+    - {name: openai, port: 11535, targetPort: openai}
+    - {name: anthropic, port: 11537, targetPort: anthropic}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: maple-proxy
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: maple-proxy}

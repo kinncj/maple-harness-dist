@@ -1,0 +1,29 @@
+# Round-robin across the three replicas, with their readiness checked; a replica that is
+# draining (stopping) says not ready and is taken out first. POST is never retried on another
+# replica: a model request is not safe to send twice (use an Idempotency-Key for that).
+:8080 {
+	reverse_proxy proxy-1:11535 proxy-2:11535 proxy-3:11535 {
+		lb_policy round_robin
+		health_uri /readyz
+		health_interval 5s
+		# The proxy answers only to host names it knows: the check names it as a client would.
+		health_headers {
+			Host localhost
+		}
+		flush_interval -1
+		lb_retries 0
+	}
+}
+:8081 {
+	reverse_proxy proxy-1:11537 proxy-2:11537 proxy-3:11537 {
+		lb_policy round_robin
+		health_uri /readyz
+		health_interval 5s
+		# The proxy answers only to host names it knows: the check names it as a client would.
+		health_headers {
+			Host localhost
+		}
+		flush_interval -1
+		lb_retries 0
+	}
+}

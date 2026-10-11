@@ -1,0 +1,51 @@
+# The MCP hub runs as ONE replica of its own: its servers are processes and sessions that live on
+# one machine. Clients connect to this Service; the proxy replicas do not serve the hub. Its
+# config.yaml is the proxy's with mcp_hub enabled (see the ConfigMap in config/ha).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maple-mcp-hub
+  labels: {app.kubernetes.io/name: maple-mcp-hub}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/name: maple-mcp-hub}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: maple-mcp-hub}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: maple-mcp-hub
+          image: maple-proxy
+          args: ["mcp-hub", "serve"]
+          env:
+            - {name: MAPLE_CONFIG, value: /etc/maple/config.yaml}
+          ports: [{name: mcp, containerPort: 11545}]
+          resources:
+            requests: {cpu: 50m, memory: 128Mi}
+            limits: {memory: 512Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: tmp, mountPath: /tmp}
+            - {name: config, mountPath: /etc/maple, readOnly: true}
+            - {name: secrets, mountPath: /run/secrets/maple, readOnly: true}
+      volumes:
+        # The hub's access file lives here and starts empty: its tokens come from the Secret's
+        # access.mcp_hub_tokens at every start, and a line taken out of it is revoked while it runs.
+        - {name: data, emptyDir: {}}
+        - {name: tmp, emptyDir: {medium: Memory, sizeLimit: 64Mi}}
+        - {name: config, configMap: {name: maple-mcp-hub}}
+        # Its own Secret, with only what the hub needs (its tokens, its servers' keys): never the
+        # proxy's, which holds the database password and the storage key. The hub runs programs.
+        - {name: secrets, secret: {secretName: maple-mcp-hub}}

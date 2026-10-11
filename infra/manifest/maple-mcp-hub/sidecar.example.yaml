@@ -1,0 +1,39 @@
+# EXAMPLE ONLY, not applied by default: an MCP server as a sidecar container of the hub's pod,
+# reached by the hub over HTTP on the pod's loopback. This is the recommended way to run MCP
+# servers with the hub in a container: each server is its own image with its own filesystem,
+# user and limits, and it never sees the hub's Secret (it is not mounted in this container).
+# It shares the pod's network, so it can reach what the hub can: for a server you trust less,
+# run it as its own Deployment and Service instead, with a NetworkPolicy that lets only the hub in
+# (then add it with its Service URL, allow_insecure and allow_private, or give it TLS).
+#
+# To use it, add to manifest/maple-mcp-hub/kustomization.yaml (or your overlay):
+#
+#   patches:
+#     - path: sidecar.example.yaml
+#
+# and add the server to the hub's config.yaml (see configmap.yaml). The image is yours: any MCP
+# server that serves streamable HTTP on 127.0.0.1:8000/mcp.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maple-mcp-hub
+spec:
+  template:
+    spec:
+      containers:
+        - name: mcp-example
+          image: registry.example.com/you/an-mcp-server:REPLACE-ME
+          args: ["--transport", "http", "--host", "127.0.0.1", "--port", "8000"]
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {memory: 256Mi}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65533
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: mcp-example-tmp, mountPath: /tmp}
+      volumes:
+        - {name: mcp-example-tmp, emptyDir: {sizeLimit: 64Mi}}

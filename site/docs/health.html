@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Provider health · Maple Harness docs</title>
+<meta name="description" content="The proxy watches how each provider and model answers, from the requests that already go through it, and tells you when one is having a bad time. By default it only watches: nothing about where your r">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html" aria-current="page">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html" aria-current="page">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">Provider health</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li aria-current="page">Provider health</li></ol></div></nav>
+<article>
+<h1 id="provider-health">Provider health <a class="anchor" href="#provider-health" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-it-shows">What it shows</a><ol><li><a href="#in-a-terminal">In a terminal</a></li><li><a href="#clearing-a-demotion">Clearing a demotion</a></li><li><a href="#on-a-response">On a response</a></li><li><a href="#in-the-events-log">In the events log</a></li></ol></li><li><a href="#how-a-state-is-decided">How a state is decided</a></li><li><a href="#health-failover">Health failover</a></li><li><a href="#what-it-cannot-tell-you">What it cannot tell you</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>The proxy watches how each provider and model answers, from the requests that already go through it, and tells you
+when one is having a bad time. By default it only watches: nothing about where your requests go changes. You can
+turn on <strong>health failover</strong> to have a struggling model tried after the other fallbacks you set up.</p>
+<p>There is nothing to configure. Health sends no requests of its own (so it never spends quota to check on a
+provider), and stays quiet while things are fine. It is remembered across a restart: a demoted model stays demoted
+after the proxy starts again, until a real request shows it answering or you
+<a href="#clearing-a-demotion">clear it</a> with <code>maple-proxy health reset</code> or the Health card's <strong>Reset</strong> button.</p>
+<h2 id="what-it-shows">What it shows <a class="anchor" href="#what-it-shows" aria-label="Link to this heading">#</a></h2>
+<p>Each provider and model the proxy has sent requests to gets one of three states:</p>
+<div class="tablewrap"><table><thead><tr><th>State</th><th>What it means</th></tr></thead><tbody><tr><td>healthy</td><td>Answering as it usually does.</td></tr><tr><td>degraded</td><td>Failing more than it usually does, or much slower than usual, but not enough to act on.</td></tr><tr><td>demoted</td><td>Failing far more than it usually does. With health failover on, it is tried after your other fallbacks.</td></tr></tbody></table></div>
+<p>Beside the state you see, for the last 10 minutes: how many requests it got and how many failed (with the kind of
+failure: rate limited, overloaded, server error, unreachable, out of quota, not authorised), its usual error rate,
+the 95th-percentile time waiting on the provider and time to the first output of a streamed answer, and why its
+state last changed. A model that is already being tried last because it recently said it was out of quota or rate
+limited says so too.</p>
+<p>All figures are <strong>measured on your own traffic, by this proxy, since it started</strong>. They are not a statement about a
+provider's reliability in general.</p>
+<h3 id="in-a-terminal">In a terminal <a class="anchor" href="#in-a-terminal" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-sh">maple-proxy health            # the board, once
+maple-proxy health --watch    # again every 5 seconds until Ctrl-C (--every 10s to change it)
+maple-proxy health --json     # the raw figures</code></pre>
+<p>It asks the running proxy on its setup address, like <code>maple-proxy cache</code>.</p>
+<h3 id="clearing-a-demotion">Clearing a demotion <a class="anchor" href="#clearing-a-demotion" aria-label="Link to this heading">#</a></h3>
+<p>A model's state is kept across a restart, so a model you know is fine again (you fixed its server, its quota was
+renewed) can stay demoted until a real request tests it. To clear it now:</p>
+<pre><code class="language-sh">maple-proxy health reset github-copilot/gpt-5   # one model
+maple-proxy health reset github-copilot         # every model of that provider
+maple-proxy health reset                        # every model</code></pre>
+<p>or press <strong>Reset</strong> beside it on the setup page's Health card (<strong>Reset all</strong> clears every model). The model is
+healthy again with a fresh window, so the failures that demoted it are not counted again; its usual figures are kept.
+The change is written to the events log.</p>
+<h3 id="on-a-response">On a response <a class="anchor" href="#on-a-response" aria-label="Link to this heading">#</a></h3>
+<p>When a model that health would demote answers a request, the response says so in <code>X-Maple-Router</code>:</p>
+<pre><code class="language-text">X-Maple-Router: health: would demote github-copilot/gpt-5 (9 of 12 requests failed (rate limited 9) in the last 10m, usually 2%)</code></pre>
+<p>Nothing is added while a model is healthy or degraded.</p>
+<h3 id="in-the-events-log">In the events log <a class="anchor" href="#in-the-events-log" aria-label="Link to this heading">#</a></h3>
+<p>Every change of state is written to the <a href="observability.html#the-events-log">events log</a> as a <code>health.change</code> line:
+the provider and model, the new state, the previous one and why. With health failover on, <code>health.demote</code> and
+<code>health.restore</code> say when a model was moved behind its fallbacks and when it went back.</p>
+<h2 id="how-a-state-is-decided">How a state is decided <a class="anchor" href="#how-a-state-is-decided" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Against the model's own usual figures.</strong> A local model is slow by nature, and a busy hosted one fails now and
+then on a good day, so each model is compared with its own earlier requests, not with a fixed number. Until a
+model has enough history, a modest usual error rate is assumed, and speed is not judged at all.</li><li><strong>Never on a handful of requests.</strong> Nothing gets worse on fewer than 10 requests, or fewer than 5 failures, in the
+last 10 minutes. A single local model with a few requests now and then is never flagged.</li><li><strong>Slowness alone never demotes.</strong> Speed is compared per thousand input tokens, so long prompts are not mistaken
+for a slow model, and a slow model can be degraded but not demoted.</li><li><strong>No flapping.</strong> A state is kept for at least 5 minutes before it improves, and it must be clearly better, not
+just a little.</li><li><strong>Real requests decide when a model comes back.</strong> A demoted model is held for 5 minutes. After that, the next
+real request is let through to it: if it answers, the model is healthy again and starts with a clean slate; if
+not, it is held longer. A model that is demoted again soon after coming back is held longer each time, up to an
+hour.</li><li><strong>Your own failures do not count.</strong> A request you cancelled, one too large for the model, one stopped by a
+budget or the repeat guard, and other errors in the request itself say nothing about the provider and are left
+out.</li></ul>
+<h2 id="health-failover">Health failover <a class="anchor" href="#health-failover" aria-label="Link to this heading">#</a></h2>
+<p>Off by default. Turn it on with the <strong>Health failover</strong> switch in the setup page's Proxy settings, Fallbacks, or in
+<code>config.yaml</code>:</p>
+<pre><code class="language-yaml">health_failover: on</code></pre>
+<p>It applies to the next request, with no restart. With it on, a demoted model is tried after the other models and
+accounts you already listed for that request in <code>model_fallbacks</code> and <code>provider_fallbacks</code>, and before any that are
+known to be out of quota. That is all it does:</p>
+<ul><li><strong>It never adds a model or a provider.</strong> Only the fallbacks you configured are used.</li><li><strong>It never drops one.</strong> A demoted model with no fallbacks, or whose fallbacks all fail, is still asked.</li><li><strong>It is visible.</strong> <code>X-Maple-Fallback-From</code> names the model that was passed over, with <code>health:</code> and the reason,
+and the usage log's <code>route_reason</code> is <code>health-demoted</code> for each request it moved.</li><li><strong>It is shared.</strong> Health is kept per proxy, not per caller: on a proxy several people use, one caller's failing
+requests can demote a model for everyone, by design.</li></ul>
+<p>The trade-off: a fallback may be a weaker, slower or differently priced model, so what you spend can change. To see
+what it did on your traffic, in DuckDB (with the <code>usage</code> view from <code>maple-proxy usage schema</code>; see
+<a href="usage-export.html">Your usage data</a>):</p>
+<pre><code class="language-sql">SELECT first_choice, provider, model, count(*) AS requests, sum(ai_units) AS ai_units
+FROM usage
+WHERE route_reason = 'health-demoted'
+GROUP BY ALL
+ORDER BY requests DESC;</code></pre>
+<h2 id="what-it-cannot-tell-you">What it cannot tell you <a class="anchor" href="#what-it-cannot-tell-you" aria-label="Link to this heading">#</a></h2>
+<ul><li>A proxy remembers health across a restart: it saves each model's state and recent figures in <code>health.json</code> in the
+config folder every few minutes and when it stops, so a demoted model is still demoted after a restart and its
+usual figures are still known. Figures too old to be compared with any more are dropped, as they would be while
+running. The file holds only counts and times, never a request. Stop the proxy and delete it
+to start empty. Several replicas sharing Redis share one record of health instead.</li><li>It knows only the requests that go through this proxy. A provider that is down for everyone else but fine for
+your requests is healthy here.</li><li>For Copilot Auto, health follows the model Copilot chose for each request, so failover does not move Copilot Auto
+itself.</li><li>Time to first output is measured for streamed answers only.</li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="proxy-settings.html#fallbacks">Proxy settings</a> · <a href="observability.html">See and filter your usage</a> ·
+<a href="troubleshooting.html">Troubleshooting</a></p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/observability.html" rel="prev"><small>Previous</small>See and filter your usage</a><a class="next" href="../docs/alerts-and-forecasts.html" rel="next"><small>Next</small>Alerts and forecasts</a></div><div class="mset m-teams"><a class="prev" href="../docs/observability.html" rel="prev"><small>Previous</small>See and filter your usage</a><a class="next" href="../docs/alerts-and-forecasts.html" rel="next"><small>Next</small>Alerts and forecasts</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-it-shows">What it shows</a><ol><li><a href="#in-a-terminal">In a terminal</a></li><li><a href="#clearing-a-demotion">Clearing a demotion</a></li><li><a href="#on-a-response">On a response</a></li><li><a href="#in-the-events-log">In the events log</a></li></ol></li><li><a href="#how-a-state-is-decided">How a state is decided</a></li><li><a href="#health-failover">Health failover</a></li><li><a href="#what-it-cannot-tell-you">What it cannot tell you</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

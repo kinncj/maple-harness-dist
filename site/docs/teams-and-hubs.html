@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Share Maple with a team: hubs, people and fallbacks · Maple Harness docs</title>
+<meta name="description" content="This guide is for running Maple for more than one person: a small team sharing one proxy, a company with a hub per team, or one person whose laptop should fall back to a shared hub when their own acco">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html" aria-current="page">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li></ol></div></nav>
+<article>
+<h1 id="share-maple-with-a-team-hubs-people-and-fallbacks">Share Maple with a team: hubs, people and fallbacks <a class="anchor" href="#share-maple-with-a-team-hubs-people-and-fallbacks" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#who-this-is-for-and-who-can-skip-it">Who this is for, and who can skip it</a></li><li><a href="#the-building-blocks">The building blocks</a></li><li><a href="#a-one-shared-proxy-for-a-small-team">A. One shared proxy for a small team</a></li><li><a href="#b-who-uses-which-account">B. Who uses which account</a></li><li><a href="#c-chained-hubs">C. Chained hubs</a><ol><li><a href="#people-defined-once-at-the-top">People defined once, at the top</a></li><li><a href="#usage-rolls-up">Usage rolls up</a></li></ol></li><li><a href="#d-fallback-across-the-chain">D. Fallback across the chain</a><ol><li><a href="#your-own-account-first-the-team-hub-when-you-run-out">Your own account first, the team hub when you run out</a></li><li><a href="#the-hub-first-your-local-model-when-the-hub-says-no">The hub first, your local model when the hub says no</a></li></ol></li><li><a href="#e-see-who-used-what">E. See who used what</a></li><li><a href="#f-day-to-day-revoking-outages-and-security">F. Day to day: revoking, outages and security</a></li><li><a href="#what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>This guide is for running Maple for more than one person: a small team sharing one proxy, a company with a hub per
+team, or one person whose laptop should fall back to a shared hub when their own account runs out. It walks through
+each setup with the configuration to type, what you see afterwards, and where to look when something is not what
+you expected.</p>
+<p>The reference pages hold every key and every flag: <a href="teams.html">Teams</a> for people, teams, tokens, budgets and accounts
+on one proxy, and <a href="chaining.html">Chain proxies into hubs</a> for one proxy using another. This page ties them together.</p>
+<h2 id="who-this-is-for-and-who-can-skip-it">Who this is for, and who can skip it <a class="anchor" href="#who-this-is-for-and-who-can-skip-it" aria-label="Link to this heading">#</a></h2>
+<p><strong>If you use Maple on your own machine, you need none of this.</strong> Install it, sign in and work, as before. Nothing
+on this page is on until you add it to <code>config.yaml</code>: a proxy with no <code>people:</code>, no <code>teams:</code> and no other Maple
+proxy as a provider behaves exactly as it always has, its setup page shows no People or Chained proxies cards, and
+nothing new appears in your terminal.</p>
+<p>Read on if:</p>
+<ul><li>several people should use one proxy, each with their own token, and you want to see who used what, give each
+person or team their own accounts, or cap what each can spend;</li><li>you run more than one proxy (a laptop, a team machine, a company machine) and want them to work as one: people set
+up once, requests passed up to the machine that holds the accounts, and usage reported back up;</li><li>you want a fallback that crosses machines: your own account first and the team's when yours runs out, or the
+team's first and your own local model when the team's is not available.</li></ul>
+<h2 id="the-building-blocks">The building blocks <a class="anchor" href="#the-building-blocks" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Word</th><th>What it is</th></tr></thead><tbody><tr><td><strong>Proxy</strong></td><td><code>maple-proxy</code>: the program that holds sign-ins and keys and talks to the models. Every Maple install has one, usually listening only on <code>127.0.0.1</code></td></tr><tr><td><strong>Hub</strong></td><td>A proxy that other machines or other proxies use. Nothing extra is installed: a hub is a proxy that listens on a network address and asks every caller for an access token</td></tr><tr><td><strong>Person</strong></td><td>Someone who sends requests, named in <code>people:</code> (such as <code>alice</code>). Every request made with one of their tokens counts as theirs</td></tr><tr><td><strong>Team</strong></td><td>A group of people, named in <code>teams:</code> (such as <code>platform</code>). A team can have accounts, a budget and a model list that its people share</td></tr><tr><td><strong>Account</strong></td><td>One provider sign-in or key on a proxy: a GitHub Copilot account, an Anthropic API key, a model server. Each has an id</td></tr><tr><td><strong>Token</strong></td><td>An access token made on a proxy, given to one person or one other proxy. <code>config.yaml</code> names a person's tokens by their id, never by the token itself</td></tr></tbody></table></div>
+<p>And two words for chained setups:</p>
+<div class="tablewrap"><table><thead><tr><th>Word</th><th>What it is</th></tr></thead><tbody><tr><td><strong>Parent</strong></td><td>The hub a proxy passes requests to: a provider of <code>type: maple</code>, named in <code>chain.parent</code>. A parent can have a parent of its own</td></tr><tr><td><strong>Child</strong></td><td>A proxy that uses a parent. It inherits the parent's people and teams, and sends its usage records up to it</td></tr></tbody></table></div>
+<h2 id="a-one-shared-proxy-for-a-small-team">A. One shared proxy for a small team <a class="anchor" href="#a-one-shared-proxy-for-a-small-team" aria-label="Link to this heading">#</a></h2>
+<p>One machine runs the proxy with the team's accounts; everyone else connects to it with their own token.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-shared-proxy-light.svg" alt="Three laptops, Alice&#x27;s with Maple Harness, Bob&#x27;s with Claude Code and Carol&#x27;s with OpenCode, each send requests with their own token to one Maple proxy at hub.example. The proxy knows alice and bob are in team platform and carol in team web, and sends requests on to a GitHub Copilot business account, an Anthropic API key or a model server. Its setup page is only reachable on the hub machine." width="960" height="470" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-shared-proxy-dark.svg" alt="Three laptops, Alice&#x27;s with Maple Harness, Bob&#x27;s with Claude Code and Carol&#x27;s with OpenCode, each send requests with their own token to one Maple proxy at hub.example. The proxy knows alice and bob are in team platform and carol in team web, and sends requests on to a GitHub Copilot business account, an Anthropic API key or a model server. Its setup page is only reachable on the hub machine." width="960" height="470" loading="lazy" decoding="async">
+<figcaption>One shared proxy: a token per person, the accounts on one machine.</figcaption>
+</figure>
+<p>The hub can run as a program on a machine, as below, in a container (<a href="docker.html">Docker</a>), or on a cluster, with
+several replicas when a restart must not interrupt anyone (<a href="kubernetes.html">Kubernetes</a>).</p>
+<p><strong>1. Open the proxy to the network.</strong> On the hub machine, in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">server:
+  openai_compat: 0.0.0.0:11535
+  anthropic_compat: 0.0.0.0:11537
+  allowed_hosts: [hub.example]      # the name your teammates use to reach this machine</code></pre>
+<p>Off this machine every request needs a token with the <code>proxy</code> scope, and the proxy will not start that way until
+one exists. List the name your teammates type in <code>allowed_hosts</code>: a request that arrives under another name is
+refused with <code>403</code>. The setup page never listens beyond this machine. Reach the hub over HTTPS (in front of the
+proxy, for example a reverse proxy), or over a private network such as Tailscale or a VPN: plain HTTP across a network
+others share lets them read the tokens.</p>
+<p><strong>2. Make a token for each person, and say whose it is.</strong> Make each token on the setup page (<strong>Remote access</strong>, or the
+<strong>People</strong> card once you have people) with the <code>proxy</code> scope, and tie it to its person by its id:</p>
+<pre><code class="language-sh">maple-proxy people add alice --team platform
+maple-proxy people add bob --team platform
+maple-proxy people add carol --team web
+maple-proxy people tie-token alice &lt;token-id&gt;</code></pre>
+<p><code>config.yaml</code> then holds the people with their token ids (never the tokens), and the People card shows each person,
+their team, their tokens by label and what they spent. The People card applies a change at once; a change made with
+the command applies when the proxy reloads its configuration or restarts. Every step is in
+<a href="teams.html#set-up-a-team-in-four-steps">Set up a team in four steps</a>.</p>
+<p><strong>3. Connect each teammate.</strong> In Maple Harness, <code>maple-harness proxy connect</code> asks for the token without showing it,
+keeps it in your secret store and writes only a reference into <code>config.yaml</code>. In a demo setup where the hub is
+reached by name over plain HTTP, the first try is refused, and the second accepts it:</p>
+<pre><code class="language-text">$ maple-harness proxy connect http://team.example:12835
+proxy connect: the proxy at team.example:12835 is on another machine and is reached over plain http, which sends the access token where the network can read it; use https, or a private network such as Tailscale or a VPN and then set harness.proxy.allow_insecure: true if you accept that
+$ maple-harness proxy connect --allow-insecure http://team.example:12835
+Stored the token in the secret store (file) as maple-proxy-token.
+Wrote harness.proxy to /home/demo/bob/.config/maple-harness/config.yaml: url http://team.example:12835, token ${secret:maple-proxy-token}.
+Connected: the proxy at http://team.example:12835 accepted the token and serves 2 model(s).
+$ maple-harness proxy status
+Proxy
+proxy:   http://team.example:12835 (run elsewhere)
+status:  running, serving 2 model(s)
+managed: on its own machine; this harness never starts or stops it</code></pre>
+<p>With <code>https://</code> there is no flag to add. The harness never starts, stops or restarts a proxy on another machine.</p>
+<p><strong>Claude Code, OpenCode and other tools</strong> use the hub's address and the person's token as their API key: for Claude
+Code, <code>ANTHROPIC_BASE_URL=https://hub.example:11537</code> and the token in <code>ANTHROPIC_API_KEY</code>; for OpenCode or any
+OpenAI-compatible tool, <code>https://hub.example:11535/v1</code> and the token as the key. See
+<a href="teams.html#on-each-teammates-machine">On each teammate's machine</a>.</p>
+<p>Each person uses their own token: every request made with one is counted as its person's. A request from the hub
+machine itself without a token counts as the person <code>local</code>. You are responsible for following each provider's
+terms for the accounts you connect.</p>
+<h2 id="b-who-uses-which-account">B. Who uses which account <a class="anchor" href="#b-who-uses-which-account" aria-label="Link to this heading">#</a></h2>
+<p>A hub can hold several accounts for the same models, and give them out: one for everyone, one per team, or one for a
+single person.</p>
+<pre><code class="language-yaml">default_accounts: [company]          # tried first for everyone
+teams:
+  - id: platform
+    accounts: [platform-account]     # tried first for the platform team
+people:
+  - id: bob
+    team: platform
+    accounts: [bob-account]          # tried first for Bob</code></pre>
+<p>The same with the commands:</p>
+<pre><code class="language-sh">maple-proxy people default-accounts company
+maple-proxy teams accounts platform --accounts platform-account
+maple-proxy people accounts bob --accounts bob-account</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-accounts-light.svg" alt="For a request from bob in team platform, the proxy tries bob&#x27;s accounts first, then the team&#x27;s accounts, then the default accounts, then every other account that serves the model, unless accounts_only limits the person to the listed ones." width="960" height="400" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-accounts-dark.svg" alt="For a request from bob in team platform, the proxy tries bob&#x27;s accounts first, then the team&#x27;s accounts, then the default accounts, then every other account that serves the model, unless accounts_only limits the person to the listed ones." width="960" height="400" loading="lazy" decoding="async">
+<figcaption>The order the accounts are tried in. An account is only used for models of its own kind.</figcaption>
+</figure>
+<p>An account that does not serve the model, or that the person's model list does not allow, is skipped. With
+<code>accounts_only: true</code> a person or team is limited to their own accounts. The usage log records which account served
+each request (<code>provider</code>) and why (<code>account_source</code>: <code>person</code>, <code>team</code>, <code>default</code> or <code>request</code>). On a test proxy with
+a team account and a default account, four requests came out like this:</p>
+<pre><code class="language-text">$ maple-proxy usage query --group-by person,team,provider,account_source --metrics requests
+Usage  (all requests)
+  PERSON  TEAM      PROVIDER          ACCOUNT_SOURCE  REQUESTS
+  alice   platform  copilot-platform  team                   1
+  bob     platform  copilot-platform  team                   1
+  carol   web       copilot-shared    default                1
+  local   -         copilot-shared    default                1
+  total                                                      4</code></pre>
+<p>Budgets (per person and per team, in AI units, per UTC day and month) and model lists work the same way: see
+<a href="teams.html#budgets">Budgets</a>, <a href="teams.html#models">Models</a> and <a href="teams.html#accounts">Accounts</a>.</p>
+<h2 id="c-chained-hubs">C. Chained hubs <a class="anchor" href="#c-chained-hubs" aria-label="Link to this heading">#</a></h2>
+<p>When there is more than one proxy, chain them: each proxy uses the one above it as a provider of <code>type: maple</code>. A
+laptop goes to a team hub, and the team hub goes to the top hub that holds the company's accounts.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-chain-light.svg" alt="Three Maple proxies in a chain: Alice&#x27;s laptop, a team hub at team.example and a top hub at top.example that holds the company accounts. Requests go up from the laptop to the team hub to the top hub. People and teams defined at the top hub are handed down to the team hub and the laptop. The team hub adds a person of its own and tightens the platform team&#x27;s budget; a child may tighten what it inherits, never loosen it." width="960" height="560" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-chain-dark.svg" alt="Three Maple proxies in a chain: Alice&#x27;s laptop, a team hub at team.example and a top hub at top.example that holds the company accounts. Requests go up from the laptop to the team hub to the top hub. People and teams defined at the top hub are handed down to the team hub and the laptop. The team hub adds a person of its own and tightens the platform team&#x27;s budget; a child may tighten what it inherits, never loosen it." width="960" height="560" loading="lazy" decoding="async">
+<figcaption>Requests go up; people and teams come down.</figcaption>
+</figure>
+<p><strong>1. On each hub, make a token for the proxy below it</strong>, and list the name the proxy below uses in <code>allowed_hosts</code>:</p>
+<pre><code class="language-sh">maple-proxy chain token platform-hub</code></pre>
+<p>The token has the <code>proxy</code> and <code>proxy-chain</code> scopes. Only a token with <code>proxy-chain</code> is trusted to say who asked, so a
+person's own token can never claim to be someone else.</p>
+<p><strong>2. On the proxy below, add the hub as a provider</strong> and name it as the parent:</p>
+<pre><code class="language-yaml">server:
+  proxy_name: platform-hub           # a readable name in everyone's usage records
+providers:
+  - id: top
+    type: maple
+    base_url: https://top.example:11535/v1
+    api_key: mh_...                  # the token from maple-proxy chain token
+    models:
+      - id: claude-sonnet-5
+      - id: gpt-5-mini
+chain:
+  parent: top                        # inherit its people, send usage up to it</code></pre>
+<p>Then move the token into the secret store, which leaves a <code>${secret:...}</code> reference in its place:</p>
+<pre><code class="language-sh">maple-proxy secrets migrate</code></pre>
+<p>A hub's models are always reachable as <code>&lt;provider id&gt;/&lt;model&gt;</code> (<code>top/claude-sonnet-5</code>). List them under <code>models:</code> on
+a hub in the middle of a chain: a laptop that asks its hub for <code>hub/claude-sonnet-5</code> sends the plain name up, and in
+our test the middle hub answered "no provider serves model" until the model was listed there. <code>base_url</code> must be
+<code>https://</code> unless the hub is on this machine or your local network, or the provider is marked <code>local: true</code>.</p>
+<p><strong>3. Check it</strong> with <code>maple-proxy chain status</code>, on any proxy:</p>
+<pre><code class="language-text">This proxy: alice-laptop, id mp-caf79a2b7a80304b; refuses requests that passed through more than 4 proxies.
+
+Hubs above:
+  PROVIDER  ADDRESS                       PARENT  ANSWERS    HUB                                 HUBS ABOVE IT  LATENCY  NOTE
+  hub       http://team.example:12835/v1  yes     yes (200)  platform-hub (mp-f7e3245a0b6c5ff2)  1              -
+
+People from hub: 4 people, 2 teams, 4 tokens; confirmed 2026-10-09T02:53:52Z.</code></pre>
+<h3 id="people-defined-once-at-the-top">People defined once, at the top <a class="anchor" href="#people-defined-once-at-the-top" aria-label="Link to this heading">#</a></h3>
+<p>Define the people and teams on the top hub. Every proxy below fetches them (every minute by default), with their
+budgets, model lists and accounts, and the hashes of their tokens, never the tokens. So a person's token made at the
+top also works at the team hub and on a laptop below it.</p>
+<p>A child can add people of its own, and can tighten an inherited entry, never loosen it. On the team hub in our demo:</p>
+<pre><code class="language-text">$ maple-proxy people add dana --team platform
+added dana; tie a token with: maple-proxy people tie-token dana &lt;token-id&gt;
+$ maple-proxy teams budget platform --monthly 1000
+team platform: budget daily no limit, monthly 1000 AI units
+$ maple-proxy teams budget web --monthly 900
+budget.monthly_ai_units 900.00 would raise the inherited 500.00; a hub may only lower it</code></pre>
+<p>A child has to have received its parent's people before it can add its own: until then the command answers "the
+parent hub's people cannot be read". The People card (on the setup page's Team tab) marks inherited entries and offers <strong>Tighten</strong> instead of
+<strong>Edit</strong>:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-people-inherited-light.webp" alt="The People card on the team hub platform-hub, in its Team tab: alice, bob and carol are marked from top-hub with a Tighten button each, and dana, added on this hub, has an Edit button. Each row shows the team, today&#x27;s and this month&#x27;s AI units and requests; the hub&#x27;s chain token for alice-laptop is listed apart." width="1000" height="1178" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-people-inherited-dark.webp" alt="The People card on the team hub platform-hub, in its Team tab: alice, bob and carol are marked from top-hub with a Tighten button each, and dana, added on this hub, has an Edit button. Each row shows the team, today&#x27;s and this month&#x27;s AI units and requests; the hub&#x27;s chain token for alice-laptop is listed apart." width="1000" height="1178" loading="lazy" decoding="async">
+<figcaption>The team hub's People card: three people from the top hub, one of its own. A demo setup with stand-in model services.</figcaption>
+</figure>
+<p>A person added on a child is unknown to the hub above it. There their requests are recorded as
+<code>name@proxy</code> (<code>dana@platform-hub</code>, team <code>platform@platform-hub</code>), so they can never be taken for, or charged to, one
+of the hub's own people, and the hub serves them with its own default accounts. Details are in <a href="teams.html#teams-across-chained-hubs">Teams across chained hubs</a>
+and <a href="chaining.html#people-and-teams-cascade-down">People and teams cascade down</a>.</p>
+<p><strong>Who you are on your own laptop.</strong> Your tools on your laptop need no token. Their requests then count as <code>local</code>
+on the laptop, and as <code>local@alice-laptop</code> on the hubs above. To be counted as yourself everywhere, give your tools
+your own token from the top hub: it works on every proxy below it.</p>
+<h3 id="usage-rolls-up">Usage rolls up <a class="anchor" href="#usage-rolls-up" aria-label="Link to this heading">#</a></h3>
+<p>Each proxy sends its usage records (counts and labels only, never prompts, answers or files) up to its parent, with
+the records its own children sent it, so the top hub can report on the whole chain. Each request is counted once:
+every hop shares one request id. If the parent is down, the child keeps its records and sends them when the parent
+is back. It is on whenever <code>chain.parent</code> is set; <code>chain.report_usage: off</code> turns it off on that child.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-rollup-light.svg" alt="Three proxies in a chain. Usage records go up from Alice&#x27;s laptop to the team hub and from the team hub to the top hub, which reports on its own usage and everything below it by origin proxy. People and teams come down. Records sent up are counts and labels only; each request is counted once; a child keeps its records while the parent is down; chain.report_usage off turns it off." width="960" height="520" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-rollup-dark.svg" alt="Three proxies in a chain. Usage records go up from Alice&#x27;s laptop to the team hub and from the team hub to the top hub, which reports on its own usage and everything below it by origin proxy. People and teams come down. Records sent up are counts and labels only; each request is counted once; a child keeps its records while the parent is down; chain.report_usage off turns it off." width="960" height="520" loading="lazy" decoding="async">
+<figcaption>Usage goes up, people and teams come down.</figcaption>
+</figure>
+<p>The top hub's <strong>Hubs</strong> tab charts the whole tree's requests and spend, and its <strong>Chained proxies</strong> card shows the proxies below it and what they reported, counting each request once
+by default (<strong>All hops</strong> counts a line per proxy instead):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-chain-top-light.webp" alt="The Chained proxies card on top-hub: one proxy below, platform-hub, with its last report and size; a table by source shows 25 client requests and 1.98 AI units from the child and 4 client requests and 6.93 AI units recorded locally, 29 in total and 8.91 AI units." width="1000" height="645" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-chain-top-dark.webp" alt="The Chained proxies card on top-hub: one proxy below, platform-hub, with its last report and size; a table by source shows 25 client requests and 1.98 AI units from the child and 4 client requests and 6.93 AI units recorded locally, 29 in total and 8.91 AI units." width="1000" height="645" loading="lazy" decoding="async">
+<figcaption>The top hub: its own requests, and everything the proxies below sent up. A demo setup with stand-in model services.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-chain-team-light.webp" alt="The Chained proxies card on platform-hub after Check now: its parent top answers, its people and teams from top are up to date (3 people, 2 teams, 3 tokens), 37 usage lines were sent to the parent with nothing waiting, one proxy below it, alice-laptop, reported 17 client requests, and the parent hub settings." width="1000" height="1057" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-chain-team-dark.webp" alt="The Chained proxies card on platform-hub after Check now: its parent top answers, its people and teams from top are up to date (3 people, 2 teams, 3 tokens), 37 usage lines were sent to the parent with nothing waiting, one proxy below it, alice-laptop, reported 17 client requests, and the parent hub settings." width="1000" height="1057" loading="lazy" decoding="async">
+<figcaption>The team hub: its hub above, the people it inherited, what it sent up, and the laptop below it.</figcaption>
+</figure>
+<h2 id="d-fallback-across-the-chain">D. Fallback across the chain <a class="anchor" href="#d-fallback-across-the-chain" aria-label="Link to this heading">#</a></h2>
+<p>The pattern most people want from a chain is a fallback that crosses machines, either way round. Both are ordinary
+fallbacks on the proxy where you set them, so they work on any proxy in the chain.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-fallback-light.svg" alt="Two fallback orders on Alice&#x27;s laptop proxy. Left: her own Copilot account first, then the team hub if it is out of credits or rate limited. Right: the team hub first, then a local model on her laptop if the hub refuses, is over budget or is unreachable." width="960" height="470" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-fallback-dark.svg" alt="Two fallback orders on Alice&#x27;s laptop proxy. Left: her own Copilot account first, then the team hub if it is out of credits or rate limited. Right: the team hub first, then a local model on her laptop if the hub refuses, is over budget or is unreachable." width="960" height="470" loading="lazy" decoding="async">
+<figcaption>Your account first, or the hub first.</figcaption>
+</figure>
+<h3 id="your-own-account-first-the-team-hub-when-you-run-out">Your own account first, the team hub when you run out <a class="anchor" href="#your-own-account-first-the-team-hub-when-you-run-out" aria-label="Link to this heading">#</a></h3>
+<p>On your laptop: your own Copilot account serves your requests, and when it is out of credits or rate limited they go
+to the team hub, for the same model.</p>
+<pre><code class="language-yaml">providers:
+  - id: hub
+    type: maple
+    base_url: https://team.example:11535/v1
+    api_key: ${secret:hub-token}
+  - id: copilot
+    type: github-copilot             # as set up by maple-proxy auth login github-copilot
+chain:
+  parent: hub
+provider_fallbacks:
+  copilot: [hub]                     # or [hub/&lt;model&gt;] for a different model at the hub</code></pre>
+<p>While your account is marked as out of quota, later requests go straight to the hub (the route reason is
+<code>exhausted-order</code>), and back to your account once its wait is over. The answer says what happened:</p>
+<pre><code class="language-text">X-Maple-Fallback-From: copilot/claude-sonnet-5 (quota exhausted)
+X-Maple-Router: via hub: top/claude-sonnet-5 [via top: copilot-company/claude-sonnet-5]
+X-Maple-Served-By: hub/claude-sonnet-5</code></pre>
+<h3 id="the-hub-first-your-local-model-when-the-hub-says-no">The hub first, your local model when the hub says no <a class="anchor" href="#the-hub-first-your-local-model-when-the-hub-says-no" aria-label="Link to this heading">#</a></h3>
+<p>Everything goes to the hub, and a model on your own machine answers when the hub refuses (a budget there is spent,
+its accounts are out of quota) or cannot be reached:</p>
+<pre><code class="language-yaml">providers:
+  - id: hub
+    type: maple
+    base_url: https://team.example:11535/v1
+    api_key: ${secret:hub-token}
+  - id: ollama
+    type: ollama
+    base_url: http://127.0.0.1:11434/v1
+    models: [{id: qwen3-coder}]
+provider_fallbacks:
+  hub: [ollama/qwen3-coder]</code></pre>
+<p>With the team hub stopped, the answer came from the local model:</p>
+<pre><code class="language-text">X-Maple-Fallback-From: hub/claude-sonnet-5 (unreachable)
+X-Maple-Served-By: local/qwen3-coder</code></pre>
+<p>and with the top hub's account out of quota, two hubs up, the same:</p>
+<pre><code class="language-text">X-Maple-Fallback-From: hub/claude-sonnet-5 (quota exhausted)
+X-Maple-Served-By: local/qwen3-coder</code></pre>
+<p>Both can be set on one laptop, as in the demo below. <code>model_fallbacks</code> works too, for one model at a time; see
+<a href="chaining.html#the-two-common-setups">The two common setups</a> and <a href="proxy.html#fallbacks">Fallbacks</a>. The usage log says
+why each fallback ran:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-usage-route-light.webp" alt="usage query for person alice grouped by route reason and provider: copilot 7 requests direct, hub 5 direct, exhausted-order hub 3 with 3 fallbacks, fallback:unreachable local 2 with 2 fallbacks, fallback:quota-exhausted hub 1 with 1 fallback, 18 in total with 6 fallbacks." width="1000" height="203" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-usage-route-dark.webp" alt="usage query for person alice grouped by route reason and provider: copilot 7 requests direct, hub 5 direct, exhausted-order hub 3 with 3 fallbacks, fallback:unreachable local 2 with 2 fallbacks, fallback:quota-exhausted hub 1 with 1 fallback, 18 in total with 6 fallbacks." width="1000" height="203" loading="lazy" decoding="async">
+<figcaption>Alice's laptop: her own account until it ran out, then the hub, and her local model while the hub was stopped. A failed try is its own line.</figcaption>
+</figure>
+<h2 id="e-see-who-used-what">E. See who used what <a class="anchor" href="#e-see-who-used-what" aria-label="Link to this heading">#</a></h2>
+<p>Every proxy in the chain records, on each request, who asked (<code>person</code>, <code>team</code>), which proxy they asked
+(<code>origin_proxy</code>), the path (<code>via</code>, <code>hops</code>), the account that served it and why (<code>provider</code>, <code>account_source</code>,
+<code>route_reason</code>). Filter by any of them on the setup page, with <code>maple-proxy usage query</code>, or in DuckDB.</p>
+<p><strong>On the setup page</strong>, the filter bar above the data tabs offers Person, Team, Origin proxy, Proxy and Account source once there are two
+values to choose between, and every card follows it. Here the top hub shows only the platform team's requests that
+started on Alice's laptop:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-filter-light.webp" alt="The setup page&#x27;s range buttons on 7 days and the filter bar with Filters (2): Team set to platform and Origin proxy set to alice-laptop, the others on Any." width="1000" height="280" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-filter-dark.webp" alt="The setup page&#x27;s range buttons on 7 days and the filter bar with Filters (2): Team set to platform and Origin proxy set to alice-laptop, the others on Any." width="1000" height="280" loading="lazy" decoding="async">
+<figcaption>The filter bar, filtered by team and by the proxy the requests started on.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-chain-filtered-light.webp" alt="The top hub&#x27;s Chained proxies card for that filter: 15 client requests from the child and 4.29 AI units in total, 1.98 spent below and 2.31 at the top hub." width="1000" height="689" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-chain-filtered-dark.webp" alt="The top hub&#x27;s Chained proxies card for that filter: 15 client requests from the child and 4.29 AI units in total, 1.98 spent below and 2.31 at the top hub." width="1000" height="689" loading="lazy" decoding="async">
+<figcaption>The same filter on the Chained proxies card: Alice's 15 requests, and the AI units spent at each end.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-setup-charts-light.webp" alt="The top hub&#x27;s Hubs tab charts for that filter: client requests per day by the proxy they first reached (alice-laptop, 15 today), and AI units spent by proxy: 2 at alice-laptop, 0 at platform-hub, 2.3 at top-hub" width="1000" height="475" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-setup-charts-dark.webp" alt="The top hub&#x27;s Hubs tab charts for that filter: client requests per day by the proxy they first reached (alice-laptop, 15 today), and AI units spent by proxy: 2 at alice-laptop, 0 at platform-hub, 2.3 at top-hub" width="1000" height="475" loading="lazy" decoding="async">
+<figcaption>The Hubs tab's charts for the same filter.</figcaption>
+</figure>
+<p><strong>With <code>usage query</code></strong> on the top hub, for the whole chain:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-usage-origin-light.webp" alt="usage query on the top hub grouped by origin proxy, person and team: alice-laptop alice platform 15 client requests, 32 requests, 4.29 AI units spent; platform-hub bob platform 5, 10, 1.65; alice-laptop local@alice-laptop 0, 4, 0.66; top-hub carol web 4, 4, 1.32; platform-hub dana platform 3, 3, 0; platform-hub dana@platform-hub 0, 3, 0.99; alice-laptop local 2, 2, 0; total 29 client requests, 58 requests, 8.91 AI units." width="1000" height="268" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-usage-origin-dark.webp" alt="usage query on the top hub grouped by origin proxy, person and team: alice-laptop alice platform 15 client requests, 32 requests, 4.29 AI units spent; platform-hub bob platform 5, 10, 1.65; alice-laptop local@alice-laptop 0, 4, 0.66; top-hub carol web 4, 4, 1.32; platform-hub dana platform 3, 3, 0; platform-hub dana@platform-hub 0, 3, 0.99; alice-laptop local 2, 2, 0; total 29 client requests, 58 requests, 8.91 AI units." width="1000" height="268" loading="lazy" decoding="async">
+<figcaption>Who asked where, across three proxies. <code>client_requests</code> counts each request once; <code>requests</code> counts a line per proxy it passed through. People the top hub does not know (dana, added on the team hub, and Alice's tools without a token) appear twice here: under the child's name where the request started, and as <code>name@proxy</code> on the top hub's own line, where the AI units were spent. The <code>maple.origins</code> view below puts them together.</figcaption>
+</figure>
+<pre><code class="language-sh">maple-proxy usage query --last 7d --group-by origin_proxy,person
+maple-proxy usage query --team platform --group-by person,provider,account_source
+maple-proxy usage query --person alice --group-by route_reason,provider
+maple-proxy usage query --proxy alice-laptop --source child     # only what a proxy below sent up</code></pre>
+<p><strong>In DuckDB</strong>, <code>maple-proxy usage schema --format sql --views</code> makes the named views, including <code>maple.people</code>,
+<code>maple.daily_spend</code>, <code>maple.origins</code> (per first proxy and person, each request once) and <code>maple.proxies</code> (per proxy):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-duckdb-light.webp" alt="A DuckDB session on the top hub: maple.origins lists alice-laptop alice 15 client requests 4.29 AI units, platform-hub bob 5 and 1.65, top-hub carol 4 and 1.32, platform-hub dana 3 and 0.99, alice-laptop local 2 and 0.66; maple.proxies lists alice-laptop child 20 lines and 17 client requests, platform-hub child 17 lines, top-hub local 21 lines; maple.daily_spend by account lists company 9 requests 2.97 AI units, platform-account 7 and 2.31, bob-account 5 and 1.65." width="1000" height="476" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-duckdb-dark.webp" alt="A DuckDB session on the top hub: maple.origins lists alice-laptop alice 15 client requests 4.29 AI units, platform-hub bob 5 and 1.65, top-hub carol 4 and 1.32, platform-hub dana 3 and 0.99, alice-laptop local 2 and 0.66; maple.proxies lists alice-laptop child 20 lines and 17 client requests, platform-hub child 17 lines, top-hub local 21 lines; maple.daily_spend by account lists company 9 requests 2.97 AI units, platform-account 7 and 2.31, bob-account 5 and 1.65." width="1000" height="476" loading="lazy" decoding="async">
+<figcaption>Per person and origin, per proxy, and per account on the top hub.</figcaption>
+</figure>
+<pre><code class="language-sql">SELECT person, team, requests, round(ai_units, 2) AS ai_units, origin_proxies FROM maple.people ORDER BY ai_units DESC;
+SELECT origin_proxy, person, team, client_requests, round(ai_units_spent, 2) AS ai_units FROM maple.origins ORDER BY 5 DESC;
+SELECT provider AS account, sum(requests) AS requests, round(sum(ai_units), 2) AS ai_units FROM maple.daily_spend GROUP BY ALL ORDER BY 3 DESC;</code></pre>
+<p>All figures are AI units as the providers reported them, or estimates labelled <code>_estimated</code>; neither is a bill. More
+queries are in <a href="observability.html">See and filter your usage</a> and <a href="usage-export.html#named-views">Named views</a>.</p>
+<p>To keep the whole chain's history past the top hub's retention, give the top hub a lake: its own lines and the ones
+sent up from below go into it together (<a href="data-lake.html#hubs-every-proxys-data-in-one-lake">Hubs: every proxy's data in one lake</a>).</p>
+<h2 id="f-day-to-day-revoking-outages-and-security">F. Day to day: revoking, outages and security <a class="anchor" href="#f-day-to-day-revoking-outages-and-security" aria-label="Link to this heading">#</a></h2>
+<p><strong>Revoking someone.</strong> Revoke their token on the proxy that made it (the setup page's token list). It stops working
+there at once, and on every proxy below at its next fetch of the people: in our demo, with the default one-minute
+fetch and two hubs, a laptop refused the token about 100 seconds after it was revoked at the top. To stop a whole
+proxy below, revoke its chain token on its hub. Removing a person from <code>people:</code> stops their budget and rules
+applying; revoking the token is what stops the requests.</p>
+<p><strong>When a parent hub is unreachable:</strong></p>
+<ul><li>requests that have a fallback set go to it (see <a href="#d-fallback-across-the-chain">D</a>); requests without one fail
+with <code>unreachable</code>;</li><li>the child keeps using the people it fetched last for <code>chain.directory_grace</code> (15 minutes by default); after that it
+refuses the inherited tokens until the parent answers again, and keeps serving its own people;</li><li>usage records wait on the child and are sent when the parent is back, never counted twice. In the demo, the two
+requests made while the team hub was stopped reached the top hub's figures once it was running again.</li></ul>
+<p><strong>Security, in short:</strong></p>
+<ul><li>Reach a hub over HTTPS, or over a private network such as Tailscale or a VPN. The tokens travel with every request.</li><li>One token per person and per proxy below, never shared. Treat tokens like passwords; Maple keeps them in your
+secret store and writes only references into <code>config.yaml</code>.</li><li>The setup page stays on its own machine: signing in to providers, the People card and the Chained proxies card are
+only there.</li><li>Only a token with the <code>proxy-chain</code> scope may say who asked. Give it only to proxies you run.</li><li>More in <a href="security.html">Security</a>.</li></ul>
+<h2 id="what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified <a class="anchor" href="#what-is-not-covered-and-what-is-not-verified" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Downgrading.</strong> A proxy older than 2.0 ignores <code>people:</code>, <code>teams:</code> and <code>default_accounts:</code> and keeps working, but no
+budget, model list or account rule applies and requests are no longer attributed (see
+<a href="teams.html#going-back-to-an-older-version">Going back to an older version</a>). A chain was not tested with an older
+proxy in it.</li><li><strong>Older usage.</strong> Requests from before 2.0, or before people were set up, are unattributed: <code>person</code> is empty and
+<code>origin_proxy</code> unknown.</li><li><strong>Not verified:</strong> the screenshots and outputs on this page come from a demo on one Linux machine, with three proxies
+on loopback reached by name over plain HTTP, and stand-in model services in place of Copilot and the other
+providers. Chains over HTTPS between machines, with real GitHub Copilot accounts, and on macOS or Windows, have not
+been tried yet.</li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="teams.html">Teams</a>: every key for people, teams, tokens, budgets and accounts on one proxy.</li><li><a href="chaining.html">Chain proxies into hubs</a>: every key for one proxy using another.</li><li><a href="proxy.html">The proxy and its setup page</a>: the setup page's cards, including People.</li><li><a href="observability.html">See and filter your usage</a> and <a href="usage-export.html">Your usage data</a>: queries, exports and DuckDB.</li><li><a href="your-data.html">Your data</a>: PostgreSQL for the live data, a DuckLake for the history, and
+<a href="data-lake.html">The Maple data lake</a> to set it up for a team.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><span></span><a class="next" href="../docs/teams.html" rel="next"><small>Next</small>Teams</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#who-this-is-for-and-who-can-skip-it">Who this is for, and who can skip it</a></li><li><a href="#the-building-blocks">The building blocks</a></li><li><a href="#a-one-shared-proxy-for-a-small-team">A. One shared proxy for a small team</a></li><li><a href="#b-who-uses-which-account">B. Who uses which account</a></li><li><a href="#c-chained-hubs">C. Chained hubs</a><ol><li><a href="#people-defined-once-at-the-top">People defined once, at the top</a></li><li><a href="#usage-rolls-up">Usage rolls up</a></li></ol></li><li><a href="#d-fallback-across-the-chain">D. Fallback across the chain</a><ol><li><a href="#your-own-account-first-the-team-hub-when-you-run-out">Your own account first, the team hub when you run out</a></li><li><a href="#the-hub-first-your-local-model-when-the-hub-says-no">The hub first, your local model when the hub says no</a></li></ol></li><li><a href="#e-see-who-used-what">E. See who used what</a></li><li><a href="#f-day-to-day-revoking-outages-and-security">F. Day to day: revoking, outages and security</a></li><li><a href="#what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

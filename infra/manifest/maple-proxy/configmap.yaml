@@ -1,0 +1,27 @@
+# EXAMPLE config.yaml for the proxy. With settings from this file (storage.settings: file, the
+# ha overlay), the setup page shows it and refuses changes: edit here and roll out.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maple-proxy
+data:
+  config.yaml: |
+    version: 1
+    server:
+      openai_compat: 0.0.0.0:11535
+      anthropic_compat: 0.0.0.0:11537
+      webui: 127.0.0.1:11539
+      # Behind an ingress or a load balancer that adds X-Forwarded-For, list its addresses, so a
+      # client's wrong tokens refuse that client only, not everyone behind the balancer. A header
+      # from any other address is ignored. Off when empty (the connection's address is the client).
+      # List only the balancer's own addresses (here, an example ingress controller's pod range):
+      # anything else inside a listed range can name its own client address. The balancer must
+      # add the client to the header, not pass on the one the client sent.
+      # trusted_proxies: [10.244.3.0/24]
+    providers:
+      - id: local
+        type: openai-compatible
+        base_url: http://ollama.ai.svc:11434/v1
+        optional: true
+        models:
+          - id: qwen2.5-coder:7b

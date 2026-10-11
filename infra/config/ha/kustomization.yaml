@@ -1,0 +1,68 @@
+# Three replicas behind the Service, central mode: PostgreSQL for the durable data, Redis for the
+# shared short-lived state. Settings come from the ConfigMap (GitOps): the setup page shows them and
+# refuses changes. The PostgreSQL and Redis here are samples for trying it out.
+#
+#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0
+#   kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: maple
+resources:
+  - namespace.yaml
+  - ../../manifest/maple-proxy
+  - ../../manifest/postgres
+  - ../../manifest/redis
+  - ../../manifest/maple-mcp-hub
+images:
+  - name: maple-proxy
+    newName: registry.example.com/REPLACE-ME/maple-proxy
+    newTag: REPLACE-ME
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        replicas: 3
+        strategy:
+          rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+        template:
+          spec:
+            topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: ScheduleAnyway
+                labelSelector:
+                  matchLabels: {app.kubernetes.io/name: maple-proxy}
+            containers:
+              - name: maple-proxy
+                env:
+                  - {name: MAPLE_STORAGE_MODE, value: central}
+                  # file: settings from the ConfigMap, read-only on the setup page;
+                  # central: edited on the setup page, shared by every replica.
+                  - {name: MAPLE_SETTINGS_SOURCE, value: file}
+                  - {name: MAPLE_CONFIG, value: /etc/maple/config.yaml}
+                  - {name: MAPLE_POSTGRES_DSN, value: "${secret:storage/postgres_dsn}"}
+                  - {name: MAPLE_REDIS_URL, value: "${secret:storage/redis_url}"}
+                  - {name: MAPLE_STORAGE_KEY, value: "${secret:storage/key}"}
+                volumeMounts:
+                  - {name: config, mountPath: /etc/maple, readOnly: true}
+            volumes:
+              - name: config
+                configMap: {name: maple-proxy}
+              # Each replica downloads an embedding model on first use into its own folder. To
+              # download once for all, use a ReadWriteMany claim instead:
+              #   - name: models
+              #     persistentVolumeClaim: {claimName: maple-models}
+  - target: {kind: Secret, name: maple-proxy}
+    patch: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: maple-proxy
+      stringData:
+        storage.postgres_dsn: postgres://maple:REPLACE-ME@postgres:5432/maple?sslmode=disable
+        storage.redis_url: redis://:REPLACE-ME@redis:6379/0
+        storage.key: REPLACE-ME-64-hex-characters

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img">
+<title>Several replicas sharing PostgreSQL and Redis</title>
+<desc>Clients send requests to one address: a load balancer or a Kubernetes Service that spreads them over three maple-proxy replicas. The replicas keep nothing of their own that matters: durable data (usage, events, budgets, settings, the audit log) is in PostgreSQL, and shared short-lived state (setup-page sessions, rate limits, quota marks, health, caches, conversation pins) is in Redis. The MCP hub, when used, runs as one replica of its own. Each replica sends requests on to the providers.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="560" fill="#1B1513"/>
+<text x="30" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Clients</text>
+<rect x="30" y="60" width="150" height="64" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="88" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Alice</text>
+<text x="46" y="112" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">own token</text>
+<path d="M180 92 L232 168" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="144" width="150" height="64" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="172" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Bob</text>
+<text x="46" y="196" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">own token</text>
+<path d="M180 176 L232 168" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="228" width="150" height="64" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="256" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">CI</text>
+<text x="46" y="280" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">own token</text>
+<path d="M180 260 L232 168" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="232" y="120" width="150" height="96" rx="12" fill="#2A211E" stroke="#E4572E" stroke-width="2"/>
+<text x="248" y="152" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Load balancer</text>
+<text x="248" y="176" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">or a Service</text>
+<text x="248" y="198" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">round robin</text>
+<rect x="440" y="56" width="230" height="84" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="456" y="86" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">maple-proxy 1</text>
+<text x="456" y="110" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">replica, no state of its own</text>
+<path d="M382 168 L440 98" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="440" y="160" width="230" height="84" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="456" y="190" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">maple-proxy 2</text>
+<text x="456" y="214" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">replica, no state of its own</text>
+<path d="M382 168 L440 202" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="440" y="264" width="230" height="84" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="456" y="294" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">maple-proxy 3</text>
+<text x="456" y="318" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">replica, no state of its own</text>
+<path d="M382 168 L440 306" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="440" y="380" width="230" height="70" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="456" y="408" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">MCP hub (optional)</text>
+<text x="456" y="430" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">one replica of its own</text>
+<rect x="722" y="56" width="210" height="150" rx="12" fill="#2A211E" stroke="#6FB6C4" stroke-width="2"/>
+<text x="738" y="86" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">PostgreSQL</text>
+<text x="738" y="112" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">usage and events</text>
+<text x="738" y="134" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">budgets</text>
+<text x="738" y="156" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">settings, tokens</text>
+<text x="738" y="178" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">audit log</text>
+<rect x="722" y="226" width="210" height="176" rx="12" fill="#2A211E" stroke="#6FB6C4" stroke-width="2"/>
+<text x="738" y="256" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Redis</text>
+<text x="738" y="282" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">setup-page sessions</text>
+<text x="738" y="304" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">rate limits</text>
+<text x="738" y="326" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">quota marks, health</text>
+<text x="738" y="348" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">caches</text>
+<text x="738" y="370" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">conversation pins</text>
+<path d="M670 98 L722 130" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M670 98 L722 314" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M670 202 L722 130" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M670 202 L722 314" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M670 306 L722 130" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M670 306 L722 314" fill="none" stroke="#6FB6C4" stroke-width="1.6" stroke-linejoin="round"/>
+<text x="30" y="500" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">Providers are reached from every replica; a replica that stops finishes its running requests first.</text>
+<text x="30" y="524" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">PostgreSQL holds what must last (back it up); Redis holds what may be lost (sessions sign in again).</text>
+</svg>

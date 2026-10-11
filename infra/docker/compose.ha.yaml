@@ -1,0 +1,100 @@
+# Three replicas of one maple-proxy behind a load balancer, sharing PostgreSQL (durable data) and
+# Redis (sessions and shared short-lived state). For trying it out: in production use your managed
+# PostgreSQL and Redis, with backups.
+#
+#   mkdir -p secrets
+#   printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   openssl rand -hex 32 > secrets/storage_key
+#   openssl rand -hex 24 > secrets/postgres_password
+#   openssl rand -hex 24 > secrets/redis_password
+#   printf 'redis://:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
+#   printf 'postgres://maple:%s@postgres:5432/maple?sslmode=disable' "$(cat secrets/postgres_password)" > secrets/postgres_dsn
+#   MAPLE_VERSION=v2.0.0 docker compose -f compose.ha.yaml up -d --build
+#
+# Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
+x-proxy: &proxy
+  build:
+    context: .
+    args:
+      MAPLE_VERSION: ${MAPLE_VERSION:?set MAPLE_VERSION to a release tag, such as v2.0.0}
+  image: maple-proxy:${MAPLE_VERSION}
+  restart: unless-stopped
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: [/tmp, /data]
+  depends_on:
+    postgres: {condition: service_healthy}
+    redis: {condition: service_started}
+  environment: &env
+    MAPLE_STORAGE_MODE: central
+    MAPLE_SETTINGS_SOURCE: central
+    MAPLE_PROXY_ID: maple-proxy
+    MAPLE_ALLOWED_HOSTS: localhost
+    MAPLE_POSTGRES_DSN: $${secret:storage/postgres_dsn}
+    MAPLE_REDIS_URL: $${secret:storage/redis_url}
+    MAPLE_STORAGE_KEY: $${secret:storage/key}
+    # With clients on other machines: trust the load balancer's X-Forwarded-For, so one client's
+    # wrong tokens refuse that client only. Name the balancer's address only: give lb a fixed
+    # address on a network of its own and list just that one (anything else in a listed range could
+    # name its own client address):
+    # MAPLE_TRUSTED_PROXIES: 172.30.0.10
+  secrets: &secrets
+    - source: proxy_tokens
+      target: /run/secrets/maple/access.proxy_tokens
+    - source: storage_key
+      target: /run/secrets/maple/storage.key
+    - source: postgres_dsn
+      target: /run/secrets/maple/storage.postgres_dsn
+    - source: redis_url
+      target: /run/secrets/maple/storage.redis_url
+  stop_grace_period: 10m
+
+services:
+  proxy-1:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-1}
+  proxy-2:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-2}
+  proxy-3:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-3}
+
+  lb:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["127.0.0.1:8080:8080", "127.0.0.1:8081:8081"]
+    volumes: ["./Caddyfile:/etc/caddy/Caddyfile:ro"]
+    depends_on: [proxy-1, proxy-2, proxy-3]
+
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: maple
+      POSTGRES_DB: maple
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes: ["pg-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "maple", "-d", "maple"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    secrets: [redis_password]
+    command: ["sh", "-c", "exec redis-server --requirepass \"$$(cat /run/secrets/redis_password)\" --save '' --appendonly no --maxmemory 512mb --maxmemory-policy volatile-lru"]
+
+volumes:
+  pg-data: {}
+
+secrets:
+  proxy_tokens: {file: ./secrets/proxy_tokens}
+  storage_key: {file: ./secrets/storage_key}
+  postgres_password: {file: ./secrets/postgres_password}
+  postgres_dsn: {file: ./secrets/postgres_dsn}
+  redis_password: {file: ./secrets/redis_password}
+  redis_url: {file: ./secrets/redis_url}

@@ -1,0 +1,34 @@
+# FOR TRYING IT OUT: one Redis, memory only. Sessions and shared caches live here; losing it
+# signs browsers out of the setup page and empties caches, nothing more. In production use your
+# managed Redis (with a password and TLS).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels: {app.kubernetes.io/name: redis}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: redis}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: redis}
+    spec:
+      securityContext: {runAsNonRoot: true, runAsUser: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: redis:7
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom: {secretKeyRef: {name: redis, key: password}}
+          args: ["--requirepass", "$(REDIS_PASSWORD)", "--save", "", "--appendonly", "no", "--maxmemory", "512mb", "--maxmemory-policy", "volatile-lru"]
+          ports: [{name: redis, containerPort: 6379}]
+          resources:
+            requests: {cpu: 50m, memory: 128Mi}
+            limits: {memory: 640Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts: [{name: data, mountPath: /data}]
+      volumes: [{name: data, emptyDir: {}}]

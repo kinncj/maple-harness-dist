@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Alerts and forecasts · Maple Harness docs</title>
+<meta name="description" content="The proxy can warn you before a budget runs out, and estimate when it will at the rate you have been using it. Both read the usage log on your own disk. Nothing here changes a request: an alert only w">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html" aria-current="page">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html" aria-current="page">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">Alerts and forecasts</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li aria-current="page">Alerts and forecasts</li></ol></div></nav>
+<article>
+<h1 id="alerts-and-forecasts">Alerts and forecasts <a class="anchor" href="#alerts-and-forecasts" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-fires-by-default">What fires by default</a></li><li><a href="#other-rules">Other rules</a></li><li><a href="#where-you-see-them">Where you see them</a><ol><li><a href="#who-gets-which-alert">Who gets which alert</a></li></ol></li><li><a href="#send-alerts-to-slack-teams-or-a-webhook">Send alerts to Slack, Teams or a webhook</a><ol><li><a href="#slack">Slack</a></li><li><a href="#microsoft-teams">Microsoft Teams</a></li><li><a href="#any-other-endpoint-json">Any other endpoint (JSON)</a></li><li><a href="#in-configyaml">In config.yaml</a></li><li><a href="#check-the-signature">Check the signature</a></li><li><a href="#where-it-may-be-sent">Where it may be sent</a></li></ol></li><li><a href="#forecasts">Forecasts</a></li><li><a href="#when-you-stop-using-it">When you stop using it</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>The proxy can warn you before a budget runs out, and estimate when it will at the rate you have been using it. Both
+read the usage log on your own disk. Nothing here changes a request: an alert only warns, and a forecast is an
+estimate.</p>
+<p>If you have not set a budget, there is nothing to do and nothing changes: no alerts, no banners, no messages.</p>
+<h2 id="what-fires-by-default">What fires by default <a class="anchor" href="#what-fires-by-default" aria-label="Link to this heading">#</a></h2>
+<p>For each budget you set (<code>budgets:</code> in <code>config.yaml</code>, or the <strong>Budgets</strong> part of the setup page), the proxy warns
+twice a day at most: once when that provider has used 80% of the day's budget, and once at 100%. Days are UTC days,
+the same days the budget counts.</p>
+<p>Each alert fires once per budget and level and day. It is written to the events log (<code>alert.fired</code>, and
+<code>alert.resolved</code> when it ends: at the end of its day, or sooner if you raise the budget), and sent to clients in the
+<code>X-Maple-Alert</code> response header while it is in force. A restart of the proxy does not fire it again.</p>
+<p>To turn budget alerts off, keep your budgets and set <code>budget_fractions</code> to an empty list:</p>
+<pre><code class="language-yaml">alerts:
+  budget_fractions: []</code></pre>
+<h2 id="other-rules">Other rules <a class="anchor" href="#other-rules" aria-label="Link to this heading">#</a></h2>
+<p>All off unless you set them:</p>
+<pre><code class="language-yaml">alerts:
+  budget_fractions: [0.5, 0.8, 1]  # warn at half, 80% and all of each budget
+  quota_fractions: [0.9]           # 90% of a provider's own quota, as the provider reports it
+  daily_spend_ai_units: 50         # today's AI units across every provider
+  daily_spend_cost: 20             # today's estimated list-price cost, in USD
+  error_rate: 0.25                 # a quarter of the last hour's requests failed...
+  error_rate_min_requests: 20      # ...once the hour holds at least 20</code></pre>
+<ul><li><strong>A provider's quota</strong> is what the provider says about your account (for example a monthly allowance of premium
+requests). Each level fires once per reset period. With <code>quota_fractions</code> set, the proxy asks the provider about
+the account once a minute, the same question the setup page's account card asks.</li><li><strong>Daily spend</strong> counts every provider together. The cost is an estimate at list prices, for providers set up to
+give one; it is not a bill.</li><li><strong>The error rate</strong> leaves out requests a client cancelled and requests a budget refused. It fires at most once per
+UTC hour.</li></ul>
+<p>Every key is listed in <a href="proxy-settings.html#alerts">Proxy settings</a>.</p>
+<h2 id="where-you-see-them">Where you see them <a class="anchor" href="#where-you-see-them" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>In Maple Harness:</strong> one warning line in the conversation, the first time an alert comes back from the proxy.
+It is shown once, never added to what the model is sent, and only appears when an alert has fired.</li><li><strong>On your phone or desktop:</strong> if you have <a href="remote-control.html">notifications</a> set up, an alert is sent once, with
+the project's name. Leave <code>alert</code> out of <code>notifications.events</code> to stop them.</li><li><strong>On the setup page:</strong> the Alerts card lists the alerts in force and the last seven days', with the rules.</li><li><strong>In a terminal:</strong>
+<pre><code class="language-sh">maple-proxy usage alerts                    # the last 7 days
+maple-proxy usage alerts --since 2026-10-01 --format json</code></pre></li></ul>
+<p>Other tools receive the <code>X-Maple-Alert</code> header too; a tool that does not know it ignores it.</p>
+<h3 id="who-gets-which-alert">Who gets which alert <a class="anchor" href="#who-gets-which-alert" aria-label="Link to this heading">#</a></h3>
+<p>On your own machine, without a token, you get every alert, as before. With <a href="teams.html">people</a> set up, a person
+using their own token gets only the alerts about their own budget (at the same levels, <code>budget_fractions</code>, for
+their daily and monthly limits), with their own figures and nobody else's; never a provider's budget, quota,
+spend or error alert. A token tied to nobody, and a request another proxy forwarded, get none in the header (the
+alerts are still on the setup page and in <code>maple-proxy usage alerts</code>).</p>
+<p>If you are the only one using your proxy and your tools use a token (from this machine or another), set <code>header: all</code> (the
+setup page's Alert rules: <strong>Every alert to every caller</strong>) to get every alert there too:</p>
+<pre><code class="language-yaml">alerts:
+  header: all</code></pre>
+<h2 id="send-alerts-to-slack-teams-or-a-webhook">Send alerts to Slack, Teams or a webhook <a class="anchor" href="#send-alerts-to-slack-teams-or-a-webhook" aria-label="Link to this heading">#</a></h2>
+<p>Off unless you add one. A webhook is told of each alert <strong>as it fires</strong> (not when it ends), once. It is sent the
+alert's text, level, rule, id and time, and nothing else: never your requests, prompts or usage rows. Who gets what
+follows the same rules as the header: a webhook for the admin (the default) gets every alert; a webhook for one
+person (<code>person:&lt;id&gt;</code>) gets only that person's own budget alerts.</p>
+<p><strong>On the setup page:</strong> Costs &amp; alerts, then <strong>Webhooks</strong> under the Alerts card: give it a name, paste the address,
+pick the format, optionally a signing secret, and <strong>Add webhook</strong>. Use <strong>Test</strong> to send it a test message. The address
+is kept in the secret store; afterwards the page shows only its host (so a service that puts its secret in the host
+name is still shown in full there), and never the signing secret.</p>
+<p><strong>In a terminal:</strong> the address is read from standard input (not shown as you type), so it never lands in your shell
+history:</p>
+<pre><code class="language-sh">maple-proxy alerts webhook add team-chat --format slack          # then paste the address
+maple-proxy alerts webhook add ops --format json --sign           # the address, then a signing secret
+maple-proxy alerts webhook list
+maple-proxy alerts webhook test team-chat
+maple-proxy alerts webhook rm team-chat</code></pre>
+<h3 id="slack">Slack <a class="anchor" href="#slack" aria-label="Link to this heading">#</a></h3>
+<p>Create an <a href="https://api.slack.com/messaging/webhooks" rel="noopener noreferrer">incoming webhook</a> for the channel (an address starting
+<code>https://hooks.slack.com/services/</code>) and add it with <code>--format slack</code>. The message is one line, for example:</p>
+<blockquote><p>Maple warning: openai has used 80% of today's budget (80 of 100 requests); it resets at 00:00 UTC (budget.80)</p></blockquote>
+<h3 id="microsoft-teams">Microsoft Teams <a class="anchor" href="#microsoft-teams" aria-label="Link to this heading">#</a></h3>
+<p>In the channel, add a <strong>Workflows</strong> webhook ("Post to a channel when a webhook request is received") and add the
+address it gives you with <code>--format teams</code>. Maple sends an Adaptive Card with the same line, and the alert's id and
+time beneath it.</p>
+<h3 id="any-other-endpoint-json">Any other endpoint (JSON) <a class="anchor" href="#any-other-endpoint-json" aria-label="Link to this heading">#</a></h3>
+<p>With <code>--format json</code> (the default) the body is:</p>
+<pre><code class="language-json">{"id": "budget.80@budget:provider:openai@2026-10-10", "level": "warn", "rule": "budget.80",
+ "text": "openai has used 80% of today's budget (80 of 100 requests); it resets at 00:00 UTC",
+ "time": "2026-10-10T09:30:00Z"}</code></pre>
+<p>A test message has <code>"rule": "test"</code> and <code>"test": true</code>.</p>
+<h3 id="in-configyaml">In config.yaml <a class="anchor" href="#in-configyaml" aria-label="Link to this heading">#</a></h3>
+<p>The page and the CLI write this for you; the address and the secret stay in the secret store. <code>url</code> is always a
+reference: an address written here is refused.</p>
+<pre><code class="language-yaml">alerts:
+  webhooks:
+    - id: team-chat
+      url: ${secret:alerts/webhook/team-chat/url}
+      format: slack
+    - id: alice
+      url: ${env:MAPLE_WEBHOOK_ALICE}        # or from the environment (a name starting MAPLE_WEBHOOK_)
+      format: json
+      audience: person:alice
+      secret_ref: ${env:MAPLE_WEBHOOK_ALICE_SIGNING}</code></pre>
+<h3 id="check-the-signature">Check the signature <a class="anchor" href="#check-the-signature" aria-label="Link to this heading">#</a></h3>
+<p>With a signing secret, each request carries two headers: <code>X-Maple-Timestamp</code> (Unix seconds) and
+<code>X-Maple-Signature</code>, which is <code>v1=</code> and the hex HMAC-SHA256, keyed with your secret, of the timestamp, a dot, and the
+raw body. Check it on the raw body before parsing, and refuse an old timestamp so a request cannot be replayed:</p>
+<pre><code class="language-python">import hashlib, hmac, time
+
+def from_maple(secret: bytes, timestamp: str, signature: str, body: bytes, tolerance=300) -&gt; bool:
+    if abs(time.time() - int(timestamp)) &gt; tolerance:
+        return False
+    expected = "v1=" + hmac.new(secret, timestamp.encode() + b"." + body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, signature)</code></pre>
+<p>Slack and Teams do not check the signature; it is for your own endpoint.</p>
+<h3 id="where-it-may-be-sent">Where it may be sent <a class="anchor" href="#where-it-may-be-sent" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>https only.</strong> Plain http only to this machine, and only with <code>allow_http_loopback: true</code> (with
+<code>allow_private: true</code>), for a local relay.</li><li><strong>Not to your own network</strong> (this machine, private ranges) unless the webhook says <code>allow_private: true</code>.
+Link-local and cloud-metadata addresses are refused whatever it says. The check is made on the address the name
+resolves to when the request is sent. This check is stricter than the one for MCP servers: it also counts
+<code>198.18.0.0/15</code> as private, the range a "fake-IP" DNS mode (Clash, Surge and similar proxy tools) answers with, so
+behind such a tool a webhook needs <code>allow_private: true</code> (or the receiver's name left out of the fake-IP mode).</li><li><strong>No redirects are followed</strong>, no proxy from the environment is used, and no cookies are kept.</li><li>A request that fails with a network error, a 429 or a 5xx is tried again, four tries in all over about 45 seconds
+(longer if the receiver asks with <code>Retry-After</code>, up to two minutes a wait); a 4xx is not. What cannot be delivered is
+noted in the proxy's log, without the address.</li><li>With several replicas sharing one store (central mode), each alert is sent once, by the replica that fires
+alerts.</li></ul>
+<h2 id="forecasts">Forecasts <a class="anchor" href="#forecasts" aria-label="Link to this heading">#</a></h2>
+<p>A forecast takes the average of what you spent on each of the last seven complete UTC days, with the 25th and 75th
+percentile days as the range, and sets it against what is left. Today does not count until it is over. With fewer
+than three days of usage there is no forecast at all.</p>
+<pre><code class="language-sh">maple-proxy usage forecast                                 # your daily rate, and each budget
+maple-proxy usage forecast --provider copilot --left 120 --resets 2026-11-01
+maple-proxy usage forecast --metric requests --format json</code></pre>
+<p>It answers in words such as:</p>
+<blockquote><p>At this rate, about 24 Oct (estimated, range 21-28 Oct, from 7 days of your usage).</p></blockquote>
+<p>and for a daily budget:</p>
+<blockquote><p>A typical day uses about 60% of this budget of 100 AI units (estimated, range 55%-65%, from 7 days of your usage).</p></blockquote>
+<p>What to keep in mind:</p>
+<ul><li><strong>It is an estimate.</strong> It assumes the next days look like the last seven. A week of unusual work, a holiday or a new
+project moves the real date.</li><li><strong>It takes a few days to see a change.</strong> If you start spending much more, the forecast is too late (optimistic)
+for a few days; if you spend less, too early.</li><li><strong>A quota forecast</strong> assumes the quota is used at the rate of the AI units the provider reported on your requests.
+The provider's own meter is the authority.</li><li><strong>Filters</strong> (<code>--provider</code>, <code>--model</code>, <code>--agent</code> and the rest from <code>usage query</code>, except the time range) narrow what
+the rate is taken from.</li></ul>
+<h2 id="when-you-stop-using-it">When you stop using it <a class="anchor" href="#when-you-stop-using-it" aria-label="Link to this heading">#</a></h2>
+<p>Going back to a release before alerts: the <code>alerts:</code> block is ignored, and the alert lines already in the events log
+stay readable.</p>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="proxy-settings.html#alerts">Proxy settings</a> · <a href="observability.html">See and filter your usage</a> ·
+<a href="usage-export.html">Your usage data</a></p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/health.html" rel="prev"><small>Previous</small>Provider health</a><a class="next" href="../docs/usage-export.html" rel="next"><small>Next</small>Your usage data</a></div><div class="mset m-teams"><a class="prev" href="../docs/health.html" rel="prev"><small>Previous</small>Provider health</a><a class="next" href="../docs/usage-export.html" rel="next"><small>Next</small>Your usage data</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-fires-by-default">What fires by default</a></li><li><a href="#other-rules">Other rules</a></li><li><a href="#where-you-see-them">Where you see them</a><ol><li><a href="#who-gets-which-alert">Who gets which alert</a></li></ol></li><li><a href="#send-alerts-to-slack-teams-or-a-webhook">Send alerts to Slack, Teams or a webhook</a><ol><li><a href="#slack">Slack</a></li><li><a href="#microsoft-teams">Microsoft Teams</a></li><li><a href="#any-other-endpoint-json">Any other endpoint (JSON)</a></li><li><a href="#in-configyaml">In config.yaml</a></li><li><a href="#check-the-signature">Check the signature</a></li><li><a href="#where-it-may-be-sent">Where it may be sent</a></li></ol></li><li><a href="#forecasts">Forecasts</a></li><li><a href="#when-you-stop-using-it">When you stop using it</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

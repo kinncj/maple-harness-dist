@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" role="img">
+<title>Which account answers a request</title>
+<desc>For a request from a person, the proxy tries the person&#x27;s own accounts first, then their team&#x27;s, then the proxy&#x27;s default accounts, and then every other account that serves the model, unless accounts_only limits the person to the listed ones. Each account is used only for models of its own kind.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="400" fill="#1B1513"/>
+<text x="30" y="36" font-size="15" fill="#F2E9E4" font-weight="600" text-anchor="start" class="sans">For a request from bob (team platform) for a Copilot model, the proxy tries, in order:</text>
+<rect x="30" y="62" width="900" height="60" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<circle cx="62" cy="92" r="12" fill="#E4572E"/>
+<text x="62" y="97" font-size="14" fill="#1B1513" font-weight="700" text-anchor="middle" class="sans">1</text>
+<text x="90" y="88" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">bob&#x27;s accounts</text>
+<text x="90" y="109" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">people: → accounts:</text>
+<rect x="802.2" y="79" width="107.8" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="856.1" y="95" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">copilot-bob</text>
+<rect x="30" y="138" width="900" height="60" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<circle cx="62" cy="168" r="12" fill="#E4572E"/>
+<text x="62" y="173" font-size="14" fill="#1B1513" font-weight="700" text-anchor="middle" class="sans">2</text>
+<text x="90" y="164" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">the team&#x27;s accounts</text>
+<text x="90" y="185" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">teams: → accounts:</text>
+<rect x="763.2" y="155" width="146.8" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="836.6" y="171" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">copilot-platform</text>
+<rect x="30" y="214" width="900" height="60" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<circle cx="62" cy="244" r="12" fill="#E4572E"/>
+<text x="62" y="249" font-size="14" fill="#1B1513" font-weight="700" text-anchor="middle" class="sans">3</text>
+<text x="90" y="240" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">the default accounts</text>
+<text x="90" y="261" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">default_accounts:</text>
+<rect x="778.8" y="231" width="131.2" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="844.4" y="247" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">copilot-shared</text>
+<rect x="30" y="290" width="900" height="60" rx="12" fill="#211A17" stroke="#54453F" stroke-width="1.5" stroke-dasharray="6 5"/>
+<circle cx="62" cy="320" r="12" fill="#B9ABA3"/>
+<text x="62" y="325" font-size="14" fill="#1B1513" font-weight="700" text-anchor="middle" class="sans">4</text>
+<text x="90" y="316" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">every other account for that model</text>
+<text x="90" y="337" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">unless accounts_only: true</text>
+<rect x="771" y="307" width="139" height="25" rx="12.5" fill="#211A17" stroke="#B9ABA3" stroke-width="1"/>
+<text x="840.5" y="323" font-size="13" fill="#B9ABA3" font-weight="600" text-anchor="middle" class="sans">the usual order</text>
+<text x="30" y="384" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">An account that does not serve the model, or that a person&#x27;s model list does not allow, is skipped.</text>
+</svg>

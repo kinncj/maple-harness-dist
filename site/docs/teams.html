@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Teams · Maple Harness docs</title>
+<meta name="description" content="Several people can share one proxy, each with their own access token. The proxy then knows who sent every request, can give each person or team their own provider accounts, model list and budget, and ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html" aria-current="page">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">Teams</li></ol></div></nav>
+<article>
+<h1 id="teams">Teams <a class="anchor" href="#teams" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#set-up-a-team-in-four-steps">Set up a team in four steps</a></li><li><a href="#who-a-request-belongs-to">Who a request belongs to</a></li><li><a href="#budgets">Budgets</a></li><li><a href="#models">Models</a></li><li><a href="#accounts">Accounts</a></li><li><a href="#the-self-view">The self view</a></li><li><a href="#share-one-proxy-with-your-team">Share one proxy with your team</a><ol><li><a href="#on-the-proxys-machine">On the proxy's machine</a></li><li><a href="#on-each-teammates-machine">On each teammate's machine</a></li></ol></li><li><a href="#teams-across-chained-hubs">Teams across chained hubs</a></li><li><a href="#limits">Limits</a></li><li><a href="#going-back-to-an-older-version">Going back to an older version</a></li></ol></details>
+
+<p>Several people can share one proxy, each with their own access token. The proxy then knows who sent every request,
+can give each person or team their own provider accounts, model list and budget, and lets each person see their own
+usage.</p>
+<p><strong>If you use Maple on your own machine, you need none of this.</strong> Nothing on this page is on until you add it to
+<code>config.yaml</code>. A proxy without <code>people:</code>, <code>teams:</code> or <code>default_accounts:</code> routes, refuses and records requests exactly
+as before.</p>
+<h2 id="set-up-a-team-in-four-steps">Set up a team in four steps <a class="anchor" href="#set-up-a-team-in-four-steps" aria-label="Link to this heading">#</a></h2>
+<ol><li><p><strong>Make a token for each person.</strong> On the proxy's setup page, open <strong>Remote access</strong>, add a device for each person
+with the <strong>proxy</strong> scope, and give each person their token. A token is shown once; treat it like a password.</p></li><li><p><strong>Add the people.</strong> Name each person, put them in a team if you like, and tie their token to them by its id (the
+setup page and <code>maple-proxy people list</code> show ids; <code>config.yaml</code> never holds a token itself):</p>
+<pre><code class="language-bash">maple-proxy people add alice --team platform
+maple-proxy people tie-token alice &lt;token-id&gt;</code></pre></li><li><p><strong>Set budgets and rules</strong> (all optional):</p>
+<pre><code class="language-bash">maple-proxy people budget alice --daily 40 --monthly 600
+maple-proxy teams budget platform --monthly 2000
+maple-proxy people models bob --allow coder-default,gpt-5</code></pre></li><li><p><strong>Check the People card</strong> on the setup page: each person, their tokens by label, their budget used and left, and
+what they spent in the range you choose.</p></li></ol>
+<p>The same in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">people:
+  - id: alice
+    team: platform
+    tokens: [3f9c2a1b7d4e]          # token ids, never tokens
+    budget: {daily_ai_units: 40, monthly_ai_units: 600}
+    models:
+      allow: [coder-default, "copilot/*"]
+      fallbacks: {claude-opus-5: [claude-sonnet-5]}
+    accounts: [copilot-work]
+teams:
+  - id: platform
+    budget: {monthly_ai_units: 2000}
+    accounts: [copilot-team]
+default_accounts: [copilot-main]
+people_self_view: "off"</code></pre>
+<p>The People card and the <code>maple-proxy people</code> commands write the same keys and keep your comments. A change made on
+the setup page applies to the next request; one made with the command applies when the running proxy reloads its
+configuration or restarts.</p>
+<h2 id="who-a-request-belongs-to">Who a request belongs to <a class="anchor" href="#who-a-request-belongs-to" aria-label="Link to this heading">#</a></h2>
+<ul><li>A request with a token belongs to the person that token is tied to. A proxy token tied to nobody still works; its
+requests are counted as unattributed and no person's rules apply to them. <code>maple-proxy people list</code> lists such
+tokens, so you can tie or revoke them.</li><li>On a proxy that listens only on this machine, a token is not required. A request that carries one anyway is checked,
+and refused if it is not valid, so a person working on the proxy's own machine is counted as themselves.</li><li>A request from this machine without a token belongs to the person <code>local</code>. Add a person with the id <code>local</code> to
+give that caller a team, a budget or rules; without one, <code>local</code> has no limits, as before. <code>unattributed</code> is
+reserved: it names requests tied to nobody.</li><li>The usage log records <code>person</code> and <code>team</code> on every request from then on. Requests from before people were set up
+stay unattributed.</li></ul>
+<h2 id="budgets">Budgets <a class="anchor" href="#budgets" aria-label="Link to this heading">#</a></h2>
+<p>A budget is in AI units, as the providers reported them: the same units as the provider budgets (<code>budgets:</code>). Set
+a daily limit, a monthly limit or both, per person and per team. Days and months are counted in UTC, so a daily budget
+resets at 00:00 UTC and a monthly one on the 1st.</p>
+<ul><li>A request is refused before it is sent once the person's or the team's budget is spent, with a <code>429</code> and the code
+<code>budget_exceeded</code>, in the API's own error shape. Other people are not affected.</li><li>A refusal for a team budget names the team but not its figures, which include other people's spend.</li><li>Requests that are already running when a budget runs out are allowed to finish. So a budget can be exceeded by what
+those last requests cost, and by nothing more. While requests are running, the proxy holds back each one's likely
+cost (the person's usual cost per request, and at least a small share of the budget), so only a few can start at
+once against a budget and a burst of parallel requests is refused.</li><li>What a provider reported for a request counts, even when the request then failed or was stopped part way. A request
+that failed with no cost reported, an answer from the response cache and the proxy's own cache-warming requests do
+not count.</li><li>Spend is read back from the usage log when the proxy starts, so a restart does not hand back a fresh budget. With
+the usage log off, budgets count from the moment the proxy started.</li><li>The usage log's <code>budget_scope</code> column says which budget counted a request: <code>person</code>, <code>team</code> or <code>provider</code>.</li></ul>
+<h2 id="models">Models <a class="anchor" href="#models" aria-label="Link to this heading">#</a></h2>
+<p><code>models.allow</code> lists the models a person or a team may use: names as asked for (an alias such as <code>coder-default</code>, or
+<code>auto</code>), model ids, or <code>account/model</code>, with <code>*</code> as a wildcard (<code>copilot/*</code>; a name ending in <code>/*</code> also covers
+everything a hub passes on under it, such as <code>hub/copilot-work/gpt-5</code>). An empty list allows every model.</p>
+<ul><li>A person's list narrows their team's: a model must be allowed by both. A person without a list of their own has
+the team's. A person's list can never add a model the team's list leaves out; the People card points out an entry
+that reaches outside the team's.</li><li>A model that is not allowed is refused with a <code>403</code> and the code <code>model_not_allowed</code> (<code>permission_error</code> on the
+Anthropic-compatible address). The message says whose list refused it, the person's or the team's. A fallback to a
+model that is not allowed is skipped.</li><li><code>/v1/models</code> lists only the models the person asking may use, on their own accounts or on the accounts assigned to
+them. A token tied to nobody, and a caller on this machine without a token when no <code>local</code> person is set up, see
+every model, as on a proxy without people.</li><li><code>models.fallbacks</code> replaces <code>model_fallbacks</code> for that person or team, per model asked for. With an allow-list, it
+can send a model the person may not use to one they may: a request for <code>claude-opus-5</code> answered by
+<code>claude-sonnet-5</code>. The usage log's <code>route_reason</code> then reads <code>person-policy</code>.</li></ul>
+<h2 id="accounts">Accounts <a class="anchor" href="#accounts" aria-label="Link to this heading">#</a></h2>
+<p>Each account (a provider entry, such as one GitHub Copilot sign-in) has an id and may have a nickname; either works
+in these lists.</p>
+<ul><li><code>accounts</code> on a person, then on their team, then <code>default_accounts</code> for everyone, are tried first, in that order,
+for a model of their kind. A person on two accounts falls back from the first to the second the same way the
+proxy's own account fallback works. A request that names its account (<code>copilot-work/gpt-5</code>) is served there.</li><li><code>accounts_only: true</code> limits a person or a team to their own accounts: anything that would be served by another
+account is refused with <code>model_not_allowed</code>. A person limited to their accounts may also use their team's, unless
+the team is limited to its own; then the person's accounts narrow the team's, and must be among them (the proxy
+refuses a <code>config.yaml</code> that lists another one, and says which team's list it is not on).</li><li>The usage log records the account that served each request (<code>provider</code>) and why it was used
+(<code>account_source</code>: <code>person</code>, <code>team</code>, <code>default</code> or <code>request</code>).</li></ul>
+<p>You are responsible for following each provider's terms for the accounts you connect.</p>
+<h2 id="the-self-view">The self view <a class="anchor" href="#the-self-view" aria-label="Link to this heading">#</a></h2>
+<p>With <code>people_self_view: "on"</code> (off by default; the switch is on the People card, or <code>maple-proxy people self-view on</code>),
+each person can ask the proxy for their own figures with their own token:</p>
+<pre><code class="language-bash">curl -H "Authorization: Bearer $MAPLE_TOKEN" http://&lt;proxy&gt;:11535/v1/maple/me/usage?last=7d</code></pre>
+<p>It answers with the person, the label of the token that asked, their own budget used and left, and their requests,
+tokens, AI units and estimated cost for the range, in total, by day and by model. <code>since</code>, <code>until</code> and <code>last</code> are the
+only parameters; whose figures they are is the token's to say, so there is no way to ask for anyone else's. It shows
+no team totals. It needs a valid proxy token even on this machine, is limited to 30 requests a minute per token,
+and answers <code>404</code> while it is off.</p>
+<h2 id="share-one-proxy-with-your-team">Share one proxy with your team <a class="anchor" href="#share-one-proxy-with-your-team" aria-label="Link to this heading">#</a></h2>
+<h3 id="on-the-proxys-machine">On the proxy's machine <a class="anchor" href="#on-the-proxys-machine" aria-label="Link to this heading">#</a></h3>
+<ol><li>Set up the people as above.</li><li>Let the proxy listen where your teammates can reach it, for example <code>server.openai_compat: 0.0.0.0:11535</code> and
+<code>server.anthropic_compat: 0.0.0.0:11537</code>. Off this machine every request needs a token with the proxy scope; the
+proxy will not start that way until one exists. The setup page stays on this machine only.</li><li>Reach it over HTTPS or a private network, such as Tailscale or a VPN. Plain HTTP across a network others share
+lets them read tokens.</li></ol>
+<p>Signing in to providers, the setup page and <code>maple-proxy</code> commands all stay on this machine.</p>
+<h3 id="on-each-teammates-machine">On each teammate's machine <a class="anchor" href="#on-each-teammates-machine" aria-label="Link to this heading">#</a></h3>
+<p>Each person uses their own token, with the <code>proxy</code> scope. Do not share tokens: every request made with one is counted
+as its person's.</p>
+<p><strong>Maple Harness.</strong> Run <code>maple-harness proxy connect https://proxy.example:11535</code> and paste the token when asked (it
+is not shown). The token goes into your secret store, and <code>config.yaml</code> gets only a reference
+(<code>harness.proxy.token: ${secret:maple-proxy-token}</code>). From then on every request carries it. The harness never starts or
+stops that proxy, and <code>maple-harness auth</code> tells you it runs on the proxy's machine. Check with <code>maple-harness doctor</code>:
+the proxy line should say the token was accepted. To keep the token in an environment variable instead, use
+<code>--token-env MAPLE_PROXY_TOKEN</code>. <code>maple-harness proxy disconnect</code> goes back to a proxy on your own machine.</p>
+<p>Plain <code>http://</code> to another machine is refused unless you pass <code>--allow-insecure</code>, because it sends your token where
+the network can read it.</p>
+<p><strong>Claude Code.</strong> Point it at the proxy's Anthropic-compatible address and give it your token as the key:</p>
+<pre><code class="language-bash">export ANTHROPIC_BASE_URL=https://proxy.example:11537
+export ANTHROPIC_API_KEY=&lt;your token&gt;</code></pre>
+<p><strong>OpenCode, or any OpenAI-compatible tool.</strong> Use the proxy's OpenAI-compatible address with <code>/v1</code>, such as
+<code>https://proxy.example:11535/v1</code>, and your token as the API key (in OpenCode, an <code>openai-compatible</code> provider entry
+with <code>baseURL</code> and <code>apiKey</code>). Keep the token in an environment variable rather than in a file you commit.</p>
+<h2 id="teams-across-chained-hubs">Teams across chained hubs <a class="anchor" href="#teams-across-chained-hubs" aria-label="Link to this heading">#</a></h2>
+<p>When a proxy uses another Maple proxy as its parent, it inherits the parent's people, teams, their accounts, budgets
+and model rules, and the parent's tokens (as hashes, never the tokens), and passes them on to its own children.</p>
+<ul><li>What the proxy uses is the inherited people and teams plus its own. Inherited entries are read-only there: the
+People card marks them, and the commands refuse to change them.</li><li>A child may add its own people and teams. It may also tighten an inherited one by adding an entry with the same id:
+a lower budget, a narrower model or account list, or <code>accounts_only: true</code>. Anything that would loosen it (a higher
+budget, a model outside the inherited list, another team, its own tokens) is refused, and the inherited entry
+applies.</li><li>If a local entry clashes with an inherited one in any other way, the inherited entry wins and the People card lists
+the clash. The local entry's own tokens (and those of local people in a clashing team) are refused until you resolve
+it, so they never lose their rules by being counted as nobody's.</li><li>You can add people while the parent cannot be reached; a clash is reported once its people arrive.</li><li>An inherited token works at the child with the scopes it had, except the ones for chaining, administration and the
+setup page.</li><li>Budgets are counted at every hub a request passes through, each with its own rules. A hub takes a forwarded request
+as one of its own people only when that person signed in below with their own token; see
+<a href="chaining.html#who-a-hub-takes-a-forwarded-request-to-be-from">Chain proxies into hubs</a>.</li><li>The People card and <code>maple-proxy people list</code> show chain tokens apart from people's tokens, with the proxy each is
+bound to and the person it is tied to. Tie a chain token to a person to hold everything that proxy sends to that
+person's rules and budget.</li><li>If the child cannot get a current copy of its parent's people, it refuses the inherited people and tokens until it
+can, and keeps serving its own.</li></ul>
+<h2 id="limits">Limits <a class="anchor" href="#limits" aria-label="Link to this heading">#</a></h2>
+<ul><li>Budgets and spend are in AI units as the providers reported them; <code>cost_estimated</code> is an estimate from list prices.
+Neither is a bill.</li><li>Only requests with a token can be told apart. On a proxy that listens only on this machine, anyone on the machine
+can leave the token out and be counted as <code>local</code>; listen off this machine to require tokens.</li><li><code>/v1/models</code> lists <code>auto</code> for a person when every model list that applies to them names <code>auto</code>, or when they have
+no model list; what <code>auto</code> picks is then held to their rules when it is asked for.</li><li>Requests already running are not stopped when a budget runs out (see Budgets).</li></ul>
+<h2 id="going-back-to-an-older-version">Going back to an older version <a class="anchor" href="#going-back-to-an-older-version" aria-label="Link to this heading">#</a></h2>
+<p>A proxy older than 2.0 ignores <code>people:</code>, <code>teams:</code>, <code>default_accounts:</code> and <code>people_self_view:</code> and keeps working:
+every token still works, but no person's budget, model list or accounts apply, and requests are no longer attributed.
+The keys stay in <code>config.yaml</code> and apply again after an upgrade. The usage log stays readable.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/teams-and-hubs.html" rel="prev"><small>Previous</small>Share Maple with a team: hubs, people and fallbacks</a><a class="next" href="../docs/chaining.html" rel="next"><small>Next</small>Chain proxies into hubs</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#set-up-a-team-in-four-steps">Set up a team in four steps</a></li><li><a href="#who-a-request-belongs-to">Who a request belongs to</a></li><li><a href="#budgets">Budgets</a></li><li><a href="#models">Models</a></li><li><a href="#accounts">Accounts</a></li><li><a href="#the-self-view">The self view</a></li><li><a href="#share-one-proxy-with-your-team">Share one proxy with your team</a><ol><li><a href="#on-the-proxys-machine">On the proxy's machine</a></li><li><a href="#on-each-teammates-machine">On each teammate's machine</a></li></ol></li><li><a href="#teams-across-chained-hubs">Teams across chained hubs</a></li><li><a href="#limits">Limits</a></li><li><a href="#going-back-to-an-older-version">Going back to an older version</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

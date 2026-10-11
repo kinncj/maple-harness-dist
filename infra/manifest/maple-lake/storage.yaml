@@ -1,0 +1,18 @@
+# The lake's data files, when they are kept on a volume rather than S3.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: maple-lake
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 20Gi}}
+---
+# EXAMPLE ONLY: a PostgreSQL role for the jobs that can read the usage and events and write the
+# lake's catalog schema (maple_lake); never the proxy's own role if you can avoid it.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: maple-lake
+type: Opaque
+stringData:
+  postgres_dsn: postgres://maple_lake:REPLACE-ME@postgres:5432/maple?sslmode=disable

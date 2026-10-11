@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Chain proxies into hubs · Maple Harness docs</title>
+<meta name="description" content="One Maple proxy can use another as a provider. The one it uses is its hub. A hub can serve several proxies, and it can use a hub of its own, so a laptop can go to a team hub, and the team hub can go t">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html" aria-current="page">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">Chain proxies into hubs</li></ol></div></nav>
+<article>
+<h1 id="chain-proxies-into-hubs">Chain proxies into hubs <a class="anchor" href="#chain-proxies-into-hubs" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#the-two-common-setups">The two common setups</a><ol><li><a href="#your-own-account-first-the-hub-when-it-runs-out">Your own account first, the hub when it runs out</a></li><li><a href="#the-hub-first-your-own-model-when-the-hub-says-no">The hub first, your own model when the hub says no</a></li></ol></li><li><a href="#set-up-a-hub">Set up a hub</a></li><li><a href="#the-proxy-chain-scope">The proxy-chain scope</a><ol><li><a href="#who-a-hub-takes-a-forwarded-request-to-be-from">Who a hub takes a forwarded request to be from</a></li></ol></li><li><a href="#people-and-teams-cascade-down">People and teams cascade down</a></li><li><a href="#what-each-proxy-records">What each proxy records</a></li><li><a href="#usage-from-below">Usage from below</a></li><li><a href="#limits">Limits</a></li><li><a href="#settings">Settings</a></li></ol></details>
+
+<p>One Maple proxy can use another as a provider. The one it uses is its <strong>hub</strong>. A hub can serve several proxies,
+and it can use a hub of its own, so a laptop can go to a team hub, and the team hub can go to a company hub.</p>
+<p>Nothing about this is on by default. A proxy only takes part in a chain once you add a provider of type <code>maple</code>
+(to use a hub) or make a hub token (to be one). A proxy on its own machine works exactly as before.</p>
+<p>What a chain gives you:</p>
+<ul><li><strong>Fallback either way.</strong> Use your own account first and the hub when it runs out, or the hub first and your own
+model when the hub says no.</li><li><strong>One set of people.</strong> People and teams defined on the top hub reach every proxy below it, with their tokens,
+budgets and model rules.</li><li><strong>One place to see usage.</strong> Each proxy sends its usage records up, so the top hub can answer for everyone below it.</li><li><strong>Who asked travels up.</strong> Every proxy a request passes through records the person who asked, the proxy they asked,
+and the path in between.</li></ul>
+<h2 id="the-two-common-setups">The two common setups <a class="anchor" href="#the-two-common-setups" aria-label="Link to this heading">#</a></h2>
+<h3 id="your-own-account-first-the-hub-when-it-runs-out">Your own account first, the hub when it runs out <a class="anchor" href="#your-own-account-first-the-hub-when-it-runs-out" aria-label="Link to this heading">#</a></h3>
+<p>The laptop uses its own Copilot account. When that account is out of quota or rate limited, requests go to the hub,
+and come back to the laptop's account once it answers again.</p>
+<pre><code class="language-yaml"># config.yaml on the laptop
+server:
+  proxy_name: laptop
+providers:
+  - id: copilot
+    type: github-copilot
+    # ... as set up by maple-proxy auth login github-copilot
+  - id: hub
+    type: maple
+    base_url: https://hub.example:11535/v1
+    api_key: ${secret:hub-token}
+provider_fallbacks:
+  copilot: [hub/gpt-5]</code></pre>
+<p>The hub's models are reached as <code>hub/&lt;model&gt;</code>, whether or not they are listed under the provider. A hub in the middle
+of a chain (one with <code>chain.parent</code>) passes a model it does not serve itself on to its parent, so it does not need a
+list of the models above it either. While the laptop's account is marked as out of quota, requests go to the hub
+first; the mark is lifted when the account's own wait is over.</p>
+<h3 id="the-hub-first-your-own-model-when-the-hub-says-no">The hub first, your own model when the hub says no <a class="anchor" href="#the-hub-first-your-own-model-when-the-hub-says-no" aria-label="Link to this heading">#</a></h3>
+<p>The laptop sends everything to the hub. When the hub refuses (a budget there is spent, the hub is down, or the
+hub's own accounts are out of quota), a local model answers instead.</p>
+<pre><code class="language-yaml"># config.yaml on the laptop
+providers:
+  - id: hub
+    type: maple
+    base_url: https://hub.example:11535/v1
+    api_key: ${secret:hub-token}
+  - id: ollama
+    type: ollama
+    base_url: http://127.0.0.1:11434/v1
+    models: [{id: qwen3:8b}]
+model_fallbacks:
+  hub/gpt-5: [ollama/qwen3:8b]</code></pre>
+<p>Each refusal from the hub is named the same way as a refusal from any provider, so the usage log says why the
+fallback ran: <code>daily budget spent</code>, <code>quota exhausted</code>, <code>rate limited</code>, <code>overloaded</code> or <code>unreachable</code>. When the hub
+refuses this proxy's token (it was revoked, say), the fallback still runs if one is set, and the request is recorded
+as <code>not authorised</code> with the route reason <code>fallback:not-authorised</code>, so it does not go unnoticed. The proxy's log
+says so too.</p>
+<p>A hub in the middle of a chain does the same toward the hub above it.</p>
+<h2 id="set-up-a-hub">Set up a hub <a class="anchor" href="#set-up-a-hub" aria-label="Link to this heading">#</a></h2>
+<p>On the hub, make a token for each proxy that will use it:</p>
+<pre><code class="language-sh">maple-proxy chain token laptop</code></pre>
+<p>The token carries two scopes: <code>proxy</code>, to use the hub's models, and <code>proxy-chain</code>, which lets the proxy holding it
+say who asked. The token is shown once. The hub's model surface must be reachable from the other proxy: on another
+machine that means a listen address other than <code>127.0.0.1</code> and, outside your own network, HTTPS (see
+<a href="endpoints.html">Endpoints</a>).</p>
+<p>On the proxy that will use the hub, add the hub as a provider with the token in <code>api_key</code>, then move the token
+out of <code>config.yaml</code> into the secret store with <code>maple-proxy secrets migrate</code> (it leaves a <code>${secret:...}</code>
+reference in its place):</p>
+<pre><code class="language-yaml">providers:
+  - id: hub
+    type: maple
+    base_url: https://hub.example:11535/v1
+    api_key: mh_...        # the token from maple-proxy chain token
+chain:
+  parent: hub              # inherit the hub's people and send usage up to it</code></pre>
+<p><code>base_url</code> must be <code>https://</code>, except for an address on this machine or your local network (a private address, or
+a <code>.local</code> name), or a provider marked <code>local: true</code>. A <code>.local</code> name is found by asking the local network, so
+prefer https or an address where anyone on that network could answer for it. It may not hold a user name, password or query.</p>
+<p>Check the chain from either end:</p>
+<pre><code class="language-sh">maple-proxy chain status</code></pre>
+<p>It lists each hub, whether it answers, how many hubs are above it, the people inherited from the parent, and what
+the proxies below this one have sent up, by name.</p>
+<p>To see the hub's chain tokens and the proxy each one is bound to:</p>
+<pre><code class="language-sh">maple-proxy chain token show</code></pre>
+<p>It shows each token's id, label and bound proxy ("not bound yet" until its first use), never a token or its hash.
+<code>maple-proxy chain token unbind &lt;id&gt;</code> clears a token's binding, so the next proxy that uses it is bound instead: use it
+when you replace a proxy below, or make a new token with <code>--proxy &lt;id&gt;</code> to bind it from the start. (<code>show</code> and <code>unbind</code>
+cannot be used as token labels.)</p>
+<h2 id="the-proxy-chain-scope">The proxy-chain scope <a class="anchor" href="#the-proxy-chain-scope" aria-label="Link to this heading">#</a></h2>
+<p>Only a token with the <code>proxy-chain</code> scope (and the <code>proxy</code> scope) is trusted to say who asked. A request with any
+other token, or none, is recorded as that token's own: headers claiming another person are ignored and removed. A
+token for everything (all scopes) does not include <code>proxy-chain</code>, and a proxy from before 2.0 does not know the scope,
+so it never trusts a forwarded person at all.</p>
+<p>A <code>proxy-chain</code> token belongs to one proxy: the first proxy to use it is the only one it speaks for from then on, and
+a proxy is bound to one token (a second token cannot be bound to a proxy that already has one).
+The same token sent by another proxy still uses the models, but what it says about who asked is ignored. Make one
+token for each proxy below the hub; <code>maple-proxy chain token laptop --proxy &lt;its id&gt;</code> binds it to that proxy from the
+start (its id is in its own <code>maple-proxy chain status</code>).</p>
+<p>The same scope is needed to read a hub's people and to send it usage records. A hub with no <code>proxy-chain</code> token has
+none of these endpoints.</p>
+<h3 id="who-a-hub-takes-a-forwarded-request-to-be-from">Who a hub takes a forwarded request to be from <a class="anchor" href="#who-a-hub-takes-a-forwarded-request-to-be-from" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>One of the hub's own people</strong> (defined on the hub, or inherited by it from further up) only when that person signed
+in below with their own token. The proxy where they signed in sends a proof made from that token with the request,
+and each hub on the way checks it; the token itself never leaves that proxy. A proxy below cannot name one of the
+hub's people without it: such a request counts as the proxy below's own (see the next point).</li><li><strong>A person the hub does not know</strong> (one the proxy below defined itself, or its caller without a token) by their name
+marked with the proxy below that sent the request: its <code>server.proxy_name</code>, such as <code>carol@platform-hub</code>, or its id
+when it has no name or another proxy below already uses that name (the first to use a name keeps it). So they are never one of the hub's own people.</li><li><strong>Whatever it is told, also the person the proxy below's chain token is tied to on the hub.</strong> Tie a chain token to a
+person (<code>maple-proxy chain token laptop --person team-laptop</code>, or <code>maple-proxy people tie-token</code> later) to hold
+everything that proxy forwards to that person's model list, accounts and budget, as well as the requester's own
+rules. Both budgets are charged. A chain token tied to nobody adds no rules: tie every chain token on a hub with
+people set up. Tie it to a person made for that proxy, never to a real person: whoever runs that proxy can use its
+token as that person.</li></ul>
+<h2 id="people-and-teams-cascade-down">People and teams cascade down <a class="anchor" href="#people-and-teams-cascade-down" aria-label="Link to this heading">#</a></h2>
+<p>With <code>chain.parent</code> set, a proxy fetches its parent's people, teams and their tokens at start, keeps a copy in its
+configuration folder, and asks again at once whenever the parent says something changed (the parent holds each
+request for up to 30 seconds until it has news). <code>chain.directory_interval</code> (a minute by default) is how long it
+waits after a failed or quick answer. The parent sends a check value for each token, made for that proxy alone, never
+a token or the hash the parent keeps, and never a provider key; inherited tokens can only use the models, whatever the
+parent says.</p>
+<ul><li>Inherited people sign in at any proxy below with their own token, and their budgets and model rules apply there.</li><li>A proxy may add its own people and teams, also while its parent cannot be reached. For an inherited person or team it
+may only tighten the rules: a lower budget, fewer models, fewer accounts. Anything looser is reported as a conflict
+by <code>maple-proxy people list</code>, and the parent's entry applies. A local person (or a local person's team) that clashes
+with one the parent hands down keeps no rules of its own: its own tokens are refused until the clash is resolved.</li><li>A parent's <code>local</code> person is not inherited: <code>local</code> on each proxy is whoever calls that proxy's machine without a
+token.</li><li>A person assigned an account that only a hub above holds is served on that account through the parent.</li><li>A token revoked on the hub stops working below within seconds, one hop after another.</li><li>If the parent cannot be reached, the kept copy is used for <code>chain.directory_grace</code> (15 minutes by default). After
+that, inherited tokens are refused until the parent answers again; the proxy's own tokens keep working.</li></ul>
+<h2 id="what-each-proxy-records">What each proxy records <a class="anchor" href="#what-each-proxy-records" aria-label="Link to this heading">#</a></h2>
+<p>Every proxy a request passes through writes its own line in its usage log. On each line:</p>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Column</th><th>On a laptop's own request</th><th>On the hub, for a request from the laptop</th></tr></thead><tbody><tr><td><code>person</code>, <code>team</code></td><td data-label="On a laptop&#x27;s own request">who asked</td><td data-label="On the hub, for a request from the laptop">who asked, at the laptop</td></tr><tr><td><code>proxy_id</code>, <code>proxy_name</code></td><td data-label="On a laptop&#x27;s own request">the laptop</td><td data-label="On the hub, for a request from the laptop">the hub</td></tr><tr><td><code>origin_proxy</code></td><td data-label="On a laptop&#x27;s own request">the laptop</td><td data-label="On the hub, for a request from the laptop">the laptop</td></tr><tr><td><code>hops</code></td><td data-label="On a laptop&#x27;s own request">0</td><td data-label="On the hub, for a request from the laptop">1 (2 one hub further up)</td></tr><tr><td><code>via</code></td><td data-label="On a laptop&#x27;s own request">empty</td><td data-label="On the hub, for a request from the laptop"><code>laptop</code> (then <code>laptop&gt;team-hub</code>)</td></tr><tr><td><code>forwarded</code></td><td data-label="On a laptop&#x27;s own request">true when the hub served it</td><td data-label="On the hub, for a request from the laptop">false when the hub's own account served it</td></tr><tr><td><code>request_id</code></td><td data-label="On a laptop&#x27;s own request">the same on every line of the request, on every proxy</td><td data-label="On the hub, for a request from the laptop"></td></tr></tbody></table></div>
+<p><code>proxy_id</code> is made when a proxy first starts and stays the same while its configuration folder is kept;
+<code>server.proxy_name</code> gives it a readable name. The full list of columns is in <a href="usage-export.html">Your usage data</a>.</p>
+<p>X-Maple-Router on the answer shows the path: <code>via hub: copilot-work/gpt-5</code>, and the hub's own route after it.</p>
+<h2 id="usage-from-below">Usage from below <a class="anchor" href="#usage-from-below" aria-label="Link to this heading">#</a></h2>
+<p>With <code>chain.parent</code> set, a proxy sends its usage records, and those its own children sent it, to the parent, every
+<code>chain.directory_interval</code>. Only the usage columns are sent, never a prompt or an answer. If the parent is away, the
+records are sent when it is back, from where the proxy got to; a record already received is ignored, so nothing is
+counted twice. <code>chain.report_usage: off</code> stops sending.</p>
+<p>A person the hub does not know is one row in the hub's figures: the lines sent up from below and the hub's own lines for
+the same requests use the same name for them (<code>carol@platform-hub</code>, as above), in <code>usage query</code> and in the views.</p>
+<p>The hub keeps what it receives apart from its own usage log (in a <code>children</code> folder beside it), so its own files and
+your existing queries are unchanged. <code>usage query</code> on the hub includes it, unless you pass <code>--children off</code>:</p>
+<pre><code class="language-sh">maple-proxy usage query --last 7d --group-by origin_proxy,person
+maple-proxy usage query --group-by route_reason,provider
+maple-proxy usage query --proxy laptop --source child</code></pre>
+<p>How things are counted across a chain:</p>
+<ul><li><code>requests</code> counts lines: one for each proxy a request passed through, and one for each try.</li><li><code>client_requests</code> counts each request once: its first try, on the proxy where it was first asked.</li><li><code>ai_units_spent</code> and <code>cost_estimated_spent</code> count spend once, on the line of the proxy whose own account served
+it. The lines of a request passed on to a hub (<code>forwarded</code>) carry the hub's figures and are left out.</li></ul>
+<p>With <code>--views</code>, the DuckDB views include <code>maple.hops</code> (every line, the hub's own and those sent up),
+<code>maple.client_requests</code> (one row per request, with its spend), <code>maple.proxies</code> (per proxy) and <code>maple.origins</code> (per
+first proxy and person). See <a href="usage-export.html#named-views">Named views</a>.</p>
+<p>A proxy below can only add records under its own name on the hub; a proxy that sends wrong records affects only the
+figures for itself and the proxies below it.</p>
+<h2 id="limits">Limits <a class="anchor" href="#limits" aria-label="Link to this heading">#</a></h2>
+<ul><li>A request that has passed through more than <code>chain.max_hops</code> proxies (4 by default) is refused, and so is one that
+comes back to a proxy it already passed through. Both are answered with status 508.</li><li><code>chain.max_hops</code> follows <code>config.yaml</code> without a restart.</li><li>A person's budget is enforced on the proxy where they sign in, and on each hub that takes them as its own. A hub
+caps a whole proxy below it by tying that proxy's chain token to a person with a budget (see
+<a href="#who-a-hub-takes-a-forwarded-request-to-be-from">Who a hub takes a forwarded request to be from</a>).</li><li>After a hub restarts, such a cap is read back from the usage log for what people the hub does not know spent
+through that proxy; requests of the hub's own people forwarded through it count only against their own budgets
+until the next day or month starts.</li><li><code>client_requests</code> on a hub counts the requests whose first proxy sends its usage up. Requests from a proxy with
+<code>report_usage: off</code> are counted only as lines.</li></ul>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>server.<wbr>proxy_<wbr>name</code></td><td data-label="Default">none</td><td data-label="What it does">A readable name for this proxy in usage records and in other proxies' records.</td></tr><tr><td><code>chain.max_hops</code></td><td data-label="Default">4</td><td data-label="What it does">The most proxies a request may have passed through before this one (1 to 16).</td></tr><tr><td><code>chain.parent</code></td><td data-label="Default">none</td><td data-label="What it does">The <code>maple</code> provider whose hub this proxy inherits people from and sends usage to.</td></tr><tr><td><code>chain.<wbr>directory_<wbr>interval</code></td><td data-label="Default">60s</td><td data-label="What it does">How long to wait before asking the parent again after a failed or quick answer, and how often usage is sent up.</td></tr><tr><td><code>chain.<wbr>directory_<wbr>grace</code></td><td data-label="Default">15m</td><td data-label="What it does">How long the kept people are trusted while the parent cannot be reached.</td></tr><tr><td><code>chain.<wbr>report_<wbr>usage</code></td><td data-label="Default">on with a parent</td><td data-label="What it does"><code>off</code> stops sending usage records to the parent.</td></tr></tbody></table></div>
+<p>The proxy's name can also be set under Share this proxy on the setup page. With a parent set, the Chained proxies card
+has the parent's settings (<code>chain.directory_interval</code>, <code>chain.directory_grace</code>, <code>chain.report_usage</code>); they take effect
+when the proxy restarts.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/teams.html" rel="prev"><small>Previous</small>Teams</a><a class="next" href="../docs/kubernetes.html" rel="next"><small>Next</small>Run the proxy on Kubernetes</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#the-two-common-setups">The two common setups</a><ol><li><a href="#your-own-account-first-the-hub-when-it-runs-out">Your own account first, the hub when it runs out</a></li><li><a href="#the-hub-first-your-own-model-when-the-hub-says-no">The hub first, your own model when the hub says no</a></li></ol></li><li><a href="#set-up-a-hub">Set up a hub</a></li><li><a href="#the-proxy-chain-scope">The proxy-chain scope</a><ol><li><a href="#who-a-hub-takes-a-forwarded-request-to-be-from">Who a hub takes a forwarded request to be from</a></li></ol></li><li><a href="#people-and-teams-cascade-down">People and teams cascade down</a></li><li><a href="#what-each-proxy-records">What each proxy records</a></li><li><a href="#usage-from-below">Usage from below</a></li><li><a href="#limits">Limits</a></li><li><a href="#settings">Settings</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Query your usage · Maple Harness docs</title>
+<meta name="description" content="A cookbook of questions people ask of their usage, each with the command and what it printed. Every recipe here was run as shown; the output comes from a synthetic sample log (made-up people, models a">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html" aria-current="page">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html" aria-current="page">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li>Your data</li><li aria-current="page">Query your usage</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li>Your data</li><li aria-current="page">Query your usage</li></ol></div></nav>
+<article>
+<h1 id="query-your-usage">Query your usage <a class="anchor" href="#query-your-usage" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#before-you-start">Before you start</a></li><li><a href="#with-usage-query">With usage query</a><ol><li><a href="#spend-by-person-this-week">Spend by person this week</a></li><li><a href="#top-models-by-cost">Top models by cost</a></li><li><a href="#prompt-cache-hit-rate-by-tool">Prompt-cache hit rate by tool</a></li><li><a href="#errors-by-provider-in-the-last-24-hours">Errors by provider in the last 24 hours</a></li><li><a href="#fallbacks-and-why">Fallbacks, and why</a></li><li><a href="#what-auto-chose">What auto chose</a></li><li><a href="#a-roll-up-per-hub">A roll-up per hub</a></li></ol></li><li><a href="#with-duckdb">With DuckDB</a><ol><li><a href="#the-daily-files">The daily files</a></li><li><a href="#the-duckdb-file">The DuckDB file</a></li><li><a href="#the-lake">The lake</a></li><li><a href="#postgresql">PostgreSQL</a></li></ol></li><li><a href="#into-a-spreadsheet">Into a spreadsheet</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>A cookbook of questions people ask of their usage, each with the command and what it printed. Every recipe here was
+run as shown; the output comes from a synthetic sample log (made-up people, models and traffic), so your figures will
+differ. Which store to query when is on <a href="your-data.html">Your data</a>.</p>
+<p>Figures are AI units as the providers reported them, or list-price estimates named <code>_estimated</code>. Neither is a bill,
+and the two are never added together.</p>
+<h2 id="before-you-start">Before you start <a class="anchor" href="#before-you-start" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong><code>maple-proxy usage query</code></strong> needs nothing else. It reads the daily files on this machine, and in
+<a href="kubernetes.html#several-replicas">central mode</a> the shared PostgreSQL, so run it on a replica there. It works whether
+the proxy is running or not.</li><li><strong>DuckDB</strong> recipes need DuckDB's command line (<a href="https://duckdb.org/docs/installation/" rel="noopener noreferrer">install it</a>), plus
+<code>INSTALL ducklake</code> once for the lake and <code>INSTALL postgres</code> once for PostgreSQL.</li><li><code>-table</code> in the commands below only makes DuckDB print plain-text tables; leave it out for its usual boxes.</li></ul>
+<h2 id="with-usage-query">With usage query <a class="anchor" href="#with-usage-query" aria-label="Link to this heading">#</a></h2>
+<p>The filters and <code>--group-by</code> keys are listed in <a href="usage-export.html#filter-your-data">Filter your data</a>; <code>--metrics</code>
+picks the columns (<code>maple-proxy usage query --help</code> lists them all).</p>
+<h3 id="spend-by-person-this-week">Spend by person this week <a class="anchor" href="#spend-by-person-this-week" aria-label="Link to this heading">#</a></h3>
+<p>On a team's proxy (here a replica in central mode, reading the shared PostgreSQL):</p>
+<pre><code class="language-text">$ maple-proxy usage query --last 7d --group-by person,team --metrics requests,ai_units,cost_estimated
+reading the shared usage log: 60794 line(s) over 25 day(s), every replica
+Usage  (last=7d)
+  PERSON  TEAM      REQUESTS  AI_UNITS  COST_ESTIMATED
+  hana    data         1,958   449.116          37.589
+  kai     platform     1,301   344.976           6.408
+  dmitri  data         1,137   339.746          11.264
+  jun     apps         1,113   267.600           3.086
+  -       -            1,078   189.912          13.566
+  gus     apps         1,078   312.081          21.720
+  farah   apps         1,030   381.768          35.208
+  carol   apps           998   465.080          41.425
+  bob     platform       921   361.640          30.599
+  lena    platform       918   447.030          47.751
+  alice   apps           902   249.506          21.790
+  ivan    data           894   278.534          20.519
+  eve     data           790   321.529          22.234
+  total               14,118  4408.517         313.160
+
+  Person and team are recorded only once people are set up; until then every request is unattributed (-).
+  Figures named _estimated are the proxy's estimates, not measurements or bills.</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/data-query-team-light.webp" alt="maple-proxy usage query --last 7d --group-by team,person on a central-mode replica, reading the shared usage log of every replica: thirteen rows of team, person, requests, AI units and estimated cost, such as data hana 1,958 requests 449.116 AI units, platform kai 1,301 and 344.976, and an unattributed row; total 14,118 requests and 4408.517 AI units." width="1000" height="398" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/data-query-team-dark.webp" alt="maple-proxy usage query --last 7d --group-by team,person on a central-mode replica, reading the shared usage log of every replica: thirteen rows of team, person, requests, AI units and estimated cost, such as data hana 1,958 requests 449.116 AI units, platform kai 1,301 and 344.976, and an unattributed row; total 14,118 requests and 4408.517 AI units." width="1000" height="398" loading="lazy" decoding="async">
+<figcaption>The same question by team, on a replica in central mode: every replica's usage, from PostgreSQL.</figcaption>
+</figure>
+<p><code>-</code> is requests with no person: a client without a person's token. For week by week, group by <code>day</code> and add the
+days up in a spreadsheet, or use <a href="#postgresql">the DuckDB recipe over PostgreSQL</a>.</p>
+<h3 id="top-models-by-cost">Top models by cost <a class="anchor" href="#top-models-by-cost" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-text">$ maple-proxy usage query --last 30d --group-by model --metrics requests,ai_units,cost_estimated --limit 5
+Usage  (last=30d)
+  MODEL            REQUESTS  AI_UNITS  COST_ESTIMATED
+  gpt-6-sol           6,725  2296.597               -
+  claude-sonnet-5     2,730  1113.135               -
+  qwen4-coder-32b     2,206     0.000               -
+  claude-opus-5       2,161  2894.373         558.124
+  gpt-6-mini          1,258   100.627          25.353
+  total              16,397  6495.393         624.941
+
+  Figures named _estimated are the proxy's estimates, not measurements or bills.</code></pre>
+<p><code>--limit</code> keeps the biggest groups by request count. A local model reports no AI units (<code>0.000</code>), and a provider
+without list prices has no <code>cost_estimated</code> (<code>-</code>).</p>
+<h3 id="prompt-cache-hit-rate-by-tool">Prompt-cache hit rate by tool <a class="anchor" href="#prompt-cache-hit-rate-by-tool" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-text">$ maple-proxy usage query --last 7d --group-by agent --metrics requests,hit_rate,cached_tokens,lost
+Usage  (last=7d)
+  AGENT          REQUESTS  HIT_RATE  CACHED_TOKENS  LOST
+  maple-harness     1,167     62.7%          25.1M    53
+  claude-code       1,112     63.5%          39.9M    67
+  other               684     60.6%          16.6M    51
+  opencode            183     60.0%           6.3M     8
+  total             3,146     62.5%            88M   179</code></pre>
+<p><code>hit_rate</code> is the share of input tokens read from the provider's prompt cache; <code>lost</code> counts requests whose cache was
+lost. Why a cache missed: <a href="observability.html#why-the-cache-missed">Why the cache missed</a>.</p>
+<h3 id="errors-by-provider-in-the-last-24-hours">Errors by provider in the last 24 hours <a class="anchor" href="#errors-by-provider-in-the-last-24-hours" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-text">$ maple-proxy usage query --last 24h --outcome error --group-by provider,error_class --metrics requests
+Usage  (last=24h0m0s&amp;outcome=error)
+  PROVIDER             ERROR_CLASS        REQUESTS
+  github-copilot       quota exhausted           3
+  github-copilot       request too large         3
+  anthropic            unreachable               2
+  github-copilot       server error              2
+  anthropic            quota exhausted           1
+  anthropic            rate limited              1
+  apple                rate limited              1
+  github-copilot       canceled                  1
+  github-copilot       not authorised            1
+  github-copilot       overloaded                1
+  github-copilot       unreachable               1
+  github-copilot-work  server error              1
+  total                                         18</code></pre>
+<p><code>--last 24h</code> is a rolling window; <code>--last 1d</code> would be today since midnight UTC. The Health tab and
+<a href="health.html">Provider health</a> show the same over time.</p>
+<h3 id="fallbacks-and-why">Fallbacks, and why <a class="anchor" href="#fallbacks-and-why" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-text">$ maple-proxy usage query --last 7d --outcome fallback --group-by route_reason --metrics requests,ai_units
+Usage  (last=7d&amp;outcome=fallback)
+  ROUTE_REASON              REQUESTS  AI_UNITS
+  fallback:overloaded             22    16.024
+  fallback:rate limited           18    11.170
+  fallback:quota exhausted        14     3.961
+  total                           54    31.155</code></pre>
+<p>Each line is a request a fallback answered; <code>route_reason</code> names the class of error that sent it there. Add <code>model</code>
+to <code>--group-by</code> to see which model stepped in.</p>
+<h3 id="what-auto-chose">What auto chose <a class="anchor" href="#what-auto-chose" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-text">$ maple-proxy usage query --last 7d --requested auto --group-by auto_weight,model --metrics requests,ai_units,error_rate
+Usage  (last=7d&amp;requested=auto)
+  AUTO_WEIGHT  MODEL            REQUESTS  AI_UNITS  ERROR_RATE
+  heavy        gpt-6-sol             182    61.953        4.4%
+  light        gpt-6-sol             143    49.017        2.1%
+  light        gpt-6-mini            139    13.099        3.6%
+  medium       gpt-6-sol             138    49.203        2.9%
+  medium       qwen4-coder-32b       118     0.000        3.4%
+  heavy        qwen4-coder-32b        67     0.000        3.0%
+  medium       claude-sonnet-5        60    20.833        8.3%
+  heavy        claude-sonnet-5        55    37.844        3.6%
+  light        claude-opus-5          52    52.643        0.0%
+  heavy        gpt-6-mini             43     7.469        2.3%
+  light        claude-sonnet-5        40    22.091        2.5%
+  heavy        claude-haiku-5         19     3.188        0.0%
+  heavy        claude-opus-5          17    10.123        5.9%
+  total                            1,073   327.464        3.4%</code></pre>
+<p><code>maple-proxy usage auto-report</code> and <a href="observability.html#how-auto-did">How auto did</a> go further.</p>
+<h3 id="a-roll-up-per-hub">A roll-up per hub <a class="anchor" href="#a-roll-up-per-hub" aria-label="Link to this heading">#</a></h3>
+<p>On a top hub with <a href="chaining.html">proxies below it</a>, by the proxy each request started on:</p>
+<pre><code class="language-text">$ maple-proxy usage query --group-by origin_proxy --metrics client_requests,requests,ai_units_spent
+Usage  (all requests)
+  ORIGIN_PROXY  CLIENT_REQUESTS  REQUESTS  AI_UNITS_SPENT
+  alice-laptop               15        34           4.950
+  platform-hub                8        16           2.640
+  top-hub                     4         4           1.320
+  total                      27        54           8.910
+
+  Includes the usage children sent up. requests counts lines, one per proxy a request passed through; client_requests counts each request once, and ai_units_spent and cost_estimated_spent count spend once, where it was spent.</code></pre>
+<p>Use <code>client_requests</code> and <code>ai_units_spent</code> to count each request and its spend once; <code>requests</code> counts a line on every
+proxy a request passed through. Add <code>person</code> to <code>--group-by</code> for who asked.</p>
+<h2 id="with-duckdb">With DuckDB <a class="anchor" href="#with-duckdb" aria-label="Link to this heading">#</a></h2>
+<p>The same records, in plain SQL. Each source below gives you a <code>usage</code> table or view and the
+<a href="usage-export.html#named-views">named views</a> (<code>maple.requests</code>, <code>maple.daily_spend</code>, <code>maple.sessions</code>, <code>maple.people</code>
+and the rest), so a query written for one works on the others.</p>
+<h3 id="the-daily-files">The daily files <a class="anchor" href="#the-daily-files" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-sh">maple-proxy usage schema --format sql --views &gt; maple.sql
+duckdb -cmd ".read maple.sql"</code></pre>
+<p>Spend by provider, week by week (saved as <code>weekly-provider.sql</code>):</p>
+<pre><code class="language-sql">SELECT date_trunc('week', day)::DATE AS week, provider,
+       sum(requests) AS requests, round(sum(ai_units), 1) AS ai_units
+FROM maple.daily_spend
+WHERE day &gt;= DATE '2026-09-21' AND day &lt; DATE '2026-10-05'
+GROUP BY ALL
+ORDER BY week, ai_units DESC;</code></pre>
+<pre><code class="language-text">$ duckdb -table -cmd ".read maple.sql" -f weekly-provider.sql
++------------+---------------------+----------+----------+
+|    week    |      provider       | requests | ai_units |
++------------+---------------------+----------+----------+
+| 2026-09-21 | github-copilot      | 1764     | 653.2    |
+| 2026-09-21 | anthropic           | 406      | 553.5    |
+| 2026-09-21 | github-copilot-work | 385      | 121.0    |
+| 2026-09-21 | openai              | 323      | 26.7     |
+| 2026-09-21 | openrouter          | 62       | 2.2      |
+| 2026-09-21 | apple               | 103      | 0.0      |
+| 2026-09-21 | ollama              | 983      | 0.0      |
+| 2026-09-28 | anthropic           | 811      | 732.5    |
+| 2026-09-28 | github-copilot      | 1964     | 668.0    |
+| 2026-09-28 | github-copilot-work | 273      | 99.3     |
+| 2026-09-28 | openai              | 410      | 31.5     |
+| 2026-09-28 | openrouter          | 65       | 4.6      |
+| 2026-09-28 | ollama              | 342      | 0.0      |
+| 2026-09-28 | apple               | 119      | 0.0      |
++------------+---------------------+----------+----------+</code></pre>
+<p>The cache hit rate by tool, counted in requests rather than tokens (saved as <code>cache-by-tool.sql</code>):</p>
+<pre><code class="language-sql">SELECT agent,
+       count(*) FILTER (WHERE cache_class = 'hit') AS hits,
+       count(*) FILTER (WHERE cache_class IN ('hit', 'partial', 'miss', 'lost')) AS classified,
+       round(100.0 * hits / classified, 1) AS hit_pct
+FROM maple.requests
+WHERE day &gt;= DATE '2026-10-02'
+GROUP BY agent
+ORDER BY classified DESC;</code></pre>
+<pre><code class="language-text">$ duckdb -table -cmd ".read maple.sql" -f cache-by-tool.sql
++---------------+------+------------+---------+
+|     agent     | hits | classified | hit_pct |
++---------------+------+------------+---------+
+| claude-code   | 635  | 1063       | 59.7    |
+| maple-harness | 518  | 907        | 57.1    |
+| other         | 392  | 698        | 56.2    |
+| opencode      | 292  | 490        | 59.6    |
++---------------+------+------------+---------+</code></pre>
+<p>Over many months the daily files are many files; <code>maple-proxy usage compact</code> packs them into one Parquet file per
+month, and <code>--source parquet-monthly</code> makes the same views over those
+(<a href="observability.html#lots-of-history-use-the-duckdb-file-or-monthly-parquet">Lots of history?</a>).</p>
+<h3 id="the-duckdb-file">The DuckDB file <a class="anchor" href="#the-duckdb-file" aria-label="Link to this heading">#</a></h3>
+<p><code>maple-proxy usage duckdb</code> loads the daily files into one DuckDB file and, run again, adds only what they gained:</p>
+<pre><code class="language-text">$ maple-proxy usage duckdb
+/home/demo/.config/maple-harness/usage/analytics/maple_usage.duckdb: 68,469 request row(s), 0 event row(s); loaded 68,469 new line(s) from 120 daily file(s) in 636ms
+query it: duckdb /home/demo/.config/maple-harness/usage/analytics/maple_usage.duckdb -c "SELECT * FROM maple.daily_spend ORDER BY day DESC LIMIT 20"</code></pre>
+<p>The two biggest models of each month (saved as <code>monthly-model.sql</code>):</p>
+<pre><code class="language-sql">SELECT date_trunc('month', day)::DATE AS month, model,
+       sum(requests) AS requests, round(sum(ai_units), 1) AS ai_units
+FROM maple.daily_spend
+GROUP BY month, model
+QUALIFY row_number() OVER (PARTITION BY month ORDER BY sum(ai_units) DESC) &lt;= 2
+ORDER BY month, ai_units DESC;</code></pre>
+<pre><code class="language-text">$ duckdb -table -readonly ~/.config/maple-harness/usage/analytics/maple_usage.duckdb -f monthly-model.sql
++------------+-----------------+----------+----------+
+|   month    |      model      | requests | ai_units |
++------------+-----------------+----------+----------+
+| 2026-07-01 | claude-opus-5   | 1077     | 1374.1   |
+| 2026-07-01 | claude-sonnet-5 | 3310     | 1355.3   |
+| 2026-08-01 | claude-opus-5   | 1825     | 2752.9   |
+| 2026-08-01 | gpt-6-sol       | 6343     | 2150.7   |
+| 2026-09-01 | claude-opus-5   | 2013     | 2660.0   |
+| 2026-09-01 | gpt-6-sol       | 6813     | 2292.6   |
+| 2026-10-01 | claude-opus-5   | 647      | 901.7    |
+| 2026-10-01 | gpt-6-sol       | 1906     | 639.5    |
++------------+-----------------+----------+----------+</code></pre>
+<p>July starts part way through: the DuckDB file follows the daily files, and the 90-day cleanup had deleted the days
+before July 11. <code>-readonly</code> lets you query it while the proxy's daily refresh might write to it.</p>
+<h3 id="the-lake">The lake <a class="anchor" href="#the-lake" aria-label="Link to this heading">#</a></h3>
+<p>Attach it read-only (<a href="data-lake.html#query-it">how</a>), and the same query reaches back past the cleanup:</p>
+<pre><code class="language-text">$ duckdb -table -cmd ".read lake.sql" -f monthly-model.sql
++------------+-----------------+----------+----------+
+|   month    |      model      | requests | ai_units |
++------------+-----------------+----------+----------+
+| 2026-06-01 | claude-opus-5   | 1259     | 1724.4   |
+| 2026-06-01 | gpt-6-sol       | 3982     | 1232.7   |
+| 2026-07-01 | claude-opus-5   | 1731     | 2241.6   |
+| 2026-07-01 | claude-sonnet-5 | 4781     | 2000.4   |
+| 2026-08-01 | claude-opus-5   | 1825     | 2752.9   |
+| 2026-08-01 | gpt-6-sol       | 6343     | 2150.7   |
+| 2026-09-01 | claude-opus-5   | 2013     | 2660.0   |
+| 2026-09-01 | gpt-6-sol       | 6813     | 2292.6   |
+| 2026-10-01 | claude-opus-5   | 647      | 901.7    |
+| 2026-10-01 | gpt-6-sol       | 1906     | 639.5    |
++------------+-----------------+----------+----------+</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/data-lake-duckdb-light.webp" alt="A DuckDB session attached to the lake read-only: the snapshots that inserted rows (2, 4 and 9), the lake at version 2 with 67,720 requests up to 2026-10-07 against 68,469 up to 2026-10-08 now, and requests and AI units per month from June to October." width="1000" height="515" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/data-lake-duckdb-dark.webp" alt="A DuckDB session attached to the lake read-only: the snapshots that inserted rows (2, 4 and 9), the lake at version 2 with 67,720 requests up to 2026-10-07 against 68,469 up to 2026-10-08 now, and requests and AI units per month from June to October." width="1000" height="515" loading="lazy" decoding="async">
+<figcaption>The lake in DuckDB: its snapshots, the lake as it was at one of them, and history from before the 90-day cleanup.</figcaption>
+</figure>
+<p>Time travel: the same table as it was at an earlier snapshot (saved as <code>then-and-now.sql</code>; list the snapshots with
+<code>FROM maple_lake.snapshots()</code>):</p>
+<pre><code class="language-sql">SELECT 'version 2' AS lake, count(*) AS requests, max("at")::DATE AS newest_day FROM main.usage AT (VERSION =&gt; 2)
+UNION ALL
+SELECT 'now', count(*), max("at")::DATE FROM main.usage;</code></pre>
+<pre><code class="language-text">$ duckdb -table -cmd ".read lake.sql" -f then-and-now.sql
++-----------+----------+------------+
+|   lake    | requests | newest_day |
++-----------+----------+------------+
+| version 2 | 67720    | 2026-10-07 |
+| now       | 68469    | 2026-10-08 |
++-----------+----------+------------+</code></pre>
+<p>More on snapshots: <a href="data-lake.html#time-travel-and-snapshots">Time travel and snapshots</a>.</p>
+<h3 id="postgresql">PostgreSQL <a class="anchor" href="#postgresql" aria-label="Link to this heading">#</a></h3>
+<p>In central mode, two ways to read the shared PostgreSQL from DuckDB, both read-only. Use a role that can only read
+(<a href="data-lake.html#read-only-access-for-analysts">the grants</a>).</p>
+<p><strong>The named views over PostgreSQL.</strong> The connection string stays in an environment variable and is read when you
+query; it is never written into the SQL:</p>
+<pre><code class="language-sh">export MAPLE_POSTGRES_DSN='postgres://analyst@db.example:5432/maple?sslmode=require'
+export PGPASSWORD='...'      # kept out of the connection string
+maple-proxy usage schema --source postgres --dsn-env MAPLE_POSTGRES_DSN --views &gt; maple-pg.sql</code></pre>
+<p>Spend by person per week for one team (saved as <code>weekly-person.sql</code>):</p>
+<pre><code class="language-sql">SELECT date_trunc('week', day)::DATE AS week, person, team,
+       sum(requests) AS requests, round(sum(ai_units), 1) AS ai_units
+FROM maple.daily_spend
+WHERE team = 'platform' AND day &gt;= DATE '2026-09-21' AND day &lt; DATE '2026-10-05'
+GROUP BY ALL
+ORDER BY week, ai_units DESC;</code></pre>
+<pre><code class="language-text">$ duckdb -table -cmd ".read maple-pg.sql" -f weekly-person.sql
++------------+--------+----------+----------+----------+
+|    week    | person |   team   | requests | ai_units |
++------------+--------+----------+----------+----------+
+| 2026-09-21 | bob    | platform | 1103     | 588.6    |
+| 2026-09-21 | lena   | platform | 1408     | 529.8    |
+| 2026-09-21 | kai    | platform | 1012     | 373.9    |
+| 2026-09-28 | kai    | platform | 1338     | 648.8    |
+| 2026-09-28 | lena   | platform | 1274     | 429.1    |
+| 2026-09-28 | bob    | platform | 1355     | 298.4    |
++------------+--------+----------+----------+----------+</code></pre>
+<p><strong>ATTACH, for your own SQL</strong> over the typed view <code>maple_usage_rows</code> (every usage column). The password comes from
+<code>PGPASSWORD</code>, so it is not in the file (saved as <code>attach-pg.sql</code>):</p>
+<pre><code class="language-sql">ATTACH 'host=127.0.0.1 port=25432 dbname=maple user=analyst' AS live (TYPE postgres, READ_ONLY);
+SELECT provider, error_class, count(*) AS errors
+FROM live.public.maple_usage_rows
+WHERE error_class IS NOT NULL AND "at" &gt;= TIMESTAMPTZ '2026-10-08 00:00:00+00'
+GROUP BY ALL
+ORDER BY errors DESC
+LIMIT 5;</code></pre>
+<pre><code class="language-text">$ duckdb -table -f attach-pg.sql
++----------------+-----------------+--------+
+|    provider    |   error_class   | errors |
++----------------+-----------------+--------+
+| github-copilot | server error    | 14     |
+| github-copilot | quota exhausted | 9      |
+| github-copilot | overloaded      | 8      |
+| github-copilot | unreachable     | 7      |
+| github-copilot | canceled        | 6      |
++----------------+-----------------+--------+</code></pre>
+<p>PostgreSQL holds only <code>storage.retention_days</code>; for anything older, query <a href="#the-lake">the lake</a>. Reading PostgreSQL
+through these views is slower than reading the lake, and every query is work for the live database: for long ranges
+and dashboards, prefer the lake.</p>
+<h2 id="into-a-spreadsheet">Into a spreadsheet <a class="anchor" href="#into-a-spreadsheet" aria-label="Link to this heading">#</a></h2>
+<p><strong>A summary as CSV.</strong> Any <code>usage query</code> prints CSV with <code>--format csv</code>; the notes go to the terminal, not the file:</p>
+<pre><code class="language-text">$ maple-proxy usage query --since 2026-09-01 --until 2026-10-01 --group-by day,provider --metrics requests,ai_units,cost_estimated --format csv &gt; september.csv
+note: Figures named _estimated are the proxy's estimates, not measurements or bills.
+$ head -4 september.csv
+day,provider,requests,ai_units,cost_estimated
+2026-09-01,github-copilot,447,189.95708199999996,
+2026-09-01,anthropic,115,91.76395600000001,16.934755000000003
+2026-09-01,ollama,27,0,</code></pre>
+<p><strong>Every request as CSV</strong> (or Parquet), with every column of the <a href="usage-export.html#the-usage-record-schema">usage record</a>:</p>
+<pre><code class="language-text">$ maple-proxy usage export --format csv --since 2026-09-01 --until 2026-10-01 --out usage-september.csv
+wrote 17211 request(s) from 91 file(s) to usage-september.csv</code></pre>
+<p><strong>An Excel file from DuckDB</strong>, from any source above. DuckDB's <code>excel</code> extension writes <code>.xlsx</code> (<code>INSTALL excel</code>
+once). From the lake, a daily summary over its whole history (saved as <code>xlsx.sql</code>):</p>
+<pre><code class="language-sql">LOAD excel;
+COPY (
+  SELECT day, provider, model, sum(requests) AS requests, round(sum(ai_units), 3) AS ai_units
+  FROM maple.daily_spend
+  GROUP BY ALL
+  ORDER BY day, provider, model
+) TO 'daily-spend.xlsx' WITH (FORMAT xlsx, HEADER true);</code></pre>
+<pre><code class="language-sh">duckdb -cmd ".read lake.sql" -f xlsx.sql</code></pre>
+<p>Spreadsheets open the CSV and <code>.xlsx</code> files directly. The setup page's Usage data card also has an <strong>Export</strong> button
+for CSV or Parquet.</p>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="your-data.html">Your data</a>: where the data lives, and which store to use.</li><li><a href="data-lake.html">The Maple data lake</a>: set up the lake, on one machine or for a team.</li><li><a href="observability.html">See and filter your usage</a> and <a href="usage-export.html">Your usage data</a>: the filters, views, columns
+and Grafana.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/your-data.html" rel="prev"><small>Previous</small>Your data: where it lives and how to query it</a><a class="next" href="../docs/data-lake.html" rel="next"><small>Next</small>The Maple data lake (DuckLake)</a></div><div class="mset m-teams"><a class="prev" href="../docs/your-data.html" rel="prev"><small>Previous</small>Your data: where it lives and how to query it</a><a class="next" href="../docs/data-lake.html" rel="next"><small>Next</small>The Maple data lake (DuckLake)</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#before-you-start">Before you start</a></li><li><a href="#with-usage-query">With usage query</a><ol><li><a href="#spend-by-person-this-week">Spend by person this week</a></li><li><a href="#top-models-by-cost">Top models by cost</a></li><li><a href="#prompt-cache-hit-rate-by-tool">Prompt-cache hit rate by tool</a></li><li><a href="#errors-by-provider-in-the-last-24-hours">Errors by provider in the last 24 hours</a></li><li><a href="#fallbacks-and-why">Fallbacks, and why</a></li><li><a href="#what-auto-chose">What auto chose</a></li><li><a href="#a-roll-up-per-hub">A roll-up per hub</a></li></ol></li><li><a href="#with-duckdb">With DuckDB</a><ol><li><a href="#the-daily-files">The daily files</a></li><li><a href="#the-duckdb-file">The DuckDB file</a></li><li><a href="#the-lake">The lake</a></li><li><a href="#postgresql">PostgreSQL</a></li></ol></li><li><a href="#into-a-spreadsheet">Into a spreadsheet</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img">
+<title>Where your data lives for a team</title>
+<desc>For a team running several copies of maple-proxy behind one address, every copy writes its usage into one shared PostgreSQL, which keeps the recent days for the live views, budgets and usage query. Once an hour a job copies what arrived into a DuckLake, whose catalog is a schema of the same PostgreSQL and whose data files are on a volume or in S3; the lake keeps the whole history. Redis holds sessions and caches, not usage. Analysts read PostgreSQL and the lake with a read-only role.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="520" fill="#FFFFFF"/>
+<text x="30" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">The proxies</text>
+<text x="342" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">Live data</text>
+<text x="672" y="36" font-size="13" fill="#5E504A" font-weight="700" text-anchor="start" class="sans">History</text>
+<rect x="30" y="56" width="250" height="66" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="84" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="46" y="108" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">copy 1 of the same proxy</text>
+<path d="M280 89 L340 141" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="142" width="250" height="66" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="170" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="46" y="194" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">copy 2 of the same proxy</text>
+<path d="M280 175 L340 141" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="228" width="250" height="66" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="256" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="46" y="280" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">copy 3 of the same proxy</text>
+<path d="M280 261 L340 141" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="330" width="250" height="66" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="48" y="358" font-size="15" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Redis</text>
+<text x="48" y="380" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">sessions and caches, no usage</text>
+<rect x="342" y="56" width="260" height="190" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<text x="362" y="86" font-size="17" fill="#231A16" font-weight="700" text-anchor="start" class="sans">PostgreSQL</text>
+<text x="362" y="112" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">every copy&#x27;s usage and events</text>
+<text x="362" y="136" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">budgets, people, settings</text>
+<text x="362" y="172" font-size="13.5" fill="#231A16" font-weight="400" text-anchor="start" class="sans">keeps the recent days:</text>
+<text x="362" y="194" font-size="13.5" fill="#231A16" font-weight="400" text-anchor="start" class="mono">storage.retention_days</text>
+<text x="362" y="226" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">default: 90</text>
+<path d="M602 141 L670 141" fill="none" stroke="#2C6A78" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#h-down)"/>
+<rect x="672" y="56" width="260" height="260" rx="12" fill="#FFFFFF" stroke="#2C6A78" stroke-width="2"/>
+<text x="690" y="86" font-size="17" fill="#231A16" font-weight="700" text-anchor="start" class="sans">DuckLake</text>
+<text x="690" y="112" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">the whole history</text>
+<text x="690" y="146" font-size="13.5" fill="#231A16" font-weight="600" text-anchor="start" class="sans">copied in once an hour</text>
+<text x="690" y="180" font-size="13.5" fill="#231A16" font-weight="600" text-anchor="start" class="sans">catalog:</text>
+<text x="690" y="202" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">a schema in PostgreSQL</text>
+<text x="690" y="236" font-size="13.5" fill="#231A16" font-weight="600" text-anchor="start" class="sans">data files:</text>
+<text x="690" y="258" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Parquet on a volume or in S3</text>
+<text x="690" y="294" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">never deleted by the copy</text>
+<rect x="342" y="420" width="590" height="76" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="362" y="450" font-size="15" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Analysts and dashboards</text>
+<text x="362" y="474" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">DuckDB, read-only: PostgreSQL for the recent days, the lake for history</text>
+<path d="M472 420 L472 248" fill="none" stroke="#5E504A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<path d="M802 420 L802 318" fill="none" stroke="#5E504A" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+</svg>

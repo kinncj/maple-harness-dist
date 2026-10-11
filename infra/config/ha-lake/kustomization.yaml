@@ -1,0 +1,9 @@
+# config/ha plus the usage history in a DuckLake (hourly moves, daily maintenance).
+#
+#   kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: maple
+resources:
+  - ../ha
+  - ../../manifest/maple-lake

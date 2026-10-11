@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img">
+<title>How usage data moves into the lake</title>
+<desc>Proxies below a hub send their usage lines up to the hub, which keeps them apart from its own. Once an hour a job copies every line the hub stored since the last copy into the DuckLake, in one batch, each line once, including lines that arrived late. The live store deletes its oldest days after its retention; the lake keeps them. Once a day, maintenance merges the small files the hourly copies left.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="520" fill="#FFFFFF"/>
+<rect x="30" y="56" width="230" height="84" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="84" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Laptop proxy</text>
+<text x="46" y="108" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">chain.parent: hub</text>
+<path d="M260 98 L318 120" fill="none" stroke="#3C6E2F" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-ok)"/>
+<rect x="30" y="166" width="230" height="84" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="46" y="194" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Team hub</text>
+<text x="46" y="218" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">chain.parent: hub</text>
+<path d="M260 208 L318 160" fill="none" stroke="#3C6E2F" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-ok)"/>
+<rect x="30" y="290" width="150" height="25" rx="12.5" fill="#FAF6F2" stroke="#3C6E2F" stroke-width="1"/>
+<text x="105" y="306" font-size="13" fill="#3C6E2F" font-weight="600" text-anchor="middle" class="sans">usage lines go up</text>
+<text x="30" y="344" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">A child that cannot reach</text>
+<text x="30" y="366" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">its parent keeps its lines</text>
+<text x="30" y="388" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">and sends them later</text>
+<rect x="320" y="56" width="260" height="236" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<text x="340" y="86" font-size="17" fill="#231A16" font-weight="700" text-anchor="start" class="sans">The hub&#x27;s live data</text>
+<text x="340" y="112" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">PostgreSQL, or its daily files</text>
+<text x="340" y="148" font-size="14" fill="#231A16" font-weight="400" text-anchor="start" class="sans">its own usage</text>
+<text x="340" y="172" font-size="14" fill="#231A16" font-weight="400" text-anchor="start" class="sans">usage sent up from below</text>
+<text x="340" y="208" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">oldest days deleted after</text>
+<text x="340" y="230" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">the retention you set</text>
+<path d="M580 150 L688 150" fill="none" stroke="#2C6A78" stroke-width="2.6" stroke-linejoin="round" marker-end="url(#h-down)"/>
+<rect x="585" y="112" width="98" height="25" rx="12.5" fill="#E2EFF1" stroke="#2C6A78" stroke-width="1"/>
+<text x="634" y="128" font-size="13" fill="#2C6A78" font-weight="600" text-anchor="middle" class="sans">every hour</text>
+<rect x="690" y="56" width="242" height="236" rx="12" fill="#FFFFFF" stroke="#2C6A78" stroke-width="2"/>
+<text x="708" y="86" font-size="17" fill="#231A16" font-weight="700" text-anchor="start" class="sans">The lake</text>
+<text x="708" y="112" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">the whole history</text>
+<text x="708" y="148" font-size="14" fill="#231A16" font-weight="400" text-anchor="start" class="sans">only adds, each line once</text>
+<text x="708" y="172" font-size="14" fill="#231A16" font-weight="400" text-anchor="start" class="sans">late lines are not missed</text>
+<text x="708" y="208" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">a copy cut short is safe</text>
+<text x="708" y="230" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">to run again</text>
+<rect x="320" y="330" width="612" height="44" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<circle cx="344" cy="352" r="12" fill="#2C6A78"/>
+<text x="344" y="357" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">1</text>
+<text x="368" y="358" font-size="15" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Hourly</text>
+<text x="470" y="358" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">lines stored since the last copy go in, in one batch</text>
+<rect x="320" y="386" width="612" height="44" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<circle cx="344" cy="408" r="12" fill="#2C6A78"/>
+<text x="344" y="413" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">2</text>
+<text x="368" y="414" font-size="15" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Daily</text>
+<text x="470" y="414" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">maintenance merges small files and expires old snapshots</text>
+<rect x="320" y="442" width="612" height="44" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<circle cx="344" cy="464" r="12" fill="#5E504A"/>
+<text x="344" y="469" font-size="14" fill="#FFFFFF" font-weight="700" text-anchor="middle" class="sans">3</text>
+<text x="368" y="470" font-size="15" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Any time</text>
+<text x="470" y="470" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">query the live data, the lake, or both, read-only</text>
+</svg>

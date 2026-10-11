@@ -1,0 +1,17 @@
+# Only the proxy (and the lake jobs) may reach PostgreSQL: anyone who can write its tables can
+# change budgets, settings and tokens of every replica.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: postgres}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/name: maple-proxy}
+        - podSelector:
+            matchLabels: {app.kubernetes.io/name: maple-lake}
+      ports: [{port: 5432}]

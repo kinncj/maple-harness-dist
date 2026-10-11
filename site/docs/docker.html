@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Run the proxy in Docker · Maple Harness docs</title>
+<meta name="description" content="This page runs maple-proxy in a container: one container with everything it keeps on one volume, and, when one is not enough, three replicas sharing PostgreSQL and Redis behind a load balancer. The fi">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html" aria-current="page">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html" aria-current="page">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">Run the proxy in Docker</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">Run the proxy in Docker</li></ol></div></nav>
+<article>
+<h1 id="run-the-proxy-in-docker">Run the proxy in Docker <a class="anchor" href="#run-the-proxy-in-docker" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-you-get">What you get</a></li><li><a href="#step-1-build-the-image">Step 1: build the image</a></li><li><a href="#step-2-run-one-container">Step 2: run one container</a><ol><li><a href="#what-a-start-looks-like">What a start looks like</a></li></ol></li><li><a href="#settings-and-providers">Settings and providers</a></li><li><a href="#health-checks-and-stopping">Health checks and stopping</a></li><li><a href="#logs">Logs</a></li><li><a href="#images-and-memory">Images and memory</a></li><li><a href="#search-by-meaning">Search by meaning</a></li><li><a href="#several-replicas-composehayaml">Several replicas: <code>compose.ha.yaml</code></a></li><li><a href="#the-mcp-hub-in-a-container">The MCP hub in a container</a></li><li><a href="#upgrading-and-backups">Upgrading and backups</a></li></ol></details>
+
+<p>This page runs <code>maple-proxy</code> in a container: one container with everything it keeps on one volume, and, when one is
+not enough, three replicas sharing PostgreSQL and Redis behind a load balancer. The files it uses are samples in the
+<code>infra/</code> folder of the <a href="https://github.com/kinncj/maple-harness-dist/tree/main/infra" rel="noopener noreferrer">public repository</a>: copy them
+and change what you need.</p>
+<p><strong>On your own machine you do not need any of this.</strong> The proxy installs as one program and runs as a
+<a href="proxy-service.html">background service</a>. A container helps when the proxy runs on a server, next to other services,
+or for a team.</p>
+<h2 id="what-you-get">What you get <a class="anchor" href="#what-you-get" aria-label="Link to this heading">#</a></h2>
+<figure>
+<img class="shot shot-light" src="../img/docs/deploy-single-light.svg" alt="Tools on your machine or network send requests with an access token to one maple-proxy container. Everything it keeps, its settings, access tokens, usage log and downloaded models, is on one volume mounted at /data. Provider keys and client tokens come from mounted secrets. The proxy sends requests on to GitHub Copilot, Anthropic or a model server." width="960" height="380" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/deploy-single-dark.svg" alt="Tools on your machine or network send requests with an access token to one maple-proxy container. Everything it keeps, its settings, access tokens, usage log and downloaded models, is on one volume mounted at /data. Provider keys and client tokens come from mounted secrets. The proxy sends requests on to GitHub Copilot, Anthropic or a model server." width="960" height="380" loading="lazy" decoding="async">
+<figcaption>One container, its state on one volume.</figcaption>
+</figure>
+<ul><li><strong>The released binary, verified.</strong> No image is published: you build one from a release. The build downloads
+<code>maple-proxy</code> for your architecture from the release, checks it against the release's <code>SHA256SUMS</code> (and, for a
+signed release, that file's signature against the project's release key, as the installer does), and refuses
+anything else. Nothing is compiled.</li><li><strong>A small, locked-down image.</strong> One static binary and its licences on a distroless base: no shell, no package
+manager, a non-root user, and a read-only root file system. Everything the proxy writes goes under <code>/data</code>.</li><li><strong>Configured from the environment.</strong> Listen addresses, the config path, logs and secrets come from variables and
+mounted files, so the same image serves a container and a Kubernetes pod.</li><li><strong>A health check, a clean stop and JSON logs.</strong> <code>maple-proxy healthcheck</code> is the image's <code>HEALTHCHECK</code>; a stop
+finishes running requests first; logs are one JSON object per line on standard output.</li></ul>
+<p>The Apple on-device model is macOS only: it is not available in a container.</p>
+<h2 id="step-1-build-the-image">Step 1: build the image <a class="anchor" href="#step-1-build-the-image" aria-label="Link to this heading">#</a></h2>
+<p>You need Docker with Buildx. Get the samples and build, naming a published release:</p>
+<pre><code class="language-sh">git clone --depth 1 https://github.com/kinncj/maple-harness-dist.git
+cd maple-harness-dist/infra/docker
+docker buildx build --build-arg MAPLE_VERSION=v2.0.0 -t maple-proxy:2.0.0 --load .</code></pre>
+<p>For several architectures, pushed to your own registry:</p>
+<pre><code class="language-sh">docker buildx build --build-arg MAPLE_VERSION=v2.0.0 \
+  --platform linux/amd64,linux/arm64 \
+  -t registry.example.com/you/maple-proxy:2.0.0 --push .</code></pre>
+<p><code>MAPLE_VERSION</code> is required, so an image is always one known release. If a checksum or the signature does not
+match, the build stops with the reason and no image is made. For builds that come out the same every time, pin the
+two base images in the <code>Dockerfile</code> by digest.</p>
+<h2 id="step-2-run-one-container">Step 2: run one container <a class="anchor" href="#step-2-run-one-container" aria-label="Link to this heading">#</a></h2>
+<p>Make a token for your tools, then start it with the sample <code>compose.yaml</code>:</p>
+<pre><code class="language-sh">mkdir -p secrets
+printf 'laptop=%s\n' "$(openssl rand -hex 24)" &gt; secrets/proxy_tokens
+MAPLE_VERSION=v2.0.0 docker compose up -d</code></pre>
+<p>Each line of <code>secrets/proxy_tokens</code> is <code>label=value</code>. The proxy adds each one as an access token with the <code>proxy</code>
+scope at start (once: a token already there is left as it is). Your tools then use it with <code>mh_</code> in front:</p>
+<pre><code class="language-sh">export OPENAI_BASE_URL=http://127.0.0.1:11535/v1
+export OPENAI_API_KEY="mh_$(cut -d= -f2 secrets/proxy_tokens)"</code></pre>
+<p>The ports are published on <code>127.0.0.1</code> only. To reach the proxy from other machines, publish them on an address of
+your network and put it behind HTTPS (see <a href="security.html">Security</a>).</p>
+<p>Without Compose, the same thing:</p>
+<pre><code class="language-sh">docker volume create maple-data
+docker run -d --name maple-proxy --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --tmpfs /tmp -v maple-data:/data \
+  -v "$PWD/secrets/proxy_tokens:/run/secrets/maple/access.proxy_tokens:ro" \
+  -p 127.0.0.1:11535:11535 -p 127.0.0.1:11537:11537 \
+  maple-proxy:2.0.0</code></pre>
+<h3 id="what-a-start-looks-like">What a start looks like <a class="anchor" href="#what-a-start-looks-like" aria-label="Link to this heading">#</a></h3>
+<p>These lines are from a real start of the binary in a sandbox set up like the container (on other ports; a few lines left out):</p>
+<pre><code class="language-text">$ docker logs maple-proxy
+{"time":"2026-10-09T03:14:25.676Z","level":"INFO","msg":"no config found at /data/config/maple-harness/config.yaml — created a starter config","component":"proxy"}
+{"time":"2026-10-09T03:14:25.676Z","level":"INFO","msg":"starting maple-proxy 2.0.0 (87a4a90d29df) go1.27.0-X:nodwarf5 linux/amd64 built 2026-10-08T15:30:37Z storage=disk gomaxprocs=4","storage":"disk","component":"proxy"}
+{"time":"2026-10-09T03:14:25.676Z","level":"INFO","msg":"secrets are kept in /run/secrets/maple and MAPLE_SECRET_* variables (read-only), else /data/config/maple-harness/secrets.json (chosen with MAPLE_SECRETS_BACKEND)","storage":"disk","component":"proxy"}
+{"time":"2026-10-09T03:14:25.676Z","level":"INFO","msg":"1 access token(s) added from the mounted secrets","storage":"disk","component":"proxy"}
+{"time":"2026-10-09T03:14:25.677Z","level":"INFO","msg":"OpenAI-compatible surface listening on 127.0.0.1:23535","storage":"disk","component":"proxy"}
+$ docker exec maple-proxy maple-proxy healthcheck
+healthy</code></pre>
+<h2 id="settings-and-providers">Settings and providers <a class="anchor" href="#settings-and-providers" aria-label="Link to this heading">#</a></h2>
+<p>The proxy keeps <code>config.yaml</code> on the volume, at <code>/data/config/maple-harness/config.yaml</code>, and makes a starter one the
+first time. Provider keys belong in secrets, never in the image or in <code>config.yaml</code>:</p>
+<ul><li>mount each secret as a file in <code>/run/secrets/maple/</code>, named after the secret with <code>/</code> written as <code>.</code>: the key
+of the provider <code>openai</code> is <code>provider/openai/api_key</code>, so the file is <code>provider.openai.api_key</code>;</li><li>or set it as a variable: <code>MAPLE_SECRET_PROVIDER_OPENAI_API_KEY</code>;</li><li>and refer to it in <code>config.yaml</code> as <code>${secret:provider/openai/api_key}</code>.</li></ul>
+<p>A mounted secret is read-only: changing it on the setup page is refused with a note saying where it comes from.</p>
+<p>To edit <code>config.yaml</code>, copy it out and back (<code>docker cp</code>), or run the CLI inside the container:</p>
+<pre><code class="language-sh">docker exec maple-proxy maple-proxy secrets status
+docker exec maple-proxy maple-proxy usage status</code></pre>
+<p>The setup page is served only on the container's own loopback address, as on a machine: it manages credentials and
+tokens, so it is never reachable from the network. On Linux, <code>--network host</code> makes it reachable from the host's
+browser at <code>http://127.0.0.1:11539</code>; otherwise, use <code>config.yaml</code> and the CLI.</p>
+<h2 id="health-checks-and-stopping">Health checks and stopping <a class="anchor" href="#health-checks-and-stopping" aria-label="Link to this heading">#</a></h2>
+<ul><li><code>GET /healthz</code> answers <code>ok</code> while the proxy runs; <code>GET /readyz</code> answers <code>ok</code> once providers are loaded (and, with
+shared storage, while PostgreSQL and Redis answer), and <code>not ready</code> otherwise. They say nothing more: no version,
+no reason. They answer without a token, only for <code>GET</code>, behind the same host-name checks as the rest.</li><li><code>maple-proxy healthcheck</code> asks <code>/readyz</code> of the proxy in the same container and exits 0 or 1 (<code>--live</code> asks
+<code>/healthz</code>). The image uses it as its <code>HEALTHCHECK</code>.</li><li>A stop (<code>docker stop</code>, SIGTERM) first turns <code>/readyz</code> to <code>not ready</code> for <code>MAPLE_DRAIN_DELAY</code> (5 seconds in a
+container), so a load balancer stops sending new requests, then stops taking connections and waits up to
+<code>MAPLE_SHUTDOWN_GRACE</code> (10 minutes in a container) for running requests, streams included, to finish. Give
+Docker as long: <code>stop_grace_period</code> in Compose, <code>--stop-timeout</code> with <code>docker run</code>.</li><li>During a long silence (a model thinking), a stream gets a keep-alive every 15 seconds, so a proxy or load balancer
+in between does not close it: an SSE comment on the OpenAI surface, a <code>ping</code> event on the Anthropic one. Clients
+ignore both. <code>MAPLE_SSE_KEEPALIVE</code> changes the interval (<code>0</code> turns it off).</li></ul>
+<h2 id="logs">Logs <a class="anchor" href="#logs" aria-label="Link to this heading">#</a></h2>
+<p>In the container, logs are JSON on standard output, one object per line:</p>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>What it is</th></tr></thead><tbody><tr><td><code>time</code></td><td>When, in UTC (RFC 3339, milliseconds)</td></tr><tr><td><code>level</code></td><td><code>DEBUG</code>, <code>INFO</code>, <code>WARN</code> or <code>ERROR</code></td></tr><tr><td><code>msg</code></td><td>What happened</td></tr><tr><td><code>component</code></td><td><code>proxy</code>, <code>access</code> (one line per request), <code>usage</code>, <code>events</code>, <code>health</code>, <code>chain</code> or <code>mcp-hub</code></td></tr><tr><td><code>storage</code>, <code>proxy_id</code>, <code>proxy_instance</code></td><td>How this proxy keeps its state, and which replica wrote the line</td></tr></tbody></table></div>
+<p>A request line (<code>component: access</code>) also has <code>surface</code>, <code>method</code>, <code>path</code>, <code>status</code>, <code>duration_ms</code>, <code>requested</code> (the
+name asked for), <code>model</code> and <code>provider</code> (what answered), <code>person</code> and <code>team</code> when <a href="teams.html">people</a> are set up,
+<code>token</code> (the access token's label, never the token), <code>request_id</code> (the same on every proxy a request passes
+through), <code>input_tokens</code>, <code>output_tokens</code>, <code>stream</code> and <code>cache</code>. Health probes are left out.</p>
+<p>Prompts and answers are never written to these logs, and anything shaped like a key or a token is written as
+<code>[redacted]</code>.</p>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Values</th></tr></thead><tbody><tr><td><code>log.format</code> or <code>MAPLE_<wbr>LOG_<wbr>FORMAT</code></td><td data-label="Values"><code>text</code> (the default on a machine) or <code>json</code> (the default in the image)</td></tr><tr><td><code>log.level</code> or <code>MAPLE_<wbr>LOG_<wbr>LEVEL</code></td><td data-label="Values"><code>debug</code>, <code>info</code> (the default), <code>warn</code> or <code>error</code></td></tr><tr><td><code>log.<wbr>usage_<wbr>lines</code> or <code>MAPLE_<wbr>LOG_<wbr>USAGE</code></td><td data-label="Values"><code>on</code> also writes each usage record and event as a JSON line (<code>component: usage</code> or <code>events</code>), for a log stack to collect. Off by default</td></tr></tbody></table></div>
+<p>Errors and everything else go to standard output alike, so <code>docker logs</code> shows them in order. To ship them, any
+collector that reads container logs works. With Vector:</p>
+<pre><code class="language-toml">[sources.maple]
+type = "docker_logs"
+include_containers = ["maple-proxy"]
+
+[transforms.parse]
+type = "remap"
+inputs = ["maple"]
+source = ". = parse_json!(.message)"
+
+[sinks.out]
+type = "loki"
+inputs = ["parse"]
+endpoint = "http://loki.example:3100"
+labels = { component = "{{ component }}", replica = "{{ proxy_instance }}" }</code></pre>
+<h2 id="images-and-memory">Images and memory <a class="anchor" href="#images-and-memory" aria-label="Link to this heading">#</a></h2>
+<p>Resizing an image (<code>image_resize_tool</code>, <code>image_resize_user</code>) decodes it in memory, about width × height × 4 bytes,
+and as much again for the result. In a container the proxy keeps this inside a share of the container's memory
+limit, so a burst of large screenshots cannot run it out of memory:</p>
+<ul><li><code>images.resize_memory</code> (or <code>MAPLE_IMAGES_RESIZE_MEMORY</code>): how much memory resizes may take at once, a share of the
+limit (<code>25%</code>, the default) or a size (<code>256MiB</code>). A resize waits for room, up to 30 seconds; as many run at once as
+the container has CPUs;</li><li><code>images.max_pixels</code> (or <code>MAPLE_IMAGES_MAX_PIXELS</code>): the largest image decoded at all; by default what that memory
+allows, at most 50 megapixels.</li></ul>
+<p>An image too large for the limit is sent on as it came, and the <code>X-Maple-Images</code> header says so. The proxy also sets
+Go's memory limit (<code>GOMEMLIMIT</code>) to 90% of the container's limit, unless you set it; the start line shows both. On a
+machine, none of this applies: images are resized as always.</p>
+<h2 id="search-by-meaning">Search by meaning <a class="anchor" href="#search-by-meaning" aria-label="Link to this heading">#</a></h2>
+<p>The built-in models for <a href="search-by-meaning.html">search by meaning</a> are downloaded the way they always are (the setup
+page, or <code>docker exec maple-proxy maple-proxy embeddings install</code>), into <code>/data/config/maple-harness/embeddings/</code> on
+the volume, so a download survives restarts and upgrades. <code>MAPLE_EMBEDDINGS_DIR</code> puts them on a volume of their
+own. Two proxies sharing one models folder never download the same model twice at once: the second waits and uses
+the first one's download, which is checked against its pinned checksums before it is moved into place. By
+downloading a model you accept its licence, shown by <code>embeddings list</code>.</p>
+<h2 id="several-replicas-composehayaml">Several replicas: <code>compose.ha.yaml</code> <a class="anchor" href="#several-replicas-composehayaml" aria-label="Link to this heading">#</a></h2>
+<p>When one proxy is not enough, or a restart must not interrupt anyone, <code>compose.ha.yaml</code> runs three replicas behind a
+load balancer (Caddy), sharing PostgreSQL and Redis. It is for trying the shared mode; the
+<a href="kubernetes.html">Kubernetes page</a> explains what it shares and how it behaves, and the same applies here.</p>
+<pre><code class="language-sh">mkdir -p secrets
+printf 'laptop=%s\n' "$(openssl rand -hex 24)" &gt; secrets/proxy_tokens
+openssl rand -hex 32 &gt; secrets/storage_key
+openssl rand -hex 24 &gt; secrets/postgres_password
+printf 'postgres://maple:%s@postgres:5432/maple?sslmode=disable' "$(cat secrets/postgres_password)" &gt; secrets/postgres_dsn
+openssl rand -hex 24 &gt; secrets/redis_password
+printf 'redis://:%s@redis:6379/0' "$(cat secrets/redis_password)" &gt; secrets/redis_url
+MAPLE_VERSION=v2.0.0 docker compose -f compose.ha.yaml up -d</code></pre>
+<p>Clients use <code>http://127.0.0.1:8080/v1</code> (OpenAI) or <code>http://127.0.0.1:8081</code> (Anthropic).</p>
+<p>With clients on other machines, give the load balancer a fixed address and set <code>MAPLE_TRUSTED_PROXIES</code> to it (the
+file has the line, commented out): the proxies then count each client's wrong tokens on their own, instead of refusing every
+client behind the balancer after one client's mistakes. See
+<a href="kubernetes.html#load-balancing">Load balancing</a>.</p>
+<h2 id="the-mcp-hub-in-a-container">The MCP hub in a container <a class="anchor" href="#the-mcp-hub-in-a-container" aria-label="Link to this heading">#</a></h2>
+<p>The image has no sandbox, so the <a href="mcp-hub.html">MCP hub</a> refuses to start a stdio server (a program it would run)
+there. Run each MCP server as a container of its own that serves MCP over HTTP, and add it to the hub by URL; see
+<a href="kubernetes.html#the-mcp-hub">The MCP hub</a> on the Kubernetes page for the pattern and the
+<code>mcp_hub.allow_uncontained_stdio</code> setting that overrides this, with its risk.</p>
+<h2 id="upgrading-and-backups">Upgrading and backups <a class="anchor" href="#upgrading-and-backups" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>One container:</strong> build the new release's image and start it on the same volume. Back up the volume (stop the
+container, or copy <code>/data</code> while it runs: the files are written whole).</li><li><strong>Several replicas:</strong> see <a href="kubernetes.html#upgrades">Upgrades</a> and <a href="kubernetes.html#backups">Backups</a>. Back up
+PostgreSQL; Redis holds nothing that must survive.</li></ul>
+<p>Read next: <a href="kubernetes.html">Kubernetes</a>, <a href="security.html">Security</a>, <a href="proxy-settings.html#containers-and-replicas">Proxy settings</a>.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/proxy-service.html" rel="prev"><small>Previous</small>Keep it running in the background</a><a class="next" href="../docs/mcp-hub.html" rel="next"><small>Next</small>MCP hub (experimental)</a></div><div class="mset m-teams"><a class="prev" href="../docs/proxy-service.html" rel="prev"><small>Previous</small>Keep it running in the background</a><a class="next" href="../docs/mcp-hub.html" rel="next"><small>Next</small>MCP hub (experimental)</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-you-get">What you get</a></li><li><a href="#step-1-build-the-image">Step 1: build the image</a></li><li><a href="#step-2-run-one-container">Step 2: run one container</a><ol><li><a href="#what-a-start-looks-like">What a start looks like</a></li></ol></li><li><a href="#settings-and-providers">Settings and providers</a></li><li><a href="#health-checks-and-stopping">Health checks and stopping</a></li><li><a href="#logs">Logs</a></li><li><a href="#images-and-memory">Images and memory</a></li><li><a href="#search-by-meaning">Search by meaning</a></li><li><a href="#several-replicas-composehayaml">Several replicas: <code>compose.ha.yaml</code></a></li><li><a href="#the-mcp-hub-in-a-container">The MCP hub in a container</a></li><li><a href="#upgrading-and-backups">Upgrading and backups</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

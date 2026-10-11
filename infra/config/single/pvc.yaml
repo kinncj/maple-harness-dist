@@ -1,0 +1,17 @@
+# Everything the proxy keeps (config.yaml, access tokens, the usage log, its views) and the
+# embedding models it downloads, on volumes that outlive the pod.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: maple-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 5Gi}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: maple-models
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 10Gi}}

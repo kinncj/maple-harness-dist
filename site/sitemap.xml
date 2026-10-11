@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/alerts-and-forecasts.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/bench.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/chaining.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/commands.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/configuration.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/cost.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/data-lake.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/docker.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/endpoints.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/getting-started.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/glossary.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/health.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/herdr.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/index.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/install.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/kubernetes.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/language-servers.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/license.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/mcp-hub.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/mcp.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/models.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/observability.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/other-tools.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/proof.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/proxy-service.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/proxy-settings.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/proxy.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/querying.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/remote-control.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/rpc.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/sandbox.html</loc></url>
@@ -27,8 +36,12 @@
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/security.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/sign-in.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/subagents.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/teams-and-hubs.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/teams.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/three-es.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/troubleshooting.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/upgrading-to-2.0.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/usage-export.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/your-data.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/</loc></url>
 </urlset>

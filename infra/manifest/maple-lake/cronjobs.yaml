@@ -1,0 +1,143 @@
+# Usage history for analysis in a DuckLake: the catalog in its own schema of the same PostgreSQL,
+# the data files on a volume (or S3). PostgreSQL stays the live database and keeps
+# storage.retention_days of usage; the lake keeps everything.
+#
+# The jobs run the official DuckDB image on SQL the proxy writes for you:
+#   maple-proxy usage lake --source postgres --dsn-env MAPLE_POSTGRES_DSN --catalog-dsn-env MAPLE_POSTGRES_DSN \
+#     --data-env MAPLE_LAKE_DATA_PATH --emit-sql move > sql/move.sql          # moves what PostgreSQL stored, hourly
+#   maple-proxy usage lake --catalog-dsn-env MAPLE_POSTGRES_DSN --data-env MAPLE_LAKE_DATA_PATH \
+#     --emit-sql maintain > sql/maintain.sql                                  # flushes, merges small files, expires old snapshots
+# (add --s3 to both when MAPLE_LAKE_DATA_PATH is an s3:// URL)
+# Generate both again after each upgrade of the proxy. Moving is idempotent: a run that is
+# interrupted or repeated adds nothing twice.
+# Each job ends by writing its status (time, rows moved, the lake's size) into maple_lake.status,
+# which the setup page's Data tab reads.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maple-lake-move
+spec:
+  # Hourly. More often means fresher history and more, smaller files to merge; less often the
+  # reverse. Keep it far more often than storage.retention_days.
+  schedule: "17 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 3000
+      template:
+        metadata:
+          labels: {app.kubernetes.io/name: maple-lake}
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            fsGroup: 65532
+            seccompProfile: {type: RuntimeDefault}
+          containers:
+            - name: duckdb
+              image: duckdb/duckdb:1.5.6
+              command: ["duckdb", "-bail", "-c", ".read /sql/move.sql"]
+              env:
+                - name: HOME
+                  value: /work
+                - name: MAPLE_POSTGRES_DSN
+                  valueFrom: {secretKeyRef: {name: maple-lake, key: postgres_dsn}}
+                # Where the lake's data files go: a folder on the volume below, or s3://bucket/prefix.
+                - name: MAPLE_LAKE_DATA_PATH
+                  value: /lake/data
+                # For S3: credentials from the Secret, or none at all with workload identity (IRSA on
+                # EKS, Workload Identity on GKE): DuckDB's credential chain finds them.
+                # - name: AWS_ACCESS_KEY_ID
+                #   valueFrom: {secretKeyRef: {name: maple-lake, key: aws_access_key_id}}
+                # - name: AWS_SECRET_ACCESS_KEY
+                #   valueFrom: {secretKeyRef: {name: maple-lake, key: aws_secret_access_key}}
+                # - {name: AWS_REGION, value: us-east-1}
+              resources:
+                requests: {cpu: 100m, memory: 256Mi}
+                limits: {memory: 2Gi}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: {drop: [ALL]}
+              volumeMounts:
+                - {name: sql, mountPath: /sql, readOnly: true}
+                - {name: lake, mountPath: /lake}
+                - {name: work, mountPath: /work}
+          volumes:
+            - name: sql
+              configMap: {name: maple-lake-sql}
+            - name: lake
+              persistentVolumeClaim: {claimName: maple-lake}
+            - name: work
+              emptyDir: {}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maple-lake-maintain
+spec:
+  # Daily, at a quiet hour: merges the small files the hourly moves leave, and removes what old
+  # snapshots no longer need.
+  schedule: "43 3 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 7200
+      template:
+        metadata:
+          labels: {app.kubernetes.io/name: maple-lake}
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            fsGroup: 65532
+            seccompProfile: {type: RuntimeDefault}
+          containers:
+            - name: duckdb
+              image: duckdb/duckdb:1.5.6
+              command: ["duckdb", "-bail", "-c", ".read /sql/maintain.sql"]
+              env:
+                - name: HOME
+                  value: /work
+                - name: MAPLE_POSTGRES_DSN
+                  valueFrom: {secretKeyRef: {name: maple-lake, key: postgres_dsn}}
+                # Where the lake's data files go: a folder on the volume below, or s3://bucket/prefix.
+                - name: MAPLE_LAKE_DATA_PATH
+                  value: /lake/data
+                # For S3: credentials from the Secret, or none at all with workload identity (IRSA on
+                # EKS, Workload Identity on GKE): DuckDB's credential chain finds them.
+                # - name: AWS_ACCESS_KEY_ID
+                #   valueFrom: {secretKeyRef: {name: maple-lake, key: aws_access_key_id}}
+                # - name: AWS_SECRET_ACCESS_KEY
+                #   valueFrom: {secretKeyRef: {name: maple-lake, key: aws_secret_access_key}}
+                # - {name: AWS_REGION, value: us-east-1}
+              resources:
+                requests: {cpu: 100m, memory: 256Mi}
+                limits: {memory: 2Gi}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: {drop: [ALL]}
+              volumeMounts:
+                - {name: sql, mountPath: /sql, readOnly: true}
+                - {name: lake, mountPath: /lake}
+                - {name: work, mountPath: /work}
+          volumes:
+            - name: sql
+              configMap: {name: maple-lake-sql}
+            - name: lake
+              persistentVolumeClaim: {claimName: maple-lake}
+            - name: work
+              emptyDir: {}

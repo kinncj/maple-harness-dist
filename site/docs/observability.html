@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>See and filter your usage · Maple Harness docs</title>
+<meta name="description" content="Every request that goes through the proxy is written to your usage log, on your own disk. This page is the guide to using it: asking questions with maple-proxy usage query, exporting only the requests">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html" aria-current="page">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html" aria-current="page">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">See and filter your usage</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li aria-current="page">See and filter your usage</li></ol></div></nav>
+<article>
+<h1 id="see-and-filter-your-usage">See and filter your usage <a class="anchor" href="#see-and-filter-your-usage" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#what-is-recorded-and-what-never-is">What is recorded, and what never is</a></li><li><a href="#ask-a-question-usage-query">Ask a question: usage query</a><ol><li><a href="#filters">Filters</a></li><li><a href="#choose-the-figures">Choose the figures</a></li><li><a href="#table-json-or-csv">Table, JSON or CSV</a></li><li><a href="#see-what-it-read">See what it read</a></li><li><a href="#notes-on-every-answer">Notes on every answer</a></li></ol></li><li><a href="#export-only-what-you-need">Export only what you need</a></li><li><a href="#ready-made-views-in-duckdb">Ready-made views in DuckDB</a></li><li><a href="#lots-of-history-use-the-duckdb-file-or-monthly-parquet">Lots of history? Use the DuckDB file or monthly Parquet</a></li><li><a href="#several-pods-query-postgres">Several pods? Query Postgres</a></li><li><a href="#analytics-with-ducklake">Analytics with DuckLake</a></li><li><a href="#the-events-log">The events log</a></li><li><a href="#why-the-cache-missed">Why the cache missed</a></li><li><a href="#compare-before-and-after">Compare before and after</a></li><li><a href="#how-auto-did">How auto did</a></li><li><a href="#the-daily-summaries">The daily summaries</a></li><li><a href="#what-it-cannot-tell-you-yet">What it cannot tell you yet</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>Every request that goes through the proxy is written to your usage log, on your own disk. This page is the guide to
+using it: asking questions with <code>maple-proxy usage query</code>, exporting only the requests you care about, reading it in
+DuckDB with ready-made views, and the events log that sits next to it. The full reference (every column, the
+schema, Grafana) is in <a href="usage-export.html">Your usage data</a>. Where the data can live (the daily files, PostgreSQL, a
+lake) and which to use is on <a href="your-data.html">Your data</a>; tested recipes are in <a href="querying.html">Query your usage</a>.</p>
+<p>All of it works without the proxy running: these commands only read files.</p>
+<h2 id="what-is-recorded-and-what-never-is">What is recorded, and what never is <a class="anchor" href="#what-is-recorded-and-what-never-is" aria-label="Link to this heading">#</a></h2>
+<p>One line per request, with counts and labels only:</p>
+<ul><li><strong>what was asked and who answered:</strong> the model the client asked for (<code>auto</code>, an alias), the provider and model
+that answered, and whether a fallback stepped in;</li><li><strong>how big it was:</strong> input, output and cached tokens, and the AI units the provider reported;</li><li><strong>how long it took:</strong> the whole request, the time spent waiting on the provider, and, on a streamed answer, the time
+to the first output;</li><li><strong>how it ended:</strong> fine, failed (with a fixed class such as <code>rate limited</code> or <code>unreachable</code>), answered by a fallback,
+answered from the response cache, or a cache-warming request the proxy sent itself;</li><li><strong>who sent it:</strong> the kind of client (Maple Harness, Claude Code, OpenCode, Hermes or other) and its version, the access
+token's label, and the session it belongs to;</li><li><strong>estimates</strong>, always named <code>_estimated</code>: a list-price cost for providers set up to give one, and what the proxy's
+techniques saved and cost.</li></ul>
+<p>Never recorded: prompts, answers, files, tool results, keys or tokens. The few fingerprints in the log (for the request,
+the tool list and the system prompt) are keyed per install, so they tell you that something changed or repeated, and
+cannot be turned back into the text or matched with another install.</p>
+<p>The log is on by default and keeps 90 days. To turn it off, move it or change how long it is kept, see
+<a href="usage-export.html#where-the-files-are">Your usage data</a>.</p>
+<h2 id="ask-a-question-usage-query">Ask a question: usage query <a class="anchor" href="#ask-a-question-usage-query" aria-label="Link to this heading">#</a></h2>
+<p><code>maple-proxy usage query</code> with no options prints the totals for everything in the log. <code>--group-by</code> splits them, and
+the filters narrow them down:</p>
+<pre><code class="language-sh"># Totals
+maple-proxy usage query
+# How did requests end, per provider?
+maple-proxy usage query --group-by provider,outcome
+# Which tools sent what in the last seven days?
+maple-proxy usage query --last 7d --group-by agent
+# Day by day since a date
+maple-proxy usage query --group-by day --since 2026-10-01</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/usage-query-provider-light.webp" alt="usage query grouped by provider and outcome: local ok 10, github-copilot ok 9, lab error 9, local fallback 7, local error 6, github-copilot fallback 4, total 45 requests with 15 errors, with token counts, AI units, the list-price estimate and the 95th percentile of latency" width="1000" height="215" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/usage-query-provider-dark.webp" alt="usage query grouped by provider and outcome: local ok 10, github-copilot ok 9, lab error 9, local fallback 7, local error 6, github-copilot fallback 4, total 45 requests with 15 errors, with token counts, AI units, the list-price estimate and the 95th percentile of latency" width="1000" height="215" loading="lazy" decoding="async">
+<figcaption>Requests by provider and outcome. A demo setup with stand-in model services: <code>lab</code> points at an address where nothing listens, and <code>local</code> refuses more than four requests in three seconds, so its extra requests were rate limited and went to their fallback.</figcaption>
+</figure>
+<p>Each request has exactly one <strong>outcome</strong>: <code>ok</code>, <code>error</code>, <code>fallback</code> (a fallback answered it), <code>cached</code> (the response
+cache answered, nothing went to a provider) or <code>warming</code>. A request that failed over to another model is one line per
+try, so the failed try counts as an <code>error</code> for the first provider and the answer as a <code>fallback</code> for the second.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/usage-query-agent-light.webp" alt="usage query for the last seven days grouped by agent: other 37 requests, maple-harness 6, claude-code 2, total 45" width="1000" height="186" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/usage-query-agent-dark.webp" alt="usage query for the last seven days grouped by agent: other 37 requests, maple-harness 6, claude-code 2, total 45" width="1000" height="186" loading="lazy" decoding="async">
+<figcaption>The same requests by the kind of client that sent them: curl (other), Maple Harness and Claude Code, each pointed at the proxy.</figcaption>
+</figure>
+<h3 id="filters">Filters <a class="anchor" href="#filters" aria-label="Link to this heading">#</a></h3>
+<p>Every filter takes one value or several (comma-separated, or the flag repeated) and matches any of them. Different
+filters must all match.</p>
+<div class="tablewrap"><table><thead><tr><th>Ask about</th><th>Flags</th></tr></thead><tbody><tr><td>A time range</td><td><code>--since</code>, <code>--until</code> (a UTC day such as <code>2026-10-01</code>, or a time; <code>--until</code> is exclusive), or <code>--last 7d</code>, <code>--last 24h</code>, <code>--last 90m</code></td></tr><tr><td>Where it went</td><td><code>--provider</code>, <code>--account</code> (a provider's id or its nickname), <code>--model</code>, <code>--requested</code> (what the client asked for, such as <code>auto</code>)</td></tr><tr><td>Who sent it</td><td><code>--agent</code> (<code>maple-harness</code>, <code>claude-code</code>, <code>opencode</code>, <code>hermes</code>, <code>other</code>), <code>--token</code> (an access token's label, <code>local</code> for this machine)</td></tr><tr><td>One piece of work</td><td><code>--session</code>, <code>--conversation</code></td></tr><tr><td>How it went</td><td><code>--outcome</code>, <code>--error-class</code> (such as <code>"rate limited"</code>), <code>--auto-weight</code> (<code>heavy</code>, <code>medium</code>, <code>light</code>)</td></tr></tbody></table></div>
+<p><code>-</code> means "not recorded": <code>--session -</code> is every request that did not come with a session. The full list, with
+<code>--person</code> and <code>--team</code>, is in <a href="usage-export.html#filter-your-data">Filter your data</a>.</p>
+<p>A few questions, as commands:</p>
+<pre><code class="language-sh"># Which errors, from which provider, in the last day?
+maple-proxy usage query --last 24h --outcome error --group-by provider,error_class
+
+# Where did auto send my requests?
+maple-proxy usage query --requested auto --group-by auto_weight,model
+
+# Which sessions used the most today, and then everything one of them cost
+maple-proxy usage query --last 24h --group-by session --metrics requests,ai_units
+maple-proxy usage query --session &lt;id&gt; --metrics requests,input_tokens,output_tokens,ai_units</code></pre>
+<p>A session's id is a random value the client sends, not the name you gave the session; to put names next to ids,
+see <a href="usage-export.html#cost-and-savings">Spend per conversation and per session</a>.</p>
+<h3 id="choose-the-figures">Choose the figures <a class="anchor" href="#choose-the-figures" aria-label="Link to this heading">#</a></h3>
+<p><code>--metrics</code> picks the columns. The default is requests, errors, the four token counts that matter most, AI units, the
+list-price estimate and the 95th percentile of latency; <code>maple-proxy usage query --help</code> lists them all. Some useful
+ones:</p>
+<div class="tablewrap"><table><thead><tr><th>Metric</th><th>What it is</th></tr></thead><tbody><tr><td><code>error_rate</code>, <code>fallbacks</code>, <code>cached_responses</code></td><td>How often things went wrong, or were rescued, or never reached a provider</td></tr><tr><td><code>hit_rate</code></td><td>The share of input tokens read from the provider's prompt cache, over requests that report it</td></tr><tr><td><code>latency_p50</code>, <code>latency_p95</code></td><td>How long whole requests took</td></tr><tr><td><code>ttft_p50</code>, <code>ttft_p95</code></td><td>Time to the first output, streamed requests only</td></tr><tr><td><code>upstream_ms_avg</code></td><td>Time spent waiting on the provider, apart from the proxy's own work</td></tr><tr><td><code>attempts_avg</code></td><td>How many providers were tried per answer: above 1 means fallbacks were working</td></tr><tr><td>anything ending in <code>_estimated</code></td><td>The proxy's estimates of cost and savings, never a bill</td></tr></tbody></table></div>
+<p>Percentiles are approximate (within about 9% of the exact value), and the answer says so.</p>
+<h3 id="table-json-or-csv">Table, JSON or CSV <a class="anchor" href="#table-json-or-csv" aria-label="Link to this heading">#</a></h3>
+<p><code>--format table</code> (the default) is for reading. <code>--format json</code> gives the same groups and totals with a <code>meta</code> part
+that says what was read, for a script; <code>--format csv</code> is for a spreadsheet:</p>
+<pre><code class="language-sh">maple-proxy usage query --group-by error_class --metrics requests --format csv</code></pre>
+<pre><code class="language-csv">error_class,requests
+-,30
+unreachable,9
+rate limited,6</code></pre>
+<h3 id="see-what-it-read">See what it read <a class="anchor" href="#see-what-it-read" aria-label="Link to this heading">#</a></h3>
+<p><code>--timing</code> adds a line after the answer: how long it took, how many daily files it read, how many came from the daily
+summaries (see <a href="#the-daily-summaries">below</a>), how much it read, and how many lines matched. It goes to standard error,
+so it never ends up in a file you redirect the answer into.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/usage-query-timing-light.webp" alt="usage query --timing grouped by model with time to first token, time on the provider and attempts per answer; a timing line at the end says one file was read, 45 lines, 45 matched" width="1000" height="237" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/usage-query-timing-dark.webp" alt="usage query --timing grouped by model with time to first token, time on the provider and attempts per answer; a timing line at the end says one file was read, 45 lines, 45 matched" width="1000" height="237" loading="lazy" decoding="async">
+<figcaption>Time to first token and time on the provider, by model. The stand-in Copilot service answers at once, so its times read 0 ms; <code>lab-coder</code> never answered, so it has no time to first token.</figcaption>
+</figure>
+<h3 id="notes-on-every-answer">Notes on every answer <a class="anchor" href="#notes-on-every-answer" aria-label="Link to this heading">#</a></h3>
+<p>Every answer ends with notes on what its figures cannot show: that percentiles are approximate, that figures named
+<code>_estimated</code> are estimates, that some matching lines were written before a column existed (and so have no time to first
+token, for example), or that a line could not be read. Read them before you compare two periods.</p>
+<h2 id="export-only-what-you-need">Export only what you need <a class="anchor" href="#export-only-what-you-need" aria-label="Link to this heading">#</a></h2>
+<p><code>usage export</code> takes the same filters, so the file holds only the matching requests:</p>
+<pre><code class="language-sh">maple-proxy usage export --format csv --out errors.csv --outcome error
+maple-proxy usage export --format parquet --out week.parquet --last 7d
+maple-proxy usage export --format csv --out copilot.csv --provider github-copilot --since 2026-10-01</code></pre>
+<p>Exports read and write a day at a time, so a long range does not have to fit in memory. Without a filter, an export
+is exactly what it was before this release. Formats and columns: <a href="usage-export.html#export-to-csv-or-parquet">Export to CSV or Parquet</a>.</p>
+<p><code>usage status</code> takes them too, and adds the matching requests' totals under the usual summary of where the log is and
+how much disk it takes:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/usage-status-filter-light.webp" alt="usage status with --outcome error,fallback: the log is on, where it is, kept 30 days, 29.1 KiB in one daily file; matching requests 26, 15 of them failed, with their tokens and AI units" width="1000" height="252" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/usage-status-filter-dark.webp" alt="usage status with --outcome error,fallback: the log is on, where it is, kept 30 days, 29.1 KiB in one daily file; matching requests 26, 15 of them failed, with their tokens and AI units" width="1000" height="252" loading="lazy" decoding="async">
+<figcaption><code>usage status</code> with a filter: the log's place and size, then the totals of the requests that failed or were answered by a fallback.</figcaption>
+</figure>
+<h2 id="ready-made-views-in-duckdb">Ready-made views in DuckDB <a class="anchor" href="#ready-made-views-in-duckdb" aria-label="Link to this heading">#</a></h2>
+<p>For your own questions in SQL, <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a> reads the log directly. <code>--views</code> adds a set of named
+views, in a schema of their own called <code>maple</code>, so they never replace a view of yours:</p>
+<pre><code class="language-sh">maple-proxy usage schema --format sql --views &gt; maple.sql
+duckdb -cmd ".read maple.sql"</code></pre>
+<div class="tablewrap"><table><thead><tr><th>View</th><th>One row per</th><th>Good for</th></tr></thead><tbody><tr><td><code>maple.requests</code></td><td>request</td><td>Every column, plus the UTC <code>day</code> and the <code>outcome</code></td></tr><tr><td><code>maple.daily_spend</code></td><td>day, provider, model (and person and team)</td><td>Requests, tokens, AI units and the list-price estimate per day</td></tr><tr><td><code>maple.sessions</code></td><td>session</td><td>When a session started and ended, its models, AI units and prompt-cache hit rate</td></tr><tr><td><code>maple.provider_health</code></td><td>provider, model, hour</td><td>Error rates by class, and percentiles of latency, time on the provider and time to first token</td></tr><tr><td><code>maple.people</code></td><td>person and team</td><td>Reserved for people and teams; every request is <code>unattributed</code> for now</td></tr><tr><td><code>maple.alerts</code>, <code>maple.events</code></td><td>event</td><td>The <a href="#the-events-log">events log</a></td></tr></tbody></table></div>
+<figure>
+<img class="shot shot-light" src="../img/docs/usage-duckdb-views-light.webp" alt="A DuckDB session: maple.sql is made with usage schema --views and read; maple.daily_spend lists requests and tokens per provider and model for the day, and maple.provider_health shows lab-coder with nine unreachable errors and demo-coder with six rate-limited ones, with the 95th percentile of time to first token" width="1000" height="440" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/usage-duckdb-views-dark.webp" alt="A DuckDB session: maple.sql is made with usage schema --views and read; maple.daily_spend lists requests and tokens per provider and model for the day, and maple.provider_health shows lab-coder with nine unreachable errors and demo-coder with six rate-limited ones, with the 95th percentile of time to first token" width="1000" height="440" loading="lazy" decoding="async">
+<figcaption>The named views over the same demo requests: spend per day and model, and provider health with its errors by class.</figcaption>
+</figure>
+<p>A few queries to start from:</p>
+<pre><code class="language-sql">-- Spend by day and provider.
+SELECT day, provider, sum(requests) AS requests, sum(ai_units) AS ai_units
+FROM maple.daily_spend
+GROUP BY ALL
+ORDER BY day, provider;
+
+-- Hours when a provider failed more than one request in twenty.
+SELECT provider, model, hour, requests, errors, errors_by_class
+FROM maple.provider_health
+WHERE error_rate &gt; 0.05
+ORDER BY hour DESC;
+
+-- The sessions that used the most AI units.
+SELECT session, first_at, last_at, requests, models, ai_units
+FROM maple.sessions
+ORDER BY ai_units DESC
+LIMIT 10;</code></pre>
+<p>Run <code>usage schema --views</code> again after the first events file appears, so <code>maple.events</code> and <code>maple.alerts</code> find it.
+More queries, and what each view's columns mean: <a href="usage-export.html#named-views">Named views</a>.</p>
+<h2 id="lots-of-history-use-the-duckdb-file-or-monthly-parquet">Lots of history? Use the DuckDB file or monthly Parquet <a class="anchor" href="#lots-of-history-use-the-duckdb-file-or-monthly-parquet" aria-label="Link to this heading">#</a></h2>
+<p>The views above read one daily file per day. Over months of history, or on a hub that keeps what the proxies below it
+send up, that is many files. Pack them instead:</p>
+<pre><code class="language-sh">maple-proxy usage compact                     # one Parquet file per month, in analytics/ next to the daily files
+maple-proxy usage schema --format sql --views --source parquet-monthly &gt; maple.sql
+
+maple-proxy usage duckdb                      # or everything in one file, refreshed each time you run it
+duckdb ~/.config/maple-harness/usage/analytics/maple_usage.duckdb</code></pre>
+<p>Both hold exactly what the daily files hold, and both follow the cleanup. Set <strong>Analytics files</strong> on the Usage data
+card to have the proxy refresh them once a day. Details, and what to do about <code>Too many open files</code>:
+<a href="usage-export.html#lots-of-history-use-the-duckdb-file-or-monthly-parquet">Lots of history?</a></p>
+<h2 id="several-pods-query-postgres">Several pods? Query Postgres <a class="anchor" href="#several-pods-query-postgres" aria-label="Link to this heading">#</a></h2>
+<p>In central mode the usage of every replica is in PostgreSQL. The same views over it, the connection string read from
+an environment variable when you query:</p>
+<pre><code class="language-sh">maple-proxy usage schema --format sql --views --source postgres --dsn-env MAPLE_PG_DSN &gt; maple-pg.sql
+duckdb -cmd ".read maple-pg.sql"</code></pre>
+<p>See <a href="usage-export.html#several-pods-query-postgres">Several pods?</a>.</p>
+<h2 id="analytics-with-ducklake">Analytics with DuckLake <a class="anchor" href="#analytics-with-ducklake" aria-label="Link to this heading">#</a></h2>
+<p>A <a href="https://ducklake.select/" rel="noopener noreferrer">DuckLake</a> keeps your usage history as Parquet data files and a catalog, with snapshots
+you can read as they were, long after the daily files' retention has removed them. <code>maple-proxy usage lake</code> makes one
+and keeps it current with your own <code>duckdb</code> command line; the proxy never installs or downloads DuckDB.</p>
+<ul><li><strong>On one machine</strong>, the lake is filled from the daily files (<code>maple-proxy usage lake</code>, or <strong>Analytics files</strong> set to
+<code>lake</code> for a daily refresh).</li><li><strong>For a team</strong> in central mode, a scheduled job moves what PostgreSQL stored into a lake whose catalog is a schema
+of the same PostgreSQL (<code>--source postgres</code>).</li><li><strong>One lake, one source.</strong> A lake whose catalog is in PostgreSQL needs <code>--source</code> said every time, and a lake filled
+from one source refuses the other unless you pass <code>--allow-mixed-sources</code>.</li></ul>
+<p>Where to go next:</p>
+<ul><li><a href="data-lake.html">The Maple data lake</a>: setting it up on one machine or for a team, the CronJobs, credentials,
+maintenance, snapshots and troubleshooting.</li><li><a href="your-data.html">Your data</a>: the daily files, PostgreSQL and the lake side by side, and which one to use.</li><li><a href="querying.html#the-lake">Query your usage</a>: questions to ask the lake in DuckDB.</li></ul>
+<h2 id="the-events-log">The events log <a class="anchor" href="#the-events-log" aria-label="Link to this heading">#</a></h2>
+<p>Things that happen that are not requests go to their own daily files, <code>events-YYYY-MM-DD.jsonl</code>, in the same folder
+as the usage log. They follow the usage log: on when it is on, off when it is off, and kept for the same number of
+days. The usage files still hold requests only, so counting their lines still counts requests.</p>
+<p>It records settings changes, provider health changes, <a href="alerts-and-forecasts.html">spend alerts</a> and the model
+switches Maple Harness reports. A save on the setup page writes one line per setting that changed, naming the
+setting and never its value, except for numbers, switches and modes. Each start of the proxy writes a fingerprint
+of the whole configuration, so a change made to <code>config.yaml</code> while the proxy was stopped shows up at the next start
+as <code>changed-outside</code>. Here are the lines one demo session wrote, setting <strong>Keep</strong> to 30 days on the Usage data card:</p>
+<pre><code class="language-json">{"at":"2026-10-08T21:34:04.383141104Z","kind":"config.change","subject":"config","level":"info","code":"start","value":"6a7e318685d7fd72.8ed9f05c","detail":"proxy start"}
+{"at":"2026-10-08T21:34:49.517089449Z","kind":"config.change","subject":"server.usage_retention_days","level":"info","code":"added","value":"30","detail":"setup page"}
+{"at":"2026-10-08T21:34:49.517089449Z","kind":"config.change","subject":"config","level":"info","code":"saved","value":"8ff92be9367e28e7.8ed9f05c","detail":"setup page"}</code></pre>
+<p>A key, a token, an address, a path or a model name is never written. The fields are described in
+<a href="usage-export.html#the-events-log">The events log</a>; in DuckDB, <code>maple.events</code> reads them:</p>
+<pre><code class="language-sql">SELECT "at", subject AS setting, code, value
+FROM maple.events
+WHERE kind = 'config.change'
+ORDER BY "at" DESC;</code></pre>
+<h2 id="why-the-cache-missed">Why the cache missed <a class="anchor" href="#why-the-cache-missed" aria-label="Link to this heading">#</a></h2>
+<p>When a provider's prompt cache misses, the usage log says why in <code>cache_reason</code>, and since this release one level
+finer in <code>cache_detail</code>. <code>maple-proxy usage cache-misses</code> sums it up: how often the cache missed, by client, client
+version and person, the most common reasons, and an <strong>estimated</strong> cost of the misses. It takes the same filters as
+<code>usage query</code>:</p>
+<pre><code class="language-sh">maple-proxy usage cache-misses --last 7d
+maple-proxy usage cache-misses --agent claude-code --format json</code></pre>
+<p>The estimate uses prices seen on your own requests (a token read from the cache, and one that was not); misses on a
+model whose prices have not been seen are counted, not priced. It is not a bill, and the advice below is advice, not
+a promised saving.</p>
+<div class="tablewrap"><table><thead><tr><th><code>cache_detail</code></th><th>What happened</th><th>What you can do</th></tr></thead><tbody><tr><td><code>tools-added:&lt;n&gt;</code>, <code>tools-removed:&lt;n&gt;</code>, <code>tools-changed</code></td><td>The tool list changed between turns</td><td>Keep the same tools for the whole conversation: turn tools or MCP servers on or off between conversations, not during one</td></tr><tr><td><code>tools-reordered</code></td><td>The same tools, in another order</td><td>A client that sends its tools in the same order keeps the cache; the prefix stabiliser does this for clients that do not</td></tr><tr><td><code>system-first-block</code></td><td>The start of the system prompt changed</td><td>Move anything that changes every turn (a date, a time, a counter) to the end, or out of the system prompt</td></tr><tr><td><code>system-later-block</code></td><td>A later part of the system prompt changed</td><td>Put the parts that change after the parts that stay the same</td></tr><tr><td><code>cache-marks-moved</code></td><td>The same text, with the client's cache marks in other places</td><td>Nothing on your side: it is the client's choice, and a client update may change it</td></tr><tr><td><code>provider-side</code></td><td>Nothing at the start of the request changed and the cache was still young</td><td>Nothing on your side: the provider did not use its cache</td></tr><tr><td><code>expired-idle:&lt;time&gt;</code></td><td>The conversation sat idle that long, past the cache's life</td><td>Expected after a break; <code>cache_warming</code> can keep it for Anthropic</td></tr></tbody></table></div>
+<p>A new conversation, a switch to another model, and a prompt shorter than the provider caches are reasons on their
+own, with no detail. Lines written before this release have no <code>cache_detail</code>; their <code>cache_reason</code> is counted.</p>
+<h2 id="compare-before-and-after">Compare before and after <a class="anchor" href="#compare-before-and-after" aria-label="Link to this heading">#</a></h2>
+<p><code>maple-proxy usage compare</code> sets two windows of your usage side by side, per request, to see what changed after you
+changed a setting:</p>
+<pre><code class="language-sh">maple-proxy usage compare --before 2026-10-01..2026-10-07 --after 2026-10-08..2026-10-14
+maple-proxy usage compare --around context_trim            # a week each side of its last change
+maple-proxy usage compare --around 2026-10-08T12:00:00Z --window 3d --agent maple-harness</code></pre>
+<p>Every answer says <strong>measured on your traffic, observational, not a controlled test</strong>, and means it. Two weeks differ
+in more than one setting: the work, the provider's caching and prices, the models, the time of day. What the command
+does about the kind of work: it groups requests by client, the model asked for, the length of the conversation and
+the number of tools, compares each group with the same group in the other window, and weighs the groups the same way
+on both sides. A week of long conversations is then not read as a setting making requests dearer. The plain
+difference, without that, is shown next to it so you can see how much the mix of work alone moved.</p>
+<ul><li><strong>The range</strong> comes from resampling whole sessions (or conversations), since the requests of one session are not
+independent. A range that includes no change means the windows cannot tell the two apart.</li><li><strong>It refuses</strong> when either window has fewer than 200 requests, or when too few requests in a window are of kinds
+seen in the other. <code>--force</code> shows the figures anyway, with the reasons as warnings.</li><li><strong>It warns</strong> when the models answering changed between the windows, or when part of a window had no match.</li><li><strong><code>--around</code> a setting</strong> uses the latest change of that setting in the events log, so it works for changes made
+since the events log began. With a time instead, any change you know of works.</li><li>Cache-warming requests and answers from the response cache are left out.</li></ul>
+<p>It cannot say why something changed. For a causal answer, run the same tasks with and without the setting, paired and
+repeated, with <code>maple-harness bench</code> (see <a href="bench.html">Measure with bench</a>).</p>
+<h2 id="how-auto-did">How auto did <a class="anchor" href="#how-auto-did" aria-label="Link to this heading">#</a></h2>
+<p><code>maple-proxy usage auto-report</code> says how requests routed by <code>auto</code> turned out, per weight and model: how often they
+failed, needed a fallback, were sent again within a minute, or were followed by you switching model (Maple Harness
+tells the proxy when you switch with <code>/model</code>; other clients do not), and how long their conversations ran.</p>
+<pre><code class="language-sh">maple-proxy usage auto-report                  # the last 7 days
+maple-proxy usage auto-report --last 30d --include-direct --format json</code></pre>
+<p>It is measured and observational: it shows what happened after each choice, not what another model would have done,
+and heavier work fails and is retried more whichever model answers it. It changes nothing about how <code>auto</code> chooses.</p>
+<h2 id="the-daily-summaries">The daily summaries <a class="anchor" href="#the-daily-summaries" aria-label="Link to this heading">#</a></h2>
+<p>To answer quickly over months of data, <code>usage query</code> keeps a summary of each finished UTC day in your user cache
+folder: <code>~/.cache/maple-harness/usage-index/</code> on Linux (or under <code>$XDG_CACHE_HOME</code>), <code>~/Library/Caches/maple-harness/usage-index/</code>
+on macOS. They are private to you, and they are never put next to the usage log, so nothing that reads that folder
+sees them.</p>
+<ul><li>They hold the same counts and labels as the usage log, nothing more.</li><li>Today is always read from its file; only finished days are summarised.</li><li>A day whose file changed is summarised again by itself, and a day whose file was deleted (by <strong>Keep</strong> or <code>usage
+prune</code>) loses its summary too.</li><li>You can delete the folder at any time. Nothing is lost: the next question rebuilds what it needs from the usage log.</li><li><code>--no-index</code> answers from the files alone and writes nothing.</li></ul>
+<h2 id="what-it-cannot-tell-you-yet">What it cannot tell you yet <a class="anchor" href="#what-it-cannot-tell-you-yet" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>The newer columns start with this release.</strong> Time to first token, time on the provider, the error class, the
+routing reason and the client's version are recorded from schema version 4 on. Lines written by earlier releases
+have them empty (NULL), never 0, and an answer's notes say how many matching lines are like that.</li><li><strong>People and teams come later.</strong> <code>person</code> and <code>team</code> are in the schema but not filled in yet, so <code>--person</code>
+and <code>--team</code> match nothing except <code>-</code>, and <code>maple.people</code> shows every request as <code>unattributed</code>.</li><li><strong>The events log records settings changes, provider health, alerts, and the model switches Maple Harness reports.</strong></li><li><strong>Time to first token is for streamed answers only.</strong> An answer that was not streamed has none.</li><li><strong>An answer from the response cache shows no attempts:</strong> it went to no provider.</li><li><strong>Days are UTC days.</strong> The setup page's Savings card counts from your local midnight; see
+<a href="usage-export.html#cost-and-savings">Cost and savings</a> to match it.</li><li><strong>Estimates are estimates.</strong> Anything named <code>_estimated</code>, and the list-price cost, is the proxy's estimate and not
+a bill. AI units are what the provider reported.</li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="usage-export.html">Your usage data</a> · <a href="proxy-settings.html#the-usage-log">Proxy settings</a> ·
+<a href="cost.html">What /cost tells you</a> · <a href="saving-tokens.html">See and reduce what a task costs</a> ·
+<a href="your-data.html">Your data</a> · <a href="querying.html">Query your usage</a> · <a href="data-lake.html">The Maple data lake</a></p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/three-es.html" rel="prev"><small>Previous</small>Settings by goal</a><a class="next" href="../docs/health.html" rel="next"><small>Next</small>Provider health</a></div><div class="mset m-teams"><a class="prev" href="../docs/mcp-hub.html" rel="prev"><small>Previous</small>MCP hub (experimental)</a><a class="next" href="../docs/health.html" rel="next"><small>Next</small>Provider health</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#what-is-recorded-and-what-never-is">What is recorded, and what never is</a></li><li><a href="#ask-a-question-usage-query">Ask a question: usage query</a><ol><li><a href="#filters">Filters</a></li><li><a href="#choose-the-figures">Choose the figures</a></li><li><a href="#table-json-or-csv">Table, JSON or CSV</a></li><li><a href="#see-what-it-read">See what it read</a></li><li><a href="#notes-on-every-answer">Notes on every answer</a></li></ol></li><li><a href="#export-only-what-you-need">Export only what you need</a></li><li><a href="#ready-made-views-in-duckdb">Ready-made views in DuckDB</a></li><li><a href="#lots-of-history-use-the-duckdb-file-or-monthly-parquet">Lots of history? Use the DuckDB file or monthly Parquet</a></li><li><a href="#several-pods-query-postgres">Several pods? Query Postgres</a></li><li><a href="#analytics-with-ducklake">Analytics with DuckLake</a></li><li><a href="#the-events-log">The events log</a></li><li><a href="#why-the-cache-missed">Why the cache missed</a></li><li><a href="#compare-before-and-after">Compare before and after</a></li><li><a href="#how-auto-did">How auto did</a></li><li><a href="#the-daily-summaries">The daily summaries</a></li><li><a href="#what-it-cannot-tell-you-yet">What it cannot tell you yet</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

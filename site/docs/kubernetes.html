@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Run the proxy on Kubernetes · Maple Harness docs</title>
+<meta name="description" content="This page runs maple-proxy on Kubernetes from the samples in the infra/ folder of the public repository: plain manifests with Kustomize overlays for one replica, or three replicas sharing PostgreSQL a">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html" aria-current="page">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Deploy</li><li aria-current="page">Run the proxy on Kubernetes</li></ol></div></nav>
+<article>
+<h1 id="run-the-proxy-on-kubernetes">Run the proxy on Kubernetes <a class="anchor" href="#run-the-proxy-on-kubernetes" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#the-samples">The samples</a></li><li><a href="#one-replica">One replica</a></li><li><a href="#several-replicas">Several replicas</a><ol><li><a href="#when-you-need-it">When you need it</a></li><li><a href="#what-lives-where">What lives where</a></li><li><a href="#set-it-up">Set it up</a></li><li><a href="#settings-from-the-configmap-or-from-the-page">Settings: from the ConfigMap, or from the page</a></li><li><a href="#load-balancing">Load balancing</a></li><li><a href="#when-postgresql-or-redis-is-away">When PostgreSQL or Redis is away</a></li><li><a href="#upgrades">Upgrades</a></li><li><a href="#backups">Backups</a></li><li><a href="#usage-for-analysis">Usage for analysis</a></li><li><a href="#the-mcp-hub">The MCP hub</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li></ol></li><li><a href="#logs">Logs</a></li><li><a href="#images-and-memory">Images and memory</a></li><li><a href="#search-by-meaning">Search by meaning</a></li></ol></details>
+
+<p>This page runs <code>maple-proxy</code> on Kubernetes from the samples in the <code>infra/</code> folder of the
+<a href="https://github.com/kinncj/maple-harness-dist/tree/main/infra" rel="noopener noreferrer">public repository</a>: plain manifests with Kustomize
+overlays for one replica, or three replicas sharing PostgreSQL and Redis. They are starting points: read them and
+adapt them to your cluster.</p>
+<h2 id="the-samples">The samples <a class="anchor" href="#the-samples" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Folder</th><th>What it is</th></tr></thead><tbody><tr><td><code>manifest/maple-proxy/</code></td><td>The proxy: Deployment, Service, PodDisruptionBudget, an example ConfigMap and an example Secret</td></tr><tr><td><code>manifest/postgres/</code>, <code>manifest/redis/</code></td><td>One PostgreSQL and one Redis, <strong>for trying it out</strong>. In production use your managed or production services, with backups</td></tr><tr><td><code>manifest/maple-mcp-hub/</code></td><td>The <a href="mcp-hub.html">MCP hub</a> as one replica of its own</td></tr><tr><td><code>config/single/</code></td><td>One replica, its state on a PersistentVolumeClaim: the proxy as on a machine</td></tr><tr><td><code>config/ha/</code></td><td>Three replicas, shared state in PostgreSQL and Redis, settings from the ConfigMap</td></tr><tr><td><code>manifest/maple-lake/</code>, <code>config/ha-lake/</code></td><td>Usage history in a DuckLake (see <a href="#usage-for-analysis">Usage for analysis</a>)</td></tr></tbody></table></div>
+<p>Every pod runs as a non-root user with a read-only root file system, no added capabilities, the default seccomp
+profile and no service-account token; it has liveness, readiness and startup probes, resource requests and a memory
+limit.</p>
+<h2 id="one-replica">One replica <a class="anchor" href="#one-replica" aria-label="Link to this heading">#</a></h2>
+<p><strong>1. Build and push the image</strong> (no image is published; see <a href="docker.html#step-1-build-the-image">Docker</a>):</p>
+<pre><code class="language-sh">git clone --depth 1 https://github.com/kinncj/maple-harness-dist.git
+cd maple-harness-dist/infra/docker
+docker buildx build --build-arg MAPLE_VERSION=v2.0.0 --platform linux/amd64,linux/arm64 \
+  -t registry.example.com/you/maple-proxy:2.0.0 --push .</code></pre>
+<p><strong>2. Set the image and the secrets.</strong> In <code>config/single</code>:</p>
+<pre><code class="language-sh">cd ../config/single
+kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0</code></pre>
+<p>Edit <code>manifest/maple-proxy/secret.example.yaml</code> (or create the Secret <code>maple-proxy</code> from your secret manager): the
+key <code>access.proxy_tokens</code> holds one <code>label=value</code> per line, the tokens your tools use (with <code>mh_</code> in front). Each key
+of the Secret is a file in <code>/run/secrets/maple</code>, read-only.</p>
+<p><strong>3. Apply and check:</strong></p>
+<pre><code class="language-sh">kubectl apply -k .
+kubectl -n maple rollout status deploy/maple-proxy
+kubectl -n maple logs deploy/maple-proxy</code></pre>
+<p>Tools in the cluster reach <code>http://maple-proxy.maple.svc:11535/v1</code> (OpenAI) and <code>:11537</code> (Anthropic). From outside,
+add an Ingress or a LoadBalancer Service with HTTPS. The proxy answers only to host names it knows:
+<code>MAPLE_ALLOWED_HOSTS</code> in the Deployment lists the Service's names; add yours.</p>
+<p><strong>The setup page</strong> is served only on the pod's own loopback address, as on a machine. Reach it with a port forward,
+which connects to the pod itself:</p>
+<pre><code class="language-sh">kubectl -n maple port-forward deploy/maple-proxy 11539:11539</code></pre>
+<p>and open <code>http://127.0.0.1:11539</code>. In this overlay, settings are kept on the volume like on a machine: change them on
+the page. The models for search by meaning download to their own volume (<code>maple-models</code>).</p>
+<h2 id="several-replicas">Several replicas <a class="anchor" href="#several-replicas" aria-label="Link to this heading">#</a></h2>
+<figure>
+<img class="shot shot-light" src="../img/docs/deploy-ha-light.svg" alt="Clients send requests to one address, a load balancer or a Kubernetes Service, that spreads them over three maple-proxy replicas. Durable data, usage and events, budgets, settings and tokens, and the audit log, is in PostgreSQL. Shared short-lived state, setup-page sessions, rate limits, quota marks and health, caches and conversation pins, is in Redis. The MCP hub, when used, runs as one replica of its own." width="960" height="560" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/deploy-ha-dark.svg" alt="Clients send requests to one address, a load balancer or a Kubernetes Service, that spreads them over three maple-proxy replicas. Durable data, usage and events, budgets, settings and tokens, and the audit log, is in PostgreSQL. Shared short-lived state, setup-page sessions, rate limits, quota marks and health, caches and conversation pins, is in Redis. The MCP hub, when used, runs as one replica of its own." width="960" height="560" loading="lazy" decoding="async">
+<figcaption>Three replicas: no state of their own, PostgreSQL for what lasts, Redis for what is shared and short-lived.</figcaption>
+</figure>
+<h3 id="when-you-need-it">When you need it <a class="anchor" href="#when-you-need-it" aria-label="Link to this heading">#</a></h3>
+<p>One replica is enough for most teams: the proxy is light, and a restart takes seconds. Run several when a restart or a
+lost node must not interrupt anyone, or when one replica is not enough. Several replicas need PostgreSQL and Redis
+(<code>storage.mode: central</code>): a replica then keeps nothing that matters on its own, so any replica can serve any
+request, and a replica can stop at any time.</p>
+<h3 id="what-lives-where">What lives where <a class="anchor" href="#what-lives-where" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table><thead><tr><th>What</th><th>One replica (<code>storage.mode: disk</code>, the default)</th><th>Several replicas (<code>storage.mode: central</code>)</th></tr></thead><tbody><tr><td>Usage log</td><td>Daily files on the volume</td><td>PostgreSQL (each line once), and a copy on each replica's own folder</td></tr><tr><td>Events, alerts fired</td><td>Files on the volume</td><td>PostgreSQL; each alert fires once, on one replica</td></tr><tr><td>Audit log</td><td>A file on the volume</td><td>PostgreSQL too (<code>maple-proxy audit tail</code> reads both)</td></tr><tr><td>Person and team budgets</td><td>Counted in memory from the usage log</td><td>PostgreSQL, counted as each request ends; the day is the database's</td></tr><tr><td>Provider budgets (<code>budgets:</code>)</td><td>Counted in memory from the usage log</td><td>Each replica counts every replica's requests, within seconds</td></tr><tr><td>Settings (<code>config.yaml</code>) and access tokens</td><td>Files on the volume</td><td>The ConfigMap and Secret (read-only on the page), or PostgreSQL (<code>storage.settings: central</code>)</td></tr><tr><td>The setup page's password</td><td>A file on the volume</td><td>PostgreSQL</td></tr><tr><td>Signed-in browsers, wrong-password counts</td><td>Memory and a file</td><td>Redis</td></tr><tr><td>Rate limits, bad-token throttle</td><td>Memory</td><td>Redis</td></tr><tr><td>Quota marks, provider health</td><td>Memory</td><td>Redis</td></tr><tr><td>Response and embeddings caches</td><td>Memory (and a file for embeddings)</td><td>Redis, encrypted with <code>storage.key</code></td></tr><tr><td>Conversation pins</td><td>none</td><td>Redis</td></tr><tr><td>Repeated requests (<code>Idempotency-Key</code>)</td><td>Memory</td><td>Redis</td></tr><tr><td>Cards (cache, savings, sessions) and learned prices</td><td>Memory, saved to files</td><td>Rebuilt from every replica's usage in PostgreSQL</td></tr><tr><td>Embedding models</td><td>The volume</td><td>Each replica's folder, or one shared volume</td></tr><tr><td>The MCP hub</td><td>In the proxy</td><td>One replica of its own</td></tr></tbody></table></div>
+<h3 id="set-it-up">Set it up <a class="anchor" href="#set-it-up" aria-label="Link to this heading">#</a></h3>
+<p><code>config/ha</code> adds PostgreSQL and Redis samples, three replicas, and settings from the ConfigMap:</p>
+<pre><code class="language-sh">cd config/ha
+kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0</code></pre>
+<p>Edit the Secret patch in <code>kustomization.yaml</code> (and <code>manifest/postgres/service.yaml</code>'s password, the same in both):</p>
+<div class="tablewrap"><table><thead><tr><th>Secret key</th><th>What it holds</th></tr></thead><tbody><tr><td><code>storage.postgres_dsn</code></td><td><code>postgres://user:password@host:5432/db?sslmode=require</code></td></tr><tr><td><code>storage.redis_url</code></td><td><code>redis://:password@host:6379/0</code>, or <code>rediss://</code> for TLS</td></tr><tr><td><code>storage.key</code></td><td>64 hex characters (<code>openssl rand -hex 32</code>): encrypts what goes to Redis</td></tr><tr><td><code>proxy.request_hash_salt</code>, <code>embeddings.cache_key</code>, <code>events.fingerprint_key</code></td><td>Optional. Left out, each is derived from <code>storage.key</code>, so every replica has the same ones and the shared caches work across replicas. If you set them, 64 hex characters each, the same for every replica: a replica refuses to start with a placeholder such as <code>REPLACE-ME</code>, or with values other than those of a replica that is running (to change them, or <code>storage.key</code>, stop every replica first)</td></tr></tbody></table></div>
+<p>The Deployment refers to them as <code>${secret:storage/postgres_dsn}</code> and so on, never by value. Then:</p>
+<pre><code class="language-sh">kubectl apply -k .
+kubectl -n maple rollout status deploy/maple-proxy</code></pre>
+<p>The first replica creates the tables (the others wait for it), and each replica's start line says
+<code>storage=central</code> with its name.</p>
+<h3 id="settings-from-the-configmap-or-from-the-page">Settings: from the ConfigMap, or from the page <a class="anchor" href="#settings-from-the-configmap-or-from-the-page" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>From the ConfigMap</strong> (<code>MAPLE_SETTINGS_SOURCE=file</code>, the sample's choice): <code>config.yaml</code> is the ConfigMap, managed
+like the rest of your cluster. The setup page shows everything, usage included, and refuses changes with a note
+that settings come from the configuration files (the <code>X-Maple-Settings: read-only</code> header). Change the ConfigMap
+and roll the replicas out.</li><li><strong>From the page</strong> (<code>MAPLE_SETTINGS_SOURCE=central</code>): <code>config.yaml</code> and the access tokens are kept in PostgreSQL. A
+change on any replica's page reaches every replica within a second or two, and a revoked token is refused by
+every replica within a second. Two changes at the same moment on two replicas do not merge: the first saved is
+kept and the other is put back, and the log says so.</li></ul>
+<p><strong>Provider sign-ins.</strong> A provider with an API key in the Secret (<code>${secret:provider/&lt;id&gt;/api_key}</code>) works on every
+replica. A sign-in made in the browser (GitHub Copilot's device sign-in) is kept by the replica it was made on; with
+several replicas, sign in on each, or prefer a key. The short-lived session token a signed-in account gives is
+shared: one replica asks for it, the others use it.</p>
+<h3 id="load-balancing">Load balancing <a class="anchor" href="#load-balancing" aria-label="Link to this heading">#</a></h3>
+<ul><li>Round robin is right: nothing needs sticky sessions. A conversation keeps to the provider account that last
+answered it on every replica (so the provider's prompt cache keeps hitting), signed-in browsers are known to every
+replica, and rate limits count across replicas.</li><li>If you want them anyway, hash on the <code>X-Maple-Session</code> header that Maple Harness sends.</li><li><strong>Never let the load balancer retry a POST on another replica:</strong> a model request is not safe to send twice. A
+client that retries can send an <code>Idempotency-Key</code> header: a repeat with the same key gets the same answer and is
+not charged again, on any replica; a repeat while the first is still running is refused with <code>409</code>; a streamed
+answer cannot be played back, so its repeat is refused with <code>409</code> saying so.</li><li>Keep idle and read timeouts long (streams can take minutes; the keep-alives arrive every 15 seconds).</li><li><strong>Behind an Ingress or a load balancer that adds <code>X-Forwarded-For</code>,</strong> list its addresses in
+<code>server.trusted_proxies</code> (or <code>MAPLE_TRUSTED_PROXIES</code>): the addresses of your Ingress controller's pods, and
+nothing wider, since anything inside a listed range can name its own client address. The balancer must add the
+client to the header, not pass on the one the client sent. Otherwise every request seems to come from the balancer, and one client sending wrong tokens gets every client
+refused with <code>429</code> for a minute. With it, each client is counted on its own; a header from any other address is
+ignored, so a client cannot choose its own address. A Service on its own (no Ingress) adds no header and needs
+nothing.</li></ul>
+<h3 id="when-postgresql-or-redis-is-away">When PostgreSQL or Redis is away <a class="anchor" href="#when-postgresql-or-redis-is-away" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>PostgreSQL away:</strong> requests are still served. Requests of people with a budget are refused with <code>503</code> until it
+is back (<code>storage.budgets_when_down: open</code> lets them through, uncounted). Usage lines wait in a small queue in the
+replica's memory (<code>storage.spool_max_records</code>, 2000) and are written once it is back, each once. They are lost if
+the replica stops before then, and the log says how many. <code>/readyz</code> says <code>not ready</code>.</li><li><strong>Redis away:</strong> requests are still served. The setup page answers <code>503</code> (signed-in browsers cannot be checked),
+rate limits refuse callers from other machines and so does the wrong-token limit for a wrong or missing token
+(a valid token is still served), caches miss, conversation pins and
+shared quota marks fall back to each replica's own, and no replica runs the jobs only one replica runs.
+<code>/readyz</code> says <code>not ready</code>.</li></ul>
+<p>Use a single Redis (or one with a standby); a Redis cluster is not supported.</p>
+<p><strong>Keep PostgreSQL and Redis to the proxy.</strong> The settings kept in PostgreSQL (<code>config.yaml</code>, the access tokens and the
+setup page's password) are signed with a key derived from <code>storage.encryption_key</code>, and every replica checks the
+signature each time it reads them: a copy changed in the database by someone without that key is refused. The
+replicas keep the copy they had (a row removed from the table counts as changed), put it back, write a <code>SECURITY</code> line to the log and record a <code>settings.refused</code>
+event. A replica that starts while the shared copy is refused does not start until a running replica has put a good
+copy back (with none running, restore the <code>maple_documents</code> table from a backup). Budgets,
+usage and sessions are not signed, so still treat write access to either database as admin access to the proxy.
+The samples allow only the proxy's pods (and the lake jobs) in with NetworkPolicies and give Redis a password; use
+TLS (<code>sslmode=require</code>, <code>rediss://</code>) when they are outside the cluster.</p>
+<h3 id="upgrades">Upgrades <a class="anchor" href="#upgrades" aria-label="Link to this heading">#</a></h3>
+<p>Roll replicas out one at a time (the sample sets <code>maxUnavailable: 0</code>). A new release adds to the database's tables
+and never removes or renames anything that the release before still uses, so old and new replicas run side by side
+during the rollout; upgrade one release at a time. A replica that stops turns not ready first, waits for endpoints
+to drop it (<code>preStop</code>, 5 seconds; it needs Kubernetes 1.30 or later), finishes its running requests and streams
+(up to <code>terminationGracePeriodSeconds</code>, 600 in the sample), then exits.</p>
+<h3 id="backups">Backups <a class="anchor" href="#backups" aria-label="Link to this heading">#</a></h3>
+<p>Back up PostgreSQL (<code>pg_dump</code>, or your provider's backups): it holds the usage, events, budgets, settings and audit
+log. Redis holds nothing that must survive: after losing it, browsers sign in again and caches fill again. Old usage
+is deleted after <code>server.usage_retention_days</code> by one replica.</p>
+<h3 id="usage-for-analysis">Usage for analysis <a class="anchor" href="#usage-for-analysis" aria-label="Link to this heading">#</a></h3>
+<p>The shared PostgreSQL holds every replica's usage and events as two read-only views with typed columns:
+<code>maple_usage_rows</code> (every column of the <a href="usage-export.html#the-usage-record-schema">usage record</a>, in its order, after
+<code>_day</code>, <code>_ingested_at</code> and <code>_ingest_seq</code>) and <code>maple_events_rows</code> (the events columns after <code>_event_id</code>, <code>_day</code>,
+<code>_ingested_at</code>, <code>_ingest_seq</code> and <code>_proxy_instance</code>). Give analysts a PostgreSQL role that can only read them, and
+they can query them from DuckDB directly:</p>
+<pre><code class="language-sql">INSTALL postgres; LOAD postgres;
+ATTACH 'host=postgres.maple.svc dbname=maple user=analyst' AS maple (TYPE postgres, READ_ONLY);
+SELECT person, sum(ai_units) AS ai_units, count(*) AS requests
+FROM maple.public.maple_usage_rows
+WHERE at &gt;= now() - INTERVAL 7 DAY
+GROUP BY person ORDER BY ai_units DESC;</code></pre>
+<p><code>maple-proxy usage query</code> and <code>usage export</code>, run in a replica (<code>kubectl exec</code>), read the same data.</p>
+<p><strong>Keep a short window in PostgreSQL and the whole history in a lake.</strong> PostgreSQL is the live database; it keeps
+<code>storage.retention_days</code> of usage and events (by default <code>server.usage_retention_days</code>, 90). For history beyond
+that, <code>manifest/maple-lake</code> (and the overlay <code>config/ha-lake</code>) copies closed periods into a DuckLake every hour: its
+catalog in its own schema (<code>maple_lake</code>) of the same PostgreSQL, its data files on a volume or in S3. The copy only
+ever adds, each line once, so deleting old rows in PostgreSQL never removes anything from the lake. The jobs run the
+official DuckDB image on SQL the proxy writes for you (<code>maple-proxy usage lake --emit-sql move</code> for the hourly job, and
+<code>--emit-sql maintain</code> for the daily job that merges small files and removes what old snapshots no longer need);
+generate it again after an upgrade. A lake keeps one source: once the move has filled it, a run that would load a
+machine's daily files into it is refused (<code>--allow-mixed-sources</code> overrides that). For S3, give the job credentials in its Secret or, better, workload identity (IRSA, Workload Identity).</p>
+<p>What changes the cost: how often the copy runs (more often means fresher history and more, smaller files to
+merge), how long PostgreSQL keeps rows (its size), how often maintenance runs and how many old snapshots it keeps
+(the lake's storage), and where the data files live (a volume, or object storage and its requests). Analysts attach
+the lake read-only the same way. <code>maple-proxy usage lake --emit-sql attach --catalog-dsn-env MAPLE_POSTGRES_DSN
+--data-env MAPLE_LAKE_DATA_PATH</code> prints what to run in <code>duckdb</code>, with <code>MAPLE_POSTGRES_DSN</code> set to a read-only
+connection string for the analyst (<code>host=postgres.maple.svc dbname=maple user=analyst</code>, for example) and
+<code>MAPLE_LAKE_DATA_PATH</code> to the data path. For data in S3 (<code>s3://your-bucket/maple/</code>) add <code>--s3</code>, which also loads the
+<code>httpfs</code> and <code>aws</code> extensions and reads credentials from DuckDB's credential chain. Without it, the command prints:</p>
+<pre><code class="language-sql">-- Maple usage lake, read-only. Needs DuckDB with the ducklake extension (INSTALL ducklake; once),
+-- the postgres extension (INSTALL postgres; once) and the catalog's connection string in $MAPLE_POSTGRES_DSN.
+INSTALL ducklake;
+INSTALL postgres;
+LOAD ducklake;
+LOAD postgres;
+CREATE OR REPLACE TEMPORARY SECRET maple_lake (TYPE ducklake, METADATA_PATH getenv('MAPLE_POSTGRES_DSN'), METADATA_SCHEMA 'maple_lake', DATA_PATH getenv('MAPLE_LAKE_DATA_PATH'), METADATA_PARAMETERS MAP {'TYPE': 'postgres'});
+ATTACH 'ducklake:maple_lake' AS maple_lake (READ_ONLY);
+USE maple_lake;
+-- For example:
+--   SELECT * FROM maple.daily_spend ORDER BY day DESC LIMIT 20;
+--   FROM maple_lake.snapshots();                                -- the lake's versions
+--   SELECT count(*) FROM main.usage AT (VERSION =&gt; 3);          -- as it was at one of them</code></pre>
+<p>More in <a href="data-lake.html">The Maple data lake</a>.</p>
+<h3 id="the-mcp-hub">The MCP hub <a class="anchor" href="#the-mcp-hub" aria-label="Link to this heading">#</a></h3>
+<p>The hub's servers are programs and sessions that live on one machine, so the hub runs as one replica of its own
+(<code>manifest/maple-mcp-hub</code>, started with <code>maple-proxy mcp-hub serve</code>), with its own ConfigMap; clients connect to its
+Service. The proxy replicas do not serve it. It has a Secret of its own: never mount the proxy's in its pod, since the
+hub runs other programs. Off the pod's loopback address the hub needs TLS, or <code>insecure_http</code>
+behind an Ingress that terminates TLS, and an <code>mcp-hub</code> token.</p>
+<p><strong>Run MCP servers as containers of their own.</strong> A stdio server is a program the hub starts. On a machine the hub
+starts it inside a <a href="sandbox.html">sandbox</a>; the container image has no sandbox (it would need user namespaces, which
+most clusters do not give a pod), so there the hub refuses to start a stdio server and says why. Instead, run each
+server as its own container that serves MCP over HTTP, and add it to the hub by URL (<code>type: http</code>):</p>
+<ul><li><strong>As a sidecar</strong> in the hub's pod (<code>manifest/maple-mcp-hub/sidecar.example.yaml</code>): the server listens on the pod's
+loopback address and the hub reaches it at <code>http://127.0.0.1:&lt;port&gt;/mcp</code> with <code>allow_private: true</code>. It has its own
+image, user and limits, and the hub's Secret is not mounted in it. It shares the pod's network.</li><li><strong>As its own Deployment and Service</strong> for a server you trust less, with a NetworkPolicy that lets only the hub in;
+add it with the Service's URL and <code>allow_private</code> (and <code>allow_insecure</code>, or give it TLS).</li></ul>
+<p><code>mcp_hub.allow_uncontained_stdio: true</code> starts stdio servers in the container anyway, without containment: such a
+program can read everything the hub's container can, its mounted Secret included, and reach the network. Use it only
+for programs you would trust with that Secret.</p>
+<p>Its tokens come from that Secret: <code>access.mcp_hub_tokens</code>, one <code>label=token</code> per line (make each token with
+<code>openssl rand -hex 24</code>), the same way the proxy's tokens come from <code>access.proxy_tokens</code>. They get the <code>mcp-hub</code>
+scope only, and only in the hub's pod. To revoke one, take its line out of the Secret: the hub applies the change
+within a minute, without a restart, and removing every line (or the key) revokes them all. An example value left in
+place is refused, so the hub does not start with a token anyone could read. Refused requests go to the hub's audit
+log, as the proxy's do.</p>
+<h3 id="reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services <a class="anchor" href="#reaching-cloud-metadata-or-link-local-services" aria-label="Link to this heading">#</a></h3>
+<p>The hub never connects an MCP server to a link-local address (<code>169.254.0.0/16</code>, <code>fe80::/10</code>) or a cloud metadata
+address (such as <code>169.254.169.254</code> or <code>fd00:ec2::254</code>), also in the standard IPv6 forms that carry such an address,
+and <code>allow_private</code> does not change that: on a node, the metadata address hands out the node's or the pod's cloud credentials to
+whatever asks, and a server address that ends up there (a typo, a changed DNS record) would let an MCP connection
+read them.</p>
+<p>If a server you trust really lives at one of these addresses, list the exact addresses, each with a port if you
+like, in <code>MAPLE_MCP_ALLOW_ADDRESSES</code> on the hub's container. It is read only from the environment, never from the
+ConfigMap, the Secret or the setup page, so it changes only with the Deployment itself:</p>
+<pre><code class="language-yaml"># manifest/maple-mcp-hub/deployments.yaml
+spec:
+  template:
+    spec:
+      containers:
+        - name: maple-mcp-hub
+          env:
+            - name: MAPLE_MCP_ALLOW_ADDRESSES
+              value: "169.254.170.2:80"   # exact addresses only: no names, ranges or wildcards</code></pre>
+<p>A bad value stops the hub from starting, with a message in its log. When set, the hub logs a warning with the
+addresses at start, <code>maple-proxy mcp-hub status</code> shows them, and the first connection by each server to each is written to the
+audit log. An allowed address in a private range (such as <code>fd00:ec2::254</code>) also needs <code>allow_private</code> on the server. Whatever answers at an allowed address can be reached by every server that resolves there, so allow as
+few as you can. More in <a href="mcp-hub.html#reaching-cloud-metadata-or-link-local-services">MCP hub</a>.</p>
+<h2 id="logs">Logs <a class="anchor" href="#logs" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-sh">kubectl -n maple logs deploy/maple-proxy -f
+kubectl -n maple logs -l app.kubernetes.io/name=maple-proxy --prefix</code></pre>
+<p>Logs are JSON on standard output, one object per line, with <code>proxy_instance</code> naming the pod; see
+<a href="docker.html#logs">Docker: Logs</a> for the fields, levels and shipping. Probes are left out of the request log.</p>
+<h2 id="images-and-memory">Images and memory <a class="anchor" href="#images-and-memory" aria-label="Link to this heading">#</a></h2>
+<p>The pod's memory limit sets how much image resizing may take at once (25% of it by default) and Go's own memory limit
+(90% of it); see <a href="docker.html#images-and-memory">Docker: Images and memory</a>. Raise <code>limits.memory</code>, or
+<code>images.resize_memory</code>, if your tools send many large screenshots at once.</p>
+<h2 id="search-by-meaning">Search by meaning <a class="anchor" href="#search-by-meaning" aria-label="Link to this heading">#</a></h2>
+<p>Each replica downloads a model on first use into its own folder (an <code>emptyDir</code> in <code>config/ha</code>). To download once for
+all, mount one ReadWriteMany volume at <code>/models</code> in every replica: replicas installing the same model at the same
+moment wait for one another, and each download is checked against its pinned checksums before it is moved into
+place.</p>
+<p>Read next: <a href="docker.html">Docker</a>, <a href="teams.html">Teams</a>, <a href="security.html">Security</a>,
+<a href="proxy-settings.html#containers-and-replicas">Proxy settings</a>.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/chaining.html" rel="prev"><small>Previous</small>Chain proxies into hubs</a><a class="next" href="../docs/install.html" rel="next"><small>Next</small>Install</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#the-samples">The samples</a></li><li><a href="#one-replica">One replica</a></li><li><a href="#several-replicas">Several replicas</a><ol><li><a href="#when-you-need-it">When you need it</a></li><li><a href="#what-lives-where">What lives where</a></li><li><a href="#set-it-up">Set it up</a></li><li><a href="#settings-from-the-configmap-or-from-the-page">Settings: from the ConfigMap, or from the page</a></li><li><a href="#load-balancing">Load balancing</a></li><li><a href="#when-postgresql-or-redis-is-away">When PostgreSQL or Redis is away</a></li><li><a href="#upgrades">Upgrades</a></li><li><a href="#backups">Backups</a></li><li><a href="#usage-for-analysis">Usage for analysis</a></li><li><a href="#the-mcp-hub">The MCP hub</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li></ol></li><li><a href="#logs">Logs</a></li><li><a href="#images-and-memory">Images and memory</a></li><li><a href="#search-by-meaning">Search by meaning</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

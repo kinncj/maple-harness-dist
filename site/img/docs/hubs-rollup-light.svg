@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img">
+<title>Usage goes up, people and teams come down</title>
+<desc>Three proxies in a chain. Each child sends its usage records, counts and labels only and never prompts or answers, up to its parent, together with the records its own children sent it, so the top hub can report on the whole chain by origin proxy, person and team. Each request is counted once. People, teams and token hashes are handed down from the top hub to every proxy below it.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="520" fill="#FFFFFF"/>
+<rect x="250" y="30" width="460" height="100" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<text x="270" y="64" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Top hub</text>
+<text x="690" y="64" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="end" class="mono">top.example</text>
+<text x="270" y="98" font-size="14.5" fill="#231A16" font-weight="400" text-anchor="start" class="sans">its own usage + everything below it, by origin proxy</text>
+<rect x="250" y="210" width="460" height="100" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="270" y="244" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Team hub</text>
+<text x="690" y="244" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="end" class="mono">team.example</text>
+<text x="270" y="278" font-size="14.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">its own usage + the laptops that use it</text>
+<rect x="250" y="390" width="460" height="100" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="270" y="424" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Alice&#x27;s laptop</text>
+<text x="690" y="424" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="end" class="mono">laptop</text>
+<text x="270" y="458" font-size="14.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">its own usage, kept locally as always</text>
+<path d="M360 390 L360 310" fill="none" stroke="#3C6E2F" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-ok)"/>
+<path d="M600 310 L600 390" fill="none" stroke="#2C6A78" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-down)"/>
+<path d="M360 210 L360 130" fill="none" stroke="#3C6E2F" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-ok)"/>
+<path d="M600 130 L600 210" fill="none" stroke="#2C6A78" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-down)"/>
+<rect x="192" y="157" width="156" height="25" rx="12.5" fill="#FAF6F2" stroke="#3C6E2F" stroke-width="1"/>
+<text x="270" y="173" font-size="13" fill="#3C6E2F" font-weight="600" text-anchor="middle" class="sans">usage records go up</text>
+<rect x="612" y="157" width="146" height="25" rx="12.5" fill="#E2EFF1" stroke="#2C6A78" stroke-width="1"/>
+<text x="685" y="173" font-size="13" fill="#2C6A78" font-weight="600" text-anchor="middle" class="sans">people and teams</text>
+<rect x="192" y="337" width="156" height="25" rx="12.5" fill="#FAF6F2" stroke="#3C6E2F" stroke-width="1"/>
+<text x="270" y="353" font-size="13" fill="#3C6E2F" font-weight="600" text-anchor="middle" class="sans">usage records go up</text>
+<rect x="612" y="337" width="146" height="25" rx="12.5" fill="#E2EFF1" stroke="#2C6A78" stroke-width="1"/>
+<text x="685" y="353" font-size="13" fill="#2C6A78" font-weight="600" text-anchor="middle" class="sans">people and teams</text>
+<text x="30" y="60" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Sent up:</text>
+<text x="30" y="82" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">counts and labels</text>
+<text x="30" y="104" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">only, never prompts,</text>
+<text x="30" y="126" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">answers or files</text>
+<text x="30" y="166" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Counted once:</text>
+<text x="30" y="188" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">one id per request,</text>
+<text x="30" y="210" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">shared by every hop</text>
+<text x="780" y="60" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Parent down?</text>
+<text x="780" y="82" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">the child keeps its</text>
+<text x="780" y="104" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">records and sends</text>
+<text x="780" y="126" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">them later</text>
+<text x="780" y="166" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Turn it off:</text>
+<text x="780" y="188" font-size="13.5" fill="#231A16" font-weight="400" text-anchor="start" class="mono">chain.report_usage</text>
+<text x="780" y="210" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">off, on the child</text>
+</svg>
