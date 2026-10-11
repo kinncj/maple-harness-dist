@@ -1,0 +1,24 @@
+# Workload identity federation for GKE, for vertex providers: the pod gets Google tokens from the GKE
+# metadata server as its Kubernetes service account, and no key file is mounted.
+# Add to an overlay (config/single or config/ha):
+#
+#   components:
+#     - ../cloud-identity/gke
+#
+# Grant the service account (maple/maple-proxy) the Vertex AI User role, directly as a workload
+# identity principal, or through the Google service account named in serviceaccount.yaml.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - serviceaccount.yaml
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        template:
+          spec:
+            serviceAccountName: maple-proxy

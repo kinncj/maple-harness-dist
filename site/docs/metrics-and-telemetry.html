@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Metrics and telemetry export · Maple Harness docs</title>
+<meta name="description" content="The proxy can hand what it already knows about each request (counts, timings, tokens, health, budgets) to the monitoring and security tools you run: a Prometheus /metrics endpoint, an OpenTelemetry (O">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html" aria-current="page">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html" aria-current="page">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">Metrics and telemetry export</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li aria-current="page">Metrics and telemetry export</li></ol></div></nav>
+<article>
+<h1 id="metrics-and-telemetry-export">Metrics and telemetry export <a class="anchor" href="#metrics-and-telemetry-export" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#prometheus">Prometheus</a><ol><li><a href="#where-to-scrape">Where to scrape</a></li><li><a href="#what-is-exported">What is exported</a></li><li><a href="#labels-stay-bounded">Labels stay bounded</a></li><li><a href="#several-replicas">Several replicas</a></li><li><a href="#grafana">Grafana</a></li></ol></li><li><a href="#opentelemetry">OpenTelemetry</a><ol><li><a href="#environment-variables">Environment variables</a></li><li><a href="#collector">Collector</a></li></ol></li><li><a href="#audit-events-for-a-siem">Audit events for a SIEM</a></li><li><a href="#what-is-never-exported">What is never exported</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>The proxy can hand what it already knows about each request (counts, timings, tokens, health, budgets) to the
+monitoring and security tools you run: a Prometheus <code>/metrics</code> endpoint, an OpenTelemetry (OTLP) export of traces,
+metrics and logs, and the audit events as JSON lines for a SIEM. All of it is <strong>off by default</strong>; on one machine
+nothing changes until you turn something on.</p>
+<p>It is metadata only. No prompt, answer, file, tool argument, key or token is ever exported, and no error text either:
+a failure is exported as its fixed class (<code>rate limited</code>, <code>server error</code>), never as what the provider said.</p>
+<h2 id="turn-it-on">Turn it on <a class="anchor" href="#turn-it-on" aria-label="Link to this heading">#</a></h2>
+<p>On the setup page, open <strong>Data</strong>, then <strong>Observability export</strong> (collapsed at the bottom). Every switch there is
+written to <code>config.yaml</code> and applied at once, without a restart. Or in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">metrics:
+  prometheus: on        # serve /metrics
+  per_person: off       # on: also count requests per person and team (see below)
+
+otel:
+  endpoint: https://collector.example.com:4317   # setting it turns the OTLP export on
+  protocol: grpc                                 # grpc or http (HTTP/protobuf)
+  headers:
+    authorization: ${secret:otel/authorization}  # credentials as references, never written here
+  traces: on            # one span per request
+  metrics: on           # the same figures as /metrics
+  logs: off             # on: the proxy's own log lines too
+
+log:
+  audit_lines: off      # on: audit events as JSON lines on standard output</code></pre>
+<p>A header that carries a credential (<code>authorization</code>, anything with <code>token</code>, <code>key</code> or <code>secret</code> in its name) must be a
+<code>${secret:...}</code> or <code>${env:...}</code> reference: store it with <code>maple-proxy secrets set otel/authorization</code> (the value on standard input) and the proxy
+refuses a value written into the file. A reference may only name an <code>otel/</code> secret or an <code>OTEL_</code> or <code>MAPLE_</code>
+environment variable, so a provider key cannot be sent to a collector by mistake. Headers are never shown or changed
+on the setup page, and are never sent over plain <code>http://</code> to another machine unless you set <code>otel.insecure_http:
+on</code> for a network you trust.</p>
+<h2 id="prometheus">Prometheus <a class="anchor" href="#prometheus" aria-label="Link to this heading">#</a></h2>
+<h3 id="where-to-scrape">Where to scrape <a class="anchor" href="#where-to-scrape" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table><thead><tr><th>From</th><th>Address</th><th>Token</th></tr></thead><tbody><tr><td>This machine</td><td><code>http://127.0.0.1:11539/metrics</code> (the setup page's address)</td><td>none; with a setup-page password, a token with the <code>metrics</code> scope</td></tr><tr><td>Another machine, a container, Kubernetes</td><td>the OpenAI-compatible address, <code>/metrics</code></td><td>a token with the <code>metrics</code> scope</td></tr></tbody></table></div>
+<p>Make a token with <code>maple-proxy metrics token prometheus</code> (shown once). The <code>metrics</code> scope reads <code>/metrics</code> and
+nothing else: it cannot use the models, and no token made before Maple 2.1 has it, whatever its scopes. In a
+container, mount the tokens as the secret <code>access.metrics_tokens</code> (one <code>label=token</code> a line), like the proxy tokens.
+Revoke a token on the setup page, under <strong>Remote access</strong>. Each token may scrape about once a second (a burst of
+five); a 30-second scrape interval is plenty.</p>
+<pre><code class="language-yaml"># prometheus.yml
+scrape_configs:
+  - job_name: maple-proxy
+    metrics_path: /metrics
+    authorization:
+      credentials_file: /etc/prometheus/maple-metrics-token
+    static_configs:
+      - targets: ["maple-host.example.com:11535"]</code></pre>
+<h3 id="what-is-exported">What is exported <a class="anchor" href="#what-is-exported" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table><thead><tr><th>Metric</th><th>Type</th><th>Labels</th></tr></thead><tbody><tr><td><code>maple_requests_total</code></td><td>counter</td><td><code>provider</code>, <code>model</code>, <code>outcome</code> (<code>ok</code>, <code>error</code>, <code>canceled</code>, <code>cached</code>), <code>error_class</code>, <code>auto_weight</code></td></tr><tr><td><code>maple_request_duration_seconds</code></td><td>histogram</td><td><code>provider</code>, <code>model</code>, <code>outcome</code></td></tr><tr><td><code>maple_time_to_first_token_seconds</code></td><td>histogram</td><td><code>provider</code>, <code>model</code> (streamed answers)</td></tr><tr><td><code>maple_tokens_total</code></td><td>counter</td><td><code>provider</code>, <code>model</code>, <code>direction</code> (<code>input</code>, <code>output</code>, <code>cached</code>, <code>cache_write</code>)</td></tr><tr><td><code>maple_ai_units_total</code></td><td>counter</td><td><code>provider</code>, <code>model</code>: AI units as the provider stated them (measured)</td></tr><tr><td><code>maple_estimated_cost_usd_total</code></td><td>counter</td><td><code>provider</code>, <code>model</code>: list-price cost, for providers set up to estimate it (estimated); for xAI, the price xAI stated for each call</td></tr><tr><td><code>maple_cache_requests_total</code></td><td>counter</td><td><code>provider</code>, <code>model</code>, <code>result</code> (<code>hit</code>, <code>partial</code>, <code>miss</code>, <code>lost</code>, <code>n/a</code>, <code>response_cache</code>)</td></tr><tr><td><code>maple_provider_health</code></td><td>gauge</td><td><code>provider</code>, <code>model</code>, <code>state</code>: 1 for the current <a href="health.html">health</a> state</td></tr><tr><td><code>maple_budget_used</code>, <code>maple_budget_limit</code></td><td>gauge</td><td><code>provider</code>, <code>unit</code> (<code>requests</code>, <code>ai_units</code>): today's <a href="proxy-settings.html#budgets">budgets</a>, UTC day</td></tr><tr><td><code>maple_alerts_firing</code></td><td>gauge</td><td><code>rule</code>, <code>level</code>: <a href="alerts-and-forecasts.html">alerts</a> in force</td></tr><tr><td><code>maple_requests_in_flight</code></td><td>gauge</td><td>requests being answered now, streams included</td></tr><tr><td><code>maple_build_info</code></td><td>gauge</td><td><code>version</code></td></tr><tr><td><code>go_goroutines</code>, <code>go_memory_total_bytes</code>, <code>go_heap_objects_bytes</code>, <code>go_gc_heap_goal_bytes</code>, <code>go_gc_cycles_total</code>, <code>go_cpu_seconds_total</code>, <code>go_gomaxprocs</code>, <code>process_start_time_seconds</code></td><td></td><td>the process</td></tr></tbody></table></div>
+<p><code>maple_tokens_total{direction="input"}</code> includes the cached tokens; <code>cached</code> is the part read from the provider's
+cache. Counters start at zero when the proxy starts.</p>
+<h3 id="labels-stay-bounded">Labels stay bounded <a class="anchor" href="#labels-stay-bounded" aria-label="Link to this heading">#</a></h3>
+<p>Every label has a fixed set of values or a cap on how many it keeps (a model name past the cap is counted as
+<code>other</code>), so a client sending a new model name with every request cannot grow your Prometheus without end. There is no
+session, conversation, token or person label.</p>
+<p><code>metrics.per_person: on</code> adds <code>person</code> and <code>team</code> to <code>maple_requests_total</code> and <code>maple_ai_units_total</code>, and to spans.
+It is a choice with two costs: more series (one per person per provider and model), and your metrics then name the
+people using the proxy, for whoever can read them. Leave it off unless you need per-person figures in your
+monitoring; the setup page's Team tab and <code>maple-proxy usage</code> already have them.</p>
+<h3 id="several-replicas">Several replicas <a class="anchor" href="#several-replicas" aria-label="Link to this heading">#</a></h3>
+<p>Each pod serves its own <code>/metrics</code>, counting what it answered. Scrape every pod and add them up in Prometheus
+(<code>sum by (provider, model) (rate(maple_requests_total[5m]))</code>). Gauges such as <code>maple_budget_used</code> are each pod's own
+view. For the Prometheus Operator, the Kubernetes samples have a component, <code>config/metrics</code>, with a
+<code>ServiceMonitor</code> that sends a metrics token (see <a href="kubernetes.html">Kubernetes</a>).</p>
+<h3 id="grafana">Grafana <a class="anchor" href="#grafana" aria-label="Link to this heading">#</a></h3>
+<p>Some starting points:</p>
+<ul><li>requests a second by outcome: <code>sum by (outcome) (rate(maple_requests_total[5m]))</code></li><li>error ratio by provider: <code>sum by (provider) (rate(maple_requests_total{outcome="error"}[5m])) / sum by (provider) (rate(maple_requests_total[5m]))</code></li><li>95th-percentile latency: <code>histogram_quantile(0.95, sum by (le, model) (rate(maple_request_duration_seconds_bucket[5m])))</code></li><li>time to first token: the same with <code>maple_time_to_first_token_seconds_bucket</code></li><li>cache reads: <code>sum(rate(maple_tokens_total{direction="cached"}[1h])) / sum(rate(maple_tokens_total{direction="input"}[1h]))</code></li><li>budget use: <code>maple_budget_used / maple_budget_limit</code></li><li>a degraded or demoted model: <code>maple_provider_health{state!="healthy"} == 1</code></li></ul>
+<h2 id="opentelemetry">OpenTelemetry <a class="anchor" href="#opentelemetry" aria-label="Link to this heading">#</a></h2>
+<p>With <code>otel.endpoint</code> set, the proxy sends to an OpenTelemetry collector over OTLP, gRPC (<code>grpc</code>, the default, port</p>
+<ol start="4317"><li>or HTTP/protobuf (<code>http</code>, port 4318; the signal paths <code>/v1/traces</code>, <code>/v1/metrics</code> and <code>/v1/logs</code> are added to</li></ol>
+<p>the address). <code>http://</code> is plain text and <code>https://</code> is TLS.</p>
+<ul><li><strong>Traces:</strong> one span per request, in one trace per client request (a request tried on two providers is two spans
+in one trace). Its attributes are the facts the usage log already records: provider, the model asked for and the one
+that answered, outcome, error class, input, output and cached tokens, AI units, time to first token, route reason,
+attempts and hops. Never content, session, conversation or token.</li><li><strong>Metrics:</strong> the same figures and names as <code>/metrics</code>, as cumulative sums, gauges and histograms, once a minute.</li><li><strong>Logs:</strong> the audit events (below) whenever the export is on, and with <code>otel.logs: on</code> the proxy's own log lines
+too.</li></ul>
+<p>The export never slows a request: spans and log records wait in a bounded queue and are sent in batches every few
+seconds; when the collector is slow or down, a full queue drops the newest, and the setup page shows how many were
+sent and dropped, and the last error. Nothing piles up in memory.</p>
+<h3 id="environment-variables">Environment variables <a class="anchor" href="#environment-variables" aria-label="Link to this heading">#</a></h3>
+<p>The standard <code>OTEL_*</code> variables fill in what <code>otel:</code> leaves unset: <code>OTEL_EXPORTER_OTLP_PROTOCOL</code>,
+<code>OTEL_EXPORTER_OTLP_HEADERS</code>, <code>OTEL_EXPORTER_OTLP_TIMEOUT</code>,
+<code>OTEL_SERVICE_NAME</code> (default <code>maple-proxy</code>), <code>OTEL_RESOURCE_ATTRIBUTES</code>, <code>OTEL_BSP_SCHEDULE_DELAY</code>,
+<code>OTEL_BSP_MAX_QUEUE_SIZE</code>, <code>OTEL_BSP_MAX_EXPORT_BATCH_SIZE</code> and <code>OTEL_METRIC_EXPORT_INTERVAL</code>. A signal's own
+endpoint (<code>OTEL_EXPORTER_OTLP_TRACES_ENDPOINT</code> and the like) wins for that signal; <code>OTEL_TRACES_EXPORTER=none</code> (or
+metrics, logs) turns one off, and <code>OTEL_SDK_DISABLED=true</code> all of them. The environment never turns the export on by
+itself: only <code>otel.endpoint</code> does, so a variable meant for another program does not start sending.</p>
+<h3 id="collector">Collector <a class="anchor" href="#collector" aria-label="Link to this heading">#</a></h3>
+<p>A minimal OpenTelemetry Collector configuration that receives from the proxy:</p>
+<pre><code class="language-yaml">receivers:
+  otlp:
+    protocols:
+      grpc: {endpoint: 0.0.0.0:4317}
+      http: {endpoint: 0.0.0.0:4318}
+processors:
+  batch: {}
+exporters:
+  debug: {}            # replace with your backend's exporter
+service:
+  pipelines:
+    traces:  {receivers: [otlp], processors: [batch], exporters: [debug]}
+    metrics: {receivers: [otlp], processors: [batch], exporters: [debug]}
+    logs:    {receivers: [otlp], processors: [batch], exporters: [debug]}</code></pre>
+<h2 id="audit-events-for-a-siem">Audit events for a SIEM <a class="anchor" href="#audit-events-for-a-siem" aria-label="Link to this heading">#</a></h2>
+<p>The audit events are what was done to the proxy's access and settings: a token made or revoked, refused and
+rate-limited requests, setup-page sign-ins and settings written, secrets moved, and MCP hub tool calls. With
+<code>log.audit_lines: on</code> (or <code>MAPLE_LOG_AUDIT=on</code>) each is also written to standard output as one JSON line, ready
+for a log collector:</p>
+<pre><code class="language-json">{"time":"2026-10-11T12:00:00.000Z","level":"INFO","msg":"audit","component":"audit","at":"2026-10-11T12:00:00Z","event":"token.create","actor":"setup-page","ip":"127.0.0.1","method":"POST","path":"/api/access/tokens","detail":"id=… label=laptop scopes=proxy"}</code></pre>
+<p>Refusals are written at level <code>WARN</code>. With the OTLP export on, the same events go out as log records
+(<code>log.type=audit</code>). Anything shaped like a token, key or password is replaced with <code>[redacted]</code> before it is
+written, the same way as in the audit file on disk. Single sign-on sign-ins include who signed in (the identity
+provider, the subject and the email address), as a SIEM expects.</p>
+<h2 id="what-is-never-exported">What is never exported <a class="anchor" href="#what-is-never-exported" aria-label="Link to this heading">#</a></h2>
+<ul><li>prompts, answers, files, images, tool definitions, tool arguments or results;</li><li>error text from a provider (only its class);</li><li>keys, tokens, header values, setup-page passwords;</li><li>session ids, conversation ids, request fingerprints and access-token labels in metrics and spans;</li><li>people and teams, unless <code>metrics.per_person</code> is on.</li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="proxy-settings.html#observability-export">Proxy settings</a>: every key.</li><li><a href="observability.html">See and filter your usage</a>: the usage log, on your own disk.</li><li><a href="health.html">Provider health</a> and <a href="alerts-and-forecasts.html">Alerts and forecasts</a>.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/observability.html" rel="prev"><small>Previous</small>See and filter your usage</a><a class="next" href="../docs/health.html" rel="next"><small>Next</small>Provider health</a></div><div class="mset m-teams"><a class="prev" href="../docs/observability.html" rel="prev"><small>Previous</small>See and filter your usage</a><a class="next" href="../docs/health.html" rel="next"><small>Next</small>Provider health</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#prometheus">Prometheus</a><ol><li><a href="#where-to-scrape">Where to scrape</a></li><li><a href="#what-is-exported">What is exported</a></li><li><a href="#labels-stay-bounded">Labels stay bounded</a></li><li><a href="#several-replicas">Several replicas</a></li><li><a href="#grafana">Grafana</a></li></ol></li><li><a href="#opentelemetry">OpenTelemetry</a><ol><li><a href="#environment-variables">Environment variables</a></li><li><a href="#collector">Collector</a></li></ol></li><li><a href="#audit-events-for-a-siem">Audit events for a SIEM</a></li><li><a href="#what-is-never-exported">What is never exported</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

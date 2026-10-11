@@ -1,0 +1,28 @@
+# Workload identity on AKS, for azure providers with no api_key: the pod signs in to Microsoft Entra ID
+# as the managed identity federated with its service account, and no key is stored.
+# Add to an overlay (config/single or config/ha):
+#
+#   components:
+#     - ../cloud-identity/aks
+#
+# Set the managed identity's client id in serviceaccount.yaml, and federate that identity with
+# system:serviceaccount:maple:maple-proxy (az identity federated-credential create).
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - serviceaccount.yaml
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        template:
+          metadata:
+            labels:
+              # The AKS webhook adds AZURE_CLIENT_ID, AZURE_TENANT_ID and the federated token file.
+              azure.workload.identity/use: "true"
+          spec:
+            serviceAccountName: maple-proxy

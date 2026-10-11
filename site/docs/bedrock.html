@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Amazon Bedrock · Maple Harness docs</title>
+<meta name="description" content="Use the models in your company&#x27;s AWS account through Amazon Bedrock: Claude, Amazon Nova, Llama, Mistral and the others Bedrock offers. Requests are signed with your own AWS credentials and billed to ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html" aria-current="page">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html" aria-current="page">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Amazon Bedrock</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/install.html">Get started</a></li><li aria-current="page">Amazon Bedrock</li></ol></div></nav>
+<article>
+<h1 id="amazon-bedrock">Amazon Bedrock <a class="anchor" href="#amazon-bedrock" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#on-a-laptop">On a laptop</a><ol><li><a href="#where-the-credentials-come-from">Where the credentials come from</a></li><li><a href="#permissions">Permissions</a></li></ol></li><li><a href="#model-access">Model access</a></li><li><a href="#regions-and-inference-profiles">Regions and inference profiles</a><ol><li><a href="#which-bedrock-api">Which Bedrock API</a></li></ol></li><li><a href="#on-kubernetes-eks">On Kubernetes (EKS)</a></li><li><a href="#cost-and-usage">Cost and usage</a></li></ol></details>
+
+<p>Use the models in your company's AWS account through Amazon Bedrock: Claude, Amazon Nova, Llama, Mistral and the
+others Bedrock offers. Requests are signed with your own AWS credentials and billed to your AWS account under your AWS
+agreement. Maple stores no AWS key: on a laptop it uses your AWS profile or SSO sign-in, and on Kubernetes the pod's
+IAM role.</p>
+<p>Follow AWS's terms and each model provider's terms. AWS makes the account holder responsible for the people who use
+the service through the account.</p>
+<h2 id="on-a-laptop">On a laptop <a class="anchor" href="#on-a-laptop" aria-label="Link to this heading">#</a></h2>
+<p>Sign in to AWS the way you already do, then add Bedrock to the proxy:</p>
+<pre><code class="language-sh">aws sso login --profile work                 # or any other way the AWS CLI finds credentials
+maple-proxy bedrock models --profile work --region us-east-1
+maple-proxy bedrock add --profile work --region us-east-1 \
+  --model us.anthropic.claude-sonnet-4-5-20250929-v1:0 --model anthropic.claude-opus-4-7</code></pre>
+<p><code>bedrock models</code> lists the text models and inference profiles the region offers your account, and which Bedrock API
+the proxy uses for each. <code>bedrock add</code> checks the models you name against that list and writes the provider into
+<code>config.yaml</code> (a running proxy picks it up at once). The entry it writes:</p>
+<pre><code class="language-yaml">providers:
+  - id: bedrock
+    type: bedrock
+    bedrock:
+      region: us-east-1        # default: the region your AWS configuration names (AWS_REGION or the profile's)
+      profile: work            # default: the AWS default chain
+    models:
+      - id: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+        context_window: 200000
+        supports_tools: true
+      - id: anthropic.claude-opus-4-7
+        context_window: 200000
+        supports_tools: true</code></pre>
+<p>On the setup page, <strong>Add provider</strong> with the type <strong>Amazon Bedrock</strong> works too: type the model ids. The region and
+profile live in the <code>bedrock:</code> section of the raw configuration (the form keeps them when you edit the provider).</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-bedrock-providers-light.webp" alt="The setup page&#x27;s Providers list with two providers, bedrock-us-east-1 and bedrock-us-west-2, each marked healthy, of type bedrock, each with the models us.anthropic.claude-sonnet-4-5-20250929-v1:0 and anthropic.claude-opus-4-7 at 200k context" width="1000" height="275" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-bedrock-providers-dark.webp" alt="The setup page&#x27;s Providers list with two providers, bedrock-us-east-1 and bedrock-us-west-2, each marked healthy, of type bedrock, each with the models us.anthropic.claude-sonnet-4-5-20250929-v1:0 and anthropic.claude-opus-4-7 at 200k context" width="1000" height="275" loading="lazy" decoding="async">
+<figcaption>Two regions added with <code>maple-proxy bedrock add</code> (a demo setup, with a stand-in for Amazon Bedrock).</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-bedrock-edit-light.webp" alt="The provider form for bedrock-us-east-1 with the type Amazon Bedrock: its description says the models are signed with your AWS credentials and nothing is stored, and the two model ids are listed with a 200000 context and tools on" width="1000" height="469" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-bedrock-edit-dark.webp" alt="The provider form for bedrock-us-east-1 with the type Amazon Bedrock: its description says the models are signed with your AWS credentials and nothing is stored, and the two model ids are listed with a 200000 context and tools on" width="1000" height="469" loading="lazy" decoding="async">
+<figcaption>Editing one of them on the setup page.</figcaption>
+</figure>
+<h3 id="where-the-credentials-come-from">Where the credentials come from <a class="anchor" href="#where-the-credentials-come-from" aria-label="Link to this heading">#</a></h3>
+<p>The proxy uses the AWS SDK's own credential chain, in its usual order, and the SDK refreshes temporary credentials
+before they expire:</p>
+<ol><li>Environment variables: <code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code>, <code>AWS_SESSION_TOKEN</code>, or <code>AWS_PROFILE</code>.</li><li>The shared files <code>~/.aws/config</code> and <code>~/.aws/credentials</code>: a profile (<code>bedrock.profile</code>), an IAM Identity Center
+(SSO) profile, <code>credential_process</code>.</li><li>Web identity: <code>AWS_WEB_IDENTITY_TOKEN_FILE</code> and <code>AWS_ROLE_ARN</code> (IAM roles for service accounts on EKS).</li><li>The container credentials endpoint: ECS tasks, and EKS Pod Identity.</li><li>The EC2 instance's role.</li></ol>
+<p><code>bedrock.role_arn</code> assumes a role with whatever the chain found, for every request of that provider. A Bedrock API
+key in <code>AWS_BEARER_TOKEN_BEDROCK</code> is used instead of signing, as AWS's own tools do, and only over https.</p>
+<p>When the sign-in runs out (an expired SSO session, say), requests to that provider fail as <strong>not authorised</strong> and the
+setup page's provider list says that no usable AWS credentials were found. Run <code>aws sso login</code> again; nothing needs a
+restart.</p>
+<p><strong>A fixed access key</strong>, only if you must: put it in the environment and run</p>
+<pre><code class="language-sh">maple-proxy bedrock store-key --id bedrock</code></pre>
+<p>It keeps the key in the secret store and writes only references into <code>config.yaml</code>
+(<code>access_key_id: ${secret:provider/bedrock/aws_access_key_id}</code> and the same for <code>secret_access_key</code>). A key written
+into the file itself is refused.</p>
+<h3 id="permissions">Permissions <a class="anchor" href="#permissions" aria-label="Link to this heading">#</a></h3>
+<p>The identity needs <code>bedrock:InvokeModel</code> and <code>bedrock:InvokeModelWithResponseStream</code> on the models (and on the
+inference profiles you use), plus <code>bedrock:ListFoundationModels</code> and <code>bedrock:ListInferenceProfiles</code> for <code>bedrock
+models</code> and <code>bedrock add</code>.</p>
+<h2 id="model-access">Model access <a class="anchor" href="#model-access" aria-label="Link to this heading">#</a></h2>
+<p>A model must be available to your AWS account in the region before it answers. Some model providers ask for a
+one-time use-case form or an AWS Marketplace subscription first; open the Amazon Bedrock console in that region to
+check. Until then, requests fail as <strong>not authorised</strong>, and the message names the model, the region and the console
+link. Other models on the same provider keep working.</p>
+<h2 id="regions-and-inference-profiles">Regions and inference profiles <a class="anchor" href="#regions-and-inference-profiles" aria-label="Link to this heading">#</a></h2>
+<p>One provider is one region with one set of credentials: an <strong>account</strong> in Maple's sense. Several regions are
+several providers:</p>
+<pre><code class="language-sh">maple-proxy bedrock add --region us-east-1,us-west-2 --model us.anthropic.claude-sonnet-4-5-20250929-v1:0</code></pre>
+<p>This writes <code>bedrock-us-east-1</code> and <code>bedrock-us-west-2</code> and chains them with
+<a href="proxy-settings.html#fallbacks"> 2 </a>: a throttled region (HTTP 429), a spent service quota or an outage
+moves the request to the next one. The providers can be <a href="teams.html">assigned to people and teams</a> and shared
+through a <a href="chaining.html">hub</a>, like any account. <code>bedrock-us-west-2/&lt;model&gt;</code> asks for one region's copy.</p>
+<p><strong>Inference profiles</strong> route a request across the regions of a geography, for more capacity: their ids start with
+<code>us.</code>, <code>eu.</code>, <code>apac.</code> or <code>global.</code> in front of the model id. Some models are offered only through a profile; when you
+ask for such a model by its plain id, the error says to use its profile id instead. Your account's own application
+inference profiles (an ARN) work as model ids too.</p>
+<h3 id="which-bedrock-api">Which Bedrock API <a class="anchor" href="#which-bedrock-api" aria-label="Link to this heading">#</a></h3>
+<p>Claude Opus 4.7 and later go through Bedrock's Messages API endpoint (<code>bedrock-mantle</code>), which speaks Anthropic's
+Messages format; every other model, earlier Claude models included, goes through Bedrock's Converse API. Both stream,
+take tools and images, and use prompt caching where the model supports it (cache points are placed only on models that
+accept them). To send every Claude model one way, set <code>bedrock.claude_api</code> to <code>messages</code> or <code>converse</code> (default
+<code>auto</code>).</p>
+<h2 id="on-kubernetes-eks">On Kubernetes (EKS) <a class="anchor" href="#on-kubernetes-eks" aria-label="Link to this heading">#</a></h2>
+<p>The <a href="kubernetes.html">Kubernetes samples</a> include a component for IAM roles for service accounts in
+<code>config/cloud-identity/eks/</code>. Add it to your overlay:</p>
+<pre><code class="language-yaml"># config/single/kustomization.yaml (or config/ha)
+components:
+  - ../cloud-identity/eks</code></pre>
+<ol><li>Create an IAM role whose trust policy allows the cluster's OIDC provider for
+<code>system:serviceaccount:maple:maple-proxy</code>, with the Bedrock permissions above.</li><li>Put the role's ARN in <code>config/cloud-identity/eks/serviceaccount.yaml</code>
+(<code>eks.amazonaws.com/role-arn</code>).</li><li>Set <code>bedrock.region</code> in the provider.</li></ol>
+<p>The EKS webhook gives the pod <code>AWS_ROLE_ARN</code> and a projected token in <code>AWS_WEB_IDENTITY_TOKEN_FILE</code>; the proxy
+exchanges it for the role's temporary credentials. The component also turns off the EC2 instance metadata
+lookup, so a pod whose role is missing fails as <strong>not authorised</strong> rather than using the node's own role. For <strong>EKS Pod Identity</strong>, remove the annotation and create a pod
+identity association for <code>maple/maple-proxy</code> instead. With several replicas, each one uses its own pod's role: no AWS
+credential is shared through the central storage.</p>
+<h2 id="cost-and-usage">Cost and usage <a class="anchor" href="#cost-and-usage" aria-label="Link to this heading">#</a></h2>
+<p>Bedrock does not state a price on its replies, so the proxy records the tokens each call used (input, cached input
+and output) and no price; your AWS bill is the authority. For Claude models on the Messages API,
+<code>estimate_cost: true</code> on the provider adds an estimate from Anthropic's list prices, labelled as an estimate; AWS's
+own pricing can differ (regional endpoints, commitments). See <a href="cost.html">Cost</a>.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/clouds.html" rel="prev"><small>Previous</small>Azure and Google Cloud</a><a class="next" href="../docs/endpoints.html" rel="next"><small>Next</small>Connect a model server</a></div><div class="mset m-teams"><a class="prev" href="../docs/clouds.html" rel="prev"><small>Previous</small>Azure and Google Cloud</a><a class="next" href="../docs/endpoints.html" rel="next"><small>Next</small>Connect a model server</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#on-a-laptop">On a laptop</a><ol><li><a href="#where-the-credentials-come-from">Where the credentials come from</a></li><li><a href="#permissions">Permissions</a></li></ol></li><li><a href="#model-access">Model access</a></li><li><a href="#regions-and-inference-profiles">Regions and inference profiles</a><ol><li><a href="#which-bedrock-api">Which Bedrock API</a></li></ol></li><li><a href="#on-kubernetes-eks">On Kubernetes (EKS)</a></li><li><a href="#cost-and-usage">Cost and usage</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

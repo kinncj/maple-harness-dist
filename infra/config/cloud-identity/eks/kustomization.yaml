@@ -1,0 +1,35 @@
+# IAM roles for service accounts (IRSA) on EKS, for bedrock providers: the pod's projected token is
+# exchanged with AWS STS for the role's temporary credentials, which the AWS SDK refreshes itself,
+# and no AWS key is stored. Each replica does this on its own; nothing is shared between them.
+# Add to an overlay (config/single or config/ha):
+#
+#   components:
+#     - ../cloud-identity/eks
+#
+# Set the role's ARN in serviceaccount.yaml. The role's trust policy allows the cluster's OIDC
+# provider for system:serviceaccount:maple:maple-proxy, and its permissions policy allows
+# bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream (plus bedrock:ListFoundationModels
+# and bedrock:ListInferenceProfiles for listing models).
+#
+# EKS Pod Identity instead: remove the annotation from serviceaccount.yaml and create a pod identity
+# association for maple/maple-proxy (aws eks create-pod-identity-association); nothing else changes.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - serviceaccount.yaml
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        template:
+          spec:
+            serviceAccountName: maple-proxy
+            containers:
+              - name: maple-proxy
+                env:
+                  # Never fall back to the node's own instance role when the pod's role is missing.
+                  - {name: AWS_EC2_METADATA_DISABLED, value: "true"}

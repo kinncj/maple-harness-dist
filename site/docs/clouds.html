@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Azure and Google Cloud · Maple Harness docs</title>
+<meta name="description" content="Use the models your company already pays for in its own cloud: Azure OpenAI and Microsoft Foundry (including Claude in Foundry), and Google&#x27;s Vertex AI, which Google now also calls Agent Platform (Gem">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html" aria-current="page">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/install.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html" aria-current="page">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Azure and Google Cloud</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/install.html">Get started</a></li><li aria-current="page">Azure and Google Cloud</li></ol></div></nav>
+<article>
+<h1 id="azure-and-google-cloud">Azure and Google Cloud <a class="anchor" href="#azure-and-google-cloud" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#azure-openai-and-microsoft-foundry">Azure OpenAI and Microsoft Foundry</a><ol><li><a href="#signing-in">Signing in</a></li><li><a href="#all-the-settings">All the settings</a></li></ol></li><li><a href="#google-vertex-ai-agent-platform">Google Vertex AI (Agent Platform)</a><ol><li><a href="#signing-in-1">Signing in</a></li></ol></li><li><a href="#regions-and-accounts-as-fallbacks">Regions and accounts as fallbacks</a></li><li><a href="#on-kubernetes">On Kubernetes</a><ol><li><a href="#aks-workload-identity">AKS (workload identity)</a></li><li><a href="#gke-workload-identity-federation">GKE (workload identity federation)</a></li></ol></li><li><a href="#cost-and-usage">Cost and usage</a></li></ol></details>
+
+<p>Use the models your company already pays for in its own cloud: Azure OpenAI and Microsoft Foundry (including
+Claude in Foundry), and Google's Vertex AI, which Google now also calls Agent Platform (Gemini, and Claude on
+Vertex). Requests are billed to your cloud account under your cloud agreement. Maple stores no cloud key when you
+sign in with the cloud's own identity: on a laptop it uses your <code>az login</code> or <code>gcloud</code> sign-in, and on Kubernetes the
+pod's workload identity.</p>
+<p>Follow your cloud provider's terms. Both clouds make the customer responsible for the people it serves and do not
+allow reselling the service.</p>
+<h2 id="azure-openai-and-microsoft-foundry">Azure OpenAI and Microsoft Foundry <a class="anchor" href="#azure-openai-and-microsoft-foundry" aria-label="Link to this heading">#</a></h2>
+<p>One provider is one Azure resource. Its <strong>deployments are its models</strong>: the model id is the deployment name you
+chose in the Azure portal or Foundry.</p>
+<pre><code class="language-yaml">providers:
+  - id: azure
+    type: azure
+    base_url: https://my-resource.openai.azure.com   # the resource's endpoint
+    models:
+      - id: gpt-prod              # a deployment name
+        context_window: 400000
+        supports_tools: true
+      - id: claude-sonnet         # a Claude deployment in Foundry
+        context_window: 200000
+        supports_tools: true</code></pre>
+<p>On the setup page: <strong>Add provider</strong>, type <strong>Azure OpenAI / Foundry</strong>, the resource's endpoint as the base URL, then
+add the deployment names (<strong>Detect models</strong> lists them when the resource still offers the older deployments list;
+otherwise type them).</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-azure-detect-light.webp" alt="The setup page&#x27;s provider form with the id azure and the type Azure OpenAI / Foundry: its description says to leave the API key empty to sign in with Microsoft Entra ID; the base URL is the resource&#x27;s address, an API key is entered, and Detect models has listed three deployments, gpt-prod, gpt-mini and claude-sonnet" width="1000" height="569" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-azure-detect-dark.webp" alt="The setup page&#x27;s provider form with the id azure and the type Azure OpenAI / Foundry: its description says to leave the API key empty to sign in with Microsoft Entra ID; the base URL is the resource&#x27;s address, an API key is entered, and Detect models has listed three deployments, gpt-prod, gpt-mini and claude-sonnet" width="1000" height="569" loading="lazy" decoding="async">
+<figcaption>Adding an Azure resource on the setup page (a demo setup, with a stand-in for the Azure resource).</figcaption>
+</figure>
+<p><strong>Claude in Foundry.</strong> A deployment whose name contains <code>claude</code> is sent through Anthropic's Messages API at the
+resource's Foundry address (<code>https://&lt;resource&gt;.services.ai.azure.com/anthropic/v1</code>), and everything else through the
+OpenAI chat API. For a Claude deployment with another name, add <code>endpoints: ["/v1/messages"]</code> to it; to send Claude
+somewhere else, set <code>azure.anthropic_base_url</code> (the resource's key goes there only when it is the resource's own
+server or another Azure OpenAI or Foundry address). Foundry does not report Anthropic's rate-limit figures, so the
+<a href="health.html">Health</a> card judges these deployments by their errors and response times only.</p>
+<h3 id="signing-in">Signing in <a class="anchor" href="#signing-in" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>An API key</strong>: put it in the provider's <strong>API key</strong> field on the setup page (it goes to the secret store, and the
+configuration keeps a <code>${secret:...}</code> reference). Keys are under <strong>Keys and Endpoint</strong> on the resource in the portal.</li><li><strong>Microsoft Entra ID</strong>: leave the key empty. The proxy asks Entra ID for a token when it needs one, keeps it in
+memory, and asks again before it expires. Your account (or the identity) needs the <strong>Cognitive Services OpenAI User</strong>
+role on the resource, or <strong>Azure AI User</strong> for Foundry.</li></ul>
+<p>Where the token comes from is set by <code>azure.credential</code>:</p>
+<div class="tablewrap"><table><thead><tr><th><code>credential</code></th><th>Where the token comes from</th><th>Typical place</th></tr></thead><tbody><tr><td><code>auto</code> (default)</td><td>The environment, then workload identity, then a managed identity, then the Azure CLI</td><td>Anywhere</td></tr><tr><td><code>cli</code></td><td><code>az login</code></td><td>A laptop</td></tr><tr><td><code>managed-identity</code></td><td>The Azure machine's managed identity (<code>client_id</code> picks a user-assigned one)</td><td>A VM, App Service, Container Apps</td></tr><tr><td><code>workload-identity</code></td><td>The pod's federated token (AKS)</td><td>Kubernetes</td></tr><tr><td><code>environment</code></td><td>A service principal: <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code> (or a certificate)</td><td>CI</td></tr></tbody></table></div>
+<p>On a laptop:</p>
+<pre><code class="language-sh">az login
+maple-proxy serve        # or restart it, if it was running</code></pre>
+<p>An Entra ID token is only ever sent to an Azure OpenAI or Foundry resource's own address (<code>https</code>, under
+<code>openai.azure.com</code>, <code>cognitiveservices.azure.com</code> or <code>services.ai.azure.com</code>). A provider whose base URL is anywhere
+else, such as an API Management gateway, needs an API key.</p>
+<h3 id="all-the-settings">All the settings <a class="anchor" href="#all-the-settings" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-yaml">    azure:
+      api_version: v1           # default; or a dated version such as 2024-10-21
+      credential: auto          # auto, cli, managed-identity, workload-identity, environment
+      client_id: ""             # a user-assigned managed identity, or the workload identity's app
+      tenant_id: ""             # when not your default tenant
+      anthropic_base_url: ""    # where Claude deployments answer, if not the resource's Foundry address</code></pre>
+<p><code>api_version: v1</code> uses Azure's versionless <code>/openai/v1</code> API. A dated version uses the older
+<code>/openai/deployments/&lt;name&gt;/chat/completions?api-version=...</code> route, for a resource or gateway that needs it.
+<code>client_id</code> works with <code>managed-identity</code> and <code>workload-identity</code>; with <code>auto</code>, set <code>AZURE_CLIENT_ID</code> instead.</p>
+<h2 id="google-vertex-ai-agent-platform">Google Vertex AI (Agent Platform) <a class="anchor" href="#google-vertex-ai-agent-platform" aria-label="Link to this heading">#</a></h2>
+<p>One provider is one Google Cloud project in one <strong>location</strong>: a region (<code>us-east5</code>, <code>europe-west4</code>), a multi-region
+(<code>us</code>, <code>eu</code>) or <code>global</code>.</p>
+<pre><code class="language-yaml">providers:
+  - id: vertex
+    type: vertex
+    vertex:
+      project: my-project       # default: the project your credentials name, or GOOGLE_CLOUD_PROJECT
+      location: global          # default
+    models:
+      - id: gemini-2.5-pro
+        context_window: 1048576
+        supports_tools: true
+      - id: claude-sonnet-4-5@20250929
+        context_window: 200000
+        supports_tools: true</code></pre>
+<p>Models whose id starts with <code>claude</code> go to Anthropic's models on Vertex; the rest to Google's Gemini models. Use
+the model ids from the <strong>Model Garden</strong> page of each model. On the setup page: <strong>Add provider</strong>, type <strong>Google Vertex
+AI</strong>, and the models; the base URL can stay empty, or hold
+<code>https://&lt;location&gt;-aiplatform.googleapis.com/v1/projects/&lt;project&gt;/locations/&lt;location&gt;</code> to say both at once (or a
+Private Service Connect address).</p>
+<p><strong>Model access.</strong> Enable the Vertex AI API on the project. Gemini models are available to the project; each
+Claude model must be enabled once in Model Garden. The account needs the <strong>Vertex AI User</strong> role.</p>
+<p><strong>Locations.</strong> Not every model is in every location: Google lists them per model. Anthropic serves its newest Claude
+models only on the <code>global</code> and multi-region (<code>us</code>, <code>eu</code>) endpoints. <code>global</code> gives the most capacity; a region keeps
+requests and data in that region.</p>
+<h3 id="signing-in-1">Signing in <a class="anchor" href="#signing-in-1" aria-label="Link to this heading">#</a></h3>
+<p>The proxy uses Google's <strong>application default credentials</strong>, found in this order:</p>
+<ol><li><p>The file named by <code>GOOGLE_APPLICATION_CREDENTIALS</code>: a service account key, or a workload identity federation
+configuration (for a pod or runner outside Google Cloud).</p></li><li><p>Your own sign-in, on a laptop:</p>
+<pre><code class="language-sh">gcloud auth application-default login</code></pre></li><li><p>The metadata server of the machine or pod it runs on: Compute Engine, Cloud Run, and GKE with workload identity.</p></li></ol>
+<p>The token is kept in memory and refreshed before it expires. It is only ever sent to Google's API addresses
+(<code>https</code>, under <code>googleapis.com</code>).</p>
+<h2 id="regions-and-accounts-as-fallbacks">Regions and accounts as fallbacks <a class="anchor" href="#regions-and-accounts-as-fallbacks" aria-label="Link to this heading">#</a></h2>
+<p>Each provider is an account in Maple's sense, so several regions, projects or resources work like several Copilot
+accounts: list them in <a href="proxy-settings.html#fallbacks"> 0 </a>, assign them to <a href="teams.html">teams</a>, and
+share them through a <a href="chaining.html">hub</a>.</p>
+<pre><code class="language-yaml">providers:
+  - {id: vertex-us, type: vertex, vertex: {project: my-project, location: us-east5}, models: [{id: gemini-2.5-pro}]}
+  - {id: vertex-eu, type: vertex, vertex: {project: my-project, location: europe-west4}, models: [{id: gemini-2.5-pro}]}
+provider_fallbacks:
+  vertex-us: [vertex-eu]        # a busy region (429) or an outage moves to the next one, mid-task</code></pre>
+<p><code>vertex-us/gemini-2.5-pro</code> asks for one region's copy. A plain <code>gemini-2.5-pro</code> goes to one of them, and the proxy's
+log says which at start; use the qualified name in your tools to be sure.</p>
+<p>A per-minute limit (HTTP 429) is a rate limit: the request moves on to the next account, and the busy one is tried
+again once the wait the cloud asked for is over. A refused sign-in (an expired <code>az login</code> or <code>gcloud</code> session, a missing role) shows as <strong>not
+authorised</strong> on the setup page.</p>
+<h2 id="on-kubernetes">On Kubernetes <a class="anchor" href="#on-kubernetes" aria-label="Link to this heading">#</a></h2>
+<p>The <a href="kubernetes.html">Kubernetes samples</a> include a component for each cloud's workload identity in
+<code>config/cloud-identity/</code>. Add it to your overlay:</p>
+<pre><code class="language-yaml"># config/single/kustomization.yaml (or config/ha)
+components:
+  - ../cloud-identity/aks        # or ../cloud-identity/gke</code></pre>
+<h3 id="aks-workload-identity">AKS (workload identity) <a class="anchor" href="#aks-workload-identity" aria-label="Link to this heading">#</a></h3>
+<ol><li>Enable the OIDC issuer and workload identity on the cluster, and create a user-assigned managed identity with
+the <strong>Cognitive Services OpenAI User</strong> role on the resource.</li><li>Federate it with the proxy's service account, <code>system:serviceaccount:maple:maple-proxy</code>
+(<code>az identity federated-credential create --issuer &lt;the cluster's OIDC issuer&gt; --subject ...</code>).</li><li>Put the identity's client id in <code>config/cloud-identity/aks/serviceaccount.yaml</code>.</li><li>In the provider, leave the key empty and set <code>azure: {credential: workload-identity}</code> (or keep <code>auto</code>).</li></ol>
+<p>The AKS webhook gives the pod <code>AZURE_CLIENT_ID</code>, <code>AZURE_TENANT_ID</code> and <code>AZURE_FEDERATED_TOKEN_FILE</code>.</p>
+<h3 id="gke-workload-identity-federation">GKE (workload identity federation) <a class="anchor" href="#gke-workload-identity-federation" aria-label="Link to this heading">#</a></h3>
+<ol><li>Enable workload identity federation for GKE on the cluster and its node pools.</li><li>Grant the proxy's Kubernetes service account the <strong>Vertex AI User</strong> role, either directly
+(<code>principal://iam.googleapis.com/projects/&lt;number&gt;/locations/global/workloadIdentityPools/&lt;project&gt;.svc.id.goog/subject/ns/maple/sa/maple-proxy</code>)
+or through a Google service account named in <code>config/cloud-identity/gke/serviceaccount.yaml</code>.</li><li>In the provider, set <code>vertex.project</code> (the metadata server also says it).</li></ol>
+<p>No key file is mounted: the pod gets its token from the GKE metadata server.</p>
+<h2 id="cost-and-usage">Cost and usage <a class="anchor" href="#cost-and-usage" aria-label="Link to this heading">#</a></h2>
+<p>Neither cloud states a price on its replies, so the proxy records the tokens each call used (input, cached input
+and output) and no price. For Claude models, <code>estimate_cost: true</code> on the provider adds an estimate from Anthropic's
+list prices, labelled as an estimate; your cloud bill can differ (commitments, regional pricing). See
+<a href="cost.html">Cost</a>.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/sign-in.html" rel="prev"><small>Previous</small>Sign in</a><a class="next" href="../docs/bedrock.html" rel="next"><small>Next</small>Amazon Bedrock</a></div><div class="mset m-teams"><a class="prev" href="../docs/sign-in.html" rel="prev"><small>Previous</small>Sign in</a><a class="next" href="../docs/bedrock.html" rel="next"><small>Next</small>Amazon Bedrock</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#azure-openai-and-microsoft-foundry">Azure OpenAI and Microsoft Foundry</a><ol><li><a href="#signing-in">Signing in</a></li><li><a href="#all-the-settings">All the settings</a></li></ol></li><li><a href="#google-vertex-ai-agent-platform">Google Vertex AI (Agent Platform)</a><ol><li><a href="#signing-in-1">Signing in</a></li></ol></li><li><a href="#regions-and-accounts-as-fallbacks">Regions and accounts as fallbacks</a></li><li><a href="#on-kubernetes">On Kubernetes</a><ol><li><a href="#aks-workload-identity">AKS (workload identity)</a></li><li><a href="#gke-workload-identity-federation">GKE (workload identity federation)</a></li></ol></li><li><a href="#cost-and-usage">Cost and usage</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

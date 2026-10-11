@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/alerts-and-forecasts.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/bedrock.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/bench.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/chaining.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/clouds.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/commands.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/configuration.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/cost.html</loc></url>
@@ -20,6 +22,7 @@
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/license.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/mcp-hub.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/mcp.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/metrics-and-telemetry.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/models.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/observability.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/other-tools.html</loc></url>
@@ -35,6 +38,7 @@
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/search-by-meaning.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/security.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/sign-in.html</loc></url>
+  <url><loc>https://kinncj.github.io/maple-harness-dist/docs/single-sign-on.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/subagents.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/teams-and-hubs.html</loc></url>
   <url><loc>https://kinncj.github.io/maple-harness-dist/docs/teams.html</loc></url>

@@ -16,6 +16,9 @@ own registry, secrets and databases.
 | `config/single/` | One replica, disk mode, its state on a PersistentVolumeClaim. |
 | `config/ha/` | Three replicas, central mode (PostgreSQL and Redis), settings from the ConfigMap. |
 | `config/ha-lake/` | `config/ha` plus the DuckLake jobs. |
+| `config/cloud-identity/aks/`, `config/cloud-identity/gke/` | Components for workload identity on AKS or GKE (Azure and Vertex providers with no stored key). |
+| `config/metrics/` | A component for Prometheus scraping (ServiceMonitor, for the Prometheus Operator) with a metrics-scope token. |
+| `config/cloud-identity/eks/` | A component for IAM roles for service accounts (or Pod Identity) on EKS (Bedrock providers with no stored key). |
 
 Build the image first (no image is published):
 

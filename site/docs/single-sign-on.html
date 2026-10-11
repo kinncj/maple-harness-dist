@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-dspXtJINk7Hd02g2L0sbMDBVQ0KulnoqasgTr2vSAec='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Single sign-on for the setup page · Maple Harness docs</title>
+<meta name="description" content="Team admins can sign in to a shared proxy&#x27;s setup page with their company account (Google, Microsoft Entra ID, Okta, any OpenID Connect provider, or GitHub) instead of sharing one password. Off unless">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=259bbabc">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/install.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html" aria-current="page">Single sign-on for the setup page</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">Single sign-on for the setup page</li></ol></div></nav>
+<article>
+<h1 id="single-sign-on-for-the-setup-page">Single sign-on for the setup page <a class="anchor" href="#single-sign-on-for-the-setup-page" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#google">Google</a></li><li><a href="#microsoft-entra-id">Microsoft Entra ID</a></li><li><a href="#okta">Okta</a></li><li><a href="#github">GitHub</a></li><li><a href="#other-openid-connect-providers">Other OpenID Connect providers</a></li><li><a href="#on-kubernetes">On Kubernetes</a></li><li><a href="#people-see-their-own-usage">People see their own usage</a></li><li><a href="#what-is-not-verified">What is not verified</a></li></ol></details>
+
+<p>Team admins can sign in to a shared proxy's setup page with their company account (Google, Microsoft Entra ID,
+Okta, any OpenID Connect provider, or GitHub) instead of sharing one password. Off unless you turn it on. A proxy
+for one person on one machine does not need it: give the page a password instead (<strong>More &gt; Protect this page</strong>).</p>
+<p><strong>Contents</strong></p>
+<ul><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#google">Google</a></li><li><a href="#microsoft-entra-id">Microsoft Entra ID</a></li><li><a href="#okta">Okta</a></li><li><a href="#github">GitHub</a></li><li><a href="#other-openid-connect-providers">Other OpenID Connect providers</a></li><li><a href="#on-kubernetes">On Kubernetes</a></li><li><a href="#people-see-their-own-usage">People see their own usage</a></li><li><a href="#what-is-not-verified">What is not verified</a></li></ul>
+<h2 id="how-it-works">How it works <a class="anchor" href="#how-it-works" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>The setup page on the proxy's machine does not change.</strong> It still listens on this machine only, and its
+password (if you set one) still works there. Maple's own commands keep using it.</li><li><strong>Single sign-on serves the page on a second address you choose</strong> (<code>setup_page.sso.listen</code>), which people reach
+through your load balancer or ingress at the address in <code>redirect_url</code>, over HTTPS. That address answers only to
+the host name in <code>redirect_url</code>.</li><li><strong>That address is never open.</strong> Every visitor signs in first. It does not take access tokens, and by default it
+does not take the page's password either (<code>password: allowed</code> changes that).</li><li><strong>An admin sees the dashboards, usage, health and settings, and manages people, teams, their budgets and models,
+and access tokens with the <code>proxy</code> or <code>metrics</code> scope.</strong> Changing providers, keys, settings, remote control,
+webhooks, the page's password or the MCP hub, other kinds of tokens, sign-ins in progress, the secret store and the
+activity log stay on the setup page on the proxy's machine, or in <code>config.yaml</code>. Who may sign in is set only in
+<code>config.yaml</code>: the page cannot change it.</li><li><strong>An admin can read the proxy's configuration</strong>: provider addresses, listen addresses, and cloud account and role
+names. Never keys or secrets.</li><li><strong>A sign-in lasts <code>session_lifetime</code></strong> (one hour by default, at most twelve), counted from when it started.
+Taking someone out of <code>admins</code> in <code>config.yaml</code> (or turning single sign-on off) takes effect on their next click.
+Taking them out of a group at your identity provider takes effect when their sign-in ends. <strong>Sign out</strong> (Settings
+tab) ends that browser's sign-in and closes its live view at once; <strong>Sign out other browsers</strong> ends every other
+single sign-on browser.</li><li><strong>Open the page by typing or bookmarking its address.</strong> Like the setup page on your machine, it refuses requests
+that come from another site, including a plain link on an intranet page.</li></ul>
+<p>Who counts as an admin, in <code>admins</code> (any one is enough):</p>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Matches</th></tr></thead><tbody><tr><td><code>emails</code></td><td data-label="Matches">A verified email address, exactly (case does not matter)</td></tr><tr><td><code>domains</code></td><td data-label="Matches">A verified email address in that exact domain (no subdomains, no wildcards). Not for GitHub</td></tr><tr><td><code>groups</code></td><td data-label="Matches">A value of the ID token's groups claim (<code>groups_claim</code>, default <code>groups</code>); GitHub: an organisation (<code>my-org</code>) or a team (<code>my-org/my-team</code>)</td></tr><tr><td><code>subjects</code></td><td data-label="Matches">The account's unique id at the provider (the ID token's <code>sub</code>; GitHub: the numeric user id)</td></tr></tbody></table></div>
+<h2 id="turn-it-on">Turn it on <a class="anchor" href="#turn-it-on" aria-label="Link to this heading">#</a></h2>
+<ol><li><p>Register Maple with your identity provider as a <strong>web application</strong> with the redirect (callback) address
+<code>https://&lt;the address people open&gt;/sso/callback</code>. The recipes below say where.</p></li><li><p>Store the client secret where the proxy reads secrets. On a machine:</p>
+<pre><code class="language-sh">maple-proxy secrets set sso/client_secret    # paste the secret, then Enter; it is never shown</code></pre>
+<p>In a container, put it in the mounted secret under the key <code>sso.client_secret</code>.</p></li><li><p>Add <code>setup_page:</code> to <code>config.yaml</code> and restart the proxy:</p>
+<pre><code class="language-yaml">setup_page:
+  sso:
+    enabled: true
+    issuer: https://accounts.google.com
+    client_id: 1234-abc.apps.googleusercontent.com
+    client_secret: ${secret:sso/client_secret}
+    redirect_url: https://maple-admin.example.com/sso/callback
+    listen: 127.0.0.1:11547          # where your load balancer or reverse proxy sends that address
+    admins:
+      emails: [ana@example.com]
+      domains: [example.com]</code></pre></li><li><p>Point your load balancer, ingress or reverse proxy (with TLS) at <code>listen</code>, keeping the <code>Host</code> header the browser
+sent. Open <code>https://maple-admin.example.com/</code> and choose <strong>Sign in with Google</strong>.</p></li></ol>
+<p>The proxy refuses to start with single sign-on half set up, and says what is missing. In particular it refuses a
+<code>redirect_url</code> on this machine (<code>localhost</code>, <code>127.0.0.1</code>): on one machine, use the page's password. And it refuses a
+<code>listen</code> address reachable from other machines unless the proxy serves it with TLS itself (<code>tls_cert_file</code>,
+<code>tls_key_file</code>) or you say the network between your load balancer and the proxy is yours alone
+(<code>insecure_backend: true</code>).</p>
+<h2 id="the-settings">The settings <a class="anchor" href="#the-settings" aria-label="Link to this heading">#</a></h2>
+<p>All under <code>setup_page.sso</code> in <code>config.yaml</code>. Read at start, except <code>admins</code>, <code>groups_claim</code>, <code>password</code>,
+<code>session_lifetime</code>, <code>self_view</code> and <code>people</code>, which apply on the next request after you save the file.</p>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>enabled</code></td><td data-label="Default"><code>false</code></td><td data-label="What it does">Turns single sign-on on</td></tr><tr><td><code>provider</code></td><td data-label="Default"><code>oidc</code></td><td data-label="What it does"><code>oidc</code> (Google, Microsoft, Okta and any OpenID Connect provider) or <code>github</code></td></tr><tr><td><code>name</code></td><td data-label="Default">the provider's</td><td data-label="What it does">The name on the sign-in button</td></tr><tr><td><code>issuer</code></td><td data-label="Default"></td><td data-label="What it does">The provider's issuer, <code>https://</code> (OIDC only)</td></tr><tr><td><code>github_url</code></td><td data-label="Default"><code>https://github.com</code></td><td data-label="What it does">GitHub Enterprise Server's address (GitHub only)</td></tr><tr><td><code>client_id</code></td><td data-label="Default"></td><td data-label="What it does">The client (application) id</td></tr><tr><td><code>client_secret</code></td><td data-label="Default"></td><td data-label="What it does">A <code>${secret:NAME}</code> reference; never the secret itself</td></tr><tr><td><code>redirect_url</code></td><td data-label="Default"></td><td data-label="What it does"><code>https://&lt;host&gt;/sso/callback</code>, exactly as registered with the provider</td></tr><tr><td><code>listen</code></td><td data-label="Default"></td><td data-label="What it does">The address the page is served on for single sign-on (<code>host:port</code>); not one of the proxy's other addresses</td></tr><tr><td><code>tls_cert_file</code>, <code>tls_key_file</code></td><td data-label="Default"></td><td data-label="What it does">Serve <code>listen</code> with TLS</td></tr><tr><td><code>insecure_<wbr>backend</code></td><td data-label="Default"><code>false</code></td><td data-label="What it does">Allow <code>listen</code> off this machine without TLS (logged at start)</td></tr><tr><td><code>scopes</code></td><td data-label="Default"></td><td data-label="What it does">Scopes asked for besides <code>openid email profile</code> (for example <code>groups</code>)</td></tr><tr><td><code>admins</code></td><td data-label="Default"></td><td data-label="What it does">Who may sign in as an admin: see the table above. At least one entry</td></tr><tr><td><code>groups_claim</code></td><td data-label="Default"><code>groups</code></td><td data-label="What it does">The ID token claim the groups are read from (for example <code>roles</code>)</td></tr><tr><td><code>password</code></td><td data-label="Default"><code>off</code></td><td data-label="What it does"><code>allowed</code> also accepts the page's password (when one is set) on this address</td></tr><tr><td><code>session_<wbr>lifetime</code></td><td data-label="Default"><code>1h</code></td><td data-label="What it does">How long a sign-in lasts, <code>5m</code> to <code>12h</code></td></tr><tr><td><code>self_view</code></td><td data-label="Default"><code>off</code></td><td data-label="What it does"><code>on</code> lets people see their own usage: see below</td></tr><tr><td><code>people</code></td><td data-label="Default"></td><td data-label="What it does">Email to person id, for the self view</td></tr></tbody></table></div>
+<h2 id="google">Google <a class="anchor" href="#google" aria-label="Link to this heading">#</a></h2>
+<ol><li>In the Google Cloud console, <strong>APIs &amp; Services &gt; Credentials &gt; Create credentials &gt; OAuth client ID</strong>, type
+<strong>Web application</strong>. Add your <code>redirect_url</code> under <strong>Authorized redirect URIs</strong>.</li><li><code>issuer: https://accounts.google.com</code>, and the client id and secret it shows.</li><li>Admins: <code>emails</code> or <code>domains</code>. For a domain, the account must be a Google Workspace account of that domain (its
+<code>hd</code> claim), not just any Google account with an address there; the same holds for an email in your company's
+domain. Google's ID tokens carry no groups.</li></ol>
+<h2 id="microsoft-entra-id">Microsoft Entra ID <a class="anchor" href="#microsoft-entra-id" aria-label="Link to this heading">#</a></h2>
+<ol><li><strong>App registrations &gt; New registration</strong>: supported account types <strong>this organizational directory only</strong>,
+redirect URI of type <strong>Web</strong> = your <code>redirect_url</code>. Then <strong>Certificates &amp; secrets &gt; New client secret</strong>.</li><li><code>issuer: https://login.microsoftonline.com/&lt;tenant-id&gt;/v2.0</code> with your directory (tenant) id. The <code>common</code> and
+<code>organizations</code> issuers are refused: one tenant per proxy.</li><li>Admins by group (recommended): <strong>Token configuration &gt; Add groups claim</strong>, security groups, ID token. The claim
+holds group object ids: put those in <code>admins.groups</code>. With app roles instead, set <code>groups_claim: roles</code> and list
+the role values.</li><li>Admins by email: <strong>Token configuration &gt; Add optional claim</strong>, ID token, <code>email</code> and <code>xms_edov</code>. Entra sends no
+<code>email_verified</code>, so an email counts only when <code>xms_edov</code> says its domain's owner verified it. A user in more than
+200 groups gets no groups claim at all: use app roles for them.</li></ol>
+<h2 id="okta">Okta <a class="anchor" href="#okta" aria-label="Link to this heading">#</a></h2>
+<ol><li><strong>Applications &gt; Create App Integration &gt; OIDC - OpenID Connect &gt; Web Application</strong>. Sign-in redirect URI = your
+<code>redirect_url</code>.</li><li><code>issuer: https://&lt;your-org&gt;.okta.com</code> (the org authorization server) or
+<code>https://&lt;your-org&gt;.okta.com/oauth2/default</code> (a custom one).</li><li>Admins by group: on the org server, the app's <strong>Sign On &gt; OpenID Connect ID Token &gt; Groups claim filter</strong>; on a
+custom server, a <code>groups</code> claim in the ID token under <strong>Security &gt; API &gt; Authorization Servers &gt; Claims</strong>, and
+<code>scopes: [groups]</code> if you tied the claim to that scope. Then list the group names in <code>admins.groups</code>.</li></ol>
+<h2 id="github">GitHub <a class="anchor" href="#github" aria-label="Link to this heading">#</a></h2>
+<p>GitHub has no OpenID Connect sign-in for people, so Maple uses a GitHub <strong>OAuth app</strong> with PKCE and then asks GitHub
+for the account's verified email addresses and, when <code>admins.groups</code> is set, its organisations and teams.</p>
+<ol><li><strong>Settings &gt; Developer settings &gt; OAuth Apps &gt; New OAuth App</strong>; Authorization callback URL = your <code>redirect_url</code>.</li><li><code>provider: github</code> (no <code>issuer</code>), the client id and a client secret.</li><li>Admins: <code>groups</code> as <code>my-org</code> or <code>my-org/my-team</code> (recommended; an organisation that restricts OAuth apps must
+approve this one, or its teams are not visible), or <code>subjects</code> (numeric user ids). <code>emails</code> works with verified
+addresses, but an address stays verified on GitHub after its owner leaves your company, so prefer groups;
+<code>domains</code> is refused for GitHub.</li><li>GitHub Enterprise Server: <code>github_url: https://github.example.com</code>.</li></ol>
+<h2 id="other-openid-connect-providers">Other OpenID Connect providers <a class="anchor" href="#other-openid-connect-providers" aria-label="Link to this heading">#</a></h2>
+<p>Keycloak, Auth0, Authentik, Dex and others work the same way: register a confidential web client, set <code>issuer</code> to
+the address whose <code>/.well-known/openid-configuration</code> names that same issuer, and use <code>emails</code>, <code>domains</code>, <code>groups</code>
+or <code>subjects</code>. The provider must support the authorization code flow with PKCE (S256). Only an <code>email_verified: true</code>
+address counts as verified.</p>
+<h2 id="on-kubernetes">On Kubernetes <a class="anchor" href="#on-kubernetes" aria-label="Link to this heading">#</a></h2>
+<p>Run the proxy's single sign-on address beside the setup page, and route your admin host name to it:</p>
+<pre><code class="language-yaml"># config.yaml (ConfigMap)
+setup_page:
+  sso:
+    enabled: true
+    issuer: https://login.microsoftonline.com/&lt;tenant-id&gt;/v2.0
+    client_id: &lt;application id&gt;
+    client_secret: ${secret:sso/client_secret}     # the Secret's key sso.client_secret
+    redirect_url: https://maple-admin.example.com/sso/callback
+    listen: 0.0.0.0:11547
+    tls_cert_file: /run/tls/tls.crt                # or insecure_backend: true inside a network you trust
+    tls_key_file: /run/tls/tls.key
+    admins:
+      groups: [&lt;group object id&gt;]</code></pre>
+<p>Expose port 11547 with a Service, and an Ingress (or a Gateway route) for <code>maple-admin.example.com</code> with TLS that
+sends that host to it (with <code>tls_cert_file</code> set, tell your ingress the backend speaks HTTPS). Keep the <code>Host</code> header
+as the browser sent it. To have the throttles and the audit log count each browser rather than the ingress, list
+the ingress in <code>server.trusted_proxies</code>. With several replicas (<code>storage.mode: central</code>), sign-ins and sessions are
+kept in Redis, sealed with <code>storage.encryption_key</code>, so any replica serves any admin, and a sign-out ends their
+live views on every replica. See <a href="kubernetes.html">Run the proxy on Kubernetes</a>.</p>
+<h2 id="people-see-their-own-usage">People see their own usage <a class="anchor" href="#people-see-their-own-usage" aria-label="Link to this heading">#</a></h2>
+<p>With <code>self_view: on</code>, someone who is not an admin but whose verified email is one of your people's sees that
+person's own usage (the last 30 days, by day and by model) at <code>/sso/me</code>, and nothing else. Map emails to person
+ids under <code>people</code> (<code>ana@example.com: ana</code>), or give a person their email as their id. Off by default; the
+token-based self view (<code>people_self_view</code>) is unchanged. See <a href="teams.html#the-self-view">Teams</a>.</p>
+<h2 id="what-is-not-verified">What is not verified <a class="anchor" href="#what-is-not-verified" aria-label="Link to this heading">#</a></h2>
+<p>Tested against a stand-in OpenID Connect provider and a stand-in GitHub, and in Chromium through a TLS front like
+a load balancer. Not yet run against real Google, Microsoft Entra ID, Okta or GitHub accounts, real ingress
+controllers, or Firefox and Safari.</p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/chaining.html" rel="prev"><small>Previous</small>Chain proxies into hubs</a><a class="next" href="../docs/kubernetes.html" rel="next"><small>Next</small>Run the proxy on Kubernetes</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#google">Google</a></li><li><a href="#microsoft-entra-id">Microsoft Entra ID</a></li><li><a href="#okta">Okta</a></li><li><a href="#github">GitHub</a></li><li><a href="#other-openid-connect-providers">Other OpenID Connect providers</a></li><li><a href="#on-kubernetes">On Kubernetes</a></li><li><a href="#people-see-their-own-usage">People see their own usage</a></li><li><a href="#what-is-not-verified">What is not verified</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=ce66e2e9" defer></script>
+</body>
+</html>

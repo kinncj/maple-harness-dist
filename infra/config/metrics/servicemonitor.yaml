@@ -1,0 +1,20 @@
+# Scrapes /metrics on each maple-proxy pod (the OpenAI-compatible port, where a metrics-scope token
+# is accepted for /metrics alone). Labels and selectors match manifest/maple-proxy.
+# The scrape is plain http inside the cluster, so the token crosses the pod network in clear text:
+# restrict it with a NetworkPolicy, or put the proxy behind TLS (a service mesh) where that matters.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: maple-proxy
+  labels: {app.kubernetes.io/name: maple-proxy}
+spec:
+  selector:
+    matchLabels: {app.kubernetes.io/name: maple-proxy}
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scheme: http
+      authorization:
+        type: Bearer
+        credentials: {name: maple-metrics-scrape, key: token}

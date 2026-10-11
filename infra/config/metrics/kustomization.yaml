@@ -1,0 +1,25 @@
+# Prometheus scraping of every maple-proxy replica, for the Prometheus Operator (ServiceMonitor).
+# Each pod serves its own /metrics; aggregate across replicas in Prometheus (sum by ...).
+# Add to an overlay (config/single or config/ha):
+#
+#   components:
+#     - ../metrics
+#
+# Then:
+#   1. turn the endpoint on in the ConfigMap's config.yaml:   metrics: {prometheus: "on"}
+#   2. give the proxy a metrics token: add a line to the proxy's Secret (manifest/maple-proxy),
+#      key access.metrics_tokens, as   prometheus=<a random token, openssl rand -hex 24>
+#   3. put the same token in scrape-secret.example.yaml (key "token"); it lives beside the
+#      ServiceMonitor, which reads it to send  Authorization: Bearer <token>.
+# The token has the metrics scope alone: it reads /metrics and cannot use the models.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - servicemonitor.yaml
+  - scrape-secret.example.yaml
+patches:
+  - target: {kind: Service, name: maple-proxy}
+    patch: |-
+      - op: add
+        path: /spec/ports/-
+        value: {name: metrics, port: 11535, targetPort: openai}
