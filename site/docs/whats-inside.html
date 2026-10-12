@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams" data-release="2.1.2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>What&#x27;s inside Maple · Maple Harness docs</title>
+<meta name="description" content="Maple Harness is more than a chat window on a model. This page walks through what it does for you behind the scenes: what each part does, why it helps, and where you can see it or change it. Each one ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.1.2 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.1.2" rel="noopener">What's new<span class="sr"> in 2.1.2</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.1.2 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html" aria-current="page">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html" aria-current="page">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">What&#x27;s inside Maple</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-inside.html">Get started</a></li><li aria-current="page">What&#x27;s inside Maple</li></ol></div></nav>
+<article>
+<h1 id="whats-inside-maple">What's inside Maple <a class="anchor" href="#whats-inside-maple" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-agent">The agent</a><ol><li><a href="#project-memory-and-the-code-map">Project memory and the code map</a></li><li><a href="#search-by-meaning">Search by meaning</a></li><li><a href="#long-conversations">Long conversations</a></li><li><a href="#stopping-when-it-is-stuck">Stopping when it is stuck</a></li><li><a href="#language-servers">Language servers</a></li><li><a href="#the-sandbox-and-file-rules">The sandbox and file rules</a></li><li><a href="#remote-control-from-your-phone">Remote control from your phone</a></li></ol></li><li><a href="#the-proxy">The proxy</a><ol><li><a href="#auto-routing">Auto routing</a></li><li><a href="#requests-shaped-for-your-providers-cache">Requests shaped for your provider's cache</a></li><li><a href="#the-response-cache">The response cache</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#budgets-and-alerts">Budgets and alerts</a></li><li><a href="#teams-and-hubs">Teams and hubs</a></li><li><a href="#seeing-everything">Seeing everything</a></li><li><a href="#one-page-to-set-it-all-up">One page to set it all up</a></li></ol></li></ol></details>
+
+<p>Maple Harness is more than a chat window on a model. This page walks through what it does for you behind the scenes:
+what each part does, why it helps, and where you can see it or change it. Each one is described in plain words first,
+then with the settings that control it. How they work inside is not described here.</p>
+<p>None of this asks anything of you. Everything below is on by default where it is safe to be, off where it is a
+trade-off, and has an off switch. Nothing here is a promise about your bill: <a href="proof.html">measure your own work</a>.</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>The agent remembers your project.</strong> It keeps notes, builds a map of your code, and can look things up by what
+they mean. It doesn't have to rediscover your project every session.</li><li><strong>Long sessions stay affordable.</strong> Requests are shaped so your provider can reuse what it has already read, old
+bulky tool output can be shortened, and in a long conversation what leaves the model's view is kept and searchable.</li><li><strong>It notices when it is stuck.</strong> When the same problem keeps failing, it says so and stops before it burns more.</li><li><strong>It checks its own work.</strong> Compile errors come straight back after each edit, from the language servers you
+already have.</li><li><strong>It is careful with your machine.</strong> It asks before it changes anything, and can fence in the commands it runs.</li><li><strong>You can step away.</strong> Follow and approve from your phone.</li><li><strong>The proxy keeps you going.</strong> It picks a model for each request, moves to another account when one runs out,
+watches each provider's health, counts budgets, and can share one setup with a team or a whole company.</li></ul>
+<p>Every part below has the same two levels: what it is, then the settings.</p>
+<h2 id="the-agent">The agent <a class="anchor" href="#the-agent" aria-label="Link to this heading">#</a></h2>
+<h3 id="project-memory-and-the-code-map">Project memory and the code map <a class="anchor" href="#project-memory-and-the-code-map" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> The agent keeps short notes about your project and about you (how you like things done, what
+was decided), and a map of your project's files and the names defined in them. When you mention a function, it can
+find it in the map instead of searching the whole folder again. A new session starts already knowing what the last
+one learned.</p>
+<p><strong>The technical view.</strong> The model saves a note with its <code>remember</code> tool and reads notes with <code>recall</code>. Project notes
+live in the project's <code>.mapleharness/memory</code> folder (not committed); notes about you live in your config folder.
+<code>/memory</code> lists, shows and removes them. The code map is rebuilt with <code>/graph reindex</code> or
+<code>maple-harness graph reindex</code>, and other tools can read both through <code>maple-harness mcp serve</code>
+(<a href="mcp.html">Give other tools this project's knowledge</a>). Where the code map is kept: <code>graph.path</code> in
+<a href="configuration.html">Harness settings</a>; the commands are in <a href="commands.html">Commands and keys</a>.</p>
+<h3 id="search-by-meaning">Search by meaning <a class="anchor" href="#search-by-meaning" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Looking something up by its words misses what was said differently: "the login bug" is not
+"authentication failures after the upgrade". With search by meaning, the agent's look-ups in the conversation's
+history, its notes and the code map also find things by what they mean. Words still count: an exact match keeps its
+place.</p>
+<p><strong>The technical view.</strong> A small embedding model, built into the proxy and run on your CPU (or your own embeddings
+server), turns text into vectors. It is downloaded once from Hugging Face and checked against a checksum built into
+the proxy; your text is not sent anywhere else. Off until you download a model: setup page, <strong>Models &amp; routing</strong>,
+<strong>Search by meaning</strong>, <strong>Download</strong>. See <a href="search-by-meaning.html">Search by meaning</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-search-by-meaning-light.webp" alt="The Search by meaning card: in use with bge-small-en-v1.5, this machine&#x27;s cores and memory, the Built-in and Your own server switch, the installed model with Remove, EmbeddingGemma 300M to download, the Hugging Face token field, and the cache with 12 vectors and 50% of 24 texts answered from it" width="1000" height="1339" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-search-by-meaning-dark.webp" alt="The Search by meaning card: in use with bge-small-en-v1.5, this machine&#x27;s cores and memory, the Built-in and Your own server switch, the installed model with Remove, EmbeddingGemma 300M to download, the Hugging Face token field, and the cache with 12 vectors and 50% of 24 texts answered from it" width="1000" height="1339" loading="lazy" decoding="async">
+<figcaption>The Search by meaning card with the built-in model installed. A demo setup.</figcaption>
+</figure>
+<h3 id="long-conversations">Long conversations <a class="anchor" href="#long-conversations" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> A long task outgrows what a model can see at once. What leaves the model's view is kept and
+searchable: Maple keeps every message, puts a record of what happened in its place (requests, files changed, commands and whether they
+passed, decisions), and the agent can search the old part whenever it needs it. By default this costs nothing: no
+model is asked to write a summary unless you choose that.</p>
+<p><strong>The technical view.</strong> The <code>history_search</code> tool reads the stored history; <code>compress_with_model</code> asks for a written
+summary as well (off by default). On the proxy, <strong>Trim old tool results</strong> (<code>context_trim</code>, off by default) shortens
+old, large tool results with a note, for any tool that uses the proxy. See
+<a href="configuration.html#long-conversations">Long conversations</a> and <a href="proxy-settings.html#caching">Caching</a>.</p>
+<h3 id="stopping-when-it-is-stuck">Stopping when it is stuck <a class="anchor" href="#stopping-when-it-is-stuck" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Sometimes an agent keeps trying different fixes for the same failing problem. Maple notices,
+tells the model to step back, and if it still fails, ends the turn with a summary for you instead of spending more.</p>
+<p><strong>The technical view.</strong> <code>loop_guard.mode</code> is <code>stop</code> by default (<code>warn</code> only notes it; <code>off</code> turns it off), with
+<code>loop_guard.warn_after</code> and <code>loop_guard.stop_after</code> saying how many similar failures it takes. A <code>--prompt</code> run it
+stops exits with status 3. See <a href="configuration.html#runaways-and-long-output">Runaways and long output</a>.</p>
+<h3 id="language-servers">Language servers <a class="anchor" href="#language-servers" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> After each edit, the errors your editor would underline come straight back to the agent, so it
+fixes its own mistake on the next step instead of finding out when the build fails.</p>
+<p><strong>The technical view.</strong> The agent uses the language servers already on your <code>PATH</code> for your project's languages
+(<code>harness.lsp: auto</code>), starts one only when it is first useful, and offers the model <code>lsp_diagnostics</code>,
+<code>lsp_definition</code> and <code>lsp_hover</code>. <code>/lsp</code> shows what was found. See <a href="language-servers.html">Language servers</a>.</p>
+<h3 id="the-sandbox-and-file-rules">The sandbox and file rules <a class="anchor" href="#the-sandbox-and-file-rules" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> The agent asks before it writes a file or runs a command, and <code>deny</code> rules always win. Its file
+tools refuse your keys and shell history. With the sandbox on, the commands it runs can change your project but not
+the rest of your computer, and cannot see where your logins live.</p>
+<p><strong>The technical view.</strong> <code>/sandbox</code> shows the state; <code>sandbox.mode</code> (<code>off</code> by default for a local session, <code>auto</code> while
+a session is shared) sets it. Hidden paths, the environment and the network are in <a href="sandbox.html">The shell sandbox</a>;
+permission rules in <a href="configuration.html#permissions-and-safety">Harness settings</a> and <a href="security.html">Security</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-sandbox-blocked-light.webp" alt="A git push that failed inside the sandbox: the command&#x27;s own error, then a note that ~/.ssh is hidden, so ssh and git over SSH can&#x27;t authenticate, with the ways to allow it, and the model&#x27;s reply" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-sandbox-blocked-dark.webp" alt="A git push that failed inside the sandbox: the command&#x27;s own error, then a note that ~/.ssh is hidden, so ssh and git over SSH can&#x27;t authenticate, with the ways to allow it, and the model&#x27;s reply" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>A push stopped by the sandbox, and the note saying why and what to do. A demo session.</figcaption>
+</figure>
+<h3 id="remote-control-from-your-phone">Remote control from your phone <a class="anchor" href="#remote-control-from-your-phone" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Share a session with your phone. You see what the agent is doing, read the exact change before
+you approve it, answer its questions, and start new sessions in folders you allowed. Notifications say when it needs
+you, without commands, paths or error text in them.</p>
+<p><strong>The technical view.</strong> <code>/remote</code> in a session, or <code>maple-harness gateway start</code>. Pair a phone with a one-time code
+or a QR code; each device gets its own revocable token and can be limited to folders or one session. On the setup
+page: <strong>Security &amp; access</strong>, <strong>Remote access</strong>. See <a href="remote-control.html">Control it from your phone</a>.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/remote-device-phone-light.webp" alt="A phone paired for one session: a note saying this device is limited to one session, acme-api, and when it ends, the conversation, and a message box with Send." width="780" height="1688" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/remote-device-phone-dark.webp" alt="A phone paired for one session: a note saying this device is limited to one session, acme-api, and when it ends, the conversation, and a message box with Send." width="780" height="1688" loading="lazy" decoding="async">
+<figcaption>A phone paired for one session. A demo setup.</figcaption>
+</figure>
+<h2 id="the-proxy">The proxy <a class="anchor" href="#the-proxy" aria-label="Link to this heading">#</a></h2>
+<h3 id="auto-routing">Auto routing <a class="anchor" href="#auto-routing" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Ask for the model <code>auto</code> and the proxy picks one for each request: a stronger model for planning
+and deciding, an everyday one for work already under way, a light one for short side jobs. You choose which model
+each of those is, or keep the defaults from your provider's own ranking.</p>
+<p><strong>The technical view.</strong> The names <code>auto</code>, <code>auto-heavy</code>, <code>auto-medium</code> and <code>auto-light</code> work for any tool that uses the
+proxy. Choose them on the setup page, <strong>Models &amp; routing</strong>, <strong>Auto mode</strong>; the auto report on the same tab shows
+where auto sent requests and what happened after. Every answer names the model that answered
+(<code>X-Maple-Served-By</code>). See <a href="proxy.html#auto-mode-at-the-proxy">Auto mode at the proxy</a> and
+<a href="models.html#automatic-choice">Choose a model</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-auto-mode-light.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="1000" height="955" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-auto-mode-dark.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="1000" height="955" loading="lazy" decoding="async">
+<figcaption>The Auto mode card at its defaults. A demo setup with a stand-in Copilot service.</figcaption>
+</figure>
+<h3 id="requests-shaped-for-your-providers-cache">Requests shaped for your provider's cache <a class="anchor" href="#requests-shaped-for-your-providers-cache" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> A long conversation sends the same beginning on every turn. Providers that cache charge less for
+the part they have already seen, but only if that beginning stays exactly the same. Maple keeps it the same from
+turn to turn, and shows you how often the cache was used and why it missed.</p>
+<p><strong>The technical view.</strong> The <strong>Prefix stabiliser</strong> (<code>prefix_stabilizer</code>, on by default) and per-provider prompt
+caching (<code>providers[].prompt_cache</code>, on where it can be controlled) are on <strong>Models &amp; routing</strong>, <strong>Proxy settings</strong>.
+The <strong>Cache</strong> tab shows the hit rate and why misses happened, per tool; <code>maple-proxy cache probe</code> checks your own
+account. See <a href="proxy-settings.html#caching">Caching</a> and <a href="proxy.html#check-the-cache-yourself">Check the cache yourself</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-cache-misses-light.webp" alt="Why misses, by tool: how many requests over the last 7 days missed or lost the cache, the most common reasons per kind of client, each with advice" width="1000" height="464" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-cache-misses-dark.webp" alt="Why misses, by tool: how many requests over the last 7 days missed or lost the cache, the most common reasons per kind of client, each with advice" width="1000" height="464" loading="lazy" decoding="async">
+<figcaption>Why the cache missed, by tool, on the Cache tab. A demo setup with stand-in model services.</figcaption>
+</figure>
+<h3 id="the-response-cache">The response cache <a class="anchor" href="#the-response-cache" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Some tools send exactly the same request again and want the same answer. With the response cache
+on, the proxy answers such a repeat itself, without asking the provider again. Off by default: a reused answer is
+the same text as before, not a fresh one.</p>
+<p><strong>The technical view.</strong> <code>response_cache</code>, <code>response_cache_ttl</code> and <code>response_cache_max_mb</code>, on <strong>Models &amp; routing</strong>,
+<strong>Proxy settings</strong>, Caching. Only a request the client marks as repeatable, only to the same client and account, and
+kept in memory only. <code>maple-proxy usage cache-potential</code> says how often it would have answered on your own traffic
+before you turn it on. See <a href="proxy-settings.html#caching">Caching</a>.</p>
+<h3 id="fallbacks">Fallbacks <a class="anchor" href="#fallbacks" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> When an account is out of quota, rate limited or down, the request goes to the next account or
+model you chose, mid-task, with nothing for you to do. Nothing falls back unless you add a rule.</p>
+<p><strong>The technical view.</strong> <code>model_fallbacks</code> and <code>provider_fallbacks</code>, on <strong>Models &amp; routing</strong>, <strong>Proxy settings</strong>,
+Fallbacks. A fallback happens only before any output is sent, and the answer says which one served it. See
+<a href="proxy-settings.html#fallbacks">Fallbacks</a> and <a href="sign-in.html#more-than-one-account">More than one account</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-overview-light.webp" alt="The Overview tab in a demo setup: the menu, tiles, a live chart of the last minute, and requests as they finish, where lab-coder fails as unreachable and falls back to local/demo-coder" width="1000" height="1010" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-overview-dark.webp" alt="The Overview tab in a demo setup: the menu, tiles, a live chart of the last minute, and requests as they finish, where lab-coder fails as unreachable and falls back to local/demo-coder" width="1000" height="1010" loading="lazy" decoding="async">
+<figcaption>Requests whose model server is not running, answered by their fallback, on the Overview. A demo setup with stand-in model services.</figcaption>
+</figure>
+<h3 id="provider-health">Provider health <a class="anchor" href="#provider-health" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> The proxy watches how each provider and model answers your real requests, and marks one that is
+failing far more than usual. It sends no requests of its own to check. If you choose, a struggling model is tried
+after your other fallbacks.</p>
+<p><strong>The technical view.</strong> The <strong>Health</strong> tab and <code>maple-proxy health</code>; <code>health_failover</code> (off by default) on the Health
+card. See <a href="health.html">Provider health</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-health-light.webp" alt="The Health card: lab/lab-coder demoted after 10 of 10 requests failed as unreachable, the cloud, Copilot and local models healthy with their latency and first-token times, and the failover switch off" width="1000" height="565" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-health-dark.webp" alt="The Health card: lab/lab-coder demoted after 10 of 10 requests failed as unreachable, the cloud, Copilot and local models healthy with their latency and first-token times, and the failover switch off" width="1000" height="565" loading="lazy" decoding="async">
+<figcaption>The Health card in a demo setup: one model server is not running.</figcaption>
+</figure>
+<h3 id="budgets-and-alerts">Budgets and alerts <a class="anchor" href="#budgets-and-alerts" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Cap what an account may use a day (requests or AI units), or give an Anthropic account a monthly
+allowance in dollars. You are warned at 80% and 100%; at the limit, requests move to a fallback or stop, as you
+choose. Every dollar figure Maple counts itself is labelled estimated.</p>
+<p><strong>The technical view.</strong> <code>budgets[]</code> and the alert rules; on the setup page, <strong>Costs &amp; budgets</strong> and <strong>Monitoring</strong>.
+See <a href="dollar-budgets.html">Monthly dollar budgets</a> and <a href="alerts-and-forecasts.html">Alerts and forecasts</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/costs-dollar-budget-light.webp" alt="The Monthly dollar budgets card on Costs &amp; budgets: about $0.00 of $100.00 used (estimated, at list prices, through this proxy only), the reset date, what happens when it is spent and where the money comes from." width="1000" height="371" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/costs-dollar-budget-dark.webp" alt="The Monthly dollar budgets card on Costs &amp; budgets: about $0.00 of $100.00 used (estimated, at list prices, through this proxy only), the reset date, what happens when it is spent and where the money comes from." width="1000" height="371" loading="lazy" decoding="async">
+<figcaption>A monthly dollar budget for an Anthropic account. A demo setup.</figcaption>
+</figure>
+<h3 id="teams-and-hubs">Teams and hubs <a class="anchor" href="#teams-and-hubs" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> One proxy can serve several people, each with a token of their own, their own accounts, models
+and budget. Proxies can be chained: a laptop's proxy uses a team hub, which uses a company hub; people are set up once
+at the top and everyone's usage arrives there.</p>
+<p><strong>The technical view.</strong> <strong>People &amp; teams</strong> and <strong>Hubs &amp; chaining</strong> on the setup page, started from <strong>Set up more</strong>.
+See <a href="teams-and-hubs.html">Share Maple with a team</a>, <a href="teams.html">Teams</a> and <a href="chaining.html">Chain proxies</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-map-team-light.webp" alt="The hub map on platform-hub: its parent top-hub above, this proxy with its people and teams, and two proxies below with their last seven days of requests and AI units." width="1000" height="549" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-map-team-dark.webp" alt="The hub map on platform-hub: its parent top-hub above, this proxy with its people and teams, and two proxies below with their last seven days of requests and AI units." width="1000" height="549" loading="lazy" decoding="async">
+<figcaption>A team hub's map. A demo setup with stand-in model services.</figcaption>
+</figure>
+<h3 id="seeing-everything">Seeing everything <a class="anchor" href="#seeing-everything" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Every request leaves one line of counts and labels in a log on your own disk: never a prompt or
+an answer. The setup page draws it; you can ask it questions in a terminal or in DuckDB, and feed Prometheus,
+OpenTelemetry or a security tool.</p>
+<p><strong>The technical view.</strong> <strong>Usage</strong>, <strong>Costs &amp; budgets</strong>, <strong>Cache</strong> and <strong>Health</strong> on the setup page;
+<code>maple-proxy usage query</code>; the <strong>Monitoring</strong> tab for metrics, traces and audit lines. See
+<a href="observability.html">See and filter your usage</a>, <a href="your-data.html">Your data</a> and
+<a href="metrics-and-telemetry.html">Metrics and telemetry export</a>.</p>
+<h3 id="one-page-to-set-it-all-up">One page to set it all up <a class="anchor" href="#one-page-to-set-it-all-up" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> The proxy's setup page is the control panel for all of the above. <strong>What's configured</strong> on its
+first tab says what is on, what is off and what needs a look; <strong>Find a setting</strong> takes you to any setting by a word;
+<strong>Set up more</strong> starts the team features only when you want them.</p>
+<p><strong>The technical view.</strong> See <a href="proxy.html#the-setup-page">The setup page</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-configured-light.webp" alt="What&#x27;s configured: Providers needs attention, Auto mode on, Usage log on, Budgets and alerts on, Search by meaning off, Remote control off, Page password off; then Not set up: sharing, hubs, single sign-on, monitoring, central storage, MCP hub, and a Set up more link." width="1000" height="325" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-configured-dark.webp" alt="What&#x27;s configured: Providers needs attention, Auto mode on, Usage log on, Budgets and alerts on, Search by meaning off, Remote control off, Page password off; then Not set up: sharing, hubs, single sign-on, monitoring, central storage, MCP hub, and a Set up more link." width="1000" height="325" loading="lazy" decoding="async">
+<figcaption>What's configured, on the Overview. A demo setup.</figcaption>
+</figure>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/index.html" rel="prev"><small>Previous</small>Overview</a><a class="next" href="../docs/install.html" rel="next"><small>Next</small>Install</a></div><div class="mset m-teams"><a class="prev" href="../docs/kubernetes.html" rel="prev"><small>Previous</small>Run the proxy on Kubernetes</a><a class="next" href="../docs/install.html" rel="next"><small>Next</small>Install</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-agent">The agent</a><ol><li><a href="#project-memory-and-the-code-map">Project memory and the code map</a></li><li><a href="#search-by-meaning">Search by meaning</a></li><li><a href="#long-conversations">Long conversations</a></li><li><a href="#stopping-when-it-is-stuck">Stopping when it is stuck</a></li><li><a href="#language-servers">Language servers</a></li><li><a href="#the-sandbox-and-file-rules">The sandbox and file rules</a></li><li><a href="#remote-control-from-your-phone">Remote control from your phone</a></li></ol></li><li><a href="#the-proxy">The proxy</a><ol><li><a href="#auto-routing">Auto routing</a></li><li><a href="#requests-shaped-for-your-providers-cache">Requests shaped for your provider's cache</a></li><li><a href="#the-response-cache">The response cache</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#budgets-and-alerts">Budgets and alerts</a></li><li><a href="#teams-and-hubs">Teams and hubs</a></li><li><a href="#seeing-everything">Seeing everything</a></li><li><a href="#one-page-to-set-it-all-up">One page to set it all up</a></li></ol></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=4ef5025e" defer></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# RECOMMENDED for several replicas. Three replicas behind the Service, central mode, as config/ha,
+# with the settings (config.yaml and the access tokens) kept in PostgreSQL: every replica runs that
+# one copy, a change on any replica's setup page reaches all of them within seconds, and a replica
+# that cannot confirm it runs the current copy leaves the Service until it can.
+#
+# The ConfigMap is copied into PostgreSQL once, at the very first start (MAPLE_SETTINGS_SEED); after
+# that the copy in PostgreSQL is the one that counts. Moving from config/ha (settings from the
+# ConfigMap): see the Kubernetes page of the documentation, "Move from the ConfigMap".
+#
+#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.2.0
+#   kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../ha
+patches:
+  - target: {kind: Deployment, name: maple-proxy}
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+      spec:
+        template:
+          spec:
+            containers:
+              - name: maple-proxy
+                env:
+                  # Settings kept in PostgreSQL, shared by every replica, edited on the setup page.
+                  - {name: MAPLE_SETTINGS_SOURCE, value: central}
+                  # The replicas' own config.yaml is the copy of the shared one, in their data
+                  # folder; the ConfigMap only seeds an empty store.
+                  - {name: MAPLE_CONFIG, $patch: delete}
+                  - {name: MAPLE_SETTINGS_SEED, value: /etc/maple/config.yaml}

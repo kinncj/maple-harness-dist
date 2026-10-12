@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="both" data-modes="single teams" data-release="2.1.2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Monthly dollar budgets · Maple Harness docs</title>
+<meta name="description" content="Give an Anthropic API account a monthly allowance in dollars, with the day it resets, and decide what Maple does when it is spent: warn you, move requests to a fallback, or refuse them. People and tea">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.1.2 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.1.2" rel="noopener">What's new<span class="sr"> in 2.1.2</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.1.2 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html" aria-current="page">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html" aria-current="page">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">Monthly dollar budgets</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li aria-current="page">Monthly dollar budgets</li></ol></div></nav>
+<article>
+<h1 id="monthly-dollar-budgets">Monthly dollar budgets <a class="anchor" href="#monthly-dollar-budgets" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#on-the-setup-page">On the setup page</a></li><li><a href="#the-settings">The settings</a><ol><li><a href="#what-counts">What counts</a></li><li><a href="#at-80-and-100">At 80% and 100%</a></li><li><a href="#forecast">Forecast</a></li><li><a href="#when-anthropic-says-the-credit-is-gone">When Anthropic says the credit is gone</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#metrics">Metrics</a></li></ol></li><li><a href="#check-against-anthropics-bill">Check against Anthropic's bill</a><ol><li><a href="#in-plain-words-1">In plain words</a></li><li><a href="#which-key-reads-the-bill">Which key reads the bill</a></li><li><a href="#what-the-card-shows">What the card shows</a></li><li><a href="#the-settings-1">The settings</a></li><li><a href="#what-it-does-and-does-not-do">What it does and does not do</a></li></ol></li><li><a href="#the-max-and-team-api-credits">The Max and Team API credits</a></li><li><a href="#use-your-max-or-team-credits-with-maple">Use your Max or Team credits with Maple</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p>Give an Anthropic API account a monthly allowance in dollars, with the day it resets, and decide what Maple does when
+it is spent: warn you, move requests to a fallback, or refuse them. People and teams on a shared proxy can have
+dollar caps too.</p>
+<p><strong>Every dollar figure Maple counts itself is an estimate.</strong> Maple prices the usage Anthropic reports for each request
+at Anthropic's published list prices, for the requests that go through this proxy only. It never sees your balance.
+The <a href="https://console.anthropic.com" rel="noopener noreferrer">Claude Console</a> is the authority on what you spent and what is left, and Maple
+can show Anthropic's own figures beside its estimate: see <a href="#check-against-anthropics-bill">Check against Anthropic's bill</a>.</p>
+<p>If you set no dollar budget, nothing changes: no new messages, no new limits.</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<p>Anthropic doesn't tell an app how much money an API key has left. So if you give Maple a key with a fixed amount
+behind it (the monthly API credits of a Claude Max or Team plan, or a limit you set yourself), Maple can't know when
+it runs out until Anthropic starts refusing requests.</p>
+<p>A dollar budget fixes that from Maple's side. You tell Maple "about $100 a month, starting on the 14th". Maple adds up
+what each request would cost at Anthropic's list prices, warns you at 80% and at 100%, and at 100% sends further
+requests to another model you chose (or stops, or only warns, as you prefer). On the 14th it starts again from zero.</p>
+<p>To set one:</p>
+<ol><li>Add the Anthropic key to Maple (see <a href="sign-in.html#claude-anthropic-api-key">Sign in</a>), if it is not there already.</li><li>On the setup page, open <strong>Costs &amp; budgets</strong> and find the <strong>Monthly dollar budgets</strong> card. Press <strong>Set a dollar
+budget</strong> under the account, enter the dollars a month and the day the month starts, and press <strong>Save dollar
+budget</strong> (<a href="#on-the-setup-page">below</a>). Or add a <code>budgets:</code> entry in <code>config.yaml</code> (<a href="#the-settings">The settings</a>).</li><li>Optionally, set a fallback model for when the budget is spent (<a href="proxy-settings.html#fallbacks">Fallbacks</a>).</li></ol>
+<p>If you have a Claude Max or Team plan, follow <a href="#use-your-max-or-team-credits-with-maple">Use your Max or Team credits with Maple</a>
+below: it adds a spend limit on Anthropic's side as well, which is exact.</p>
+<h2 id="on-the-setup-page">On the setup page <a class="anchor" href="#on-the-setup-page" aria-label="Link to this heading">#</a></h2>
+<p><strong>Costs &amp; budgets</strong>, the <strong>Monthly dollar budgets</strong> card. The card is shown when the proxy has an account it can
+price in dollars: Anthropic, Amazon Bedrock, Google Cloud, Microsoft Azure (Claude), and xAI. Any other account is
+listed once, at the bottom, as "Not priced in dollars here": its requests count $0 against a dollar budget.</p>
+<p>For each account, <strong>Set a dollar budget</strong> (or <strong>Edit</strong>, once there is one) opens:</p>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>What to enter</th><th>Key</th></tr></thead><tbody><tr><td>Dollars a month</td><td>The month's allowance, in estimated dollars at list prices</td><td><code>max_usd_per_month</code></td></tr><tr><td>Month starts on day</td><td>1 to 31: the day it resets, at 00:00 UTC. For Max or Team credits, your plan's billing day</td><td><code>month_starts_on_day</code></td></tr><tr><td>When it is spent</td><td><strong>only warn: requests go on</strong>, <strong>move requests to their fallbacks</strong> (the default), or <strong>refuse requests until it resets</strong></td><td><code>when_spent</code> (<code>warn</code>, <code>fallback</code>, <code>stop</code>)</td></tr><tr><td>Where the money comes from</td><td><strong>Not said</strong>, <strong>A Max or Team plan's monthly API credits</strong>, <strong>Credits you bought</strong>, or <strong>A spend limit you set in the console</strong>. A label only</td><td><code>source</code></td></tr></tbody></table></div>
+<p><strong>Save dollar budget</strong> writes it to <code>config.yaml</code>, and it counts from the next request; <strong>Remove dollar budget</strong>
+takes it away (the account's daily request and AI-unit limits, if any, stay).</p>
+<p>With a budget set, the account's line shows:</p>
+<ul><li>"About $X of $Y used since &lt;date&gt; (estimated, at list prices, through this proxy only)", and a bar;</li><li>"Resets on &lt;date&gt; at 00:00 UTC", what happens when it is spent, and where the money comes from;</li><li>after three days of usage, the <a href="#forecast">forecast</a>: "runs out around ..." or "lasts until it resets ..., with
+about $X left unused", estimated;</li><li><strong>Price notes</strong>, when a model could not be priced exactly since the proxy started: whether it was estimated at its
+family's price or not counted.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/costs-dollar-budget-light.webp" alt="The Monthly dollar budgets card on Costs &amp; budgets. The account anthropic: About $0.00 of $100.00 used since Sep 14 (estimated, at list prices, through this proxy only), an empty bar, Resets on Oct 14 at 00:00 UTC, When spent: move requests to their fallbacks (the default), Money from: A Max or Team plan&#x27;s monthly API credits, and A forecast is shown after three days of usage. Below, Edit, and Not priced in dollars here: local." width="1000" height="371" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/costs-dollar-budget-dark.webp" alt="The Monthly dollar budgets card on Costs &amp; budgets. The account anthropic: About $0.00 of $100.00 used since Sep 14 (estimated, at list prices, through this proxy only), an empty bar, Resets on Oct 14 at 00:00 UTC, When spent: move requests to their fallbacks (the default), Money from: A Max or Team plan&#x27;s monthly API credits, and A forecast is shown after three days of usage. Below, Edit, and Not priced in dollars here: local." width="1000" height="371" loading="lazy" decoding="async">
+<figcaption>A $100 monthly budget for an Anthropic account, from the 14th, paid by a Max or Team plan's credits. A demo setup.</figcaption>
+</figure>
+<p>Changing a budget is for the setup page on the proxy's own machine. Through <a href="single-sign-on.html">single sign-on</a> the
+card is read-only; people's and teams' caps follow the usual <a href="teams.html">People rules</a>. When the proxy's settings come
+from files managed elsewhere (a Kubernetes ConfigMap), the card is read-only too: change the file.</p>
+<h2 id="the-settings">The settings <a class="anchor" href="#the-settings" aria-label="Link to this heading">#</a></h2>
+<pre><code class="language-yaml">budgets:
+  - provider: anthropic           # the provider's id
+    max_usd_per_month: 100        # estimated dollars a month, through this proxy
+    month_starts_on_day: 14       # optional: 1 (the default) is the calendar month
+    when_spent: fallback          # optional: warn | fallback (the default) | stop
+    source: subscriber_credits    # optional: subscriber_credits | purchased | spend_limit</code></pre>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>max_<wbr>usd_<wbr>per_<wbr>month</code></td><td data-label="Default">none</td><td data-label="What it does">The month's allowance, in estimated dollars. It counts on its own: <code>estimate_cost</code> does not have to be on (that setting only decides whether <code>/cost</code> shows a dollar figure)</td></tr><tr><td><code>month_<wbr>starts_<wbr>on_<wbr>day</code></td><td data-label="Default"><code>1</code></td><td data-label="What it does">The day of the month the budget resets, at 00:00 UTC. 1 to 31; a day past the month's end means its last day, so a budget that starts on the 31st resets on 28 or 29 February, 30 April and so on</td></tr><tr><td><code>when_spent</code></td><td data-label="Default"><code>fallback</code></td><td data-label="What it does">What happens at 100%: <code>warn</code> only alerts and requests go on; <code>fallback</code> refuses this account with <code>budget_exceeded</code> so the request moves on to its <a href="proxy-settings.html#fallbacks">fallbacks</a>, and with none left the caller gets a <code>429</code>; <code>stop</code> answers the <code>429</code> at once, without trying fallbacks</td></tr><tr><td><code>source</code></td><td data-label="Default">none</td><td data-label="What it does">A label for where the money comes from. It changes no behaviour</td></tr></tbody></table></div>
+<p>A dollar budget can sit in the same entry as <code>max_requests_per_day</code> and <code>max_ai_units_per_day</code>; each limit counts on
+its own. <code>month_starts_on_day</code>, <code>when_spent</code> and <code>source</code> need <code>max_usd_per_month</code>. The setup page writes the same
+keys; a file you edit yourself is applied once saved.</p>
+<h3 id="what-counts">What counts <a class="anchor" href="#what-counts" aria-label="Link to this heading">#</a></h3>
+<ul><li>Every request Maple sends to the account, priced from the token counts in Anthropic's answer: input, output
+(thinking included, as Anthropic bills it), cache reads, and cache writes at their 5-minute or 1-hour price. The
+long-prompt price of Claude Haiku 5.5, US-only inference, fast mode, the batch tier and web searches are priced too
+when the answer says they were used.</li><li>A request that failed or was cut off part way counts for what Anthropic reported before it stopped.</li><li>The proxy's own cache-warming requests count against the account's budget (they are billed), but not against any
+person's or team's.</li><li>An answer from the <a href="proxy-settings.html">response cache</a> never counts: nothing was sent.</li><li>A Claude model that is not yet in Maple's price list is counted at the highest list price of its family (Opus,
+Sonnet, Haiku and so on), and the proxy's log says so once per model. A model with
+<a href="cost.html#when-maple-cant-tell-which-claude-model-a-name-is"> 0 </a> on its entry is counted at that model's
+list price instead.</li></ul>
+<p>Not counted:</p>
+<ul><li><strong>Anything that did not go through this proxy.</strong> Every key and workspace in a Console organisation draws from the
+same credits: the Console's playground, other apps and other keys are invisible to Maple.</li><li>Code execution container hours, which Anthropic does not report per request.</li><li>A model that is not Claude, on a server that speaks Anthropic's API (an Anthropic-compatible endpoint of another
+vendor). It is not priced in dollars; the proxy's log says so once.</li></ul>
+<p>The prices are Anthropic's published list, as read on 2026-10-11. A discount, a promotion or a price change since then
+makes the estimate differ from the bill.</p>
+<p>The month's spend is kept in the configuration folder, and each request is noted there as it is counted, so a restart
+or a crash does not hand back a fresh month, whatever the usage log keeps. The first start with this release reads it
+from the usage log, and so does a start after an earlier release ran in between, for the requests that release priced
+(the <a href="usage-export.html">usage log's</a> <code>list_cost_usd</code> column holds each request's figure).</p>
+<p>Dollars are counted only while some dollar limit is set (an account's <code>max_usd_per_month</code>, or a person's or team's
+<code>daily_usd</code> or <code>monthly_usd</code>): without one, nothing is kept in the configuration folder. A limit you add later starts
+from what the usage log says the period has already spent, as long as the log still holds those days. With several
+replicas the spend is in the shared store, which counts every request, so a limit added later starts from its figures.</p>
+<h3 id="at-80-and-100">At 80% and 100% <a class="anchor" href="#at-80-and-100" aria-label="Link to this heading">#</a></h3>
+<p>With budget alerts on (the default once a budget exists), the proxy warns once at 80% and once at 100% of the month,
+with "estimated" and the reset date in the words, for example:</p>
+<blockquote><p>anthropic: about $80.40 of $100.00 used this month (estimated at list prices, through this proxy only); resets around 14 Nov</p></blockquote>
+<p>The alerts end on the reset day. See <a href="alerts-and-forecasts.html">Alerts and forecasts</a> for where they show up.</p>
+<p>Requests that are already running when the budget is spent are allowed to finish, so the month can end over the
+amount by what those requests cost.</p>
+<h3 id="forecast">Forecast <a class="anchor" href="#forecast" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-sh">maple-proxy usage forecast --metric list_cost_usd</code></pre>
+<p>prints the month's estimated spend so far and, once there are at least three days of usage, either</p>
+<blockquote><p>At this rate, it runs out around 22 Nov (estimated, range 20-24 Nov, from 7 days of your usage through this proxy).</p></blockquote>
+<p>or, when it lasts to the reset,</p>
+<blockquote><p>At this rate, it lasts until it resets around 14 Dec, with about $38 left unused (estimated, from 7 days of your usage through this proxy).</p></blockquote>
+<h3 id="when-anthropic-says-the-credit-is-gone">When Anthropic says the credit is gone <a class="anchor" href="#when-anthropic-says-the-credit-is-gone" aria-label="Link to this heading">#</a></h3>
+<p>Anthropic answers "credit balance is too low" when the organisation has no credit left. Without a dollar budget, Maple
+marks the account as out of credit for an hour, tries its fallbacks meanwhile, and then asks again. <strong>With a dollar
+budget</strong> on that account, the mark lasts until the budget's reset day instead, since monthly credits come back then
+rather than within the hour. Any request the account answers in the meantime (you bought credit, say) clears the mark
+at once. The account is still tried when it is the only choice left.</p>
+<h3 id="people-and-teams">People and teams <a class="anchor" href="#people-and-teams" aria-label="Link to this heading">#</a></h3>
+<p>On a shared proxy, a person or a team can have a dollar cap beside their AI-unit budget. On the setup page, open
+<strong>People &amp; teams</strong>, then <strong>Edit</strong> under the person (or the team, under <strong>Teams</strong> on the same tab): the <strong>Dollar cap (estimated)</strong> row has
+<strong>a day</strong> and <strong>a month</strong>, beside <strong>Budget (AI units)</strong>; <code>0</code> is no cap. Press <strong>Save budget</strong>. The person's line then
+shows, for example, "dollars: today $1.20 of $3.00, this month $8.40 of $25.00 (estimated, at list prices, through this
+proxy only; the month resets on 1 Nov)". People's and teams' months are calendar months, in UTC.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/people-dollar-cap-light.webp" alt="The People card on People &amp; teams with the person alice. Her line ends: dollars: this month $0.00 of $25.00 (estimated, at list prices, through this proxy only; the month resets on Nov 1). Her editor is open: Budget (AI units) 0 a day and 0 a month, Dollar cap (estimated) 0 a day and 25 a month, and Save budget, then Models, Accounts and Remove alice." width="1000" height="1095" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-dollar-cap-dark.webp" alt="The People card on People &amp; teams with the person alice. Her line ends: dollars: this month $0.00 of $25.00 (estimated, at list prices, through this proxy only; the month resets on Nov 1). Her editor is open: Budget (AI units) 0 a day and 0 a month, Dollar cap (estimated) 0 a day and 25 a month, and Save budget, then Models, Accounts and Remove alice." width="1000" height="1095" loading="lazy" decoding="async">
+<figcaption>A $25 monthly dollar cap for one person. A demo setup.</figcaption>
+</figure>
+<p>Or in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">people:
+  - id: alice
+    team: platform
+    budget:
+      monthly_usd: 25           # estimated dollars a UTC calendar month
+      daily_usd: 3              # and a UTC day
+teams:
+  - id: platform
+    budget:
+      monthly_usd: 200</code></pre>
+<p>or <code>maple-proxy people budget alice --monthly-usd 25 --daily-usd 3</code> (and <code>maple-proxy teams budget platform
+--monthly-usd 200</code>). A dollar flag you leave out keeps what is set; <code>0</code> removes it. A spent cap refuses that person's
+(or team's) requests with a <code>429</code> <code>budget_exceeded</code>; a team's refusal names the team but not its figures. A person's
+dollars count the accounts Maple can price: Claude (through Anthropic, Amazon Bedrock, Google Cloud or Microsoft
+Azure, at Anthropic's list prices) and xAI. Requests to other accounts (OpenAI, Gemini, GitHub Copilot, a local or
+other OpenAI-compatible server) count $0 against a dollar cap, so pair it with an AI-unit budget if those matter. See <a href="teams.html#budgets">Teams</a>.</p>
+<h3 id="metrics">Metrics <a class="anchor" href="#metrics" aria-label="Link to this heading">#</a></h3>
+<p>With metrics on, <code>maple_budget_used_usd_estimated</code> and <code>maple_budget_limit_usd</code> (label <code>provider</code>) give each account's
+month, and with <code>metrics.per_person</code> the people's and teams' dollars too. See
+<a href="metrics-and-telemetry.html">Metrics and telemetry</a>.</p>
+<h2 id="check-against-anthropics-bill">Check against Anthropic's bill <a class="anchor" href="#check-against-anthropics-bill" aria-label="Link to this heading">#</a></h2>
+<p>Maple's dollar figures are its own estimate. For an Anthropic API account, Maple can also read <strong>what Anthropic itself
+billed</strong> and show the two side by side, so you can see how close the estimate is and what else is spending from the
+same organisation.</p>
+<h3 id="in-plain-words-1">In plain words <a class="anchor" href="#in-plain-words-1" aria-label="Link to this heading">#</a></h3>
+<p>Anthropic keeps a cost report for every organisation: what each day cost, model by model, in each workspace (the
+Console's <strong>Cost</strong> page shows it). Maple can read that report once a day, and whenever you press <strong>Check now</strong>, and
+put it next to its own estimate:</p>
+<ul><li><strong>Anthropic's bill</strong>, labelled <em>measured by Anthropic</em>: what Anthropic says it charged.</li><li><strong>Maple's estimate</strong>, labelled <em>estimated by Maple</em>: what the requests through this proxy cost at list prices.</li><li><strong>The difference</strong> between them, for each complete day and each model.</li></ul>
+<p>A difference is normal when other apps, other keys or the Console's playground use the same organisation: Maple only
+sees what goes through it. Maple never changes its estimate to match the bill; it shows both.</p>
+<p>To turn it on:</p>
+<ol><li>On the setup page, open <strong>Costs &amp; budgets</strong> and find <strong>Check against Anthropic's bill</strong>. Each Anthropic account is
+listed there.</li><li>Press <strong>Check now</strong> under the account. If the account's key is allowed to read the report, the bill appears, and
+Maple reads it again once a day.</li><li>If the card says <strong>"This key can't read the bill (it's limited to one workspace): add a usage_admin_key or use an
+organization-scoped key."</strong>, your key works for Claude but Anthropic does not let it read the organisation's
+costs. Open <strong>Add a usage admin key</strong>, paste a key that may read them (below), and press <strong>Save usage admin key</strong>.
+If this page has a password, it is asked again.</li></ol>
+<figure>
+<img class="shot shot-light" src="../img/docs/bill-compare-light.webp" alt="Check against Anthropic&#x27;s bill on Costs &amp; budgets for the account claude-max. Read Oct 12, 07:47 UTC with the usage_admin_key; complete to Oct 12, 00:00 UTC. This month so far: $32.39 of $100.00 (dollar budget) = $31.28 measured by Anthropic + $1.11 estimated by Maple, with a bar. Showing: The whole organisation. Complete days: $31.28 measured by Anthropic, $0.00 estimated by Maple, difference +$31.28. By day: Oct 12 $2.76 so far with Maple&#x27;s estimate $1.11, then Oct 11 to Oct 1 each with Anthropic&#x27;s bill, Maple&#x27;s estimate $0.00 and the difference. By model, complete days: claude-sonnet-5-5 $24.11, claude-opus-5-5 $5.35, claude-haiku-4-5 $1.52, other costs $0.30, each beside Maple&#x27;s estimate and the difference." width="1000" height="1029" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/bill-compare-dark.webp" alt="Check against Anthropic&#x27;s bill on Costs &amp; budgets for the account claude-max. Read Oct 12, 07:47 UTC with the usage_admin_key; complete to Oct 12, 00:00 UTC. This month so far: $32.39 of $100.00 (dollar budget) = $31.28 measured by Anthropic + $1.11 estimated by Maple, with a bar. Showing: The whole organisation. Complete days: $31.28 measured by Anthropic, $0.00 estimated by Maple, difference +$31.28. By day: Oct 12 $2.76 so far with Maple&#x27;s estimate $1.11, then Oct 11 to Oct 1 each with Anthropic&#x27;s bill, Maple&#x27;s estimate $0.00 and the difference. By model, complete days: claude-sonnet-5-5 $24.11, claude-opus-5-5 $5.35, claude-haiku-4-5 $1.52, other costs $0.30, each beside Maple&#x27;s estimate and the difference." width="1000" height="1029" loading="lazy" decoding="async">
+<figcaption>Anthropic's bill beside Maple's estimate for one account with a $100 monthly dollar budget. Maple's requests in this demo were all sent today, so the earlier days show only the bill. A demo setup with a stand-in report.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/bill-refused-light.webp" alt="Check against Anthropic&#x27;s bill with two accounts. claude-max: Not checked, with Check now and Add a usage admin key. work: This key can&#x27;t read the bill (it&#x27;s limited to one workspace): add a usage_admin_key or use an organization-scoped key. Check now, Stop checking, and Add a usage admin key open: what an Admin API key can do and the advice to create a dedicated one, the Usage admin key field and Save usage admin key." width="1000" height="758" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/bill-refused-dark.webp" alt="Check against Anthropic&#x27;s bill with two accounts. claude-max: Not checked, with Check now and Add a usage admin key. work: This key can&#x27;t read the bill (it&#x27;s limited to one workspace): add a usage_admin_key or use an organization-scoped key. Check now, Stop checking, and Add a usage admin key open: what an Admin API key can do and the advice to create a dedicated one, the Usage admin key field and Save usage admin key." width="1000" height="758" loading="lazy" decoding="async">
+<figcaption>A key limited to one workspace cannot read the bill: the card says so and offers a usage admin key. A demo setup.</figcaption>
+</figure>
+<h3 id="which-key-reads-the-bill">Which key reads the bill <a class="anchor" href="#which-key-reads-the-bill" aria-label="Link to this heading">#</a></h3>
+<p>Anthropic serves the cost report from its Usage &amp; Cost API, which answers only some keys:</p>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Reads the bill?</th></tr></thead><tbody><tr><td>An API key limited to one workspace (the usual kind, and the one Maple recommends for model requests)</td><td data-label="Reads the bill?">No</td></tr><tr><td>An API key that is not limited to one workspace (organization-scoped)</td><td data-label="Reads the bill?">Yes</td></tr><tr><td>An Admin API key (<code><span class="nw">sk-ant-admin.</span><wbr>.<wbr>.</code>)</td><td data-label="Reads the bill?">Yes</td></tr></tbody></table></div>
+<p>Maple tries the account's own key first, when that key is for Anthropic's own API (a key for another address, such
+as a gateway, is never sent to Anthropic). If Anthropic refuses it, the card says so and Maple does not ask again
+with that key on its daily read; <strong>Check now</strong> always asks.</p>
+<p>For a key limited to one workspace, add a <strong>usage admin key</strong> to the account. It is used <strong>only</strong> to read the cost
+report, and <strong>never</strong> sent with a model request.</p>
+<p><strong>An Admin API key can manage your whole Anthropic organisation</strong>: its members, workspaces and API keys, as well as
+read its usage and costs. So:</p>
+<ul><li>create a <strong>dedicated</strong> Admin key for Maple in the Console (<strong>Settings</strong>, <strong>Admin keys</strong>), named so you know what it
+is for, and revoke it there if you stop using this;</li><li>or use an API key that is not limited to one workspace, which Anthropic also accepts for the report.</li></ul>
+<p>The usage admin key is kept like a provider key: in the proxy's secret store, never in <code>config.yaml</code>, and it is never
+shown again (the card only says it is set). It can only be set on the setup page on the proxy's own machine (with
+the page's password asked again when there is one), and every change is in the activity log, by
+name, never by value. <strong>Remove usage admin key</strong> deletes it from the proxy; revoke it in the Console too if Maple was
+its only use.</p>
+<h3 id="what-the-card-shows">What the card shows <a class="anchor" href="#what-the-card-shows" aria-label="Link to this heading">#</a></h3>
+<p>For each Anthropic account:</p>
+<ul><li>when the bill was last read, with which key, and up to when it is complete (the day it was read is partial);</li><li>with a <a href="#on-the-setup-page">dollar budget</a>: <strong>This month so far</strong>, which is Anthropic's bill up to the last report
+plus Maple's estimate since then, said in those words with both labels, and a bar against the budget;</li><li><strong>By day</strong>: Anthropic's bill, Maple's estimate and the difference, for each day of the month (or of the budget's
+month); the current day is marked <em>so far</em>;</li><li><strong>By model</strong>: the same, added up over the complete days. Costs that have no model (web search, code execution)
+are a line of their own;</li><li><strong>Showing</strong>: when the organisation has several workspaces, pick one to compare. The month-so-far figure always
+covers the account's own workspace when the account names one (<code>workspace_id</code>), or the whole organisation;</li><li><strong>Check now</strong>, <strong>Stop checking</strong> (Maple stops reading the bill and forgets what it kept), and the usage admin key.</li></ul>
+<p>Every problem is said on the card in plain words: a key that cannot read the bill, a usage admin key Anthropic
+refused (revoked, or of another organisation), Anthropic asking to wait, or no answer. The last report read is kept
+and shown meanwhile.</p>
+<h3 id="the-settings-1">The settings <a class="anchor" href="#the-settings-1" aria-label="Link to this heading">#</a></h3>
+<pre><code class="language-yaml">providers:
+  - id: anthropic
+    type: anthropic
+    api_key: ${secret:provider/anthropic/api_key}
+    usage_admin_key: ${secret:provider/anthropic/usage_admin_key}   # optional: only to read the bill</code></pre>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>What it does</th></tr></thead><tbody><tr><td><code>usage_<wbr>admin_<wbr>key</code></td><td data-label="What it does">Optional, on a <code>type: anthropic</code> provider. A key used only to read the account's cost report. It must be exactly <code>${secret:provider/&lt;id&gt;/usage_admin_key}</code>: the setup page writes it. With secrets kept elsewhere (a mounted Kubernetes Secret, say), give the secret that name there and add the line by hand. Any other value (a key written in the file, another secret, a variable) stops the configuration from loading, with a message that says so</td></tr></tbody></table></div>
+<p>Nothing else needs setting. Without a usage admin key and without pressing <strong>Check now</strong>, Maple never reads the bill.</p>
+<h3 id="what-it-does-and-does-not-do">What it does and does not do <a class="anchor" href="#what-it-does-and-does-not-do" aria-label="Link to this heading">#</a></h3>
+<ul><li>The bill is read at most once a day by itself (after 00:30 UTC, for the day before), and when you press <strong>Check
+now</strong> (once a minute at most). In storage mode <code>central</code>, one replica reads it and every replica shows it.</li><li>What is read and kept is the month's figures per day, workspace and model, in the configuration folder (or the
+shared storage). No request content, nothing about people.</li><li><strong>A dollar budget counts the larger figure.</strong> Once the bill has been read, the account's dollar budget counts
+whichever is higher: Anthropic's bill up to the last report plus Maple's estimate since, or Maple's own count. So
+spending by other tools or keys on the same account counts too, and Maple never counts less than it saw itself. The
+budget's line, its 80% and 100% alerts, the forecast and a refused request then say "counted from Anthropic's bill
+(measured) to &lt;time&gt; + Maple's estimate since". A bill not read for more than a day and a half still counts, marked
+stale. A bill read with a key that has since been replaced and then fails stops counting (it may be another
+organisation's). In storage mode <code>central</code>, every replica uses a newly read bill within half a minute. Without a
+bill (no key that can read it, never checked, or <strong>Stop checking</strong>), the budget counts exactly as before.</li><li>Maple never learns a correction from the bill, and never adjusts an estimate with it.</li><li>Anthropic's figures for a day can still change for a little while after it ends, and Priority Tier costs are not in
+the cost report.</li><li>Accounts through Amazon Bedrock, Google Cloud or Microsoft Azure are billed by those clouds: this card is for
+Anthropic API accounts only.</li><li>Through <a href="single-sign-on.html">single sign-on</a>, admins see the card and can change nothing on it. A person's own view
+(<strong>My access</strong>) never shows the organisation's figures.</li></ul>
+<h2 id="the-max-and-team-api-credits">The Max and Team API credits <a class="anchor" href="#the-max-and-team-api-credits" aria-label="Link to this heading">#</a></h2>
+<p>These are Anthropic's terms, summarised from their page
+<a href="https://platform.claude.com/docs/en/about-claude/api-credits-for-subscribers" rel="noopener noreferrer">API credits for Max and Team plans</a>,
+as read on 2026-10-11; check it for the current details.</p>
+<div class="tablewrap"><table><thead><tr><th>Plan</th><th>Monthly API credits</th></tr></thead><tbody><tr><td>Max 5x</td><td>$100</td></tr><tr><td>Max 20x</td><td>$200</td></tr><tr><td>Team</td><td>$20 per Standard seat and $100 per Premium seat, pooled into one balance, up to $500</td></tr></tbody></table></div>
+<ul><li>You claim them by linking your plan to one Claude Console organisation, from Anthropic's settings. Follow Anthropic's
+page for the exact steps, which may change.</li><li>They arrive each billing cycle, shortly after the plan's payment, and expire at the end of it: unused credits do
+not roll over.</li><li>They are spent before any credits you bought.</li><li>They cover the Claude API (the Messages and Message Batches APIs). They do not cover Claude Code, and not Claude
+through Amazon Bedrock, Google Cloud Vertex AI, Microsoft Foundry or Claude Platform on AWS.</li><li>Every API key and workspace in the linked organisation draws from the same balance. The Console shows the balance
+and its expiry date.</li></ul>
+<h2 id="use-your-max-or-team-credits-with-maple">Use your Max or Team credits with Maple <a class="anchor" href="#use-your-max-or-team-credits-with-maple" aria-label="Link to this heading">#</a></h2>
+<ol><li><p><strong>Link your plan to a Console organisation</strong>, as Anthropic's page describes. Note the day your plan bills: that
+is when the credits arrive.</p></li><li><p><strong>Make a workspace for Maple</strong> in that organisation, and give it its own spend limit at or under your credit amount
+(for example $100 for Max 5x). Anthropic enforces this limit exactly; Maple's budget is the earlier, softer one.</p></li><li><p><strong>Create an API key in that workspace</strong> in the Console.</p></li><li><p><strong>Add the key to Maple</strong>: <code>maple-harness auth login claude</code>, or the <strong>Anthropic (Claude)</strong> card on the setup page
+(see <a href="sign-in.html#claude-anthropic-api-key">Sign in</a>).</p></li><li><p><strong>Add the budget</strong>, with the amount and your billing day: on the setup page (<strong>Costs &amp; budgets</strong>, <strong>Monthly
+dollar budgets</strong>, <strong>Set a dollar budget</strong>: Dollars a month <code>100</code>, Month starts on day your billing day, Where the
+money comes from <strong>A Max or Team plan's monthly API credits</strong>), or in <code>config.yaml</code>:</p>
+<pre><code class="language-yaml">budgets:
+  - provider: anthropic
+    max_usd_per_month: 100
+    month_starts_on_day: 14    # your plan's billing day
+    when_spent: fallback
+    source: subscriber_credits</code></pre></li><li><p><strong>Choose what happens at 100%</strong>: <code>fallback</code> with a <a href="proxy-settings.html#fallbacks">fallback</a> to a model you have
+elsewhere, <code>stop</code> to refuse, or <code>warn</code> to let requests go on until Anthropic itself refuses them.</p></li></ol>
+<p>Maple's figure is an estimate of this proxy's traffic; the workspace spend limit and the Console's balance are what
+Anthropic actually applies. If you use the same organisation from other apps, the credits run out sooner than Maple's
+figure says.</p>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<p><a href="proxy-settings.html#budgets">Proxy settings: Budgets</a> · <a href="#check-against-anthropics-bill">Check against Anthropic's bill</a> · <a href="alerts-and-forecasts.html">Alerts and forecasts</a> ·
+<a href="teams.html#budgets">Teams</a> · <a href="cost.html">What /cost tells you</a> · <a href="sign-in.html">Sign in</a></p>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/alerts-and-forecasts.html" rel="prev"><small>Previous</small>Alerts and forecasts</a><a class="next" href="../docs/usage-export.html" rel="next"><small>Next</small>Your usage data</a></div><div class="mset m-teams"><a class="prev" href="../docs/alerts-and-forecasts.html" rel="prev"><small>Previous</small>Alerts and forecasts</a><a class="next" href="../docs/usage-export.html" rel="next"><small>Next</small>Your usage data</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#on-the-setup-page">On the setup page</a></li><li><a href="#the-settings">The settings</a><ol><li><a href="#what-counts">What counts</a></li><li><a href="#at-80-and-100">At 80% and 100%</a></li><li><a href="#forecast">Forecast</a></li><li><a href="#when-anthropic-says-the-credit-is-gone">When Anthropic says the credit is gone</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#metrics">Metrics</a></li></ol></li><li><a href="#check-against-anthropics-bill">Check against Anthropic's bill</a><ol><li><a href="#in-plain-words-1">In plain words</a></li><li><a href="#which-key-reads-the-bill">Which key reads the bill</a></li><li><a href="#what-the-card-shows">What the card shows</a></li><li><a href="#the-settings-1">The settings</a></li><li><a href="#what-it-does-and-does-not-do">What it does and does not do</a></li></ol></li><li><a href="#the-max-and-team-api-credits">The Max and Team API credits</a></li><li><a href="#use-your-max-or-team-credits-with-maple">Use your Max or Team credits with Maple</a></li><li><a href="#related">Related</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=4ef5025e" defer></script>
+</body>
+</html>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-release="2.1.2">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-J+QBSAMRt2W6MvzG9oFbCtMNNINhU8UntArqUzvUwdg='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-TUqE9KRgmx5/pIxlRge+OU0SgvfCK9FowKZ2s+96bUQ='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Maple Harness · a coding agent for Copilot's models and your own machine</title>
 <meta name="description" content="Maple Harness is a terminal coding agent for GitHub Copilot's models, Claude and models on your own machine. It keeps going when an account runs out, shows where your tokens go, and can be driven from your phone.">
 <meta name="theme-color" content="#E4572E">
@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="Maple Harness">
 <meta name="twitter:description" content="A coding agent for Copilot's models and your own machine. See where your tokens go with /cost and the proxy's Cache card.">
 <meta name="twitter:image" content="https://kinncj.github.io/maple-harness-dist/img/og.png">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}})();</script>
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 <style>
 :root{
   --bg:#FAF6F2;--surface:#F3ECE5;--card:#FFFFFF;--ink:#231A16;--muted:#5E504A;--line:#DCCFC6;
@@ -178,6 +178,16 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
   .basis{grid-template-columns:1fr}
   .basis dd{margin-bottom:6px}
 }
+/* The release notice (filled in when the site is built): a slim bar under the header, dismissed per version.
+   The inline script hides a dismissed one before the first paint; without scripts it stays, with no button. */
+.relbar{display:grid;grid-template-columns:32px minmax(0,1fr) 32px;align-items:center;gap:6px;min-height:40px;padding:4px 8px;background:var(--surface);background:color-mix(in srgb,var(--accent) 8%,var(--bg));border-bottom:1px solid var(--line);font-size:.9rem;line-height:1.4}
+.relbar p{grid-column:2;margin:0;text-align:center;color:var(--ink)}
+.relbar p::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:.1em}
+.relbar a{font-weight:700;white-space:nowrap;margin-left:.25em}
+.relx{grid-column:3;display:inline-grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:999px;background:none;color:var(--muted);cursor:pointer}
+.relx:hover{color:var(--ink);background:var(--card)}
+html:not(.js) .relx,.rel-off .relbar{display:none}
+@media print{.relbar{display:none}}
 </style>
 </head>
 <body>
@@ -192,6 +202,7 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
     </nav>
   </div>
 </header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.1.2 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.1.2" rel="noopener">What's new<span class="sr"> in 2.1.2</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.1.2 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 
 <main id="main">
 <div class="wrap hero" id="top">
@@ -254,14 +265,14 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
           <li>Ollama, LM Studio, oMLX, Lemonade and Unsloth are detected and probed. Any OpenAI-compatible server works.</li>
           <li>When an account runs out, requests move on to the next account or model, mid-task.</li>
           <li>Speaks the OpenAI and Anthropic APIs, so Claude Code, OpenCode and other tools can use your models too.</li>
-          <li>A setup page at <code>127.0.0.1:11539</code> that only listens on this machine, with an optional password.</li>
+          <li>A setup page at <code>127.0.0.1:11539</code>, only on this machine, with an optional password: what's configured at a glance, <b>Find a setting</b>, and the team features only when you ask for them.</li>
         </ul>
         <a class="more" href="docs/proxy.html">The proxy and its setup page →</a>
       </div>
       <figure>
         <div class="frame crop">
-          <img class="only-light" src="img/proxy-setup-light.webp" width="1000" height="1578" loading="lazy" alt="The proxy's setup page in the light theme on a fresh install: its tabs, and Get started with the sign-in to Anthropic or GitHub Copilot and the Auto mode card.">
-          <img class="only-dark" src="img/proxy-setup-dark.webp" width="1000" height="1578" loading="lazy" alt="The proxy's setup page in the dark theme on a fresh install: its tabs, and Get started with the sign-in to Anthropic or GitHub Copilot and the Auto mode card.">
+          <img class="only-light" src="img/proxy-setup-light.webp" width="1000" height="1618" loading="lazy" alt="The proxy's setup page in the light theme on a fresh install: its menu in two groups, Watch and Configure, with Find a setting, and Get started with the sign-in to Anthropic or GitHub Copilot and the Auto mode card.">
+          <img class="only-dark" src="img/proxy-setup-dark.webp" width="1000" height="1618" loading="lazy" alt="The proxy's setup page in the dark theme on a fresh install: its menu in two groups, Watch and Configure, with Find a setting, and Get started with the sign-in to Anthropic or GitHub Copilot and the Auto mode card.">
         </div>
         <figcaption>The setup page on a fresh install. The address shown is an example.</figcaption>
       </figure>
@@ -293,12 +304,16 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
 
 <section id="features" aria-labelledby="features-h">
   <div class="wrap">
-    <h2 id="features-h">Highlights</h2>
-    <p class="sub">Everything here is in the documentation, with the settings that control it.</p>
+    <h2 id="features-h">Why Maple</h2>
+    <p class="sub">What it does for you behind the scenes, in plain words. <a href="docs/whats-inside.html">What's inside Maple →</a></p>
     <ul class="grid">
       <li class="card"><h3>Keeps going when an account runs out</h3><p>Add a second account or another model. When the first runs out of quota, is rate limited or is down, the task continues on the next one, with nothing for you to do.</p><a href="docs/proxy-settings.html#fallbacks">Fallbacks</a></li>
-      <li class="card"><h3>See where your tokens go</h3><p><code>/cost</code> and the proxy's Cache card show the cache hit rate, tokens read and written, and AI units per request. Your usage log is yours to query.</p><a href="docs/cost.html">What /cost tells you</a></li>
+      <li class="card"><h3>Remembers your project</h3><p>Notes about your project, a map of your code, and search by meaning, so a new session doesn't start from scratch. The optional model for search by meaning runs inside the proxy, on your own machine.</p><a href="docs/whats-inside.html#project-memory-and-the-code-map">Memory and the code map</a></li>
+      <li class="card"><h3>Long sessions, kept in check</h3><p>Requests shaped so your provider's cache can reuse them, what leaves the model's view in a long conversation kept and searchable, and a stop when the agent keeps failing at the same thing.</p><a href="docs/whats-inside.html#long-conversations">Long conversations</a></li>
+      <li class="card"><h3>See where your tokens go</h3><p><code>/cost</code> and the proxy's Cache tab show the cache hit rate, tokens read and written, and AI units per request. Your usage log is yours to query.</p><a href="docs/cost.html">What /cost tells you</a></li>
+      <li class="card"><h3>A control panel, not a config file</h3><p>The proxy's setup page: what's on at a glance, a search box for any setting, and team features only when you ask for them.</p><a href="docs/proxy.html#the-setup-page">The setup page</a></li>
       <li class="card"><h3>Local and on-device models</h3><p>Your own model server, or Apple's on-device model on a Mac with no network at all (macOS 26 on Apple silicon).</p><a href="docs/endpoints.html">Connect a model server</a></li>
+      <li class="card"><h3>From one laptop to a whole team</h3><p>Share one proxy with people and budgets, chain proxies into hubs, and sign in with your company account. All off until you set it up.</p><a href="docs/teams-and-hubs.html">Share Maple with a team</a></li>
       <li class="card" id="security"><h3>Careful by default</h3><p>Permission rules, file tools that refuse your keys and shell history, a contained shell, and scoped, revocable device tokens.</p><a href="docs/security.html">Security</a></li>
     </ul>
   </div>
@@ -313,7 +328,7 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
         <h3>Check it yourself</h3>
         <ul class="checks">
           <li><code>/cost</code> in a session: what the task used, and what was read from the cache.</li>
-          <li>The proxy's Cache card: the hit rate and AI units per request, for every tool that uses the proxy.</li>
+          <li>The proxy's Cache tab: the hit rate and AI units per request, for every tool that uses the proxy.</li>
           <li><code>maple-harness bench</code>: repeated, paired runs of your own tasks, with a spending cap.</li>
         </ul>
         <a class="more" href="docs/proof.html">How to check it yourself →</a>
@@ -390,6 +405,6 @@ footer .signature{flex-basis:100%;font-size:.88rem;opacity:.9}
   </div>
 </footer>
 <span id="copied" role="status" aria-live="polite"></span>
-<script src="landing.js" defer></script>
+<script src="landing.js?v=723a73bd" defer></script>
 </body>
 </html>

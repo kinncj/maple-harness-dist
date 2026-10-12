@@ -8,13 +8,15 @@ own registry, secrets and databases.
 | --- | --- |
 | `docker/Dockerfile` | Builds the image from a published release (checksums and signature checked); nothing is compiled. |
 | `docker/compose.yaml` | One proxy, its state on one volume. |
-| `docker/compose.ha.yaml` | Three proxies, PostgreSQL, Redis and a load balancer (Caddy), for trying the shared mode. |
+| `docker/compose.ha-shared.yaml` | **Recommended for several replicas.** Three proxies, PostgreSQL, Redis and a load balancer (Caddy); your `config.yaml` is copied into PostgreSQL once and every proxy runs that one copy. |
+| `docker/compose.ha.yaml` | The same as in 2.1, starting from each proxy's default settings. |
 | `manifest/maple-proxy/` | The proxy's Deployment, Service, PodDisruptionBudget, example ConfigMap and Secret. |
 | `manifest/postgres/`, `manifest/redis/` | Single-instance samples for trying it out. Use your managed services in production. |
 | `manifest/maple-mcp-hub/` | The MCP hub as its own single replica. |
 | `manifest/maple-lake/` | Usage history in a DuckLake: an hourly copy and a daily maintenance job (official DuckDB image). |
 | `config/single/` | One replica, disk mode, its state on a PersistentVolumeClaim. |
-| `config/ha/` | Three replicas, central mode (PostgreSQL and Redis), settings from the ConfigMap. |
+| `config/ha-shared/` | **Recommended for several replicas.** `config/ha` with the settings kept in PostgreSQL: copied from the ConfigMap once, then edited on the setup page; every replica runs that one copy. |
+| `config/ha/` | Three replicas, central mode (PostgreSQL and Redis), settings from the ConfigMap (read-only on the setup page); replicas whose settings differ are reported, and one in the minority is taken out. |
 | `config/ha-lake/` | `config/ha` plus the DuckLake jobs. |
 | `config/cloud-identity/aks/`, `config/cloud-identity/gke/` | Components for workload identity on AKS or GKE (Azure and Vertex providers with no stored key). |
 | `config/metrics/` | A component for Prometheus scraping (ServiceMonitor, for the Prometheus Operator) with a metrics-scope token. |
@@ -31,7 +33,7 @@ docker buildx build --build-arg MAPLE_VERSION=v2.0.0 \
 Then, for Kubernetes:
 
 ```sh
-cd config/single        # or config/ha
+cd config/single        # or config/ha-shared, or config/ha
 kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0
 # edit the Secret (manifest/maple-proxy/secret.example.yaml, and config/ha's patch) first
 kubectl apply -k .

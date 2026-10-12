@@ -2,6 +2,11 @@
 # shared short-lived state. Settings come from the ConfigMap (GitOps): the setup page shows them and
 # refuses changes. The PostgreSQL and Redis here are samples for trying it out.
 #
+# Recommended instead for several replicas: config/ha-shared, where the settings are kept in
+# PostgreSQL and every replica runs that one copy (no drift by design), edited on the setup page.
+# Here the replicas compare what they run: one whose settings differ from most replicas' (a
+# half-rolled ConfigMap, a pod edited by hand) leaves the Service after two minutes.
+#
 #   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.0.0
 #   kubectl apply -k .
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -44,6 +49,8 @@ patches:
                   # central: edited on the setup page, shared by every replica.
                   - {name: MAPLE_SETTINGS_SOURCE, value: file}
                   - {name: MAPLE_CONFIG, value: /etc/maple/config.yaml}
+                  # A replica whose settings differ from most replicas' is taken out of the Service.
+                  - {name: MAPLE_READY_REQUIRES_SAME_CONFIG, value: "true"}
                   - {name: MAPLE_POSTGRES_DSN, value: "${secret:storage/postgres_dsn}"}
                   - {name: MAPLE_REDIS_URL, value: "${secret:storage/redis_url}"}
                   - {name: MAPLE_STORAGE_KEY, value: "${secret:storage/key}"}

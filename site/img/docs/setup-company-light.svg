@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img">
+<title>Laptops, a team hub and a company hub</title>
+<desc>A company setup. At the top, the company hub at top.example holds the company&#x27;s accounts, and its people and teams are defined there. A team hub at team.example is joined to it with a chain token from the company hub&#x27;s admin: requests go up, the company&#x27;s people and teams come down to it, and its usage goes up. Below the team hub, Alice&#x27;s laptop proxy signed in with her company account, so the team hub counts it as Alice, and a CI job uses a token of its own.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1B"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2C6A78"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5E504A"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#3C6E2F"/></marker></defs>
+<rect width="960" height="560" fill="#FFFFFF"/>
+<rect x="250" y="30" width="460" height="120" rx="12" fill="#F6E3DA" stroke="#B23A1B" stroke-width="2"/>
+<text x="270" y="62" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Company hub</text>
+<text x="690" y="62" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="end" class="mono">top.example</text>
+<text x="270" y="94" font-size="14.5" fill="#231A16" font-weight="400" text-anchor="start" class="sans">people and teams defined here</text>
+<text x="270" y="118" font-size="14.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">single sign-on for admins and developers</text>
+<rect x="770" y="30" width="160" height="120" rx="12" fill="#FAF6F2" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="850" y="72" font-size="15" fill="#231A16" font-weight="700" text-anchor="middle" class="sans">Company</text>
+<text x="850" y="94" font-size="15" fill="#231A16" font-weight="700" text-anchor="middle" class="sans">accounts</text>
+<text x="850" y="122" font-size="12.5" fill="#5E504A" font-weight="400" text-anchor="middle" class="sans">Copilot, Anthropic</text>
+<path d="M710 90 L770 90" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="250" y="222" width="460" height="120" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="270" y="254" font-size="18" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Team hub</text>
+<text x="690" y="254" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="end" class="mono">team.example</text>
+<text x="270" y="286" font-size="14.5" fill="#231A16" font-weight="400" text-anchor="start" class="sans">inherits the company&#x27;s people and teams</text>
+<text x="270" y="310" font-size="14.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">may add its own, and tighten, never loosen</text>
+<path d="M370 222 L370 152" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="220" y="172" width="120" height="25" rx="12.5" fill="#F6E3DA" stroke="#B23A1B" stroke-width="1"/>
+<text x="280" y="188" font-size="13" fill="#B23A1B" font-weight="600" text-anchor="middle" class="sans">chain token</text>
+<path d="M590 152 L590 222" fill="none" stroke="#2C6A78" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#h-down)"/>
+<rect x="602" y="172" width="156" height="25" rx="12.5" fill="#E2EFF1" stroke="#2C6A78" stroke-width="1"/>
+<text x="680" y="188" font-size="13" fill="#2C6A78" font-weight="600" text-anchor="middle" class="sans">people come down</text>
+<text x="30" y="176" font-size="14" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Usage goes up</text>
+<text x="30" y="198" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">too: the company</text>
+<text x="30" y="220" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">hub sees everyone</text>
+<rect x="190" y="414" width="260" height="96" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="206" y="442" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">Alice&#x27;s laptop</text>
+<text x="206" y="466" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">maple-proxy</text>
+<text x="206" y="487" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">signed in as alice</text>
+<rect x="510" y="414" width="260" height="96" rx="12" fill="#FFFFFF" stroke="#CDBDB2" stroke-width="1.5"/>
+<text x="526" y="442" font-size="16" fill="#231A16" font-weight="700" text-anchor="start" class="sans">A CI job</text>
+<text x="526" y="466" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="mono">maple-harness</text>
+<text x="526" y="487" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">its own token</text>
+<path d="M320 414 L370 344" fill="none" stroke="#B23A1B" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<path d="M640 414 L590 344" fill="none" stroke="#5E504A" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="140" y="368" width="146" height="25" rx="12.5" fill="#F6E3DA" stroke="#B23A1B" stroke-width="1"/>
+<text x="213" y="384" font-size="13" fill="#B23A1B" font-weight="600" text-anchor="middle" class="sans">company sign-in</text>
+<text x="30" y="450" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Counted as</text>
+<text x="30" y="472" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Alice at the hub</text>
+<text x="800" y="450" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">Advanced: the</text>
+<text x="800" y="472" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">harness uses the</text>
+<text x="800" y="494" font-size="14" fill="#5E504A" font-weight="400" text-anchor="start" class="sans">hub directly</text>
+<text x="480" y="548" font-size="13.5" fill="#5E504A" font-weight="400" text-anchor="middle" class="sans">Each proxy&#x27;s setup page stays on its own machine.</text>
+</svg>

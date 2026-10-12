@@ -214,3 +214,14 @@ figure .shot.phone{max-width:min(100%,360px)}
 figure .shot-dark,[data-theme=dark] figure .shot-light{display:none}
 [data-theme=dark] figure .shot-dark{display:block}
 figcaption{margin-top:.5em;font-size:.88rem;color:var(--muted)}
+
+/* The release notice (filled in when the site is built): a slim bar under the header, dismissed per version.
+   The inline script hides a dismissed one before the first paint; without scripts it stays, with no button. */
+.relbar{display:grid;grid-template-columns:32px minmax(0,1fr) 32px;align-items:center;gap:6px;min-height:40px;padding:4px 8px;background:var(--surface);background:color-mix(in srgb,var(--accent) 8%,var(--bg));border-bottom:1px solid var(--line);font-size:.9rem;line-height:1.4}
+.relbar p{grid-column:2;margin:0;text-align:center;color:var(--ink)}
+.relbar p::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:.1em}
+.relbar a{font-weight:700;white-space:nowrap;margin-left:.25em}
+.relx{grid-column:3;display:inline-grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:999px;background:none;color:var(--muted);cursor:pointer}
+.relx:hover{color:var(--ink);background:var(--card)}
+html:not(.js) .relx,.rel-off .relbar{display:none}
+@media print{.relbar{display:none}}

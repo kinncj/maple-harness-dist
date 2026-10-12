@@ -21,6 +21,16 @@
     label();
   });
 
+  /* The release notice: dismissing it stores its version, so the inline script hides it before the first
+     paint from then on, until a newer release is announced. Without storage it is hidden on this page only. */
+  var relx = document.getElementById('relx');
+  if (relx) relx.addEventListener('click', function () {
+    try { localStorage.setItem('maple-release-dismissed', root.getAttribute('data-release') || ''); } catch (e) {}
+    root.classList.add('rel-off');
+    var home = document.querySelector('.top .brand');
+    if (home) home.focus();
+  });
+
   /* The documentation mode (Single user, Teams & hubs). Each tab is a link to that mode's first page, so
      it works without scripts; the page was painted in the right mode already (see the inline script).
      Here: mark the current tab, remember a choice, and move between tabs with the arrow keys. */

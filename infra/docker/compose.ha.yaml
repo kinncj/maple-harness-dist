@@ -12,6 +12,7 @@
 #   MAPLE_VERSION=v2.0.0 docker compose -f compose.ha.yaml up -d --build
 #
 # Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
+# compose.ha-shared.yaml is the same, starting from a config.yaml of yours: the recommended one.
 x-proxy: &proxy
   build:
     context: .
@@ -29,6 +30,9 @@ x-proxy: &proxy
   environment: &env
     MAPLE_STORAGE_MODE: central
     MAPLE_SETTINGS_SOURCE: central
+    # Replicas that disagree on their settings are reported (and, with settings from files, a
+    # replica in the minority is not ready); with settings in PostgreSQL that should never happen.
+    MAPLE_READY_REQUIRES_SAME_CONFIG: "true"
     MAPLE_PROXY_ID: maple-proxy
     MAPLE_ALLOWED_HOSTS: localhost
     MAPLE_POSTGRES_DSN: $${secret:storage/postgres_dsn}

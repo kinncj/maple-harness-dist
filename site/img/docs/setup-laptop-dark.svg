@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" role="img">
+<title>Maple on one laptop</title>
+<desc>Your tools on your laptop, Maple Harness, Claude Code and OpenCode, send their requests to the maple-proxy on the same laptop, at 127.0.0.1, with no token. Maple Harness checks on every connection that the proxy is your own. The proxy holds your sign-ins and keys, and sends requests on to your GitHub Copilot account, an Anthropic API key or a model server. Its setup page is on the laptop only.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="400" fill="#1B1513"/>
+<text x="30" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Your tools</text>
+<text x="352" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Your laptop&#x27;s proxy</text>
+<text x="722" y="36" font-size="13" fill="#B9ABA3" font-weight="700" text-anchor="start" class="sans">Your accounts and models</text>
+<rect x="30" y="56" width="250" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="84" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Maple Harness</text>
+<text x="46" y="108" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">starts the proxy for you</text>
+<path d="M280 94 L350 140" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="156" width="250" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="184" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Claude Code</text>
+<text x="46" y="208" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">no token needed</text>
+<path d="M280 194 L350 170" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="30" y="256" width="250" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="46" y="284" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">OpenCode</text>
+<text x="46" y="308" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">no token needed</text>
+<path d="M280 294 L350 200" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="352" y="56" width="320" height="276" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="372" y="88" font-size="18" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="372" y="112" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">127.0.0.1:11535 and :11537</text>
+<rect x="372" y="130" width="280" height="82" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="388" y="156" font-size="14" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">your sign-ins and keys</text>
+<text x="388" y="180" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">in your keyring or</text>
+<text x="388" y="200" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">secret store</text>
+<rect x="372" y="228" width="280" height="84" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="388" y="254" font-size="14" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">setup page</text>
+<text x="388" y="278" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">127.0.0.1:11539,</text>
+<text x="388" y="298" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">this laptop only</text>
+<rect x="722" y="56" width="210" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="84" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">GitHub Copilot</text>
+<text x="738" y="108" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">your account</text>
+<path d="M672 140 L722 94" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="156" width="210" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="184" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Anthropic</text>
+<text x="738" y="208" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">your API key</text>
+<path d="M672 170 L722 194" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<rect x="722" y="256" width="210" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="738" y="284" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Model server</text>
+<text x="738" y="308" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">Ollama, LM Studio</text>
+<path d="M672 200 L722 294" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<text x="480" y="370" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Nothing to configure for a team: no people, no hubs, no tokens.</text>
+</svg>

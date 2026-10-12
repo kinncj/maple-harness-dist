@@ -19,6 +19,16 @@
     label();
   });
 
+  /* The release notice: dismissing it stores its version, so the inline script hides it before the first
+     paint from then on, until a newer release is announced. Without storage it is hidden on this page only. */
+  var relx = document.getElementById('relx');
+  if (relx) relx.addEventListener('click', function () {
+    try { localStorage.setItem('maple-release-dismissed', root.getAttribute('data-release') || ''); } catch (e) {}
+    root.classList.add('rel-off');
+    var home = document.querySelector('.top .brand');
+    if (home) home.focus();
+  });
+
   /* Install: one command, with a macOS and Linux | Windows switch. Windows is picked when the browser says so. */
   var CMDS = {
     sh: 'curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash',

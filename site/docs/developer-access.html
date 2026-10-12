@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams" data-release="2.1.2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>How developers sign in · Maple Harness docs</title>
+<meta name="description" content="A developer on a shared proxy needs a token and a few lines that point their tools at the proxy. There are two ways to get them: a token from an admin (works everywhere, no extra setup), or signing in">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
+<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.1.2 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.1.2" rel="noopener">What's new<span class="sr"> in 2.1.2</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.1.2 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html" aria-current="page">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">How developers sign in</li></ol></div></nav>
+<article>
+<h1 id="how-developers-sign-in">How developers sign in <a class="anchor" href="#how-developers-sign-in" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></details>
+
+<p>A developer on a shared proxy needs a token and a few lines that point their tools at the proxy. There are two ways
+to get them: a token from an admin (works everywhere, no extra setup), or signing in with the company account
+through the proxy's single sign-on address (the developer makes their own tokens). Both can run side by side.</p>
+<p><strong>Contents</strong></p>
+<ul><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ul>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Your admin can give you a token.</strong> They make it on the setup page's <strong>People &amp; teams</strong> tab, copy it to you once,
+with the lines to paste into your tools. Nothing else to set up. With Maple on your laptop, you paste it on your own
+proxy's <strong>Hubs &amp; chaining</strong> tab: your proxy joins the hub as you, and Maple Harness keeps using your proxy as
+always.</li><li><strong>Or you sign in yourself.</strong> If your admin turned on developer sign-in, open the address they give you (such as
+<code>https://maple-admin.example.com</code>), sign in with your work account, and you land on <strong>My access</strong>: your own page,
+where you make tokens, see your usage, and copy the lines for your tools.</li><li><strong>Your own Maple proxy signs in for you.</strong> On your laptop, Maple Harness talks to its own proxy, and that proxy
+signs in to the team hub with your company account: on its setup page (<strong>Hubs &amp; chaining</strong>, <strong>Sign in with your
+company account</strong>), or in a terminal. It shows a link and a code, you type the code on My access, and your proxy
+is connected. It keeps itself signed in for a week, then asks you to sign in again.</li><li><strong>With Maple Harness, one command:</strong> <code>maple-harness proxy connect --sso https://maple-admin.example.com</code> has your
+local proxy sign in. The harness keeps using your local proxy, which now reaches the hub's models.</li><li><strong>Tokens you make yourself expire</strong> (after 30 days by default). Tokens from an admin do not, unless they chose a
+date.</li></ul>
+<h2 id="a-token-from-an-admin">A token from an admin <a class="anchor" href="#a-token-from-an-admin" aria-label="Link to this heading">#</a></h2>
+<p>On the setup page, <strong>People &amp; teams</strong>, open the person's <strong>Access and tokens</strong>:</p>
+<ul><li><strong>Make a token</strong>: what it is for (their laptop, CI), and when it expires (never, by default, or 7, 30 or 90 days,
+or a year). It has the <code>proxy</code> scope only and is tied to the person at once, so their budget, models and accounts
+apply from the first request. It is shown once, with <strong>Copy</strong>, together with the lines below.</li><li><strong>How they connect</strong>: the same lines again later, without the token.</li><li>The list of their tokens: what each is for, who made it (an admin, the developer themselves, or <strong>their proxy
+(renews itself)</strong> for a proxy they signed in), when, when it expires and when it was last used, with <strong>Revoke</strong>, and
+<strong>Revoke all</strong> of the person's tokens.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/people-access-light.webp" alt="People &amp; teams with two people open: ana&#x27;s tokens come from an admin, an ana laptop token that expires 2026-11-11 and was last used just now; ben signs in with single sign-on at id.acme.example as ben@acme.example, with a token made by their proxy (renews itself) and a token he made himself. Each has New token, How they connect and Revoke all." width="1000" height="1597" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-access-dark.webp" alt="People &amp; teams with two people open: ana&#x27;s tokens come from an admin, an ana laptop token that expires 2026-11-11 and was last used just now; ben signs in with single sign-on at id.acme.example as ben@acme.example, with a token made by their proxy (renews itself) and a token he made himself. Each has New token, How they connect and Revoke all." width="1000" height="1597" loading="lazy" decoding="async">
+<figcaption>People &amp; teams: how each person signs in, and their tokens. A demo setup.</figcaption>
+</figure>
+<p>The lines they paste (the proxy's address comes from its host names, or from the single sign-on settings). The first
+one is the normal way: the developer's own Maple proxy, on their laptop, joins this one with the token, and Maple
+Harness keeps using that local proxy as always.</p>
+<pre><code class="language-text"># Their own Maple proxy: paste this token on its Hubs &amp; chaining tab
+On that proxy's setup page: Hubs &amp; chaining, Connect this proxy to a parent hub.
+  Address: https://maple.example.com:11535/v1
+  Token:   &lt;their token&gt;
+Test the connection then says who the hub counts it as.
+
+Maple Harness keeps using that local proxy, as always.
+
+# Advanced: Maple Harness without a proxy of its own (CI, containers; asks for the token)
+maple-harness proxy connect https://maple.example.com:11535
+
+# Claude Code
+export ANTHROPIC_BASE_URL=https://maple.example.com:11537
+export ANTHROPIC_API_KEY=&lt;their token&gt;
+
+# OpenCode, or any OpenAI-compatible tool
+#   base URL: https://maple.example.com:11535/v1
+#   API key:  &lt;their token&gt;</code></pre>
+<figure>
+<img class="shot shot-light" src="../img/docs/people-connect-lines-light.webp" alt="How they connect, without single sign-on: first, Their own Maple proxy: paste this token on its Hubs and chaining tab, with the steps (Hubs and chaining, Connect this proxy to a parent hub, the address ending in /v1, their token; Test the connection then says who the hub counts it as; Maple Harness keeps using that local proxy, as always); then Advanced: Maple Harness without a proxy of its own (CI, containers; asks for the token); then Claude Code and OpenCode, each with Copy." width="660" height="543" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-connect-lines-dark.webp" alt="How they connect, without single sign-on: first, Their own Maple proxy: paste this token on its Hubs and chaining tab, with the steps (Hubs and chaining, Connect this proxy to a parent hub, the address ending in /v1, their token; Test the connection then says who the hub counts it as; Maple Harness keeps using that local proxy, as always); then Advanced: Maple Harness without a proxy of its own (CI, containers; asks for the token); then Claude Code and OpenCode, each with Copy." width="660" height="543" loading="lazy" decoding="async">
+<figcaption>How they connect, on a hub without single sign-on: their own proxy first. A demo setup.</figcaption>
+</figure>
+<p>With developer sign-in on, the lines start with signing in instead: <code>maple-proxy chain connect --sso &lt;address&gt;</code> (or
+<code>maple-harness proxy connect --sso &lt;address&gt;</code>), which has the developer's own proxy sign in with their company account
+(<a href="#sign-your-own-proxy-in">Sign your own proxy in</a>); pasting the token on their proxy comes second, then the advanced
+line.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/people-connect-lines-sso-light.webp" alt="How they connect, with single sign-on on: first, Their own Maple proxy: sign in with their company account, with maple-proxy chain connect --sso and the hub&#x27;s sign-in address, or maple-harness proxy connect --sso, and the note that Maple Harness keeps using that local proxy; second, Their own Maple proxy, with this token instead; third, Advanced: Maple Harness without a proxy of its own; then Claude Code and OpenCode." width="664" height="724" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-connect-lines-sso-dark.webp" alt="How they connect, with single sign-on on: first, Their own Maple proxy: sign in with their company account, with maple-proxy chain connect --sso and the hub&#x27;s sign-in address, or maple-harness proxy connect --sso, and the note that Maple Harness keeps using that local proxy; second, Their own Maple proxy, with this token instead; third, Advanced: Maple Harness without a proxy of its own; then Claude Code and OpenCode." width="664" height="724" loading="lazy" decoding="async">
+<figcaption>The same lines with single sign-on on: signing in comes first. A demo setup.</figcaption>
+</figure>
+<p>The token line for Maple Harness alone is the <a href="#advanced-a-token-for-ci-and-containers">advanced way</a>, for places
+where no proxy of their own can run. On their own proxy, <strong>Test the connection</strong> recognises the token as theirs
+("Connected as <code>&lt;person&gt;</code> at <code>&lt;hub&gt;</code>: your requests count as you"), leaves <strong>Use the hub's people and teams here, and
+send usage up</strong> unticked and greyed out (that needs a chain token from the hub's admin), and <strong>Save</strong> keeps it: see
+<a href="chaining.html#join-with-a-personal-token">Join with a personal token</a> and
+<a href="which-setup.html#2-your-laptops-proxy-joined-to-a-team-hub">Which setup do I need?</a>.</p>
+<p>The same works from a terminal on the proxy's machine: <code>maple-proxy token add &lt;label&gt; --person &lt;id&gt;</code>. Through single
+sign-on, an admin can make tokens too (the <code>proxy</code> scope only, and they always expire: 90 days unless the admin
+chooses).</p>
+<h2 id="signing-in-with-your-company-account">Signing in with your company account <a class="anchor" href="#signing-in-with-your-company-account" aria-label="Link to this heading">#</a></h2>
+<p>When your admin turns on developer sign-in (<a href="single-sign-on.html#developer-sign-in">Single sign-on, Developer sign-in</a>),
+open the single sign-on address and sign in. Depending on how it is set up:</p>
+<ul><li><strong>Automatic</strong>: you are added as a person at your first sign-in (your team comes from your groups), and land on My
+access.</li><li><strong>Ask an admin</strong>: your first sign-in says <strong>Request sent</strong>. Once an admin accepts it on People &amp; teams, sign in
+again.</li></ul>
+<p>My access is a page of its own: you never see the admin pages, and nothing there can change anyone else's access.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/my-access-light.webp" alt="My access for ben@acme.example, person ben on team backend: Connect your tools, its first lines Your own Maple proxy (signs in through this page) with maple-proxy chain connect --sso and the Maple Harness shortcut maple-harness proxy connect --sso, then Maple Harness with a token, Claude Code and any OpenAI-compatible tool; Connect your proxy with a code field; Your tokens with your proxy (renews itself) and ben laptop expiring 2026-11-11; Make a token; and Your usage for the last 30 days." width="1000" height="1441" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/my-access-dark.webp" alt="My access for ben@acme.example, person ben on team backend: Connect your tools, its first lines Your own Maple proxy (signs in through this page) with maple-proxy chain connect --sso and the Maple Harness shortcut maple-harness proxy connect --sso, then Maple Harness with a token, Claude Code and any OpenAI-compatible tool; Connect your proxy with a code field; Your tokens with your proxy (renews itself) and ben laptop expiring 2026-11-11; Make a token; and Your usage for the last 30 days." width="1000" height="1441" loading="lazy" decoding="async">
+<figcaption>My access, a developer's own page.</figcaption>
+</figure>
+<ul><li><strong>Connect your tools</strong>: the lines to copy. The first, <strong>Your own Maple proxy (signs in through this page)</strong>, are the
+commands that sign your proxy in (below); then a token for Maple Harness the advanced way, for Claude Code, and for
+any OpenAI-compatible tool.</li><li><strong>Connect your proxy</strong>: where you type the code your proxy shows when it signs in (below).</li><li><strong>Make a token</strong>: name it (your laptop, CI). It expires after the number of days your admin set (30 by default),
+has the <code>proxy</code> scope only, and is shown once.</li><li><strong>Rotate</strong>: a new secret for the same token and a fresh expiry; the old secret stops at once.</li><li><strong>Revoke</strong>: it stops at once.</li><li><strong>Your usage</strong>: your own requests, tokens and AI units for the last 30 days.</li></ul>
+<p>Your account is matched by your identity at your company's provider, recorded at your first sign-in, never by your
+email address alone: an address that belongs to someone who signs in with another account does not take over their
+access.</p>
+<h2 id="sign-your-own-proxy-in">Sign your own proxy in <a class="anchor" href="#sign-your-own-proxy-in" aria-label="Link to this heading">#</a></h2>
+<p>On your own machine, Maple Harness talks to its own proxy, and your other tools can too. To use the team hub, that
+proxy signs in to the hub with your company account, and the hub gives it a token for you. There are three ways to
+start it, and they are the same sign-in: one started in one place shows in the others, and any of them can end it.</p>
+<div class="tablewrap"><table><thead><tr><th>Where</th><th>How</th></tr></thead><tbody><tr><td>Your proxy's setup page</td><td><strong>Hubs &amp; chaining</strong>, <strong>Connect this proxy to a parent hub</strong>, <strong>Sign in with your company account</strong>: type the hub's sign-in address (this single sign-on address) and <strong>Sign in with your company account</strong></td></tr><tr><td>A terminal on your proxy's machine</td><td><code>maple-proxy chain connect --sso https://maple-admin.example.com</code></td></tr><tr><td>Maple Harness</td><td><code>maple-harness proxy connect --sso https://maple-admin.example.com</code>: a shortcut that starts your local proxy if needed and has it sign in; the harness itself is not signed in and gets no token</td></tr></tbody></table></div>
+<p>Each shows a link to My access and a short code. Open the link in a browser on any device (a phone works, so does a
+laptop next to a server you reached over SSH), sign in, and type the code under <strong>Connect your proxy</strong>, then <strong>Check
+the code</strong>. The page says which proxy asked, by its name, from which address and how long ago, and asks <strong>Is this your
+own proxy? Everything it sends here counts as you.</strong> Press <strong>Yes, connect it</strong> only if it is the proxy you just used:
+whoever started the sign-in gets access as you. <strong>No, refuse it</strong> tells that proxy no.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/my-access-proxy-light.webp" alt="Connect your proxy on My access: the code typed in, and the question: A Maple proxy named ben-laptop asked just now from an address, which is the address this browser uses. Is this your own proxy? Everything it sends here counts as you. Buttons Yes, connect it and No, refuse it." width="812" height="371" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/my-access-proxy-dark.webp" alt="Connect your proxy on My access: the code typed in, and the question: A Maple proxy named ben-laptop asked just now from an address, which is the address this browser uses. Is this your own proxy? Everything it sends here counts as you. Buttons Yes, connect it and No, refuse it." width="812" height="371" loading="lazy" decoding="async">
+<figcaption>Connect your proxy: which proxy asked, before anything is granted.</figcaption>
+</figure>
+<p>From Maple Harness it looks like this (the addresses, code and dates are examples):</p>
+<pre><code class="language-text">$ maple-harness proxy connect --sso https://sso.acme.example:12464
+Your local proxy is signing in to sso.acme.example:12464. Open this address in a browser (on any device), sign in with your company account, and enter the code:
+
+    https://sso.acme.example:12464/sso/access
+
+    88HB-6KCR
+
+The hub's page names your proxy, so check the name it shows. The code works until 14:32. Waiting…
+Your local proxy is now signed in to sso.acme.example:12464 as ben@acme.example; the harness keeps using your local proxy.
+The hub's models are reached as hub/&lt;model&gt; (pick one with /model), counted at the hub as you. The proxy renews the sign-in by itself until Mon 19 Oct 14:22.</code></pre>
+<p>What you get:</p>
+<ul><li>Your proxy holds a token for you, with the <code>proxy</code> scope only, in its secret store. It adds this hub as a provider
+(named <code>hub</code> unless you choose another name), so its models work as <code>hub/&lt;model&gt;</code> in every tool that uses your
+proxy.</li><li>Everything your proxy sends counts as you: your budget, your models and your accounts here.</li><li>The token lasts 12 hours and your proxy renews it quietly, for up to 7 days after you approved it. Then it asks you
+to sign in again, on its setup page (<strong>Sign in again</strong>) or with the same command.</li><li>On My access the token is listed as <strong>your proxy (renews itself)</strong>; revoke it there to cut that proxy off at once.
+To end it from the proxy, use <strong>Disconnect</strong> on its setup page or <code>maple-proxy chain disconnect</code>: the token is
+revoked at the hub as well.</li><li>A hub or a proxy before 2.2 cannot do this, and a hub with developer sign-in off refuses it: your proxy says so,
+and you use a token from your admin instead.</li><li>No company-provider token is kept anywhere: the hub is what renews your proxy's access, and it stops renewing
+when an admin revokes your token, forgets your sign-in, removes you, takes you out of the developers' domains or
+groups, or turns developer sign-in off.</li></ul>
+<p>The full steps, with screenshots of your proxy's side, what it shows when the sign-in needs attention, and when to
+use a chain token instead: <a href="chaining.html#join-your-laptop-to-a-team-hub">Join your laptop to a team hub</a>.</p>
+<p>Behind a company HTTP proxy, set <code>HTTPS_PROXY</code> as usual (and <code>NO_PROXY</code> for internal hubs) where your proxy runs:
+its sign-in and renewals go through it, encrypted end to end with the hub.</p>
+<h2 id="advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers <a class="anchor" href="#advanced-a-token-for-ci-and-containers" aria-label="Link to this heading">#</a></h2>
+<p>Where no proxy of your own can run (a CI job, a container), Maple Harness can use this proxy directly with a token,
+from an admin or made on My access:</p>
+<pre><code class="language-sh">maple-harness proxy connect https://maple.example.com:11535</code></pre>
+<p>It asks for the token without showing it (or reads it from standard input), keeps it in the secret store and writes
+<code>harness.proxy</code> in its <code>config.yaml</code>. <code>maple-harness proxy status</code> says where the proxy is, and <code>maple-harness proxy
+disconnect</code> goes back to the proxy on that machine. Such a token does not renew itself. See
+<a href="proxy.html#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a>.</p>
+<h2 id="what-admins-see">What admins see <a class="anchor" href="#what-admins-see" aria-label="Link to this heading">#</a></h2>
+<p>On <strong>People &amp; teams</strong>, each person's <strong>Access and tokens</strong> says how they sign in (tokens from an admin, or single
+sign-on with their provider and email) and lists their tokens as above, with <strong>Forget their sign-in</strong> (their next
+sign-in is matched again; their tokens work until they expire, and their proxies' sign-ins stop renewing).</p>
+<p><strong>An id given to someone else.</strong> A sign-in belongs to the person it was made for, not just to their id: each person
+has a <code>sign_in_marker</code> in <code>config.yaml</code>, written by the proxy (leave it as it is). Remove a person and add someone
+else with the same id, on the setup page, with <code>maple-proxy people</code>, or by editing <code>config.yaml</code> while the proxy is
+stopped, and the old person's accounts do not sign in as the new one; what was made for the old person is cleared
+(Recent activity shows <code>sso.prune</code>) and the tokens they made for themselves are revoked. With settings from files
+(a ConfigMap) the proxy cannot write the marker: keep the <code>sign_in_marker</code> lines when you edit the files, and when an
+id changes hands, change its marker or use <strong>Forget their sign-in</strong> (or <code>maple-proxy people forget-signin &lt;id&gt;</code>)
+(<a href="kubernetes.html#step-by-step-settings-from-the-configmap-configha">Kubernetes</a>).</p>
+<p>Above the people, when something needs a look:</p>
+<ul><li><strong>Asked to use this proxy</strong>: developer sign-ins waiting for you (ask-an-admin mode), with <strong>Accept</strong> (as a new
+person, or as someone already there, with a team) and <strong>Refuse</strong>. A sign-in whose email belongs to someone who
+signs in with another account is marked <strong>email in use</strong>: accept it only for the right person.</li><li><strong>People who cannot connect yet</strong>: people with no live token, tokens never used, and tokens that expire within a
+week.</li><li><strong>Refused sign-ins</strong> of the last seven days, and why.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/people-requests-light.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team, Accept and Refuse; and Refused sign-ins, last 7 days." width="1000" height="400" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-requests-dark.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team, Accept and Refuse; and Refused sign-ins, last 7 days." width="1000" height="400" loading="lazy" decoding="async">
+<figcaption>A developer waiting for an admin.</figcaption>
+</figure>
+<h2 id="expiry-renewal-and-revoking">Expiry, renewal and revoking <a class="anchor" href="#expiry-renewal-and-revoking" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Token</th><th>Expires</th><th>Renewed</th></tr></thead><tbody><tr><td>Made by an admin</td><td>Never, unless they chose a date (through single sign-on: 90 days unless chosen)</td><td>No</td></tr><tr><td>Made on My access</td><td>After <code>developers.token_days</code> (30 by default, at most 90)</td><td>Rotate gives a fresh one</td></tr><tr><td>Your proxy's, signed in with your company account</td><td>12 hours</td><td>Quietly, for up to 7 days after the approval</td></tr></tbody></table></div>
+<p>A revoked or expired token stops at once on every replica of a shared proxy. Proxies chained below a hub stop
+accepting it when they next fetch the hub's list: within seconds while the hub can be reached (they wait on the hub
+for news), about a minute (<code>chain.directory_interval</code>) after a failed fetch, and while the hub cannot be reached at
+all, up to <code>chain.directory_grace</code> (15 minutes by default), after which they refuse every token from the hub until
+it answers again. The same goes for the old secret of a renewed proxy token. Revoking never comes undone by a renewal.</p>
+<p>Removing a person revokes the tokens they made for themselves (on My access, and their proxies'); the tokens an
+admin made for them keep working, unattributed, unless you revoke them too (the remove confirm offers it).</p>
+<h2 id="limits">Limits <a class="anchor" href="#limits" aria-label="Link to this heading">#</a></h2>
+<ul><li>A developer may hold 5 live tokens (<code>developers.max_tokens</code>) and make 10 an hour.</li><li>Automatic onboarding adds at most 50 people a day; more sign-ins wait for an admin.</li><li>With settings from a ConfigMap, developers cannot be added or make tokens themselves (My access says so): an admin
+gives them one.</li><li>A proxy with replicas, with settings from a ConfigMap, or with read-only mounted secrets cannot keep a sign-in:
+connect it with a chain token from the hub's admin (<a href="chaining.html">Chain proxies into hubs</a>).</li><li>Tested against a stand-in identity provider, in Chromium through a TLS front, with a real local proxy signing in
+from its page and from the terminal. Not yet run against real Google, Microsoft Entra ID, Okta or GitHub accounts.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/single-sign-on.html" rel="prev"><small>Previous</small>Single sign-on for the setup page</a><a class="next" href="../docs/kubernetes.html" rel="next"><small>Next</small>Run the proxy on Kubernetes</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></aside>
+</div>
+<script src="../docs/site.js?v=4ef5025e" defer></script>
+</body>
+</html>

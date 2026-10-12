@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img">
+<title>Your laptop&#x27;s proxy joined to a team hub</title>
+<desc>On your laptop, Maple Harness, Claude Code and OpenCode keep talking to the maple-proxy on the laptop. That proxy is joined to the team hub at hub.example: it signed in with your company account, or holds a token the hub&#x27;s admin gave you. The hub counts everything your proxy sends as you, with your budget and models, and sends it on to the company&#x27;s accounts. Your proxy can keep your own accounts too, and use the hub as a fallback, or the other way round.</desc>
+<style>.sans{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}</style>
+<defs><marker id="h-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E4572E"/></marker><marker id="h-down" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6FB6C4"/></marker><marker id="h-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B9ABA3"/></marker><marker id="h-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8CC17A"/></marker></defs>
+<rect width="960" height="470" fill="#1B1513"/>
+<rect x="20" y="40" width="450" height="380" rx="12" fill="#211A17" stroke="#54453F" stroke-width="1.5"/>
+<text x="40" y="70" font-size="17" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Your laptop</text>
+<rect x="40" y="92" width="190" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="56" y="120" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Maple Harness</text>
+<text x="56" y="144" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">always uses this proxy</text>
+<path d="M230 130 L262 206" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="40" y="192" width="190" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="56" y="220" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Claude Code</text>
+<text x="56" y="244" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">no token needed</text>
+<path d="M230 230 L262 230" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="40" y="292" width="190" height="76" rx="12" fill="#2A211E" stroke="#54453F" stroke-width="1.5"/>
+<text x="56" y="320" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">OpenCode</text>
+<text x="56" y="344" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">no token needed</text>
+<path d="M230 330 L262 254" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="262" y="92" width="188" height="276" rx="12" fill="#3A221A" stroke="#E4572E" stroke-width="2"/>
+<text x="278" y="122" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">maple-proxy</text>
+<text x="278" y="146" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">on 127.0.0.1</text>
+<text x="278" y="182" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">the hub&#x27;s models</text>
+<text x="278" y="202" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="mono">as hub/&lt;model&gt;</text>
+<text x="278" y="238" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">your own accounts</text>
+<text x="278" y="258" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">too, if you like</text>
+<text x="278" y="300" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">holds the hub</text>
+<text x="278" y="320" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">sign-in or token</text>
+<path d="M450 230 L540 230" fill="none" stroke="#E4572E" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#h-accent)"/>
+<rect x="464" y="196" width="72" height="25" rx="12.5" fill="#3A221A" stroke="#E4572E" stroke-width="1"/>
+<text x="500" y="212" font-size="13" fill="#E4572E" font-weight="600" text-anchor="middle" class="sans">as you</text>
+<rect x="540" y="92" width="210" height="276" rx="12" fill="#2A211E" stroke="#E4572E" stroke-width="2"/>
+<text x="556" y="122" font-size="16" fill="#F2E9E4" font-weight="700" text-anchor="start" class="sans">Team hub</text>
+<text x="556" y="146" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="start" class="mono">hub.example</text>
+<text x="556" y="184" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">people and teams,</text>
+<text x="556" y="206" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">budgets, model lists,</text>
+<text x="556" y="228" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">the company&#x27;s</text>
+<text x="556" y="250" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">accounts</text>
+<text x="556" y="300" font-size="13.5" fill="#F2E9E4" font-weight="400" text-anchor="start" class="sans">My access page:</text>
+<text x="556" y="320" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="start" class="sans">you confirm your proxy</text>
+<rect x="790" y="140" width="150" height="180" rx="12" fill="#211A17" stroke="#54453F" stroke-width="1.5"/>
+<text x="865" y="178" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="middle" class="sans">Company</text>
+<text x="865" y="200" font-size="15" fill="#F2E9E4" font-weight="700" text-anchor="middle" class="sans">accounts</text>
+<text x="865" y="236" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Copilot,</text>
+<text x="865" y="256" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Anthropic,</text>
+<text x="865" y="276" font-size="13" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">model servers</text>
+<path d="M750 230 L790 230" fill="none" stroke="#B9ABA3" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#h-muted)"/>
+<text x="480" y="446" font-size="13.5" fill="#B9ABA3" font-weight="400" text-anchor="middle" class="sans">Sign in with your company account (it renews itself for a week), or paste a token from the hub&#x27;s admin.</text>
+</svg>
