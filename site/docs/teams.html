@@ -103,7 +103,8 @@ key.</p></li></ul>
 <figcaption>How they connect, under a person's Access and tokens: their own proxy first. A demo setup.</figcaption>
 </figure>
 <p>Reach the proxy over HTTPS or a private network, such as Tailscale or a VPN: plain HTTP across a network others share
-lets them read tokens. The details for each tool are in <a href="#on-each-teammates-machine">On each teammate's machine</a>.</p>
+lets them read tokens. On the same machine, plain HTTP is fine (<code>http://127.0.0.1:…</code> or <code>http://localhost:…</code>): nothing
+crosses a network, and there is nothing to set. The details for each tool are in <a href="#on-each-teammates-machine">On each teammate's machine</a>.</p>
 <h3 id="local-and-unattributed"><code>local</code> and <code>unattributed</code> <a class="anchor" href="#local-and-unattributed" aria-label="Link to this heading">#</a></h3>
 <ul><li><strong><code>local</code></strong> is a request from the proxy's own machine that carries no token. It needs no token, so the People card
 shows no note for it. Add a person with the id <code>local</code> to give it a team, a budget or rules.</li><li><strong><code>unattributed</code></strong> is a request no person was recorded for: one made with a token tied to nobody, or sent before
@@ -248,7 +249,7 @@ and answers <code>404</code> while it is off.</p>
 <ol><li>Set up the people as above.</li><li>Let the proxy listen where your teammates can reach it, for example <code>server.openai_compat: 0.0.0.0:11535</code> and
 <code>server.anthropic_compat: 0.0.0.0:11537</code>. Off this machine every request needs a token with the proxy scope; the
 proxy will not start that way until one exists. The setup page stays on this machine only.</li><li>Reach it over HTTPS or a private network, such as Tailscale or a VPN. Plain HTTP across a network others share
-lets them read tokens.</li></ol>
+lets them read tokens; on the same machine, plain HTTP is fine.</li></ol>
 <p>Signing in to providers, the setup page and <code>maple-proxy</code> commands all stay on this machine.</p>
 <h3 id="on-each-teammates-machine">On each teammate's machine <a class="anchor" href="#on-each-teammates-machine" aria-label="Link to this heading">#</a></h3>
 <p>Each person uses their own token, with the <code>proxy</code> scope. Do not share tokens: every request made with one is counted

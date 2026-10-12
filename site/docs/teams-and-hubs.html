@@ -83,7 +83,8 @@ several replicas when a restart must not interrupt anyone (<a href="kubernetes.h
 one exists. List the name your teammates type in <code>allowed_hosts</code>: a request that arrives under another name is
 refused with <code>403</code>. The setup page never listens beyond this machine. Reach the hub over HTTPS (in front of the
 proxy, for example a reverse proxy), or over a private network such as Tailscale or a VPN: plain HTTP across a network
-others share lets them read the tokens.</p>
+others share lets them read the tokens. A hub on the same machine (for a try-out, or a proxy joining a hub that runs
+beside it) can be reached over plain HTTP, sign-in included, with nothing to set.</p>
 <p><strong>2. Make a token for each person, and say whose it is.</strong> A person signs in with an access token tied to them; there
 is no other password. Make each token on the setup page (<strong>People &amp; teams</strong>, the person's <strong>Access and tokens</strong>,
 <strong>Make a token</strong>: the <code>proxy</code> scope only, tied to them at once), or with <code>maple-proxy token add &lt;label&gt; --person &lt;id&gt;</code>;
