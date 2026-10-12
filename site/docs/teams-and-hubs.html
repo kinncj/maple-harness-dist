@@ -72,8 +72,11 @@ one exists. List the name your teammates type in <code>allowed_hosts</code>: a r
 refused with <code>403</code>. The setup page never listens beyond this machine. Reach the hub over HTTPS (in front of the
 proxy, for example a reverse proxy), or over a private network such as Tailscale or a VPN: plain HTTP across a network
 others share lets them read the tokens.</p>
-<p><strong>2. Make a token for each person, and say whose it is.</strong> Make each token on the setup page (<strong>Remote access</strong>, or the
-<strong>People</strong> card once you have people) with the <code>proxy</code> scope, and tie it to its person by its id:</p>
+<p><strong>2. Make a token for each person, and say whose it is.</strong> A person signs in with an access token tied to them; there
+is no other password. Make each token on the setup page (<strong>Settings</strong> → <strong>Remote access</strong>, with the <code>proxy</code> scope only
+and <strong>Device token</strong>), then tie it to its person on the <strong>People</strong> card (<strong>Edit</strong> → <strong>Tie a token</strong>) or by its id.
+Every click, how to hand a token over, and what each tool does with it are in
+<a href="teams.html#how-each-person-signs-in">How each person signs in</a>.</p>
 <pre><code class="language-sh">maple-proxy people add alice --team platform
 maple-proxy people add bob --team platform
 maple-proxy people add carol --team web
@@ -169,7 +172,8 @@ chain:
 <pre><code class="language-sh">maple-proxy secrets migrate</code></pre>
 <p>A hub's models are always reachable as <code>&lt;provider id&gt;/&lt;model&gt;</code> (<code>top/claude-sonnet-5</code>). List them under <code>models:</code> on
 a hub in the middle of a chain: a laptop that asks its hub for <code>hub/claude-sonnet-5</code> sends the plain name up, and in
-our test the middle hub answered "no provider serves model" until the model was listed there. <code>base_url</code> must be
+our test the middle hub answered that the model "is not served by this proxy" (before 2.1.2: "no provider serves
+model") until the model was listed there. <code>base_url</code> must be
 <code>https://</code> unless the hub is on this machine or your local network, or the provider is marked <code>local: true</code>.</p>
 <p><strong>3. Check it</strong> with <code>maple-proxy chain status</code>, on any proxy:</p>
 <pre><code class="language-text">This proxy: alice-laptop, id mp-caf79a2b7a80304b; refuses requests that passed through more than 4 proxies.

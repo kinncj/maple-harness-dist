@@ -158,7 +158,8 @@ or through a Google service account named in <code>config/cloud-identity/gke/ser
 <p>Neither cloud states a price on its replies, so the proxy records the tokens each call used (input, cached input
 and output) and no price. For Claude models, <code>estimate_cost: true</code> on the provider adds an estimate from Anthropic's
 list prices, labelled as an estimate; your cloud bill can differ (commitments, regional pricing). See
-<a href="cost.html">Cost</a>.</p>
+<a href="cost.html">Cost</a>. A deployment whose name does not say which Claude model it is gets <code>price_as</code> on its model
+entry: see <a href="cost.html#when-maple-cant-tell-which-claude-model-a-name-is">When Maple can't tell which Claude model a name is</a>.</p>
 </article>
 <nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/sign-in.html" rel="prev"><small>Previous</small>Sign in</a><a class="next" href="../docs/bedrock.html" rel="next"><small>Next</small>Amazon Bedrock</a></div><div class="mset m-teams"><a class="prev" href="../docs/sign-in.html" rel="prev"><small>Previous</small>Sign in</a><a class="next" href="../docs/bedrock.html" rel="next"><small>Next</small>Amazon Bedrock</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·

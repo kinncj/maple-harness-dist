@@ -32,7 +32,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li aria-current="page">What /cost tells you</li></ol></div></nav>
 <article>
 <h1 id="what-cost-tells-you">What /cost tells you <a class="anchor" href="#what-cost-tells-you" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#the-totals-line">The totals line</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#the-last-requests-table">The last requests table</a></li><li><a href="#where-the-next-requests-input-goes">Where the next request's input goes</a></li><li><a href="#most-expensive-tool-results">Most expensive tool results</a></li><li><a href="#anthropic-and-estimated-cost">Anthropic and estimated cost</a></li><li><a href="#before-a-large-message-the-cost-preview">Before a large message: the cost preview</a></li><li><a href="#related">Related</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#the-totals-line">The totals line</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#the-last-requests-table">The last requests table</a></li><li><a href="#where-the-next-requests-input-goes">Where the next request's input goes</a></li><li><a href="#most-expensive-tool-results">Most expensive tool results</a></li><li><a href="#anthropic-and-estimated-cost">Anthropic and estimated cost</a><ol><li><a href="#when-maple-cant-tell-which-claude-model-a-name-is">When Maple can't tell which Claude model a name is</a></li></ol></li><li><a href="#before-a-large-message-the-cost-preview">Before a large message: the cost preview</a></li><li><a href="#related">Related</a></li></ol></details>
 
 <p><code>/cost</code> is the session's own bill, read back to you in plain numbers: what has been spent, request by request,
 and which parts of the conversation are costing the most by being sent again and again. This page walks
@@ -116,9 +116,35 @@ which prices each such call from Anthropic's own published rates instead. This f
 estimate — in dollars, never mixed into Copilot's AI-units figure — because it is a list-price guess, not what the
 account was actually billed: a committed-use rate, a promotion, or a later price change could make it wrong.</p>
 <p><strong>What to do about it:</strong> if you rely on a precise bill, check your provider's own account page rather than this
-figure. If Anthropic's calls in <code>/cost</code> show tokens but never a dollar figure at all, <code>estimate_cost</code> is either
-off or the model in use is one this estimate does not yet cover — either is fine to leave as is if you only need
-the token counts.</p>
+figure. If Anthropic's calls in <code>/cost</code> show tokens but never a dollar figure at all, <code>estimate_cost</code> is off. When
+it is on and a call still has no figure, Maple says why instead of leaving it out: see below.</p>
+<h3 id="when-maple-cant-tell-which-claude-model-a-name-is">When Maple can't tell which Claude model a name is <a class="anchor" href="#when-maple-cant-tell-which-claude-model-a-name-is" aria-label="Link to this heading">#</a></h3>
+<p>The estimate needs to know which Claude model a call went to. Maple reads it from the model's name. A name such as
+<code>claude-sonnet-5-5</code> or <code>claude-opus-4-6-20260101</code> is clear, and so is a deployment name that includes the model and
+its version (<code>my-sonnet-5-prod</code>). Some names are not clear:</p>
+<ul><li>a name that looks like a model Maple's price list does not have, such as a deployment called <code>claude-opus-4-9</code>;</li><li>a name that mentions two models, such as <code>opus-5-5-with-sonnet-5-judge</code>;</li><li>a name with no version (<code>my-sonnet-prod</code>), or no Claude model at all.</li></ul>
+<p>Such a call gets no estimate, and Maple says so: the proxy's log says it once per model, <code>/cost</code> and the
+<code>--json-summary</code> file say <code>no estimate for &lt;model&gt;: &lt;reason&gt;; set price_as on this model in the proxy's
+config.yaml</code>, and the setup page's <strong>Costs &amp; alerts</strong> tab lists it under <strong>Not estimated</strong> while that model is
+configured without <code>price_as</code>.</p>
+<p>One kind of unclear name keeps the estimate it had before 2.1.2: a Sonnet 5 name with a version the list does not
+have, such as <code>claude-sonnet-5-2</code> or <code>my-sonnet-5-7-prod</code>, is priced as Sonnet 5, the closest listed model. Maple
+says so in the same places (<code>&lt;model&gt;: estimated as claude-sonnet-5, the closest listed model; set price_as on this
+model to change it</code>; on the setup page, under <strong>Estimated as the closest model</strong>), and <code>price_as</code> changes it.</p>
+<p>To price it, name the Claude model on that model's entry with <code>price_as</code>:</p>
+<pre><code class="language-yaml">providers:
+  - id: azure
+    type: azure
+    estimate_cost: true
+    models:
+      - id: claude-opus-4-9
+        price_as: claude-opus-4-8
+      - id: opus-5-5-with-sonnet-5-judge
+        price_as: claude-opus-5-5</code></pre>
+<p><code>price_as</code> must be a Claude model ID that is in Maple's price list; anything else stops the configuration from
+loading, with a message that says so. A model ID it accepts stays accepted by later versions of Maple. On the setup
+page, set it in the model's ⋯ row on the provider's form.
+The figure is still an estimate at Anthropic's list prices.</p>
 <h2 id="before-a-large-message-the-cost-preview">Before a large message: the cost preview <a class="anchor" href="#before-a-large-message-the-cost-preview" aria-label="Link to this heading">#</a></h2>
 <p>With <code>cost_preview</code> set to <code>large</code> or <code>on</code> (see <a href="configuration.html#cost-preview">Harness settings</a>; it is off by
 default), the harness says, before a message is sent, about what its first request is likely to cost. It looks
@@ -154,7 +180,7 @@ connected to a proxy on another machine asks it with the same access token it us
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#the-totals-line">The totals line</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#the-last-requests-table">The last requests table</a></li><li><a href="#where-the-next-requests-input-goes">Where the next request's input goes</a></li><li><a href="#most-expensive-tool-results">Most expensive tool results</a></li><li><a href="#anthropic-and-estimated-cost">Anthropic and estimated cost</a></li><li><a href="#before-a-large-message-the-cost-preview">Before a large message: the cost preview</a></li><li><a href="#related">Related</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#the-totals-line">The totals line</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#the-last-requests-table">The last requests table</a></li><li><a href="#where-the-next-requests-input-goes">Where the next request's input goes</a></li><li><a href="#most-expensive-tool-results">Most expensive tool results</a></li><li><a href="#anthropic-and-estimated-cost">Anthropic and estimated cost</a><ol><li><a href="#when-maple-cant-tell-which-claude-model-a-name-is">When Maple can't tell which Claude model a name is</a></li></ol></li><li><a href="#before-a-large-message-the-cost-preview">Before a large message: the cost preview</a></li><li><a href="#related">Related</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=ce66e2e9" defer></script>
 </body>

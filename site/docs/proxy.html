@@ -85,7 +85,12 @@ Settings tab says it is read-only and its controls are off; usage and status are
 of UTC days. With <strong>Live</strong>, the cards show the proxy's own figures since it started, exactly as before, and the
 charts show the last 30 days.</p>
 <p><strong>More filters</strong> opens the rest: provider, account, model, token, agent, outcome, error class and auto weight.
-Person and team appear once your usage log holds more than one of them. Any filter makes the cards read the usage
+<strong>Provider</strong> is the kind of service that answered (<code>anthropic</code>, <code>github-copilot</code>, <code>openai-compatible</code>...), every
+account of it; <strong>Account</strong> is one configured account (two Copilot accounts are two accounts). Provider appears once
+two providers have requests, Account once a provider has two accounts, and person and team once your usage log holds
+more than one of them. The Model list names the account beside each model, such as <code>gpt-5-mini (github-copilot)</code>;
+a model two accounts served is listed once for each, and picking one filters by that model and that account. The
+live view, the requests as they finish and today's figures follow the person, team, provider and account filters. Any filter makes the cards read the usage
 log instead, and each card and chart then says how many requests matched and prints notes on what its figures
 cannot show, such as requests recorded before a column existed.</p>
 <p>The filters live in the page's address, so a filtered view can be bookmarked or kept in a tab, and the browser's
@@ -207,7 +212,7 @@ means later without touching the tool. Set them on the <strong>Model aliases</st
 own <code>alias</code> in the file. See <a href="proxy-settings.html#providers-and-models">Providers and models</a>.</p>
 <h3 id="fallbacks">Fallbacks <a class="anchor" href="#fallbacks" aria-label="Link to this heading">#</a></h3>
 <p>A fallback tells the proxy what to try when a model cannot answer: its account is out of chats or credit, the
-backend is overloaded, or it is unreachable. <code>model_fallbacks</code> lists other models to try for a model;
+backend is overloaded or unreachable, or it answers that it does not serve that model (from 2.1.2). <code>model_fallbacks</code> lists other models to try for a model;
 <code>provider_fallbacks</code> sends one account's requests to another account, for example a second Copilot account, then
 Anthropic, then a local model. <code>&lt;provider id&gt;/&lt;model&gt;</code> names one account's copy of a model. A fallback happens only
 before any output is sent, never for bad credentials or malformed requests, and nothing falls back unless you add a
