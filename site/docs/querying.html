@@ -52,29 +52,34 @@ picks the columns (<code>maple-proxy usage query --help</code> lists them all).<
 <pre><code class="language-text">$ maple-proxy usage query --last 7d --group-by person,team --metrics requests,ai_units,cost_estimated
 reading the shared usage log: 60794 line(s) over 25 day(s), every replica
 Usage  (last=7d)
-  PERSON  TEAM      REQUESTS  AI_UNITS  COST_ESTIMATED
-  hana    data         1,958   449.116          37.589
-  kai     platform     1,301   344.976           6.408
-  dmitri  data         1,137   339.746          11.264
-  jun     apps         1,113   267.600           3.086
-  -       -            1,078   189.912          13.566
-  gus     apps         1,078   312.081          21.720
-  farah   apps         1,030   381.768          35.208
-  carol   apps           998   465.080          41.425
-  bob     platform       921   361.640          30.599
-  lena    platform       918   447.030          47.751
-  alice   apps           902   249.506          21.790
-  ivan    data           894   278.534          20.519
-  eve     data           790   321.529          22.234
-  total               14,118  4408.517         313.160
+  PERSON        TEAM      REQUESTS  AI_UNITS  COST_ESTIMATED
+  hana          data         1,958   449.116          37.589
+  kai           platform     1,301   344.976           6.408
+  dmitri        data         1,137   339.746          11.264
+  jun           apps         1,113   267.600           3.086
+  unattributed  -            1,078   189.912          13.566
+  gus           apps         1,078   312.081          21.720
+  farah         apps         1,030   381.768          35.208
+  carol         apps           998   465.080          41.425
+  bob           platform       921   361.640          30.599
+  lena          platform       918   447.030          47.751
+  alice         apps           902   249.506          21.790
+  ivan          data           894   278.534          20.519
+  eve           data           790   321.529          22.234
+  total                     14,118  4408.517         313.160
 
-  Person and team are recorded only once people are set up; until then every request is unattributed (-).
+  Person: unattributed (- in JSON and CSV) is a request no person was recorded for: sent before people were set
+  up, or with an access token tied to no person. local is a request from this machine without an access token, once
+  people are set up.
   Figures named _estimated are the proxy's estimates, not measurements or bills.</code></pre>
 <figure>
 <img class="shot shot-light" src="../img/docs/data-query-team-light.webp" alt="maple-proxy usage query --last 7d --group-by team,person on a central-mode replica, reading the shared usage log of every replica: thirteen rows of team, person, requests, AI units and estimated cost, such as data hana 1,958 requests 449.116 AI units, platform kai 1,301 and 344.976, and an unattributed row; total 14,118 requests and 4408.517 AI units." width="1000" height="398" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/data-query-team-dark.webp" alt="maple-proxy usage query --last 7d --group-by team,person on a central-mode replica, reading the shared usage log of every replica: thirteen rows of team, person, requests, AI units and estimated cost, such as data hana 1,958 requests 449.116 AI units, platform kai 1,301 and 344.976, and an unattributed row; total 14,118 requests and 4408.517 AI units." width="1000" height="398" loading="lazy" decoding="async">
 <figcaption>The same question by team, on a replica in central mode: every replica's usage, from PostgreSQL.</figcaption>
 </figure>
-<p><code>-</code> is requests with no person: a client without a person's token. For week by week, group by <code>day</code> and add the
+<p><code>unattributed</code> is requests no person was recorded for: sent before people were set up, or with an access token tied
+to no person. <code>local</code> (not in this example) is a request from the proxy's own machine without an access token, once
+people are set up. In <code>--format json</code> and <code>--format csv</code> the unattributed group is <code>-</code>, and <code>--person unattributed</code>
+and <code>--person -</code> both pick it. For week by week, group by <code>day</code> and add the
 days up in a spreadsheet, or use <a href="#postgresql">the DuckDB recipe over PostgreSQL</a>.</p>
 <h3 id="top-models-by-cost">Top models by cost <a class="anchor" href="#top-models-by-cost" aria-label="Link to this heading">#</a></h3>
 <pre><code class="language-text">$ maple-proxy usage query --last 30d --group-by model --metrics requests,ai_units,cost_estimated --limit 5

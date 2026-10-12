@@ -79,8 +79,8 @@ maple-proxy people add bob --team platform
 maple-proxy people add carol --team web
 maple-proxy people tie-token alice &lt;token-id&gt;</code></pre>
 <p><code>config.yaml</code> then holds the people with their token ids (never the tokens), and the People card shows each person,
-their team, their tokens by label and what they spent. The People card applies a change at once; a change made with
-the command applies when the proxy reloads its configuration or restarts. Every step is in
+their team, their tokens by label and what they spent. The People card applies a change at once, and so does the
+command when the proxy is running on that machine (it says so); otherwise the proxy reads the change when it next starts. Every step is in
 <a href="teams.html#set-up-a-team-in-four-steps">Set up a team in four steps</a>.</p>
 <p><strong>3. Connect each teammate.</strong> In Maple Harness, <code>maple-harness proxy connect</code> asks for the token without showing it,
 keeps it in your secret store and writes only a reference into <code>config.yaml</code>. In a demo setup where the hub is

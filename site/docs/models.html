@@ -84,6 +84,11 @@ each with a description that starts "Maple auto" (see the picture under <a href=
 of them from the list sends every request to the proxy's auto mode under that name, and the status bar then reads,
 for example, <code>model: auto (Maple)</code>. To have the agent judge each message and the proxy pick the
 model, set <code>harness.auto_model_resolution: proxy</code>.</p>
+<p><code>harness.default_model: auto</code> in <code>config.yaml</code> is the same as picking <code>auto (Maple)</code>: the proxy picks the model for
+each request, and <code>auto_model_resolution</code> plays no part. The first message of a session starts on the heavy model
+unless it reads as a short side job (a summary, a title); later messages, once work is under way, go to the medium
+model unless they ask for planning, diagnosing or deciding. Every request of one message stays on the model the
+message started on. To choose which model each weight uses, use the proxy's <strong>Auto mode</strong> card.</p>
 <h2 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h2>
 <p>GitHub Copilot has an automatic mode of its own, in which <strong>Copilot</strong> picks the model for each request. The proxy
 lists it as a model of each Copilot account, named after the account, for example <code>github-copilot/auto</code>:</p>

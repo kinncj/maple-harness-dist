@@ -67,8 +67,9 @@ teams:
 default_accounts: [copilot-main]
 people_self_view: "off"</code></pre>
 <p>The People card and the <code>maple-proxy people</code> commands write the same keys and keep your comments. A change made on
-the setup page applies to the next request; one made with the command applies when the running proxy reloads its
-configuration or restarts.</p>
+the setup page applies to the next request. A change made with the command is sent to the running proxy, which
+applies it at once; the command says whether it did, and when no proxy is running, the proxy reads the change when it
+next starts.</p>
 <h2 id="who-a-request-belongs-to">Who a request belongs to <a class="anchor" href="#who-a-request-belongs-to" aria-label="Link to this heading">#</a></h2>
 <ul><li>A request with a token belongs to the person that token is tied to. A proxy token tied to nobody still works; its
 requests are counted as unattributed and no person's rules apply to them. <code>maple-proxy people list</code> lists such
@@ -76,7 +77,8 @@ tokens, so you can tie or revoke them.</li><li>On a proxy that listens only on t
 and refused if it is not valid, so a person working on the proxy's own machine is counted as themselves.</li><li>A request from this machine without a token belongs to the person <code>local</code>. Add a person with the id <code>local</code> to
 give that caller a team, a budget or rules; without one, <code>local</code> has no limits, as before. <code>unattributed</code> is
 reserved: it names requests tied to nobody.</li><li>The usage log records <code>person</code> and <code>team</code> on every request from then on. Requests from before people were set up
-stay unattributed.</li></ul>
+stay unattributed. <code>maple-proxy usage query</code>, the setup page and the DuckDB views all show them as <code>unattributed</code>
+(see <a href="usage-export.html#requests-with-no-person">Requests with no person</a>).</li></ul>
 <h2 id="budgets">Budgets <a class="anchor" href="#budgets" aria-label="Link to this heading">#</a></h2>
 <p>A budget is in AI units, as the providers reported them: the same units as the provider budgets (<code>budgets:</code>). Set
 a daily limit, a monthly limit or both, per person and per team. Days and months are counted in UTC, so a daily budget
