@@ -213,11 +213,14 @@ model") until the model was listed there. <code>base_url</code> must be
 <img class="shot shot-light" src="../img/docs/hubs-map-team-light.webp" alt="The hub map on platform-hub: its parent top-hub above, answers; this proxy with 4 people and 3 teams (5 inherited); below it alice-laptop and design-laptop, each heard just now, with their requests and AI units for the last 7 days." width="1000" height="549" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-map-team-dark.webp" alt="The hub map on platform-hub: its parent top-hub above, answers; this proxy with 4 people and 3 teams (5 inherited); below it alice-laptop and design-laptop, each heard just now, with their requests and AI units for the last 7 days." width="1000" height="549" loading="lazy" decoding="async">
 <figcaption>The team hub's map: the top hub above, two proxies below. A demo setup with stand-in model services.</figcaption>
 </figure>
-<pre><code class="language-text">This proxy: alice-laptop, id mp-caf79a2b7a80304b; refuses requests that passed through more than 4 proxies.
+<pre><code class="language-text">This proxy: alice-laptop, id mp-caf79a2b7a80304b; refuses requests that passed
+  through more than 4 proxies.
 
 Hubs above:
-  PROVIDER  ADDRESS                       PARENT  ANSWERS    HUB                                 HUBS ABOVE IT  LATENCY  NOTE
-  hub       http://team.example:12835/v1  yes     yes (200)  platform-hub (mp-f7e3245a0b6c5ff2)  1              -
+  hub (parent)
+    address:  http://team.example:12835/v1
+    answers:  yes (200)
+    hub:      platform-hub (mp-f7e3245a0b6c5ff2); hubs above it: 1
 
 People from hub: 4 people, 2 teams, 4 tokens; confirmed 2026-10-09T02:53:52Z.</code></pre>
 <h3 id="people-defined-once-at-the-top">People defined once, at the top <a class="anchor" href="#people-defined-once-at-the-top" aria-label="Link to this heading">#</a></h3>

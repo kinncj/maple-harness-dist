@@ -53,6 +53,11 @@ the agent is looking, and <code>/proxy start</code> starts one. This usually mea
 <p><strong>The setup page at <code>127.0.0.1:11539</code> does not load.</strong> Check the proxy is running. <code>server.webui</code> in
 <code>config.yaml</code> sets its address, and an empty value turns the page off. The page only listens on this machine;
 from another device, use <a href="remote-control.html">Control it from your phone</a>.</p>
+<p><strong>A CI job or script stops with "This session cannot ask you, so it did not start".</strong> The run (<code>--prompt</code>, <code>--rpc</code>,
+<code>serve</code>, or no terminal) found a proxy on this machine that it cannot verify as yours: one in a container, run as
+another user or with another settings folder, or your own still on an older release. It exits with status 1. Start
+the proxy in the job as the same user (or let the harness start it), run <code>maple-harness proxy restart</code> after an
+update, or follow <a href="which-setup.html#6-ci-jobs-and-containers">CI jobs and containers</a> for a proxy you do not start.</p>
 <p><strong>Port already in use.</strong> The defaults are 11535, 11537 and 11539. Find what holds one with
 <code>lsof -i :11539</code>, then stop it or change the address under <code>server:</code> in <code>config.yaml</code>.</p>
 <h2 id="signing-in">Signing in <a class="anchor" href="#signing-in" aria-label="Link to this heading">#</a></h2>

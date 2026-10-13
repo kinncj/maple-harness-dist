@@ -78,7 +78,7 @@ yourself, for a ConfigMap or a settings repository.</p></li></ol>
 <figcaption>Step 4: the client secret goes to the secret store; config.yaml gets a reference.</figcaption>
 </figure>
 <figure>
-<img class="shot shot-light" src="../img/docs/sso-wizard-developers-light.webp" alt="Step 6: developer sign-in set to Automatic for the domain acme.example, groups engineering and design mapped to the teams backend and design, and the addresses developers&#x27; tools use." width="1000" height="1074" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/sso-wizard-developers-dark.webp" alt="Step 6: developer sign-in set to Automatic for the domain acme.example, groups engineering and design mapped to the teams backend and design, and the addresses developers&#x27; tools use." width="1000" height="1074" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/sso-wizard-developers-light.webp" alt="Step 6, Developers (optional): Developer sign-in set to Automatic, with its help below (people in the domains or groups below are added at their first sign-in); the domain acme.example; groups engineering and design mapped to the teams backend and design; token lifetime and how many a developer may hold, left at their defaults; and the addresses developers&#x27; tools use." width="1000" height="853" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/sso-wizard-developers-dark.webp" alt="Step 6, Developers (optional): Developer sign-in set to Automatic, with its help below (people in the domains or groups below are added at their first sign-in); the domain acme.example; groups engineering and design mapped to the teams backend and design; token lifetime and how many a developer may hold, left at their defaults; and the addresses developers&#x27; tools use." width="1000" height="853" loading="lazy" decoding="async">
 <figcaption>Step 6: developer sign-in, automatic for one domain, groups mapped to teams.</figcaption>
 </figure>
 <figure>
@@ -125,6 +125,9 @@ team comes from <code>developers.teams</code> (the first group that matches); a 
 <p>A person is matched by their account at the identity provider, recorded at their first sign-in, never by their
 email alone: an address that names someone who signs in with another account is refused and shown to admins.
 Removing a person forgets the accounts they signed in with.</p>
+<p>With developer sign-in on, the sign-in page (before anyone signs in) shows the proxy's name (<code>server.proxy_name</code>,
+or "this proxy" without one) and says that admins and developers both sign in there. Pick a name you are happy for
+anyone who can open that address to see.</p>
 <p>What a developer can do, the token lifetimes, and signing their own proxy in: <a href="developer-access.html">How developers sign in</a>.
 Developer sign-in is also what lets a developer's own proxy sign in to this proxy as a hub, with their company account
 (<a href="chaining.html#join-your-laptop-to-a-team-hub">Join your laptop to a team hub</a>): each such sign-in is approved on My

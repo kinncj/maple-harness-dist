@@ -51,6 +51,10 @@ to stderr, the same convention <code>--prompt</code> uses, so a plain <code>harn
 exactly the protocol.</p>
 <p>It cannot be combined with <code>--prompt</code>, <code>--repl</code> or <code>--remote</code>: each is its own way of driving the session, and
 <code>--rpc</code> is this one.</p>
+<p>Nobody can answer a question here, so when the proxy on this machine cannot be verified as yours, <code>--rpc</code> does not
+start: it writes nothing on stdout, prints the reason and the fixes on stderr, and exits with status 1. Start the proxy
+as the same user with the same settings folder (or let the harness start it), or see
+<a href="which-setup.html#6-ci-jobs-and-containers">CI jobs and containers</a> for a proxy you do not start.</p>
 <h2 id="commands">Commands <a class="anchor" href="#commands" aria-label="Link to this heading">#</a></h2>
 <p>Every line you send is one JSON object with a <code>cmd</code> field, and an optional <code>id</code> you choose — it comes back on the
 response so you can match one to the other.</p>

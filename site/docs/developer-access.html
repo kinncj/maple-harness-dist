@@ -33,13 +33,13 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">How developers sign in</li></ol></div></nav>
 <article>
 <h1 id="how-developers-sign-in">How developers sign in <a class="anchor" href="#how-developers-sign-in" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#step-by-step-with-pictures">Step by step, with pictures</a><ol><li><a href="#1-the-admin-turns-developer-sign-in-on">1. The admin turns developer sign-in on</a></li><li><a href="#2-your-first-visit">2. Your first visit</a></li><li><a href="#3-when-an-admin-must-accept-you-first">3. When an admin must accept you first</a></li><li><a href="#4-make-a-token">4. Make a token</a></li><li><a href="#5-sign-your-laptops-proxy-in">5. Sign your laptop's proxy in</a></li><li><a href="#6-afterwards-see-it-revoke-it">6. Afterwards: see it, revoke it</a></li><li><a href="#7-when-a-sign-in-is-refused">7. When a sign-in is refused</a></li></ol></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></details>
 
 <p>A developer on a shared proxy needs a token and a few lines that point their tools at the proxy. There are two ways
 to get them: a token from an admin (works everywhere, no extra setup), or signing in with the company account
 through the proxy's single sign-on address (the developer makes their own tokens). Both can run side by side.</p>
 <p><strong>Contents</strong></p>
-<ul><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ul>
+<ul><li><a href="#in-plain-words">In plain words</a></li><li><a href="#step-by-step-with-pictures">Step by step, with pictures</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ul>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>Your admin can give you a token.</strong> They make it on the setup page's <strong>People &amp; teams</strong> tab, copy it to you once,
 with the lines to paste into your tools. Nothing else to set up. With Maple on your laptop, you paste it on your own
@@ -52,6 +52,116 @@ company account</strong>), or in a terminal. It shows a link and a code, you typ
 is connected. It keeps itself signed in for a week, then asks you to sign in again.</li><li><strong>With Maple Harness, one command:</strong> <code>maple-harness proxy connect --sso https://maple-admin.example.com</code> has your
 local proxy sign in. The harness keeps using your local proxy, which now reaches the hub's models.</li><li><strong>Tokens you make yourself expire</strong> (after 30 days by default). Tokens from an admin do not, unless they chose a
 date.</li></ul>
+<h2 id="step-by-step-with-pictures">Step by step, with pictures <a class="anchor" href="#step-by-step-with-pictures" aria-label="Link to this heading">#</a></h2>
+<p>The whole sign-in as a developer sees it, from the first visit to a revoked laptop. The pictures come from a demo
+setup: a hub called <code>acme-hub</code> whose sign-in address is <code>https://sso.acme.example:12464</code>, ben's laptop proxy
+<code>ben-laptop</code>, and a stand-in identity provider in place of your company's. Your company's sign-in screen looks like
+your company's; the names, addresses, codes and dates are examples. The details of each step are in the sections
+below.</p>
+<h3 id="1-the-admin-turns-developer-sign-in-on">1. The admin turns developer sign-in on <a class="anchor" href="#1-the-admin-turns-developer-sign-in-on" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> nothing below works until an admin says who may sign in and whether they are let in at once.</p>
+<p>On the setup page, <strong>Single sign-on</strong>, step <strong>6. Developers (optional)</strong>: <strong>Developer sign-in</strong> is <strong>Automatic</strong>
+(people in the listed domains or groups are added at their first sign-in) or <strong>Ask an admin</strong> (a first sign-in waits
+until an admin accepts it). The whole step: <a href="single-sign-on.html#developer-sign-in">Single sign-on, Developer sign-in</a>.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-onboarding-light.webp" alt="Step 6 of the single sign-on wizard, Developers (optional): developers who are not admins can sign in too and land on My access, a page of their own; the Developer sign-in choice set to Ask an admin, with its help below: a developer&#x27;s first sign-in files a request; you accept it on People and teams." width="1000" height="208" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-onboarding-dark.webp" alt="Step 6 of the single sign-on wizard, Developers (optional): developers who are not admins can sign in too and land on My access, a page of their own; the Developer sign-in choice set to Ask an admin, with its help below: a developer&#x27;s first sign-in files a request; you accept it on People and teams." width="1000" height="208" loading="lazy" decoding="async">
+<figcaption>The admin's choice: let developers in at once, or ask first. A demo setup.</figcaption>
+</figure>
+<h3 id="2-your-first-visit">2. Your first visit <a class="anchor" href="#2-your-first-visit" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> open the address your admin gave you, sign in the way you sign in at work, and you land on your
+own page, <strong>My access</strong>.</p>
+<p>The address shows one button, <strong>Sign in with</strong> your company's name. It is the same page admins sign in on, and it
+says so: admins manage the proxy there, developers get their own access there:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-signin-page-light.webp" alt="The hub&#x27;s sign-in page: Sign in to acme-hub, Admins manage this proxy here; developers get their own access here, and the button Sign in with Acme." width="468" height="260" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-signin-page-dark.webp" alt="The hub&#x27;s sign-in page: Sign in to acme-hub, Admins manage this proxy here; developers get their own access here, and the button Sign in with Acme." width="468" height="260" loading="lazy" decoding="async">
+<figcaption>The hub's sign-in address. A demo setup.</figcaption>
+</figure>
+<p>It takes you to your company's sign-in screen (here the demo's stand-in, which says so across the top):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-idp-light.webp" alt="The demo&#x27;s stand-in identity provider, under a banner saying it is a stand-in used for the documentation and not a real sign-in service: ACME, Sign in to continue to Maple Harness (maple-acme), the work email ben@acme.example typed in, and Continue." width="1000" height="381" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-idp-dark.webp" alt="The demo&#x27;s stand-in identity provider, under a banner saying it is a stand-in used for the documentation and not a real sign-in service: ACME, Sign in to continue to Maple Harness (maple-acme), the work email ben@acme.example typed in, and Continue." width="1000" height="381" loading="lazy" decoding="async">
+<figcaption>Your company's sign-in, played here by a stand-in.</figcaption>
+</figure>
+<p>Then you are back on the hub, on <strong>My access</strong>, signed in as you (with Automatic, you were added as a person just now,
+with the team your groups give you):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-myaccess-first-light.webp" alt="My access right after the first sign-in: signed in as ben@acme.example, person ben (team backend), with Sign out; Connect your tools, first the commands that sign your own Maple proxy in, then Maple Harness with a token, Claude Code and any OpenAI-compatible tool, each with Copy." width="816" height="729" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-myaccess-first-dark.webp" alt="My access right after the first sign-in: signed in as ben@acme.example, person ben (team backend), with Sign out; Connect your tools, first the commands that sign your own Maple proxy in, then Maple Harness with a token, Claude Code and any OpenAI-compatible tool, each with Copy." width="816" height="729" loading="lazy" decoding="async">
+<figcaption>My access on the first visit. A demo setup.</figcaption>
+</figure>
+<h3 id="3-when-an-admin-must-accept-you-first">3. When an admin must accept you first <a class="anchor" href="#3-when-an-admin-must-accept-you-first" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> with <strong>Ask an admin</strong>, your first sign-in only sends a request. Wait for an admin, then sign in
+again.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/dev-request-sent-phone-light.webp" alt="At phone width: Request sent, Your request to use this proxy was sent to its admins. You can sign in again once an admin accepts it. With Back to the sign-in page." width="390" height="328" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/dev-request-sent-phone-dark.webp" alt="At phone width: Request sent, Your request to use this proxy was sent to its admins. You can sign in again once an admin accepts it. With Back to the sign-in page." width="390" height="328" loading="lazy" decoding="async">
+<figcaption>What a developer (cara, in the demo) sees while she waits.</figcaption>
+</figure>
+<p>The admin sees the request on <strong>People &amp; teams</strong>, under <strong>Asked to use this proxy</strong>, and presses <strong>Accept</strong> (as a new
+person, with the team her groups suggest): the picture is under <a href="#what-admins-see">What admins see</a>. When cara signs
+in again, she lands on My access:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-myaccess-accepted-light.webp" alt="My access after the admin accepted: signed in as cara@acme.example, person cara (team design), with the lines for her tools." width="816" height="729" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-myaccess-accepted-dark.webp" alt="My access after the admin accepted: signed in as cara@acme.example, person cara (team design), with the lines for her tools." width="816" height="729" loading="lazy" decoding="async">
+<figcaption>Accepted: the same page, now hers. A demo setup.</figcaption>
+</figure>
+<h3 id="4-make-a-token">4. Make a token <a class="anchor" href="#4-make-a-token" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> under <strong>Make a token</strong>, say what it is for, press <strong>Make a token</strong>, then <strong>Copy</strong>. It is shown
+once: paste it where it goes before you leave the page.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/dev-token-make-phone-light.webp" alt="At phone width: Your tokens, tokens made here stop working after 30 days, you may hold 5 at once; No tokens yet; Make a token, For: ben laptop." width="386" height="357" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/dev-token-make-phone-dark.webp" alt="At phone width: Your tokens, tokens made here stop working after 30 days, you may hold 5 at once; No tokens yet; Make a token, For: ben laptop." width="386" height="357" loading="lazy" decoding="async">
+<figcaption>Name the token, then Make a token.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/dev-token-shown-phone-light.webp" alt="At phone width: the token ben laptop in the list, and the box Token ben laptop, Copy it now: you will not see it again, with the start of the token in a field, the button Copied, and I have copied it." width="386" height="600" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/dev-token-shown-phone-dark.webp" alt="At phone width: the token ben laptop in the list, and the box Token ben laptop, Copy it now: you will not see it again, with the start of the token in a field, the button Copied, and I have copied it." width="386" height="600" loading="lazy" decoding="async">
+<figcaption>Shown once: Copy takes the whole token (a narrow screen shows only its start).</figcaption>
+</figure>
+<h3 id="5-sign-your-laptops-proxy-in">5. Sign your laptop's proxy in <a class="anchor" href="#5-sign-your-laptops-proxy-in" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> run one command on your laptop, open the link it prints (a phone works), type the code, check the
+proxy's name, and confirm. Your proxy then reaches the hub as you, and keeps itself signed in for a week.</p>
+<p>In a terminal on the laptop (the setup page's <strong>Sign in with your company account</strong> does the same):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-proxy-terminal-light.webp" alt="A terminal: maple-proxy chain connect --sso https://sso.acme.example:12464 prints the link https://sso.acme.example:12464/sso/access and a code, says the hub&#x27;s page names this proxy and until when the code works, then, after the approval: signed in as ben@acme.example (person ben), the hub added as provider hub, its models reached as hub/model, and the date until which the running proxy renews the token by itself." width="1000" height="320" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-proxy-terminal-dark.webp" alt="A terminal: maple-proxy chain connect --sso https://sso.acme.example:12464 prints the link https://sso.acme.example:12464/sso/access and a code, says the hub&#x27;s page names this proxy and until when the code works, then, after the approval: signed in as ben@acme.example (person ben), the hub added as provider hub, its models reached as hub/model, and the date until which the running proxy renews the token by itself." width="1000" height="320" loading="lazy" decoding="async">
+<figcaption>The command, its link and code, then the sign-in.</figcaption>
+</figure>
+<p>On My access, under <strong>Connect your proxy</strong>: type the code, <strong>Check the code</strong>, read which proxy asked, then <strong>Yes,
+connect it</strong> (only if it is the proxy you just used). On a phone it looks like this; the same card on a computer is
+under <a href="#sign-your-own-proxy-in">Sign your own proxy in</a>:</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/dev-approve-phone-light.webp" alt="At phone width: Connect your proxy, a code typed in, Check the code, and the question: A Maple proxy named ben-laptop asked just now from 127.0.0.1. That is the address this browser uses. Is this your own proxy? Everything it sends here counts as you. Buttons Yes, connect it and No, refuse it." width="390" height="844" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/dev-approve-phone-dark.webp" alt="At phone width: Connect your proxy, a code typed in, Check the code, and the question: A Maple proxy named ben-laptop asked just now from 127.0.0.1. That is the address this browser uses. Is this your own proxy? Everything it sends here counts as you. Buttons Yes, connect it and No, refuse it." width="390" height="844" loading="lazy" decoding="async">
+<figcaption>Check the name before you confirm. A demo setup (each sign-in gets its own code).</figcaption>
+</figure>
+<p>The laptop proxy's setup page shows the same sign-in on <strong>Hubs &amp; chaining</strong>, whichever way it was started:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-hubs-signedin-light.webp" alt="Hubs and chaining on ben&#x27;s laptop proxy, Sign in with your company account: signed in, hub: signed in to sso.acme.example:12464 as ben@acme.example (person ben), renews until a date a week later, with Sign in again and Disconnect, then the form for another sign-in." width="1000" height="424" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-hubs-signedin-dark.webp" alt="Hubs and chaining on ben&#x27;s laptop proxy, Sign in with your company account: signed in, hub: signed in to sso.acme.example:12464 as ben@acme.example (person ben), renews until a date a week later, with Sign in again and Disconnect, then the form for another sign-in." width="1000" height="424" loading="lazy" decoding="async">
+<figcaption>Signed in, and until when it renews itself.</figcaption>
+</figure>
+<p>With Maple Harness, one command has the local proxy do all of this (the harness keeps using its local proxy):</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-harness-terminal-light.webp" alt="A terminal: maple-harness proxy connect --sso https://sso.acme.example:12464 says the local proxy is signing in, prints the link and a code, then: your local proxy is now signed in as ben@acme.example and the harness keeps using your local proxy; the hub&#x27;s models are reached as hub/model, counted at the hub as you, renewed by the proxy until a date a week later." width="1000" height="264" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-harness-terminal-dark.webp" alt="A terminal: maple-harness proxy connect --sso https://sso.acme.example:12464 says the local proxy is signing in, prints the link and a code, then: your local proxy is now signed in as ben@acme.example and the harness keeps using your local proxy; the hub&#x27;s models are reached as hub/model, counted at the hub as you, renewed by the proxy until a date a week later." width="1000" height="264" loading="lazy" decoding="async">
+<figcaption>The Maple Harness shortcut.</figcaption>
+</figure>
+<h3 id="6-afterwards-see-it-revoke-it">6. Afterwards: see it, revoke it <a class="anchor" href="#6-afterwards-see-it-revoke-it" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> My access lists your proxy as <strong>your proxy (renews itself)</strong>. <strong>Revoke</strong> cuts it off at once; the
+laptop then asks you to sign in again.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-myaccess-tokens-light.webp" alt="Your tokens on My access: ben-laptop, made by your proxy (renews itself), expires the next day (renews until a week later), last used a minute ago, with Revoke; ben laptop, made by you, here, expires in 30 days, not used yet, with Rotate and Revoke." width="816" height="375" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-myaccess-tokens-dark.webp" alt="Your tokens on My access: ben-laptop, made by your proxy (renews itself), expires the next day (renews until a week later), last used a minute ago, with Revoke; ben laptop, made by you, here, expires in 30 days, not used yet, with Rotate and Revoke." width="816" height="375" loading="lazy" decoding="async">
+<figcaption>Your proxy's token next to the one you made.</figcaption>
+</figure>
+<p>After <strong>Revoke</strong>, the laptop proxy's next request to the hub is refused, and its <strong>Hubs &amp; chaining</strong> tab says so:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/hubs-signin-attention-light.webp" alt="The laptop proxy&#x27;s Hubs and chaining tab: needs attention, signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again, on this page or with maple-proxy chain connect --sso; the buttons Sign in again and Disconnect." width="1000" height="483" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-signin-attention-dark.webp" alt="The laptop proxy&#x27;s Hubs and chaining tab: needs attention, signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again, on this page or with maple-proxy chain connect --sso; the buttons Sign in again and Disconnect." width="1000" height="483" loading="lazy" decoding="async">
+<figcaption>Revoked at the hub: sign in again, or disconnect.</figcaption>
+</figure>
+<p>In a terminal on the laptop, <code>maple-proxy chain status</code> says the same:</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-revoked-status-light.webp" alt="A terminal, 80 columns: maple-proxy chain status. This proxy: ben-laptop. Hubs above: hub, its address, answers yes (401), note REVOKED: sign in again. Sign-ins with a company account: hub: REVOKED: sign in again, signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in; sign in again on the setup page or with maple-proxy chain connect --sso." width="744" height="343" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-revoked-status-dark.webp" alt="A terminal, 80 columns: maple-proxy chain status. This proxy: ben-laptop. Hubs above: hub, its address, answers yes (401), note REVOKED: sign in again. Sign-ins with a company account: hub: REVOKED: sign in again, signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in; sign in again on the setup page or with maple-proxy chain connect --sso." width="744" height="343" loading="lazy" decoding="async">
+<figcaption>The same revocation, from the terminal.</figcaption>
+</figure>
+<h3 id="7-when-a-sign-in-is-refused">7. When a sign-in is refused <a class="anchor" href="#7-when-a-sign-in-is-refused" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words:</strong> if your account is not one the admin allowed (another domain, a group not on the list), the hub
+says so and nothing is made for you. Ask the admin.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/dev-refused-light.webp" alt="Not allowed: sam@contractor.example is not allowed to sign in here. Ask an admin of this proxy to add your company account or domain. With Back to the sign-in page." width="540" height="257" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/dev-refused-dark.webp" alt="Not allowed: sam@contractor.example is not allowed to sign in here. Ask an admin of this proxy to add your company account or domain. With Back to the sign-in page." width="540" height="257" loading="lazy" decoding="async">
+<figcaption>An account outside the developers' domains. A demo setup.</figcaption>
+</figure>
+<p>The admin sees it under <strong>Refused sign-ins</strong> on People &amp; teams (<a href="#what-admins-see">What admins see</a>).</p>
 <h2 id="a-token-from-an-admin">A token from an admin <a class="anchor" href="#a-token-from-an-admin" aria-label="Link to this heading">#</a></h2>
 <p>On the setup page, <strong>People &amp; teams</strong>, open the person's <strong>Access and tokens</strong>:</p>
 <ul><li><strong>Make a token</strong>: what it is for (their laptop, CI), and when it expires (never, by default, or 7, 30 or 90 days,
@@ -179,8 +289,12 @@ has a <code>sign_in_marker</code> in <code>config.yaml</code>, written by the pr
 else with the same id, on the setup page, with <code>maple-proxy people</code>, or by editing <code>config.yaml</code> while the proxy is
 stopped, and the old person's accounts do not sign in as the new one; what was made for the old person is cleared
 (Recent activity shows <code>sso.prune</code>) and the tokens they made for themselves are revoked. With settings from files
-(a ConfigMap) the proxy cannot write the marker: keep the <code>sign_in_marker</code> lines when you edit the files, and when an
-id changes hands, change its marker or use <strong>Forget their sign-in</strong> (or <code>maple-proxy people forget-signin &lt;id&gt;</code>)
+(a ConfigMap) the proxy cannot write the marker. There, a person without a <code>sign_in_marker</code> line is told apart by the
+addresses <code>setup_page.sso.people</code> names them by: an id given to someone with other addresses (or none) is someone
+new: within seconds of the proxy reading the file, the old account stops signing in, what was made for it is
+cleared and the tokens it made for itself are revoked (<code>sso.prune</code>, <code>reason=identity_changed</code>). Team, budget, model and account edits never end a sign-in. A marker line, when
+there is one, wins. When the old and the new person share an address, have none, or keep the same marker, change the
+marker or use <strong>Forget their sign-in</strong> (or <code>maple-proxy people forget-signin &lt;id&gt;</code>)
 (<a href="kubernetes.html#step-by-step-settings-from-the-configmap-configha">Kubernetes</a>).</p>
 <p>Above the people, when something needs a look:</p>
 <ul><li><strong>Asked to use this proxy</strong>: developer sign-ins waiting for you (ask-an-admin mode), with <strong>Accept</strong> (as a new
@@ -188,7 +302,7 @@ person, or as someone already there, with a team) and <strong>Refuse</strong>. A
 signs in with another account is marked <strong>email in use</strong>: accept it only for the right person.</li><li><strong>People who cannot connect yet</strong>: people with no live token, tokens never used, and tokens that expire within a
 week.</li><li><strong>Refused sign-ins</strong> of the last seven days, and why.</li></ul>
 <figure>
-<img class="shot shot-light" src="../img/docs/people-requests-light.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team, Accept and Refuse; and Refused sign-ins, last 7 days." width="1000" height="400" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-requests-dark.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team, Accept and Refuse; and Refused sign-ins, last 7 days." width="1000" height="400" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/people-requests-light.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team design, Accept and Refuse on one line; People who cannot connect yet: ana has no token; and Refused sign-ins, last 7 days (1), folded." width="1000" height="418" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/people-requests-dark.webp" alt="Asked to use this proxy: cara@acme.example from id.acme.example, her groups giving team design, with As a new person, team design, Accept and Refuse on one line; People who cannot connect yet: ana has no token; and Refused sign-ins, last 7 days (1), folded." width="1000" height="418" loading="lazy" decoding="async">
 <figcaption>A developer waiting for an admin.</figcaption>
 </figure>
 <h2 id="expiry-renewal-and-revoking">Expiry, renewal and revoking <a class="anchor" href="#expiry-renewal-and-revoking" aria-label="Link to this heading">#</a></h2>
@@ -211,7 +325,7 @@ from its page and from the terminal. Not yet run against real Google, Microsoft 
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#step-by-step-with-pictures">Step by step, with pictures</a><ol><li><a href="#1-the-admin-turns-developer-sign-in-on">1. The admin turns developer sign-in on</a></li><li><a href="#2-your-first-visit">2. Your first visit</a></li><li><a href="#3-when-an-admin-must-accept-you-first">3. When an admin must accept you first</a></li><li><a href="#4-make-a-token">4. Make a token</a></li><li><a href="#5-sign-your-laptops-proxy-in">5. Sign your laptop's proxy in</a></li><li><a href="#6-afterwards-see-it-revoke-it">6. Afterwards: see it, revoke it</a></li><li><a href="#7-when-a-sign-in-is-refused">7. When a sign-in is refused</a></li></ol></li><li><a href="#a-token-from-an-admin">A token from an admin</a></li><li><a href="#signing-in-with-your-company-account">Signing in with your company account</a></li><li><a href="#sign-your-own-proxy-in">Sign your own proxy in</a></li><li><a href="#advanced-a-token-for-ci-and-containers">Advanced: a token for CI and containers</a></li><li><a href="#what-admins-see">What admins see</a></li><li><a href="#expiry-renewal-and-revoking">Expiry, renewal and revoking</a></li><li><a href="#limits">Limits</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>

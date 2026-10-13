@@ -33,7 +33,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Which setup do I need?</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-inside.html">Get started</a></li><li aria-current="page">Which setup do I need?</li></ol></div></nav>
 <article>
 <h1 id="which-setup-do-i-need">Which setup do I need? <a class="anchor" href="#which-setup-do-i-need" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#at-a-glance">At a glance</a></li><li><a href="#words-used-on-these-pages">Words used on these pages</a></li><li><a href="#1-one-laptop">1. One laptop</a></li><li><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Your laptop's proxy joined to a team hub</a></li><li><a href="#3-a-team-hub-for-many-people">3. A team hub for many people</a></li><li><a href="#4-hubs-chained-to-a-company-hub">4. Hubs chained to a company hub</a></li><li><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas behind a load balancer</a></li><li><a href="#6-ci-jobs-and-containers">6. CI jobs and containers</a></li><li><a href="#how-to-move-between-setups">How to move between setups</a></li><li><a href="#what-is-not-verified">What is not verified</a></li><li><a href="#related">Related</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#at-a-glance">At a glance</a></li><li><a href="#words-used-on-these-pages">Words used on these pages</a></li><li><a href="#1-one-laptop">1. One laptop</a></li><li><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Your laptop's proxy joined to a team hub</a></li><li><a href="#3-a-team-hub-for-many-people">3. A team hub for many people</a></li><li><a href="#4-hubs-chained-to-a-company-hub">4. Hubs chained to a company hub</a></li><li><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas behind a load balancer</a></li><li><a href="#6-ci-jobs-and-containers">6. CI jobs and containers</a><ol><li><a href="#github-actions-start-the-proxy-in-the-job">GitHub Actions: start the proxy in the job</a></li><li><a href="#github-actions-a-proxy-in-a-service-container">GitHub Actions: a proxy in a service container</a></li><li><a href="#when-a-run-does-not-start">When a run does not start</a></li></ol></li><li><a href="#how-to-move-between-setups">How to move between setups</a></li><li><a href="#what-is-not-verified">What is not verified</a></li><li><a href="#related">Related</a></li></ol></details>
 
 <p>Maple runs the same way on one laptop and in a company: a <strong>proxy</strong> holds the accounts and talks to the models, and
 your tools talk to a proxy. The setups below differ only in how many proxies there are and how they are joined. Start
@@ -47,12 +47,12 @@ sign in with your company account (about a minute), or paste a token the hub's a
 keeps working exactly as before; it now also reaches the hub's models.</li><li><strong>Are you the one setting up the hub?</strong> Then pick by size:
 <ul><li>one machine for a team: <strong><a href="#3-a-team-hub-for-many-people">a team hub</a></strong>;</li><li>a hub per team, with one company hub above them: <strong><a href="#4-hubs-chained-to-a-company-hub">chained hubs</a></strong>;</li><li>a hub that must keep running through restarts and lost machines:
 <strong><a href="#5-several-replicas-behind-a-load-balancer">several replicas</a></strong>.</li></ul></li></ol>
-<p>And for a <strong>CI job or a container</strong> that cannot run a proxy of its own (or runs one as another user), see
-<a href="#6-ci-jobs-and-containers">CI and containers</a>.</p>
+<p>And for a <strong>CI job, a script or a container</strong>, see <a href="#6-ci-jobs-and-containers">CI and containers</a>: start the proxy in
+the job, and nothing needs setting.</p>
 <p>These combine: a company hub can run as several replicas, with single sign-on, a team hub chained below it, and
 laptops signed in to the team hub.</p>
 <h2 id="at-a-glance">At a glance <a class="anchor" href="#at-a-glance" aria-label="Link to this heading">#</a></h2>
-<div class="tablewrap"><table><thead><tr><th>Setup</th><th>Pick this if</th><th>What you run</th><th>Step by step</th></tr></thead><tbody><tr><td><a href="#1-one-laptop">1. One laptop</a></td><td>You use Maple on your own</td><td><code>maple-harness</code> (it starts <code>maple-proxy</code> for you)</td><td><a href="getting-started.html">Your first session</a></td></tr><tr><td><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Laptop joined to a hub</a></td><td>Your team runs a hub and you want its models, budget and accounts</td><td>Your own proxy, signed in to the hub</td><td><a href="chaining.html#join-your-laptop-to-a-team-hub">Join your laptop to a team hub</a></td></tr><tr><td><a href="#3-a-team-hub-for-many-people">3. A team hub</a></td><td>Several people should share accounts, with a token, a budget and a model list each</td><td>One <code>maple-proxy</code> on a machine the team reaches</td><td><a href="teams-and-hubs.html#a-one-shared-proxy-for-a-small-team">Share Maple with a team</a></td></tr><tr><td><a href="#4-hubs-chained-to-a-company-hub">4. Chained hubs</a></td><td>Several teams, each with its own hub, and one place for people and usage</td><td>A proxy per team, joined to a company hub with a chain token</td><td><a href="chaining.html#connect-a-team-proxy-with-a-chain-token">Connect a team proxy with a chain token</a></td></tr><tr><td><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas</a></td><td>A hub must not stop for a restart or a lost machine</td><td>Copies of one proxy behind a load balancer, with PostgreSQL and Redis</td><td><a href="kubernetes.html#several-replicas">Kubernetes</a> or <a href="docker.html#several-replicas">Docker</a></td></tr><tr><td><a href="#6-ci-jobs-and-containers">6. CI and containers</a></td><td>A job or container uses a hub directly, or runs a proxy as another user</td><td><code>maple-harness</code> with a token, or with <code>trust_unchecked</code></td><td><a href="proxy.html#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a></td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Setup</th><th>Pick this if</th><th>What you run</th><th>Step by step</th></tr></thead><tbody><tr><td><a href="#1-one-laptop">1. One laptop</a></td><td>You use Maple on your own</td><td><code>maple-harness</code> (it starts <code>maple-proxy</code> for you)</td><td><a href="getting-started.html">Your first session</a></td></tr><tr><td><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Laptop joined to a hub</a></td><td>Your team runs a hub and you want its models, budget and accounts</td><td>Your own proxy, signed in to the hub</td><td><a href="chaining.html#join-your-laptop-to-a-team-hub">Join your laptop to a team hub</a></td></tr><tr><td><a href="#3-a-team-hub-for-many-people">3. A team hub</a></td><td>Several people should share accounts, with a token, a budget and a model list each</td><td>One <code>maple-proxy</code> on a machine the team reaches</td><td><a href="teams-and-hubs.html#a-one-shared-proxy-for-a-small-team">Share Maple with a team</a></td></tr><tr><td><a href="#4-hubs-chained-to-a-company-hub">4. Chained hubs</a></td><td>Several teams, each with its own hub, and one place for people and usage</td><td>A proxy per team, joined to a company hub with a chain token</td><td><a href="chaining.html#connect-a-team-proxy-with-a-chain-token">Connect a team proxy with a chain token</a></td></tr><tr><td><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas</a></td><td>A hub must not stop for a restart or a lost machine</td><td>Copies of one proxy behind a load balancer, with PostgreSQL and Redis</td><td><a href="kubernetes.html#several-replicas">Kubernetes</a> or <a href="docker.html#several-replicas">Docker</a></td></tr><tr><td><a href="#6-ci-jobs-and-containers">6. CI and containers</a></td><td>A CI job, script or container runs Maple Harness with nobody to answer</td><td>The proxy started in the job; or <code>maple-harness</code> with a token, or with <code>trust_unchecked</code></td><td><a href="#github-actions-start-the-proxy-in-the-job">GitHub Actions: start the proxy in the job</a></td></tr></tbody></table></div>
 <h2 id="words-used-on-these-pages">Words used on these pages <a class="anchor" href="#words-used-on-these-pages" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Word</th><th>What it means</th></tr></thead><tbody><tr><td><strong>Proxy</strong></td><td><code>maple-proxy</code>, the program that holds sign-ins and keys and talks to the models. Every Maple install has one</td></tr><tr><td><strong>Hub</strong></td><td>A proxy that other machines or other proxies use. Nothing extra is installed: a hub is a proxy that listens on the network and asks every caller for a token</td></tr><tr><td><strong>Personal token</strong></td><td>An access token that belongs to one person. Everything sent with it counts as that person. Your proxy gets one when it signs in with your company account; an admin can also make one for you, or you make one on the hub's <strong>My access</strong> page</td></tr><tr><td><strong>Chain token</strong></td><td>A token the hub's admin makes for one proxy that serves many people. It lets that proxy bring the hub's people down, send its usage up, and say who asked for each request</td></tr><tr><td><strong>Sign-in address</strong></td><td>The hub's single sign-on address, such as <code>https://maple-admin.example.com</code>, where people sign in with their company account. It is not the address of the hub's models</td></tr><tr><td><strong>Parent hub</strong></td><td>The hub a proxy joined with a chain token (<code>chain.parent</code>). A hub you signed in to with your company account is never a parent</td></tr></tbody></table></div>
 <h2 id="1-one-laptop">1. One laptop <a class="anchor" href="#1-one-laptop" aria-label="Link to this heading">#</a></h2>
@@ -103,7 +103,7 @@ machine used your proxy is not sent; that is why this is for your own laptop.</l
 out, or the hub first and a local model when the hub says no
 (<a href="teams-and-hubs.html#d-fallback-across-the-chain">Fallback across the chain</a>).</li><li>A sign-in renews itself; nothing about your company account is kept on your laptop, only the hub's token for you.</li></ul>
 <p><strong>What can go wrong, and how you see it.</strong></p>
-<div class="tablewrap"><table><thead><tr><th>What happens</th><th>How you see it</th><th>What to do</th></tr></thead><tbody><tr><td>The hub runs a release before 2.2, or developer sign-in is off there</td><td>"<code>&lt;host&gt;</code> does not offer sign-in from a proxy …" or "… has sign-in from a proxy turned off …"</td><td>Ask the hub's admin for a token, or to turn developer sign-in on</td></tr><tr><td>Seven days passed since you signed in</td><td><strong>Hubs &amp; chaining</strong> and <code>maple-proxy chain status</code> say renewing ended; <code>maple-harness doctor</code>'s <strong>Proxy</strong> line names the hub</td><td><strong>Sign in again</strong>, or <code>maple-proxy chain connect --sso</code> again</td></tr><tr><td>Your access was revoked at the hub, or you were removed</td><td>"The hub ended the sign-in", shown at once</td><td>Ask the hub's admin; then sign in again</td></tr><tr><td>A pasted token expired or was revoked</td><td>Requests to <code>hub/&lt;model&gt;</code> are refused; the proxy's log says the hub refused this proxy's token, and the usage log records <code>not authorised</code> (route reason <code>fallback:not-authorised</code> when a fallback ran)</td><td>Get a new token and paste it again</td></tr><tr><td>The hub cannot be reached</td><td>Requests to the hub fail as <code>unreachable</code>, or go to your fallback</td><td>Check the network; set a fallback</td></tr><tr><td>Your proxy runs as several replicas, from a ConfigMap, or with read-only secrets</td><td>The sign-in is refused and says why</td><td>Use a chain token (<a href="#4-hubs-chained-to-a-company-hub">setup 4</a>)</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>What happens</th><th>How you see it</th><th>What to do</th></tr></thead><tbody><tr><td>The hub runs a release before 2.2, or developer sign-in is off there</td><td>"<code>&lt;host&gt;</code> does not offer sign-in from a proxy …" or "… has sign-in from a proxy turned off …"</td><td>Ask the hub's admin for a token, or to turn developer sign-in on</td></tr><tr><td>Seven days passed since you signed in</td><td><strong>Hubs &amp; chaining</strong> and <code>maple-proxy chain status</code> say renewing ended; <code>maple-harness doctor</code>'s <strong>Proxy</strong> line names the hub</td><td><strong>Sign in again</strong>, or <code>maple-proxy chain connect --sso</code> again</td></tr><tr><td>Your access was revoked at the hub, or you were removed</td><td>"The hub ended the sign-in", shown at once; <code>maple-proxy chain status</code> says <strong>REVOKED: sign in again</strong>; a tool's request to the hub gets "The hub … refused this proxy's access (the sign-in was revoked or expired)"</td><td>Ask the hub's admin; then sign in again</td></tr><tr><td>A pasted token expired or was revoked</td><td>Requests to <code>hub/&lt;model&gt;</code> are refused with "The hub … refused this proxy's token"; the proxy's log has the hub's own answer, and the usage log records <code>not authorised</code> (route reason <code>fallback:not-authorised</code> when a fallback ran)</td><td>Get a new token and paste it again</td></tr><tr><td>The hub cannot be reached</td><td>Requests to the hub fail as <code>unreachable</code>, or go to your fallback</td><td>Check the network; set a fallback</td></tr><tr><td>Your proxy runs as several replicas, from a ConfigMap, or with read-only secrets</td><td>The sign-in is refused and says why</td><td>Use a chain token (<a href="#4-hubs-chained-to-a-company-hub">setup 4</a>)</td></tr></tbody></table></div>
 <p><strong>Step by step:</strong> <a href="chaining.html#join-your-laptop-to-a-team-hub">Join your laptop to a team hub</a>, and
 <a href="developer-access.html">How developers sign in</a> for the hub's side (My access).</p>
 <h2 id="3-a-team-hub-for-many-people">3. A team hub for many people <a class="anchor" href="#3-a-team-hub-for-many-people" aria-label="Link to this heading">#</a></h2>
@@ -173,10 +173,125 @@ leaves the load balancer (<code>/readyz</code> says <code>not ready</code>) unti
 <p><strong>Step by step:</strong> <a href="kubernetes.html#several-replicas">Kubernetes: several replicas</a> and
 <a href="docker.html#several-replicas">Docker: several replicas</a>.</p>
 <h2 id="6-ci-jobs-and-containers">6. CI jobs and containers <a class="anchor" href="#6-ci-jobs-and-containers" aria-label="Link to this heading">#</a></h2>
-<p><strong>Pick this if</strong> Maple Harness runs where no proxy of your own can run, or where the proxy runs as another user.
-There are two ways, and they are different things:</p>
-<div class="tablewrap"><table><thead><tr><th></th><th>Use a hub directly with a token (advanced)</th><th>Trust a proxy on the same machine that cannot prove it is yours</th></tr></thead><tbody><tr><td>When</td><td>A CI job or container that should use a team hub, with no proxy of its own</td><td>A proxy in a CI service container, or one run as another user, on the same machine</td></tr><tr><td>Setting</td><td><code>harness.proxy.url</code> and <code>harness.proxy.token</code>, written by <code>maple-harness proxy connect &lt;address&gt;</code></td><td><code>harness.proxy.trust_unchecked: true</code>, or <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code> for one run</td></tr><tr><td>What changes</td><td>The harness sends every request to that hub with the token, and never starts, stops or restarts it</td><td>Tools run as your rules say instead of asking before every run</td></tr><tr><td>What stays off</td><td>Delegate to your local Claude; <code>auth</code>, <code>savings</code> and the quota meter run on the hub's machine</td><td>Nothing secret is sent to that proxy, and Delegate to your local Claude stays off</td></tr></tbody></table></div>
-<p>For a job, keep the token in the job's secret store and pass it by name, so nothing is written:</p>
+<p><strong>Pick this if</strong> Maple Harness runs in a CI job, a script or a container, where nobody is at a terminal to answer.</p>
+<p><strong>In plain words.</strong> A run that nobody can answer (<code>--prompt</code>, <code>--rpc</code>, <code>serve</code>, or no terminal) uses the proxy on
+the same machine only when it can check that the proxy is yours: started as the same user, with the same settings
+folder. If it cannot check, the run does not start; it exits with status 1 and says how to fix it. It never waits for
+an answer. So, from the simplest to the most work:</p>
+<ol><li><strong>Start the proxy in the job</strong> (recommended). Give the job its <code>config.yaml</code> and run <code>maple-harness</code>: it starts
+its own proxy when nothing answers, or you start <code>maple-proxy serve</code> yourself first, as the same user. The
+harness checks that proxy on every connection, and you set nothing.</li><li><strong>A proxy in a service container</strong> (or any proxy the job does not start): connect to it with
+<code>maple-harness proxy connect</code> and an access token kept in the job's secret store. A container on its own network
+always needs a token, so this is the way for it.</li><li><strong>A proxy on <code>127.0.0.1</code> that needs no token but is not yours</strong> (run by another user, with another settings
+folder, or a container on the host's network): set <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code> for the run, or
+<code>harness.proxy.trust_unchecked: true</code> in <code>config.yaml</code>.</li></ol>
+<div class="tablewrap"><table><thead><tr><th></th><th>1. Proxy started in the job</th><th>2. <code>proxy connect</code> with a token</th><th>3. <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code></th></tr></thead><tbody><tr><td>Setting</td><td>None</td><td><code>harness.proxy.url</code> and <code>harness.proxy.token</code>, written by <code>proxy connect</code></td><td>The variable, or <code>harness.proxy.trust_unchecked: true</code></td></tr><tr><td>How the harness knows the proxy</td><td>It proves it is yours, on every connection</td><td>Its address and its access token</td><td>It does not: you said to go on</td></tr><tr><td>Tools</td><td>Run as your rules and <code>--yolo</code> say</td><td>Run as your rules and <code>--yolo</code> say</td><td>Run as your rules and <code>--yolo</code> say</td></tr><tr><td>Access token</td><td>None needed</td><td>Sent to that address on every request</td><td>Never sent: a proxy that needs one refuses the requests</td></tr><tr><td>Delegate to your local Claude</td><td>On</td><td>Off</td><td>Off</td></tr><tr><td>The harness starts, stops or restarts it</td><td>Yes, when nothing answers</td><td>Never</td><td>Never</td></tr></tbody></table></div>
+<h3 id="github-actions-start-the-proxy-in-the-job">GitHub Actions: start the proxy in the job <a class="anchor" href="#github-actions-start-the-proxy-in-the-job" aria-label="Link to this heading">#</a></h3>
+<p>The harness starts the proxy from the same settings folder, so it is verified. The provider's key comes from the
+job's secrets through an environment variable; nothing secret is written in the file.</p>
+<pre><code class="language-yaml">jobs:
+  agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Maple Harness
+        run: curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+      - name: Settings for this job
+        run: |
+          mkdir -p ~/.config/maple-harness
+          cat &gt; ~/.config/maple-harness/config.yaml &lt;&lt;'EOF'
+          version: 1
+          server:
+            openai_compat: 127.0.0.1:11535
+            anthropic_compat: 127.0.0.1:11537
+            webui: 127.0.0.1:11539
+          providers:
+            - id: models
+              type: openai-compatible
+              base_url: https://models.example.com/v1
+              api_key: ${env:MODELS_API_KEY}
+              models:
+                - id: your-model
+          model_aliases:
+            coder-default: your-model
+          EOF
+      - name: Run the agent
+        env:
+          MODELS_API_KEY: ${{ secrets.MODELS_API_KEY }}
+        run: maple-harness --yolo --prompt "Fix the failing test" --json-summary summary.json</code></pre>
+<p>The same in any other CI, or a plain shell script:</p>
+<pre><code class="language-sh">export MODELS_API_KEY=...            # from your CI's secret store
+mkdir -p ~/.config/maple-harness     # then write config.yaml as above
+maple-harness --yolo --prompt "Fix the failing test"</code></pre>
+<p>To see the proxy's log, start it yourself first, as the same user, and wait until it answers:</p>
+<pre><code class="language-sh">maple-proxy serve &gt; proxy.log 2&gt;&amp;1 &amp;
+for i in $(seq 30); do curl -sf http://127.0.0.1:11535/v1/models &gt; /dev/null &amp;&amp; break; sleep 1; done
+maple-harness --yolo --prompt "Fix the failing test"</code></pre>
+<p><strong>What it guarantees.</strong> The harness talks only to the proxy that proves it holds this settings folder's key, so tools
+run as your rules say. Keep the <code>server:</code> addresses in the file: without them the harness has no proxy address.</p>
+<h3 id="github-actions-a-proxy-in-a-service-container">GitHub Actions: a proxy in a service container <a class="anchor" href="#github-actions-a-proxy-in-a-service-container" aria-label="Link to this heading">#</a></h3>
+<p>A proxy in a container listens beyond its own loopback, so it asks every caller for an access token (see
+<a href="docker.html">Run the proxy in Docker</a>); no image is published, so use your own build of the Docker sample. Keep the
+token's value in the job's secrets. The container is given the value, and the harness sends it with <code>mh_</code> in front:</p>
+<pre><code class="language-yaml">jobs:
+  agent:
+    runs-on: ubuntu-latest
+    services:
+      maple-proxy:
+        image: registry.example.com/maple-proxy:2.2.0   # your build of the Docker sample
+        ports:
+          - 127.0.0.1:11535:11535
+        env:
+          MAPLE_SECRET_ACCESS_PROXY_TOKENS: ci=${{ secrets.MAPLE_PROXY_TOKEN_VALUE }}
+          # its providers and keys: see Run the proxy in Docker
+    env:
+      MAPLE_PROXY_TOKEN: mh_${{ secrets.MAPLE_PROXY_TOKEN_VALUE }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Maple Harness
+        run: curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash
+      - name: Connect to the proxy container
+        run: maple-harness proxy connect --token-env MAPLE_PROXY_TOKEN http://127.0.0.1:11535
+      - name: Run the agent
+        run: maple-harness --yolo --prompt "Fix the failing test"</code></pre>
+<p>The same in a shell script, with the token in <code>MAPLE_PROXY_TOKEN</code>:</p>
+<pre><code class="language-sh">maple-harness proxy connect --token-env MAPLE_PROXY_TOKEN http://127.0.0.1:11535
+maple-harness --yolo --prompt "Fix the failing test"</code></pre>
+<p><code>proxy connect</code> checks that the proxy takes the token, then writes <code>harness.proxy.url</code> and
+<code>harness.proxy.token: ${env:MAPLE_PROXY_TOKEN}</code> into the job's <code>config.yaml</code>; the token itself is never written.</p>
+<p><strong>A proxy on <code>127.0.0.1</code> with no token</strong>, that the harness cannot verify (one run as another user or with another
+settings folder, or a container with <code>--network host</code>):</p>
+<pre><code class="language-sh">MAPLE_TRUST_UNCHECKED_PROXY=1 maple-harness --yolo --prompt "Fix the failing test"</code></pre>
+<p>In GitHub Actions, put <code>MAPLE_TRUST_UNCHECKED_PROXY: "1"</code> in the step's <code>env:</code>.</p>
+<p><strong>What it guarantees.</strong> With <code>proxy connect</code>, the harness trusts the proxy by its address and token, and never starts,
+stops or restarts it. With <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code>, nothing secret is sent to the proxy: no access token, even
+one in <code>harness.proxy.token</code>. So a proxy that needs a token is connected with <code>proxy connect</code>, never trusted this way: a
+run trusted this way that meets one stops at its first refusal and says to connect to it.</p>
+<h3 id="when-a-run-does-not-start">When a run does not start <a class="anchor" href="#when-a-run-does-not-start" aria-label="Link to this heading">#</a></h3>
+<p>A run that nobody can answer, on a proxy the harness cannot verify, ends at once with exit status <strong>1</strong> and these
+lines on standard error (nothing on standard output, and no <code>--rpc</code> events):</p>
+<pre><code class="language-text">You're connecting to an unverified proxy at 127.0.0.1:11535:
+it runs as another identity: another user, another settings folder, or a container.
+...
+This session cannot ask you, so it did not start.</code></pre>
+<p>Exit status 1 is also what other errors use; to tell this one apart in a script, look for the line
+<code>This session cannot ask you, so it did not start.</code>:</p>
+<pre><code class="language-sh">maple-harness --prompt "Fix the failing test" 2&gt; harness.err
+status=$?
+if [ "$status" -ne 0 ] &amp;&amp; grep -q "so it did not start" harness.err; then
+  echo "the proxy on this machine is not verified: see the CI section of Which setup do I need?" &gt;&amp;2
+fi</code></pre>
+<p><code>maple-harness proxy status</code> says the same before a run: its <strong>check</strong> line names an unverified proxy.</p>
+<p><strong>The technical view.</strong> "Verified" means the proxy answered a one-time challenge on that very connection with a
+signature only the holder of the settings folder's <code>local-identity.key</code> can make (see
+<a href="proxy.html#verified-and-unverified-proxies">Verified and unverified proxies</a>). The proxy the harness starts, or one you
+start as the same user with the same <code>XDG_CONFIG_HOME</code>, has that key. A container that does not share the folder, a
+proxy of another user, or one reached through a port forward does not. A token from <code>harness.proxy.token</code> is sent to a
+proxy on this machine only after it proved itself, so the 2.1 way of naming a token without <code>harness.proxy.url</code> needs
+<code>proxy connect</code> now.</p>
+<p>There are two ways to reach a proxy you do not start, and they are different things:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>Use a proxy or hub directly with a token (advanced)</th><th>Trust a proxy on the same machine that cannot prove it is yours</th></tr></thead><tbody><tr><td>When</td><td>A CI job or container that uses a proxy container or a team hub, with no proxy of its own</td><td>A proxy run as another user, or with another settings folder, on <code>127.0.0.1</code> with no token</td></tr><tr><td>Setting</td><td><code>harness.proxy.url</code> and <code>harness.proxy.token</code>, written by <code>maple-harness proxy connect &lt;address&gt;</code></td><td><code>harness.proxy.trust_unchecked: true</code>, or <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code> for one run</td></tr><tr><td>What changes</td><td>The harness sends every request to that address with the token, and never starts, stops or restarts it</td><td>Tools run as your rules say instead of asking before every run</td></tr><tr><td>What stays off</td><td>Delegate to your local Claude; <code>auth</code>, <code>savings</code> and the quota meter run on the proxy's machine</td><td>Nothing secret is sent to that proxy, and Delegate to your local Claude stays off</td></tr></tbody></table></div>
+<p>For a hub on another machine, the same command takes its address:</p>
 <pre><code class="language-sh">maple-harness proxy connect --token-env MAPLE_PROXY_TOKEN https://hub.example:11535</code></pre>
 <p>The variable's name must contain <code>TOKEN</code> or <code>KEY</code> (so commands the model runs do not see it). Without
 <code>--token-env</code>, the command asks for the token without showing it, or reads it from standard input, and keeps it in
@@ -185,9 +300,9 @@ the secret store. <code>maple-harness proxy disconnect</code> goes back to the p
 (only <code>${secret:...}</code> or <code>${env:...}</code> references). Plain <code>http://</code> to another machine is refused unless you pass
 <code>--allow-insecure</code>.</p>
 <p><strong>What can go wrong, and how you see it.</strong></p>
-<div class="tablewrap"><table><thead><tr><th>What happens</th><th>How you see it</th><th>What to do</th></tr></thead><tbody><tr><td>An unverified local proxy, and nobody to answer (<code>--prompt</code>, <code>--rpc</code>, no terminal)</td><td>The harness does not start, and says why and how to fix it (below)</td><td>Set <code>trust_unchecked</code>, or connect to it as a remote proxy</td></tr><tr><td>Plain <code>http://</code> to another machine</td><td>"proxy connect: the proxy at … is reached over plain http …"</td><td>Use <code>https://</code>, or <code>--allow-insecure</code> on a private network</td></tr><tr><td>The variable has another name</td><td>"… is not named like a secret …"</td><td>Use a name such as <code>MAPLE_PROXY_TOKEN</code></td></tr><tr><td>The token is refused</td><td><code>proxy connect</code> says so; <code>maple-harness doctor</code>'s proxy line too</td><td>Get a new token</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>What happens</th><th>How you see it</th><th>What to do</th></tr></thead><tbody><tr><td>An unverified local proxy, and nobody to answer (<code>--prompt</code>, <code>--rpc</code>, <code>serve</code>, no terminal)</td><td>The harness does not start: exit status 1, and why and how to fix it (below)</td><td>Start the proxy in the job, connect to it with <code>proxy connect</code>, or set <code>trust_unchecked</code></td></tr><tr><td><code>trust_unchecked</code> set, and the proxy needs a token</td><td>A run nobody can answer stops after one request: "the proxy at … asks for an access token (401) …", exit status 1; in a session, the same words on the first request</td><td>Connect to it with <code>proxy connect --token-env</code></td></tr><tr><td>Your own proxy, updated but not restarted</td><td>The same refusal: it is an older release than this harness</td><td><code>maple-harness proxy restart</code> before the run</td></tr><tr><td>Plain <code>http://</code> to another machine</td><td>"proxy connect: the proxy at … is reached over plain http …"</td><td>Use <code>https://</code>, or <code>--allow-insecure</code> on a private network</td></tr><tr><td>The variable has another name</td><td>"… is not named like a secret …"</td><td>Use a name such as <code>MAPLE_PROXY_TOKEN</code></td></tr><tr><td>The token is refused</td><td><code>proxy connect</code> says so; <code>maple-harness doctor</code>'s proxy line too</td><td>Get a new token</td></tr></tbody></table></div>
 <figure>
-<img class="shot shot-light" src="../img/docs/unverified-proxy-ci-light.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; how to use it as your own proxy; how to run with it anyway (harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run); or connect to it as a remote proxy." width="1000" height="132" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/unverified-proxy-ci-dark.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; how to use it as your own proxy; how to run with it anyway (harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run); or connect to it as a remote proxy." width="1000" height="132" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/unverified-proxy-ci-light.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; to use it as your own proxy, give it this settings folder; to run with it anyway, harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run; or connect to it as a remote proxy, with its access token if it asks for one." width="1000" height="132" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/unverified-proxy-ci-dark.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; to use it as your own proxy, give it this settings folder; to run with it anyway, harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run; or connect to it as a remote proxy, with its access token if it asks for one." width="1000" height="132" loading="lazy" decoding="async">
 <figcaption>A run nobody can answer, with an unverified proxy: it does not start, and says what to do. A demo setup.</figcaption>
 </figure>
 <p>With <code>trust_unchecked</code> on, <code>maple-harness proxy status</code> says so on its <strong>trust</strong> line:</p>
@@ -203,7 +318,8 @@ the secret store. <code>maple-harness proxy disconnect</code> goes back to the p
 <p>The setups on this page were run on one Linux machine: several proxies on loopback with stand-in model services, a
 stand-in identity provider through a TLS front, and the replicas with a local PostgreSQL and a stand-in Redis. Not yet
 run: real Google, Microsoft Entra ID, Okta or GitHub accounts, chains over HTTPS between machines, real GitHub Copilot
-accounts behind a hub, a real Kubernetes cluster, a real Redis, and macOS or Windows.</p>
+accounts behind a hub, a real Kubernetes cluster, a real Redis, and macOS or Windows. The CI recipes were run as shell
+commands on Linux, with a stand-in model service and a stand-in for a service container; not on GitHub's own runners.</p>
 <h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
 <ul><li><a href="teams-and-hubs.html">Share Maple with a team</a>: the worked team and chain examples, with screenshots.</li><li><a href="teams.html">Teams</a>, <a href="chaining.html">Chain proxies into hubs</a>, <a href="single-sign-on.html">Single sign-on</a> and
 <a href="developer-access.html">How developers sign in</a>: every key and every step.</li><li><a href="docker.html">Run the proxy in Docker</a> and <a href="kubernetes.html">on Kubernetes</a>: one container, or several replicas.</li><li><a href="security.html">Security</a>: what each setup protects, in short.</li></ul>
@@ -213,7 +329,7 @@ accounts behind a hub, a real Kubernetes cluster, a real Redis, and macOS or Win
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#at-a-glance">At a glance</a></li><li><a href="#words-used-on-these-pages">Words used on these pages</a></li><li><a href="#1-one-laptop">1. One laptop</a></li><li><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Your laptop's proxy joined to a team hub</a></li><li><a href="#3-a-team-hub-for-many-people">3. A team hub for many people</a></li><li><a href="#4-hubs-chained-to-a-company-hub">4. Hubs chained to a company hub</a></li><li><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas behind a load balancer</a></li><li><a href="#6-ci-jobs-and-containers">6. CI jobs and containers</a></li><li><a href="#how-to-move-between-setups">How to move between setups</a></li><li><a href="#what-is-not-verified">What is not verified</a></li><li><a href="#related">Related</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#at-a-glance">At a glance</a></li><li><a href="#words-used-on-these-pages">Words used on these pages</a></li><li><a href="#1-one-laptop">1. One laptop</a></li><li><a href="#2-your-laptops-proxy-joined-to-a-team-hub">2. Your laptop's proxy joined to a team hub</a></li><li><a href="#3-a-team-hub-for-many-people">3. A team hub for many people</a></li><li><a href="#4-hubs-chained-to-a-company-hub">4. Hubs chained to a company hub</a></li><li><a href="#5-several-replicas-behind-a-load-balancer">5. Several replicas behind a load balancer</a></li><li><a href="#6-ci-jobs-and-containers">6. CI jobs and containers</a><ol><li><a href="#github-actions-start-the-proxy-in-the-job">GitHub Actions: start the proxy in the job</a></li><li><a href="#github-actions-a-proxy-in-a-service-container">GitHub Actions: a proxy in a service container</a></li><li><a href="#when-a-run-does-not-start">When a run does not start</a></li></ol></li><li><a href="#how-to-move-between-setups">How to move between setups</a></li><li><a href="#what-is-not-verified">What is not verified</a></li><li><a href="#related">Related</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>

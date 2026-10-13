@@ -517,8 +517,9 @@ session starts verified (nothing asks more than usual). Other sessions that use 
 If the restart does not work, it says why and asks y/N instead.</li><li>The restart is offered only for a process the harness can identify as yours and as a Maple proxy program (Linux
 and macOS). Never for another user's process, a container's port, another program, or a proxy of another
 identity; and not on Windows.</li><li><strong>N, or Enter</strong> (the default): the harness does not start, and prints the fixes below.</li><li><strong>y</strong>: the session starts, with tools asking, nothing secret sent, and the delegate off. The status bar says
-<strong>proxy unverified: tools ask</strong> for as long as that lasts.</li><li><strong>Where nobody can answer</strong> (<code>--prompt</code>, <code>--rpc</code>, no terminal, a session started from a phone or the gateway):
-the harness does not start, and says why and how to fix it. It never waits for an answer (shown below).</li><li>If the proxy turns unverified during a session (it was replaced), the session keeps going with tools asking, and
+<strong>proxy unverified: tools ask</strong> for as long as that lasts.</li><li><strong>Where nobody can answer</strong> (<code>--prompt</code>, <code>--rpc</code>, no terminal, <code>serve</code>, a session started from a phone or the
+gateway): the harness does not start, exits with status 1, and says why and how to fix it. It never waits for an
+answer (shown below). For CI jobs, see the recipes in <a href="which-setup.html#6-ci-jobs-and-containers">CI jobs and containers</a>.</li><li>If the proxy turns unverified during a session (it was replaced), the session keeps going with tools asking, and
 the status bar says so.</li><li>Something that claims to be your proxy and cannot prove it is not a choice: it is refused, with "something else is
 answering on <code>&lt;address&gt;</code>, not your Maple proxy".</li></ul>
 <figure>
@@ -526,7 +527,7 @@ answering on <code>&lt;address&gt;</code>, not your Maple proxy".</li></ul>
 <figcaption>After answering y: the status bar keeps the warning in view.</figcaption>
 </figure>
 <figure>
-<img class="shot shot-light" src="../img/docs/unverified-proxy-ci-light.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; how to use it as your own proxy; how to run with it anyway (harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run); or connect to it as a remote proxy." width="1000" height="132" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/unverified-proxy-ci-dark.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; how to use it as your own proxy; how to run with it anyway (harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run); or connect to it as a remote proxy." width="1000" height="132" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/unverified-proxy-ci-light.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; to use it as your own proxy, give it this settings folder; to run with it anyway, harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run; or connect to it as a remote proxy, with its access token if it asks for one." width="1000" height="132" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/unverified-proxy-ci-dark.webp" alt="maple-harness --prompt with no terminal, on a machine whose proxy runs with a different settings folder: You&#x27;re connecting to an unverified proxy at 127.0.0.1:12535, what that means and where to learn more; then This session cannot ask you, so it did not start; to use it as your own proxy, give it this settings folder; to run with it anyway, harness.proxy.trust_unchecked: true, or MAPLE_TRUST_UNCHECKED_PROXY=1 for one run; or connect to it as a remote proxy, with its access token if it asks for one." width="1000" height="132" loading="lazy" decoding="async">
 <figcaption>A run nobody can answer does not start, and says what to do. A demo setup.</figcaption>
 </figure>
 <p><strong>How to fix it</strong>, from the most to the least common:</p>
@@ -542,11 +543,16 @@ network and your settings folder, and runs as you (the key is readable only by i
   maple-proxy:2.2.0</code></pre>
 <p>This shares your whole settings folder with the container, sign-ins included. A container on its own network
 (published ports such as <code>-p 127.0.0.1:11535:11535</code>) is reached through a port forward and cannot be verified;
-use one of the two ways below for it.</p></li><li><strong>A CI job, or a container you choose not to share the folder with</strong>: set <code>harness.proxy.trust_unchecked: true</code>
-in <code>config.yaml</code>, or <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code> for one run. Nothing is asked and tools run as your rules say.
-Nothing secret is sent to the proxy and the delegate stays off all the same. <code>proxy status</code> and <code>doctor</code> show
-while it is on (below).</li><li><strong>A proxy that is not yours at all</strong> (a team's, a hub): connect to it the advanced way, with <code>maple-harness proxy
-connect &lt;address&gt;</code> and an access token. It is then a remote proxy, trusted by its address and token.</li></ul>
+use one of the two ways below for it.</p></li><li><strong>A CI job</strong>: start the proxy in the job, as the same user with the same settings folder (or let the harness start
+it), and nothing needs setting. Copy-paste recipes for GitHub Actions and a shell script:
+<a href="which-setup.html#6-ci-jobs-and-containers">CI jobs and containers</a>.</li><li><strong>A proxy on <code>127.0.0.1</code> that needs no token, but that you choose not to share the folder with</strong> (another user's,
+another settings folder's, a container on the host's network): set <code>harness.proxy.trust_unchecked: true</code> in
+<code>config.yaml</code>, or <code>MAPLE_TRUST_UNCHECKED_PROXY=1</code> for one run. Nothing is asked and tools run as your rules say.
+Nothing secret is sent to the proxy and the delegate stays off all the same, so a proxy that needs an access token
+(any container on its own network) is connected to with <code>proxy connect</code> instead (next point). <code>proxy status</code> and
+<code>doctor</code> show while it is on (below).</li><li><strong>A proxy that is not yours at all</strong> (a team's, a hub, a proxy container in a CI job): connect to it the advanced
+way, with <code>maple-harness proxy connect &lt;address&gt;</code> and an access token (<code>--token-env NAME</code> in a job). It is then a
+remote proxy, trusted by its address and token.</li></ul>
 <figure>
 <img class="shot shot-light" src="../img/docs/proxy-status-trust-unchecked-light.webp" alt="MAPLE_TRUST_UNCHECKED_PROXY=1 maple-harness proxy status: the proxy at 127.0.0.1:12535 running, serving 14 models, and the trust line: harness.proxy.trust_unchecked is on: on an unverified proxy here, tools run as your rules say (nothing secret is sent to it and the Claude delegate stays off); its pid, not started by this session, logs off." width="1000" height="138" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/proxy-status-trust-unchecked-dark.webp" alt="MAPLE_TRUST_UNCHECKED_PROXY=1 maple-harness proxy status: the proxy at 127.0.0.1:12535 running, serving 14 models, and the trust line: harness.proxy.trust_unchecked is on: on an unverified proxy here, tools run as your rules say (nothing secret is sent to it and the Claude delegate stays off); its pid, not started by this session, logs off." width="1000" height="138" loading="lazy" decoding="async">
 <figcaption><code>proxy status</code> while <code>trust_unchecked</code> is on. A demo setup.</figcaption>

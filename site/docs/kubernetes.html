@@ -183,15 +183,35 @@ copy, and <strong>Settings per replica</strong> says every running replica runs 
 <ol><li>Put <code>config.yaml</code> in <code>manifest/maple-proxy/configmap.yaml</code> and the access tokens in the Secret
 (<code>access.proxy_tokens</code>).</li><li><code>cd config/ha</code>, set the image, <code>kubectl apply -k .</code>.</li><li>To change a setting, edit the ConfigMap and roll out: <code>kubectl -n maple rollout restart deploy/maple-proxy</code>.</li><li>Watch <strong>Settings per replica</strong> on <strong>Data &amp; storage</strong>, or <code>/healthz</code>, during and after a rollout.</li></ol>
 <p><strong>People who sign in with single sign-on, with settings from the ConfigMap.</strong> The proxy cannot write the ConfigMap,
-so it cannot give people the <code>sign_in_marker</code> it uses to tell a person from someone added later with the same id
-(the setup page's People card says so too):</p>
-<ul><li>Keep each person's <code>people[].sign_in_marker</code> line when you edit the ConfigMap. A file exported from PostgreSQL
-(<code>maple-proxy storage export-config</code>) or copied from a proxy that keeps its own settings has them.</li><li>Give a new person one if you like: any random value, such as the output of <code>openssl rand -hex 16</code>. Without one, the
-id alone is what their sign-in is tied to.</li><li>When you give an id to someone else, change its <code>sign_in_marker</code> (or remove the old person's line and add the new
-one with a new value), or forget the old sign-in: <strong>Forget their sign-in</strong> on the person's <strong>Access and tokens</strong>, or
-from a replica, <code>kubectl -n maple exec deploy/maple-proxy -- maple-proxy people forget-signin &lt;id&gt;</code>. The command
-changes nothing in <code>config.yaml</code>; it forgets the accounts and terminals that sign in as that id and revokes the
-tokens they made for themselves.</li></ul>
+so it cannot give people the <code>sign_in_marker</code> it uses elsewhere to tell a person from someone added later with the
+same id. Here a person's sign-in is tied to their <code>people[].sign_in_marker</code> line when they have one, and otherwise to
+the addresses <code>setup_page.sso.people</code> names them by (the address-to-person lines that let them sign in here). The
+setup page's People card says so too.</p>
+<ul><li><strong>What the proxy notices by itself.</strong> You remove a person and add someone else with the same id in one edit, and
+the new person's addresses in <code>setup_page.sso.people</code> are not the old one's (or the new person has none). Within
+seconds of a replica reading the new file (a ConfigMap updated in place, or a rollout), the old account stops
+signing in as that id, what was made for the old person is cleared, and the tokens they made for themselves are
+revoked (Recent activity shows <code>sso.prune</code> with <code>reason=identity_changed</code>). Changing a person's team, budget,
+models or accounts never ends a sign-in, and neither does adding an address or removing one of several. Removing
+all of a person's addresses ends their sign-in, as giving the id to someone new would (put the line back and they
+sign in again). To replace a person's only address, add the new one first and remove the old one in a later edit,
+a minute or more after the first has reached every replica. Keep the tokens a person made for themselves in their
+<code>tokens:</code> list as the exported file has them. Mount the ConfigMap as a folder, not with <code>subPath</code>: a file mounted
+with <code>subPath</code> is never updated in place, so changes reach a replica only when it restarts.</li><li><strong>A <code>sign_in_marker</code> line wins.</strong> When a person has one, only the marker counts: keep it when you edit the ConfigMap
+(a file exported from PostgreSQL with <code>maple-proxy storage export-config</code>, or copied from a proxy that keeps its own
+settings, has them), and change it when you give the id to someone else. Adding a marker to someone already signed
+in keeps their sign-in.</li><li><strong>When you still need to act.</strong> The proxy cannot tell two people apart when the files say the same thing about both:
+the old and the new person share an address in <code>setup_page.sso.people</code> (remove the old one's), neither has any
+address, or the id keeps the same <code>sign_in_marker</code>. Then change the marker, or forget the old sign-in: <strong>Forget
+their sign-in</strong> on the person's <strong>Access and tokens</strong>, or from a replica,
+<code>kubectl -n maple exec deploy/maple-proxy -- maple-proxy people forget-signin &lt;id&gt;</code>. The command changes nothing in
+<code>config.yaml</code>; it forgets the accounts and terminals that sign in as that id and revokes the tokens they made for
+themselves.</li><li><strong>Upgrading from 2.2.0.</strong> At the first start, each sign-in is tied to the addresses the ConfigMap names its person
+by. A sign-in with an address the ConfigMap no longer names for that person (an id given to someone else while
+2.2.0 ran, or the line removed after the first sign-in) is cleared then, with its terminals and the tokens its
+account made; put the line back and the person signs in again. A developer whose GitHub account lists another address first than
+the one in <code>setup_page.sso.people</code> may have to sign in once more. Changing <code>storage.key</code> keeps every sign-in, and
+going back to 2.2.0 works as 2.2.0 did.</li></ul>
 <h4 id="move-from-the-configmap-to-postgresql">Move from the ConfigMap to PostgreSQL <a class="anchor" href="#move-from-the-configmap-to-postgresql" aria-label="Link to this heading">#</a></h4>
 <ol><li>Keep a copy of what runs now: the ConfigMap's <code>config.yaml</code>.</li><li>Apply <code>config/ha-shared</code> instead of <code>config/ha</code>. With no settings in PostgreSQL yet, the first replica takes the
 ConfigMap's file (<code>MAPLE_SETTINGS_SEED</code>) and says so in its log.</li><li>If PostgreSQL already holds settings (you tried it before), copy the file in on purpose, from one replica:

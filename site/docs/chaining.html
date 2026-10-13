@@ -96,7 +96,7 @@ own account first and the hub when it runs out (see <a href="#the-two-common-set
 <strong>Sign in again</strong> (the same two minutes). If something goes wrong before that, for example the access was revoked on
 the hub, the page says so, with <strong>Sign in again</strong> and <strong>Disconnect</strong>:</p>
 <figure>
-<img class="shot shot-light" src="../img/docs/hubs-signin-attention-light.webp" alt="A sign-in on Hubs and chaining marked needs attention: Signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again: on this proxy&#x27;s setup page (Hubs and chaining, Sign in again), or with maple-proxy chain connect --sso and the hub&#x27;s address; the buttons Sign in again now and Disconnect." width="1000" height="483" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-signin-attention-dark.webp" alt="A sign-in on Hubs and chaining marked needs attention: Signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again: on this proxy&#x27;s setup page (Hubs and chaining, Sign in again), or with maple-proxy chain connect --sso and the hub&#x27;s address; the buttons Sign in again now and Disconnect." width="1000" height="483" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/hubs-signin-attention-light.webp" alt="A sign-in on Hubs and chaining marked needs attention: Signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again: on this proxy&#x27;s setup page (Hubs and chaining, Sign in again), or with maple-proxy chain connect --sso and the hub&#x27;s address; the buttons Sign in again and Disconnect." width="1000" height="483" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/hubs-signin-attention-dark.webp" alt="A sign-in on Hubs and chaining marked needs attention: Signed in to sso.acme.example:12464 as ben@acme.example (person ben), but the hub ended this sign-in (revoked there, or your access to the hub changed); Sign in again: on this proxy&#x27;s setup page (Hubs and chaining, Sign in again), or with maple-proxy chain connect --sso and the hub&#x27;s address; the buttons Sign in again and Disconnect." width="1000" height="483" loading="lazy" decoding="async">
 <figcaption>A sign-in that needs attention says what happened and how to fix it.</figcaption>
 </figure>
 <p>On a phone the section stacks the same way:</p>
@@ -263,18 +263,35 @@ address is the developers' OpenAI-compatible address in the hub's single sign-on
 signed in in the browser. A laptop that was off for a night or a weekend renews when it is back, as long as the seven
 days are not over. Then it stops, and you sign in again: <strong>Sign in again</strong> on the page, or <code>maple-proxy chain connect --sso</code>
 once more. Until then, the sign-in shows in these places, all with the same words:</p>
-<div class="tablewrap"><table><thead><tr><th>Where</th><th>What it says</th></tr></thead><tbody><tr><td><strong>Hubs &amp; chaining</strong> on the setup page</td><td>Each sign-in, with <strong>Sign in again</strong> and <strong>Disconnect</strong></td></tr><tr><td><strong>What's configured</strong> on the Overview</td><td>The <strong>Hubs and chaining</strong> line</td></tr><tr><td>The hub's provider on the <strong>Providers</strong> tab</td><td>Its health</td></tr><tr><td><code>maple-proxy chain status</code></td><td>Under <strong>Signed in with a company account:</strong></td></tr><tr><td><code>maple-harness doctor</code></td><td>The <strong>Proxy</strong> line names the hub and the problem, with what to do</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Where</th><th>What it says</th></tr></thead><tbody><tr><td><strong>Hubs &amp; chaining</strong> on the setup page</td><td>Each sign-in, with <strong>Sign in again</strong> and <strong>Disconnect</strong></td></tr><tr><td><strong>What's configured</strong> on the Overview</td><td>The <strong>Hubs and chaining</strong> line</td></tr><tr><td>The hub's provider on the <strong>Providers</strong> tab</td><td>Its health</td></tr><tr><td><code>maple-proxy chain status</code></td><td>Under <strong>Sign-ins with a company account:</strong></td></tr><tr><td><code>maple-harness doctor</code></td><td>The <strong>Proxy</strong> line names the hub and the problem, with what to do</td></tr></tbody></table></div>
 <p>When all is well, the line says <code>signed in to &lt;hub&gt; as &lt;you&gt; (person &lt;id&gt;), renews until &lt;date&gt;</code>. When it needs
 attention, it says what happened and how to fix it, ending with <strong>Sign in again</strong> and where:</p>
 <ul><li>Renewing ended (seven days after the browser sign-in), but the token still works until a date: sign in again
 before then.</li><li>The sign-in ended: the seven days are over and the token has expired.</li><li>The token expired and could not be renewed (your proxy could not reach the hub, for example). The proxy tries
-again every minute; if it keeps failing, sign in again.</li><li>The hub ended the sign-in: the token was revoked on My access or by an admin, or you were removed. When the hub
-refuses the token, your proxy checks with the hub at once, so this shows straight away rather than at the next
-renewal.</li></ul>
+again every minute; if it keeps failing, sign in again.</li><li>The hub ended the sign-in: the token was revoked on My access or by an admin, or you were removed. This shows
+at once, even before anything is sent to the hub: <code>maple-proxy chain status</code> asks the hub whether the token still
+works every time it runs, and the setup page, the provider's health and <code>maple-harness doctor</code> ask it at most once
+a minute (a hub before 2.2.0 cannot be asked: there it shows at the next request or renewal). A request the hub
+refuses makes your proxy check at once too.</li><li>The hub did not answer that question (it is down, or unreachable from here): the line says <em>the hub did not
+answer the last check</em>. That alone never counts as revoked.</li></ul>
 <pre><code class="language-text">$ maple-proxy chain status
 ...
-Signed in with a company account:
-  hub: signed in to sso.acme.example:12464 as ben@acme.example (person ben), renews until 2026-10-19 14:22 UTC</code></pre>
+Sign-ins with a company account:
+  hub: signed in to sso.acme.example:12464 as ben@acme.example (person ben),
+    renews until 2026-10-19 14:22 UTC</code></pre>
+<p>When the hub ended the sign-in (revoked on My access or by an admin), the hub's note says
+<code>REVOKED: sign in again</code>, and so does its sign-in line:</p>
+<pre><code class="language-text">Sign-ins with a company account:
+  hub: REVOKED: sign in again.
+    Signed in to sso.acme.example:12464 as ben@acme.example (person ben), but
+    the hub ended this sign-in (revoked there, or your access to the hub
+    changed).
+    Sign in again: on this proxy's setup page (Hubs &amp; chaining, Sign in again),
+    or with maple-proxy chain connect --sso https://sso.acme.example:12464</code></pre>
+<p>A tool whose request goes to that hub meanwhile gets an error that says the same (HTTP 502, the hub's
+failure, so the tool does not ask for its own token to this proxy again): <em>The hub "hub" refused this
+proxy's access (the sign-in was revoked or expired). Sign in again on the proxy's Hubs &amp; chaining tab, or
+run maple-proxy chain connect --sso</em> and the hub's address.</p>
 <h3 id="disconnect">Disconnect <a class="anchor" href="#disconnect" aria-label="Link to this heading">#</a></h3>
 <p>On the page, <strong>Disconnect</strong> next to the sign-in. In a terminal:</p>
 <pre><code class="language-sh">maple-proxy chain disconnect                 # the hub named "hub"

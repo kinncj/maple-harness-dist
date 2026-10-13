@@ -81,6 +81,11 @@ MAPLE_VERSION=v2.0.0 docker compose up -d</code></pre>
 scope at start (once: a token already there is left as it is). Your tools then use it with <code>mh_</code> in front:</p>
 <pre><code class="language-sh">export OPENAI_BASE_URL=http://127.0.0.1:11535/v1
 export OPENAI_API_KEY="mh_$(cut -d= -f2 secrets/proxy_tokens)"</code></pre>
+<p>Maple Harness on the same machine cannot verify a proxy in a container (it does not share your settings folder), so
+connect to it with the token, the same way, with <code>mh_</code> in front:</p>
+<pre><code class="language-sh">export MAPLE_PROXY_TOKEN="mh_$(cut -d= -f2 secrets/proxy_tokens)"
+maple-harness proxy connect --token-env MAPLE_PROXY_TOKEN http://127.0.0.1:11535</code></pre>
+<p>For a CI job, see <a href="which-setup.html#6-ci-jobs-and-containers">CI jobs and containers</a>.</p>
 <p>The ports are published on <code>127.0.0.1</code> only. To reach the proxy from other machines, publish them on an address of
 your network and put it behind HTTPS (see <a href="security.html">Security</a>).</p>
 <p>Without Compose, the same thing:</p>
