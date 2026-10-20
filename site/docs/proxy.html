@@ -140,6 +140,30 @@ includes the other replicas' requests within about ten seconds, and "in flight" 
 <p>History comes from the usage log, read through the proxy's own summary of each day (in central mode, the shared
 store), so a year of a team's usage still draws quickly. The page never queries a lake or any copy you make
 elsewhere: the Data &amp; storage tab has DuckDB commands to copy for that.</p>
+<h4 id="reading-the-numbers">Reading the numbers <a class="anchor" href="#reading-the-numbers" aria-label="Link to this heading">#</a></h4>
+<p><strong>In plain words:</strong> every number on the page says which time it covers, and two cards that cover the same time
+and filter show the same number. "Today" always means since midnight where the proxy runs.</p>
+<p><strong>The details:</strong></p>
+<ul><li><strong>Today</strong> is the proxy's local day, since midnight, on every card: the tiles, the Savings card and the Cache
+card. A filtered tile asks the usage log for the same span. The history charts count days in UTC and say so.</li><li><strong>Requests today</strong> counts every request since midnight, as the usage log does: failed ones, the proxy's own
+cache-warming requests, answers from the response cache (which never reached a provider), and requests for a
+model no provider here serves included.</li><li><strong>The history ranges</strong> (7, 30 and 90 days, a year) count whole days from midnight in the proxy's time zone, so
+the newest day of each is exactly "today"; a custom range's days are UTC days, and the charts' days too (each
+says so).</li><li><strong>With a filter</strong>, every tile that shows requests, AI units, the hit rate or failures follows the whole filter;
+requests per second and in flight are the live view's, which follows person, team, provider and account only.
+The line above the tiles says which.</li><li><strong>Fallbacks</strong> counts every request tried on a fallback, answered or not. On the outcome chart each request has
+one outcome, an error first: a fallback that also failed is an error there, and the "fallback, answered" series
+is the fallbacks that answered.</li><li>A model the provider lists but will not serve to this client (GitHub Copilot's "not available for integrator")
+fails with the reason <strong>model not offered to this client</strong>, and the model list marks it for some hours, so it
+does not look like random errors.</li><li>The Cache card's "≈ AI units" for reads and writes uses the same prices the Savings card values tokens with.</li><li><strong>The range buttons</strong> have <strong>Today</strong> (since midnight, local time), the same span as the tiles and the Savings card.</li><li><strong>Failed, last hour</strong> is read from the usage log, so a restart of the proxy never lowers it.</li><li>The Savings card's headline is the estimate itself: what the prompt cache and trimming avoided, less Maple's own
+costs, beside what you spent (measured) and what you would have spent without them, which is exactly the two added
+up. The rows under it are the same figures.</li><li><strong>AI units today</strong> and the Savings card's "You spent ... today" are the same sum: every request's AI units as its
+provider reported them, a failed request's included when it reported some. <code>maple-proxy usage query</code> gives the
+same figure for the same span (for example <code>--since</code> with today's local midnight).</li><li>The history charts and the filtered cards say how many requests they read and <strong>when</strong> ("as of ..."). They are
+drawn again when new requests arrive, so a chart and a card read for the same filter show the same count.</li><li>The list of <strong>requests as they finish</strong> shows the newest 50 since the proxy started, of any day; a request from
+before midnight shows its date.</li><li>A model whose cache reads have <strong>no estimate yet</strong> is named on the Savings card under <strong>Not valued yet</strong>, with
+the reason, never shown as a saving of 0.</li><li><strong>Printing</strong> the Overview, or saving it as a PDF from the browser, prints every chart as drawn, in the light
+theme, without the buttons.</li></ul>
 <h3 id="what-you-can-do-from-the-configure-tabs">What you can do from the Configure tabs <a class="anchor" href="#what-you-can-do-from-the-configure-tabs" aria-label="Link to this heading">#</a></h3>
 <ul><li><strong>Sign in</strong> to GitHub Copilot (a browser flow) or save an Anthropic API key, on <strong>Providers</strong>. See <a href="sign-in.html">Sign in</a>.</li><li><strong>Add model servers</strong> on <strong>Providers</strong>: pick the type (Ollama, LM Studio, oMLX, Lemonade, Unsloth, or any
 OpenAI-compatible server), press <strong>Detect models</strong>, and save. See <a href="endpoints.html">Connect a model server</a>.</li><li><strong>See your Copilot allowance</strong>: the plan, how many chats are left, and when they reset.</li><li><strong>Manage remote access</strong> on <strong>Security &amp; access</strong>: switch remote control on, pair a phone with a short code or a
@@ -430,9 +454,15 @@ started it. Any other client can send the header too. See <a href="cost.html">Wh
 <h3 id="seeing-what-it-saves">Seeing what it saves <a class="anchor" href="#seeing-what-it-saves" aria-label="Link to this heading">#</a></h3>
 <p>The <strong>Savings</strong> card, first on the page, shows what the proxy's techniques saved and what they cost, across every
 session on this proxy. Every figure is tagged <strong>measured</strong> (a count, or what the provider billed) or <strong>estimated</strong>
-(a value in AI units, estimated from what your own requests cost). The estimate is never more than what was
-actually spent, costs are subtracted, and the net can be negative. <code>maple-proxy savings</code> prints the same in a
-terminal. See <a href="saving-tokens.html">See and reduce what a task costs</a> and <a href="proof.html">Check it yourself</a>.</p>
+(a value in AI units, estimated from what your own requests cost). Its headline says what the prompt cache and
+trimming avoided (estimated), less Maple's own costs (extra paid for cache writes, trimming's rewrites, the
+cache-warming pings it sent), beside what you spent (measured) and what you would have spent without them (the two
+added up), for example "avoided an estimated 1571 AI units today …: you spent 366 (measured); without them about
+1937". The net can be negative. <code>maple-proxy savings</code> prints the same in a terminal, and its <code>--json</code> has <code>saved</code>,
+<code>costs</code>, <code>net</code> and <code>without</code>. Its "today" is since midnight where the proxy runs, and it adds up the same amounts each request's line in
+the usage log records, so a filtered Savings card for today shows the same figures. A model whose provider does not
+report cache writes (GPT models on GitHub Copilot, for one) has its cache reads valued too, once enough of its
+requests have been seen; until then the card names it under <strong>Not valued yet</strong> and says why. See <a href="saving-tokens.html">See and reduce what a task costs</a> and <a href="proof.html">Check it yourself</a>.</p>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
 <p>For each provider you can cap requests per day, AI units per day, or both (days are UTC). At the limit, requests
 are refused or handed to its fallback. Key: <code>budgets</code>. See <a href="proxy-settings.html#budgets">Budgets</a>.</p>

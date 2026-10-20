@@ -68,7 +68,9 @@ does too.</p>
 expected on a session that used subagents heavily — it is not a sign anything is broken. If you
 need the true total from a script instead of reading <code>/cost</code>, <code>--json-summary</code>'s <code>ai_units</code> (and
 <code>input_tokens</code>/<code>output_tokens</code>) fields are the combined total too, with <code>subagent_ai_units</code> and
-friends breaking out just the delegated share.</p>
+friends breaking out just the delegated share. They are that one run's figures, also when it continues a session
+(<code>--continue</code>, <code>--resume</code>, <code>--session</code>); <code>session_ai_units</code>, <code>session_requests</code> and the other <code>session_*</code> fields are
+the session's totals, and <code>resumed</code> says whether it had spent anything before.</p>
 <p><code>/savings</code> is a different question — what the <em>harness's own techniques</em> (<code>loop_guard</code>, log
 shortening, model choice) saved and cost, not the account's true total. A subagent's spend is
 deliberately never valued there: there is no defensible counterfactual for what its parent would

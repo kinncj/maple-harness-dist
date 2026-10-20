@@ -264,9 +264,10 @@ measured against what the same request would likely have cost without that techn
 from your own requests' costs; costs of the techniques are in their own columns so you can subtract them. <code>priced</code>
 says whether a value could be put on the request at all: when it is false the AI-unit columns are 0 because nothing
 was valued, not because nothing was saved.</li><li><strong>The headline.</strong> The Savings card's headline counts only the prompt cache and trimming: <code>cache_saved_estimated</code> +
-<code>trim_saved_estimated</code>, minus <code>cache_write_surcharge_estimated</code> + <code>trim_cost_estimated</code>. The other techniques are on
-their own lines, not in the headline, and the card never lets its headline claim more than was spent. The per-request
-columns are not capped, so over a period where they add up to more than was spent, the card shows the lower figure.</li><li><strong>Cache warming.</strong> A request the proxy sent itself to keep a cache alive has <code>warming = true</code>; what it cost is its
+<code>trim_saved_estimated</code>, minus <code>cache_write_surcharge_estimated</code> + <code>trim_cost_estimated</code>, minus the <code>ai_units</code> of
+the proxy's own cache-warming requests (<code>warming = true</code>; the query's <code>warming_ai_units</code>). The other techniques are
+on their own lines, not in the headline. What you would have spent without them is <code>ai_units</code> plus that net. A sum
+of these columns over a day is exactly the card's headline for that day.</li><li><strong>Cache warming.</strong> A request the proxy sent itself to keep a cache alive has <code>warming = true</code>; what it cost is its
 <code>ai_units</code>, and <code>warming_expected_saved_estimated</code> is the saving expected when it was sent, not a confirmed one.</li><li><strong>Response cache.</strong> A request answered from the proxy's response cache (<code>response_cache: on</code>) has
 <code>cached_response = true</code> and 0 tokens and 0 <code>ai_units</code>: nothing was sent to the provider.
 <code>response_cache_saved_estimated</code> is an estimate of what the repeat would have cost, the lower of what the original
@@ -275,7 +276,12 @@ the Savings card, not in the headline.</li><li><strong>Sessions.</strong> <code>
 grouping as the setup page's Sessions card. <code>conv</code> is narrower: it groups the requests of one conversation, so a
 subagent is its own <code>conv</code>. Other clients can send the same header; lines from a client that does not, and
 cache-warming requests, have no session.</li></ul>
-<p>Requests that failed are left out of the Savings card; leave them out of a sum with <code>WHERE error IS NULL</code> to compare.</p>
+<p>A request for a model no provider here serves has a line too: an error (<code>error_class</code> <code>model_not_found</code>) with no
+provider, tokens or AI units. <code>fallback</code> is true on every fallback attempt, answered or not; the query's <code>fallbacks</code>
+metric counts them all, while its <code>outcome</code> names one per line, an error first.</p>
+<p>A request that failed but still reported AI units was billed for them: the Savings card's "You spent" and the AI
+units tile count them, as a plain <code>sum(ai_units)</code> does. The techniques' estimates are only ever on requests that
+completed.</p>
 <p>Cost per day, in AI units and in list-price estimates:</p>
 <pre><code class="language-sql">SELECT date_trunc('day', "at") AS day,
        sum(ai_units) AS ai_units,

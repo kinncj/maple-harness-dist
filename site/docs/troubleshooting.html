@@ -119,6 +119,25 @@ and the server must be running. Choose the matching type in the picker so its us
 <p><strong>Find local models finds nothing.</strong> It only asks this computer (127.0.0.1 and ::1), on each server's usual port,
 and waits about a second and a half. A server on another port, on another machine or still loading a model is
 not found: add it by hand. See <a href="endpoints.html#find-the-servers-already-running">Connect a model server</a>.</p>
+<p><strong>"Stopped: the model kept describing steps without taking them."</strong> Maple Harness carries a turn on by itself when
+the model describes its next step instead of taking it, but not forever: at most 50 times for one message
+(<code>harness.max_auto_continues</code>), and not again once the model, asked to carry on, describes the step again instead
+of doing it. The model's last report is left as the answer. Type "continue" to carry on, or say what to do next.</p>
+<p><strong>An answer is folded away and a line starting with <code>»</code> says <code>check: …</code>.</strong> Maple Harness checked the model's
+answer against what really happened in the session and found something wrong with it: for example it reported
+<code>Lint: npm run lint → pass</code> though the lint never ran, or named a file that does not exist. The harness folds that
+answer to one line, says what it found, and asks the model for a corrected answer, which is the one left on screen,
+followed by a line such as <code>» checked: npm run lint ran and passed</code>. Nothing is thrown away: click the folded line,
+or press ctrl+o, to read it.</p>
+<p>In more detail: lines starting with <code>»</code> are always the harness's own, never the model's or yours. <code>» check: …</code>
+means an answer was sent back; <code>» checked: …</code> says what became of each command it named (ran and passed, ran and
+failed, or no longer claimed); <code>» continuing: …</code> means the model described a next step without taking it and was
+asked to carry on (<code>harness.disable_auto_continue</code> turns that off). The note the model gets asks for its whole
+answer again, corrected, and not for a reply to the check. If a model replies to the check anyway ("Confirmed, I
+ran it"), and every command it had named has now run and passed, that reply is folded instead and the earlier
+answer is shown again as the final one, under "the answer stands". If a command failed, the model's newest answer
+stays as it is. Every client ends on the same answer: the remote app, <code>--rpc</code>, <code>serve</code>, and <code>--prompt</code>, whose output
+then ends with that answer printed again after <code>» final answer:</code> on the error stream.</p>
 <h2 id="cost">Cost <a class="anchor" href="#cost" aria-label="Link to this heading">#</a></h2>
 <h3 id="a-run-cost-more-than-i-expected">A run cost more than I expected <a class="anchor" href="#a-run-cost-more-than-i-expected" aria-label="Link to this heading">#</a></h3>
 <p>Type <code>/cost</code>. It shows what the session has spent, the last few requests with how much of each was served from
