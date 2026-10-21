@@ -1,0 +1,48 @@
+# Three replicas behind the Service, storage mode redis: ONE durable Redis holds everything
+# (usage, budgets, settings, tokens) and there is no PostgreSQL. Supported, but PostgreSQL and Redis
+# together (config/ha-shared) stay the recommendation: here the data lasts only as long as Redis
+# keeps it, so Redis must run with an append-only file and noeviction on a persistent volume (the
+# sample in manifest/redis-durable does), and you back up its data folder. A replica refuses to
+# start on a Redis that does not, and leaves the Service if that changes or the data is lost.
+#
+# Whoever can write this Redis controls budgets and usage: keep it to the proxy (the NetworkPolicy),
+# use the sample's restricted user (no FLUSHALL, CONFIG, DEBUG or SHUTDOWN), and TLS (rediss://)
+# when Redis is outside the cluster.
+#
+# The replicas run as a StatefulSet (statefulset.yaml, in place of the base Deployment): each keeps
+# its data folder on a volume of its own, where it remembers the Redis store it runs on and the
+# newest settings versions it accepted. Settings are kept in Redis: the ConfigMap is copied there
+# once, at the very first start (MAPLE_SETTINGS_SEED), then edited on any replica's setup page.
+# Usage analytics over PostgreSQL and the lake need config/ha-shared.
+#
+#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.0
+#   kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: maple
+resources:
+  - namespace.yaml
+  - ../../manifest/maple-proxy
+  - ../../manifest/redis-durable
+  - statefulset.yaml
+images:
+  - name: maple-proxy
+    newName: registry.example.com/REPLACE-ME/maple-proxy
+    newTag: REPLACE-ME
+patches:
+  # The StatefulSet above takes the Deployment's place.
+  - patch: |-
+      $patch: delete
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: maple-proxy
+  - target: {kind: Secret, name: maple-proxy}
+    patch: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: maple-proxy
+      stringData:
+        storage.redis_url: redis://maple:REPLACE-ME@redis:6379/0
+        storage.key: REPLACE-ME-64-hex-characters

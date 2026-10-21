@@ -120,7 +120,10 @@ USE maple_lake;</code></pre>
 <a href="querying.html#the-lake">Query your usage</a>.</p>
 <h2 id="for-a-team-postgresql-and-a-shared-lake">For a team: PostgreSQL and a shared lake <a class="anchor" href="#for-a-team-postgresql-and-a-shared-lake" aria-label="Link to this heading">#</a></h2>
 <p><em>This section is for <a href="kubernetes.html#several-replicas">central mode</a>: several copies of one proxy sharing PostgreSQL and
-Redis. A team on one shared proxy with daily files uses <a href="#on-one-machine">the single-machine lake</a> on the hub.</em></p>
+Redis. A team on one shared proxy with daily files uses <a href="#on-one-machine">the single-machine lake</a> on the hub.
+<a href="kubernetes.html#without-postgresql-storage-mode-redis">Storage mode redis</a> (several replicas, no PostgreSQL) has no
+lake: <code>usage lake</code> is refused there; export the usage (<code>usage export</code>) to keep history elsewhere, or use central
+mode.</em></p>
 <p>PostgreSQL is the live database: every replica writes its usage there, and it keeps <code>storage.retention_days</code> of it.
 The lake keeps the history: its catalog is a schema of the same PostgreSQL (<code>maple_lake</code> by default) and its data
 files are on a volume or in S3. A scheduled job moves what PostgreSQL stored into the lake, every hour; the proxy's

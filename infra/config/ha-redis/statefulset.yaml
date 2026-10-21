@@ -1,0 +1,99 @@
+# maple-proxy as a StatefulSet in storage mode redis: the same pod as manifest/maple-proxy's
+# Deployment, but each replica keeps its data folder on a volume of its own. There it remembers the
+# Redis store it runs on (so a restarted replica refuses a Redis that lost its data instead of
+# counting from zero) and the newest settings versions it accepted (so an older copy put back into
+# Redis is refused).
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maple-proxy
+  labels: {app.kubernetes.io/name: maple-proxy}
+spec:
+  serviceName: maple-proxy
+  replicas: 3
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels: {app.kubernetes.io/name: maple-proxy}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: maple-proxy}
+    spec:
+      # Long enough for a running stream to finish after the replica stops taking new requests.
+      terminationGracePeriodSeconds: 600
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile: {type: RuntimeDefault}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels: {app.kubernetes.io/name: maple-proxy}
+      containers:
+        - name: maple-proxy
+          # Set with: kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.0
+          image: maple-proxy
+          args: ["serve"]
+          ports:
+            - {name: openai, containerPort: 11535}
+            - {name: anthropic, containerPort: 11537}
+          env:
+            - name: MAPLE_PROXY_INSTANCE
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - {name: MAPLE_PROXY_ID, value: maple-proxy}
+            - {name: MAPLE_ALLOWED_HOSTS, value: "maple-proxy,maple-proxy.maple,maple-proxy.maple.svc,maple-proxy.maple.svc.cluster.local"}
+            - {name: MAPLE_DRAIN_DELAY, value: 5s}
+            - {name: MAPLE_SHUTDOWN_GRACE, value: 9m}
+            - {name: MAPLE_EMBEDDINGS_DIR, value: /models}
+            - {name: MAPLE_STORAGE_MODE, value: redis}
+            # Copied into Redis once, when it holds no settings yet.
+            - {name: MAPLE_SETTINGS_SEED, value: /etc/maple/config.yaml}
+            - {name: MAPLE_READY_REQUIRES_SAME_CONFIG, value: "true"}
+            - {name: MAPLE_REDIS_URL, value: "${secret:storage/redis_url}"}
+            - {name: MAPLE_STORAGE_KEY, value: "${secret:storage/key}"}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: models, mountPath: /models}
+            - {name: tmp, mountPath: /tmp}
+            - {name: secrets, mountPath: /run/secrets/maple, readOnly: true}
+            - {name: config, mountPath: /etc/maple, readOnly: true}
+          startupProbe:
+            httpGet: {path: /healthz, port: openai}
+            periodSeconds: 2
+            failureThreshold: 60
+          livenessProbe:
+            httpGet: {path: /healthz, port: openai}
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {path: /readyz, port: openai}
+            periodSeconds: 5
+          lifecycle:
+            # Endpoints are removed while the replica still serves.
+            preStop: {sleep: {seconds: 5}}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {memory: 1Gi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+      volumes:
+        - name: models
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {medium: Memory, sizeLimit: 64Mi}
+        - name: secrets
+          secret: {secretName: maple-proxy}
+        - name: config
+          configMap: {name: maple-proxy}
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources: {requests: {storage: 1Gi}}

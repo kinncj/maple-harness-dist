@@ -1,0 +1,15 @@
+# Only the proxy may reach Redis: in storage mode redis it holds everything (usage, budgets,
+# settings, tokens), so anyone who can write it could stop the proxy or empty its counts.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: redis}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/name: maple-proxy}
+      ports: [{port: 6379}]

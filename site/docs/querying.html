@@ -292,7 +292,9 @@ SELECT 'now', count(*), max("at")::DATE FROM main.usage;</code></pre>
 <p>More on snapshots: <a href="data-lake.html#time-travel-and-snapshots">Time travel and snapshots</a>.</p>
 <h3 id="postgresql">PostgreSQL <a class="anchor" href="#postgresql" aria-label="Link to this heading">#</a></h3>
 <p>In central mode, two ways to read the shared PostgreSQL from DuckDB, both read-only. Use a role that can only read
-(<a href="data-lake.html#read-only-access-for-analysts">the grants</a>).</p>
+(<a href="data-lake.html#read-only-access-for-analysts">the grants</a>). In <a href="kubernetes.html#without-postgresql-storage-mode-redis">storage mode redis</a>
+there is no PostgreSQL: <code>usage schema --source postgres</code> is refused and says so; <code>usage query</code> and <code>usage export</code>
+on a replica read every replica's usage.</p>
 <p><strong>The named views over PostgreSQL.</strong> The connection string stays in an environment variable and is read when you
 query; it is never written into the SQL:</p>
 <pre><code class="language-sh">export MAPLE_POSTGRES_DSN='postgres://analyst@db.example:5432/maple?sslmode=require'

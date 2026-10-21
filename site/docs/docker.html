@@ -175,7 +175,7 @@ downloading a model you accept its licence, shown by <code>embeddings list</code
 <p>When one proxy is not enough, or a restart must not interrupt anyone, run three replicas behind a load balancer
 (Caddy), sharing PostgreSQL and Redis. The <a href="kubernetes.html#several-replicas">Kubernetes page</a> explains what they
 share and how they behave; the same applies here. There are two samples:</p>
-<div class="tablewrap"><table><thead><tr><th>Sample</th><th>Settings</th><th>Use it when</th></tr></thead><tbody><tr><td><code>compose.ha-shared.yaml</code> (<strong>recommended</strong>)</td><td>Your <code>config.yaml</code> is copied into PostgreSQL once; after that every proxy runs the copy in PostgreSQL, changed on any proxy's setup page</td><td>You want one set of settings, changed on the page, with no drift</td></tr><tr><td><code>compose.ha.yaml</code></td><td>The same as in 2.1: the settings are shared through PostgreSQL, starting from each proxy's default settings</td><td>You already run it; it keeps working as before</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Sample</th><th>Settings</th><th>Use it when</th></tr></thead><tbody><tr><td><code>compose.ha-shared.yaml</code> (<strong>recommended</strong>)</td><td>Your <code>config.yaml</code> is copied into PostgreSQL once; after that every proxy runs the copy in PostgreSQL, changed on any proxy's setup page</td><td>You want one set of settings, changed on the page, with no drift</td></tr><tr><td><code>compose.ha.yaml</code></td><td>The same as in 2.1: the settings are shared through PostgreSQL, starting from each proxy's default settings</td><td>You already run it; it keeps working as before</td></tr><tr><td><code>compose.ha-redis.yaml</code></td><td>No PostgreSQL: one Redis that keeps its data (an append-only file, <code>noeviction</code>, a volume) holds everything, settings included (<a href="kubernetes.html#without-postgresql-storage-mode-redis">storage mode redis</a>, 2.3)</td><td>Running PostgreSQL is the harder part for you, and you back up Redis's volume. Supported; PostgreSQL and Redis together stay the recommendation</td></tr></tbody></table></div>
 <pre><code class="language-sh">mkdir -p secrets
 printf 'laptop=%s\n' "$(openssl rand -hex 24)" &gt; secrets/proxy_tokens
 openssl rand -hex 32 &gt; secrets/storage_key
@@ -186,6 +186,14 @@ printf 'redis://:%s@redis:6379/0' "$(cat secrets/redis_password)" &gt; secrets/r
 cp /path/to/your/config.yaml config.yaml      # the settings to start from
 MAPLE_VERSION=v2.2.0 docker compose -f compose.ha-shared.yaml up -d</code></pre>
 <p>Clients use <code>http://127.0.0.1:8080/v1</code> (OpenAI) or <code>http://127.0.0.1:8081</code> (Anthropic).</p>
+<p><strong>Without PostgreSQL</strong> (<code>compose.ha-redis.yaml</code>): the same steps without the two PostgreSQL lines, with the Redis
+address naming the user <code>maple</code> (<code>printf 'redis://maple:%s@redis:6379/0' ...</code>, as the file's comment shows), then
+<code>docker compose -f compose.ha-redis.yaml up -d</code>. Its Redis runs with <code>--appendonly yes --appendfsync everysec
+--maxmemory-policy noeviction</code> on the <code>redis-data</code> volume, the proxies sign in as a user that cannot run <code>FLUSHALL</code>,
+<code>CONFIG</code> or other dangerous commands (whoever can write this Redis controls budgets and usage), and each proxy keeps its own data folder on a volume
+(<code>proxy-1-data</code> and so on), where it remembers the newest settings version it accepted and the Redis store it runs
+on. A proxy refuses to start on a Redis without those settings and says why in its log (<code>docker compose logs
+proxy-1</code>); <a href="kubernetes.html#without-postgresql-storage-mode-redis">what each message means</a>.</p>
 <p>With clients on other machines, give the load balancer a fixed address and set <code>MAPLE_TRUSTED_PROXIES</code> to it (the
 file has the line, commented out): the proxies then count each client's wrong tokens on their own, instead of refusing every
 client behind the balancer after one client's mistakes. See
@@ -224,7 +232,8 @@ there. Run each MCP server as a container of its own that serves MCP over HTTP, 
 <h2 id="upgrading-and-backups">Upgrading and backups <a class="anchor" href="#upgrading-and-backups" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>One container:</strong> build the new release's image and start it on the same volume. Back up the volume (stop the
 container, or copy <code>/data</code> while it runs: the files are written whole).</li><li><strong>Several replicas:</strong> see <a href="kubernetes.html#upgrades">Upgrades</a> and <a href="kubernetes.html#backups">Backups</a>. Back up
-PostgreSQL (it holds the settings too); Redis holds nothing that must survive.</li></ul>
+PostgreSQL (it holds the settings too); Redis holds nothing that must survive. Without PostgreSQL
+(<code>compose.ha-redis.yaml</code>), Redis holds everything: back up the <code>redis-data</code> volume (its <code>appendonlydir</code>).</li></ul>
 <p>Read next: <a href="kubernetes.html">Kubernetes</a>, <a href="security.html">Security</a>, <a href="proxy-settings.html#containers-and-replicas">Proxy settings</a>.</p>
 </article>
 <nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/proxy-service.html" rel="prev"><small>Previous</small>Keep it running in the background</a><a class="next" href="../docs/mcp-hub.html" rel="next"><small>Next</small>MCP hub (experimental)</a></div><div class="mset m-teams"><a class="prev" href="../docs/proxy-service.html" rel="prev"><small>Previous</small>Keep it running in the background</a><a class="next" href="../docs/mcp-hub.html" rel="next"><small>Next</small>MCP hub (experimental)</a></div></nav>

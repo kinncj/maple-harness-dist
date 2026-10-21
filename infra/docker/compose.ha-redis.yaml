@@ -1,0 +1,99 @@
+# Three replicas of one maple-proxy behind a load balancer, storage mode redis: ONE durable Redis
+# holds everything (usage, budgets, settings, tokens), no PostgreSQL. Supported, but
+# compose.ha-shared.yaml (PostgreSQL and Redis) stays the recommendation for several replicas: here
+# the data lasts only as long as Redis keeps it. Redis runs with an append-only file and noeviction
+# on a named volume; a proxy refuses to start on a Redis that does not, and reports itself not ready
+# if that changes or the data is lost. Back up the redis-data volume (its appendonlydir).
+#
+# Your config.yaml, next to this file, is copied into Redis once, at the very first start; after
+# that, change settings on any replica's setup page. Each proxy keeps its own data folder on a
+# volume, where it remembers the newest settings version it accepted and the Redis store it runs on.
+#
+#   mkdir -p secrets
+#   printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   openssl rand -hex 32 > secrets/storage_key
+#   openssl rand -hex 24 > secrets/redis_password
+#   printf 'redis://maple:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
+#   cp /path/to/your/config.yaml config.yaml     # the settings to start from
+#   MAPLE_VERSION=v2.3.0 docker compose -f compose.ha-redis.yaml up -d --build
+#
+# Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
+x-proxy: &proxy
+  build:
+    context: .
+    args:
+      MAPLE_VERSION: ${MAPLE_VERSION:?set MAPLE_VERSION to a release tag, such as v2.3.0}
+  image: maple-proxy:${MAPLE_VERSION}
+  restart: unless-stopped
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: [/tmp]
+  depends_on:
+    redis: {condition: service_healthy}
+  environment: &env
+    MAPLE_STORAGE_MODE: redis
+    # Copied into Redis once, when it holds no settings yet.
+    MAPLE_SETTINGS_SEED: /etc/maple/config.yaml
+    MAPLE_READY_REQUIRES_SAME_CONFIG: "true"
+    MAPLE_PROXY_ID: maple-proxy
+    MAPLE_ALLOWED_HOSTS: localhost
+    MAPLE_REDIS_URL: $${secret:storage/redis_url}
+    MAPLE_STORAGE_KEY: $${secret:storage/key}
+  secrets: &secrets
+    - source: proxy_tokens
+      target: /run/secrets/maple/access.proxy_tokens
+    - source: storage_key
+      target: /run/secrets/maple/storage.key
+    - source: redis_url
+      target: /run/secrets/maple/storage.redis_url
+  stop_grace_period: 10m
+
+services:
+  proxy-1:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-1}
+    volumes: ["./config.yaml:/etc/maple/config.yaml:ro", "proxy-1-data:/data"]
+  proxy-2:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-2}
+    volumes: ["./config.yaml:/etc/maple/config.yaml:ro", "proxy-2-data:/data"]
+  proxy-3:
+    <<: *proxy
+    environment: {<<: *env, MAPLE_PROXY_INSTANCE: proxy-3}
+    volumes: ["./config.yaml:/etc/maple/config.yaml:ro", "proxy-3-data:/data"]
+
+  lb:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["127.0.0.1:8080:8080", "127.0.0.1:8081:8081"]
+    volumes: ["./Caddyfile:/etc/caddy/Caddyfile:ro"]
+    depends_on: [proxy-1, proxy-2, proxy-3]
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    secrets: [redis_password]
+    # appendonly yes + appendfsync everysec: at most about a second of writes lost on a crash.
+    # noeviction: a full Redis refuses writes instead of deleting keys; size maxmemory with room.
+    # The proxies sign in as "maple", a user that cannot run FLUSHALL, CONFIG, DEBUG, SHUTDOWN or any
+    # other dangerous command (INFO stays: the proxy checks durability with it); the default user is
+    # off. Add a user of your own for administration.
+    command: ["sh", "-c", "exec redis-server --dir /data --appendonly yes --appendfsync everysec --maxmemory 1gb --maxmemory-policy noeviction --user default off --user maple on \">$$(cat /run/secrets/redis_password)\" '~*' '&*' +@all -@dangerous +info"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "sh", "-c", "redis-cli --user maple -a \"$$(cat /run/secrets/redis_password)\" --no-auth-warning ping | grep -q PONG"]
+      interval: 5s
+      retries: 20
+
+volumes:
+  redis-data: {}
+  proxy-1-data: {}
+  proxy-2-data: {}
+  proxy-3-data: {}
+
+secrets:
+  proxy_tokens: {file: ./secrets/proxy_tokens}
+  storage_key: {file: ./secrets/storage_key}
+  redis_password: {file: ./secrets/redis_password}
+  redis_url: {file: ./secrets/redis_url}
