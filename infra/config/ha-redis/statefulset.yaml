@@ -37,7 +37,7 @@ spec:
             matchLabels: {app.kubernetes.io/name: maple-proxy}
       containers:
         - name: maple-proxy
-          # Set with: kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.0
+          # Set with: kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.1
           image: maple-proxy
           args: ["serve"]
           ports:

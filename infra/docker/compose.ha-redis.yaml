@@ -15,14 +15,14 @@
 #   openssl rand -hex 24 > secrets/redis_password
 #   printf 'redis://maple:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
 #   cp /path/to/your/config.yaml config.yaml     # the settings to start from
-#   MAPLE_VERSION=v2.3.0 docker compose -f compose.ha-redis.yaml up -d --build
+#   MAPLE_VERSION=v2.3.1 docker compose -f compose.ha-redis.yaml up -d --build
 #
 # Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
 x-proxy: &proxy
   build:
     context: .
     args:
-      MAPLE_VERSION: ${MAPLE_VERSION:?set MAPLE_VERSION to a release tag, such as v2.3.0}
+      MAPLE_VERSION: ${MAPLE_VERSION:?set MAPLE_VERSION to a release tag, such as v2.3.1}
   image: maple-proxy:${MAPLE_VERSION}
   restart: unless-stopped
   read_only: true

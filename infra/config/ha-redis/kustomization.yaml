@@ -15,7 +15,7 @@
 # once, at the very first start (MAPLE_SETTINGS_SEED), then edited on any replica's setup page.
 # Usage analytics over PostgreSQL and the lake need config/ha-shared.
 #
-#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.0
+#   kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.1
 #   kubectl apply -k .
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

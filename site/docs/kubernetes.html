@@ -255,7 +255,8 @@ the replica stops before then, and the log says how many. <code>/readyz</code> s
 rate limits refuse callers from other machines and so does the wrong-token limit for a wrong or missing token
 (a valid token is still served), caches miss, conversation pins and
 shared quota marks fall back to each replica's own, and no replica runs the jobs only one replica runs.
-<code>/readyz</code> says <code>not ready</code>.</li></ul>
+<code>/readyz</code> says <code>not ready</code>. A Redis that answers as a read-only replica (an address still on the old primary after
+a failover) counts as away.</li></ul>
 <p>Use a single Redis (or one with a standby); a Redis cluster is not supported.</p>
 <p><strong>Keep PostgreSQL and Redis to the proxy.</strong> The settings kept in PostgreSQL (<code>config.yaml</code>, the access tokens and the
 setup page's password) are signed with a key derived from <code>storage.encryption_key</code>, and every replica checks the
@@ -341,7 +342,7 @@ seconds. A managed Redis that offers no append-only file cannot be used for this
 append-only file, <code>noeviction</code> and a PersistentVolumeClaim; for trying it out, not a production Redis). The replicas
 run as a StatefulSet too, so each keeps its data folder on a volume of its own (see below why that matters):</p>
 <pre><code class="language-sh">cd config/ha-redis
-kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.0
+kustomize edit set image maple-proxy=registry.example.com/you/maple-proxy:2.3.1
 # the Secret patch: storage.redis_url (redis://maple:password@redis:6379/0, or rediss:// for TLS) and storage.key
 # manifest/redis-durable/service.yaml: the same Redis password
 kubectl apply -k .
@@ -361,7 +362,7 @@ central mode with settings kept in the shared store: the ConfigMap is copied int
 (<code>MAPLE_SETTINGS_SEED</code>), then changed on any replica's page; <code>storage.settings: file</code> (read-only on the page) works
 too. <code>storage import-config</code>, <code>export-config</code> and the audit log work against Redis.</p>
 <p><strong>When it refuses, and how to fix it.</strong> These lines are in the replica's log; the pod restarts until it is fixed.</p>
-<div class="tablewrap"><table><thead><tr><th>Message</th><th>Fix</th></tr></thead><tbody><tr><td><code>Redis keeps no append-only file (appendonly is no)</code></td><td>Start Redis with <code>--appendonly yes</code> (or <code>CONFIG SET appendonly yes</code> and keep it in its config file)</td></tr><tr><td><code>Redis may delete keys when it is full (maxmemory-policy is ...)</code></td><td>Set <code>maxmemory-policy noeviction</code></td></tr><tr><td><code>Redis could not write its append-only file</code></td><td>Its disk is full or read-only: fix the volume</td></tr><tr><td><code>Redis did not answer INFO persistence</code></td><td>The Redis user may not run <code>INFO</code>: allow it (<code>+info</code>). Without it, the proxy cannot check</td></tr><tr><td><code>the proxy cannot confirm that Redis keeps data durably</code> (while running)</td><td><code>INFO</code> failed three checks in a row from a Redis that answers: allow <code>INFO</code> again</td></tr><tr><td><code>storage.mode redis keeps everything in Redis, but storage.postgres_dsn ... is set</code></td><td>Remove <code>postgres_dsn</code>, or use <code>storage.mode: central</code></td></tr><tr><td><code>the data this replica ran on is gone from Redis</code></td><td>Redis lost its data (a restart without its append-only file, <code>FLUSHALL</code>, another Redis). Restore it from a backup. To start on the empty Redis anyway, delete the file the message names and start again</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Message</th><th>Fix</th></tr></thead><tbody><tr><td><code>Redis keeps no append-only file (appendonly is no)</code></td><td>Start Redis with <code>--appendonly yes</code> (or <code>CONFIG SET appendonly yes</code> and keep it in its config file)</td></tr><tr><td><code>Redis may delete keys when it is full (maxmemory-policy is ...)</code></td><td>Set <code>maxmemory-policy noeviction</code></td></tr><tr><td><code>Redis could not write its append-only file</code></td><td>Its disk is full or read-only: fix the volume</td></tr><tr><td><code>Redis answers as a read-only replica (role slave), not the primary</code></td><td><code>storage.redis_url</code> names a replica: use the primary's address (with a managed Redis, its primary endpoint). After a failover, check that the address moved to the new primary</td></tr><tr><td><code>Redis did not answer INFO persistence</code></td><td>The Redis user may not run <code>INFO</code>: allow it (<code>+info</code>). Without it, the proxy cannot check</td></tr><tr><td><code>the proxy cannot confirm that Redis keeps data durably</code> (while running)</td><td><code>INFO</code> failed three checks in a row from a Redis that answers: allow <code>INFO</code> again</td></tr><tr><td><code>storage.mode redis keeps everything in Redis, but storage.postgres_dsn ... is set</code></td><td>Remove <code>postgres_dsn</code>, or use <code>storage.mode: central</code></td></tr><tr><td><code>the data this replica ran on is gone from Redis</code></td><td>Redis lost its data (a restart without its append-only file, <code>FLUSHALL</code>, another Redis). Restore it from a backup. To start on the empty Redis anyway, delete the file the message names and start again</td></tr></tbody></table></div>
 <p><strong>While it runs (technical).</strong> Every replica checks Redis every 30 seconds. If Redis stops writing its append-only
 file or starts evicting, every replica says <code>not ready</code> on <code>/readyz</code>, <strong>Data &amp; storage</strong> says why, and nothing more is
 counted into Redis: requests of people with a budget are refused with <code>503</code> (or let through, uncounted, with
@@ -372,7 +373,13 @@ until they are restarted. A replica restarted with its data folder remembers the
 an emptied Redis, so nothing is counted from zero by mistake; a replica whose folder is new cannot know, starts, and
 says so in its log. That is why <code>config/ha-redis</code> gives each replica a volume of its own.</p>
 <ul><li><strong>Redis away:</strong> as in central mode for both stores at once: requests are served, budgets follow
-<code>budgets_when_down</code>, usage lines wait in memory, the setup page answers <code>503</code>, <code>/readyz</code> says <code>not ready</code>.</li><li><strong>Settings:</strong> signed as in central mode and also encrypted with the storage key in Redis, so whoever can write
+<code>budgets_when_down</code>, usage lines wait in memory, the setup page answers <code>503</code>, <code>/readyz</code> says <code>not ready</code>.</li><li><strong>Failover to a standby:</strong> when the standby is promoted and the address moves to it, the replicas go on where they
+were: the same usage, the same budgets. While the address still reaches a server that is now a read-only replica,
+that counts as Redis away (above), and <strong>Data &amp; storage</strong> says so; usage lines wait and are written once the address
+is right. Redis copies writes to its standby a moment after it answers them, so when the primary itself fails, the
+last moment of counts may not have reached the standby and can be missing after the failover. A standby promoted
+before it had a copy of the data at all is caught as lost data (the replicas say the data in Redis is gone; the fix
+is in the table above): nothing is counted from zero.</li><li><strong>Settings:</strong> signed as in central mode and also encrypted with the storage key in Redis, so whoever can write
 Redis without the key cannot add a token or change a setting: the replicas refuse the copy and put theirs back.
 Each replica also remembers, in its own data folder, the newest version of each shared document it accepted (the
 settings, the access tokens, the setup page's password), and refuses an older copy put back later, also after a
