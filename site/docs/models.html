@@ -33,7 +33,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Choose a model</li></ol></div></nav>
 <article>
 <h1 id="choose-a-model">Choose a model <a class="anchor" href="#choose-a-model" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></details>
 
 <p>Switch models at any time inside the agent:</p>
 <pre><code>/model              pick from a list
@@ -132,7 +132,48 @@ request or the account's default model was used. With the proxy's log on, each r
 <code>github-copilot/auto→claude-sonnet-5@github-copilot</code>. See <a href="proxy.html#see-what-auto-chose">See what auto chose</a>.</li><li><strong>Its limits</strong> are those of the smallest model Copilot may choose for your account, so a long conversation is kept
 to a size every one of them can take.</li><li><strong>It relies on a part of Copilot that GitHub does not document</strong>, the same one GitHub's own editors use. It may
 change without notice. If Copilot does not say which model to use for a request, the proxy uses the model your
-account's automatic selection names by default, so the request still gets an answer.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
+account's automatic selection names by default, so the request still gets an answer.</li></ul>
+<h2 id="copilot-fusion">Copilot Fusion <a class="anchor" href="#copilot-fusion" aria-label="Link to this heading">#</a></h2>
+<p><strong>In plain words.</strong> Copilot Fusion is GitHub Copilot's newer automatic mode. Instead of you picking a model, Copilot
+plans each task: for most tasks one model does the work; for harder ones a model does the work, a second look
+(a review) checks the result, and a stronger model takes over when the review is not satisfied. You pick how hard
+Copilot should try (Standard, High or Max) and Maple carries out Copilot's plan, so it works in Maple Harness and in
+every tool that uses the proxy. Every model that worked on a task, and what it cost, is shown.</p>
+<p><strong>The details.</strong> Each Copilot account lists three more models, when the account has them:</p>
+<div class="tablewrap"><table><thead><tr><th>Model</th><th>What it is</th></tr></thead><tbody><tr><td><code>github-copilot/fusion</code></td><td>Copilot Fusion Standard: the same as Copilot Auto (<code>github-copilot/auto</code> keeps working). Copilot picks one model for each task.</td></tr><tr><td><code>github-copilot/fusion-high</code></td><td>Copilot Fusion High: Copilot plans each task, and picks the models and how hard each should think.</td></tr><tr><td><code>github-copilot/fusion-max</code></td><td>Copilot Fusion Max: as High, with the most capable models.</td></tr></tbody></table></div>
+<p>In the <code>/model</code> list they read <code>Copilot Fusion Standard (github-copilot)</code>, <code>Copilot Fusion High (github-copilot)</code>
+and <code>Copilot Fusion Max (github-copilot)</code>. A tier your account does not have is listed with GitHub's reason (for
+example, a model it needs is not enabled for you), and asking for it says the same.</p>
+<p>How a task is worked, as Copilot plans it:</p>
+<ul><li><strong>Single:</strong> one model does the whole task.</li><li><strong>Cascade:</strong> one model does the task; when it gives its final answer, a review scores the answer from 1 to 5 against
+what you asked, using the commands and results of the task as evidence. A score of 3 or more is accepted and you
+get the answer. Below that, a stronger model takes over from where things stand, with the review's reasons; if its
+answer is not accepted either, a third model repairs the work; after that, the last answer is passed on, marked
+not accepted.</li><li><strong>Critique:</strong> one model drafts the answer, a model from another family critiques it, and the first revises once.</li></ul>
+<p>What you see:</p>
+<ul><li><strong>In Maple Harness</strong>, the status bar shows the turn in progress (for example <code>Copilot Fusion High · cascade ·
+escalation</code>), and when the turn ends, one line tells its story: which model worked on it, each review's score, who
+took over and which answer was used.</li><li><strong>On the setup page</strong>, the Savings card lists every call of today's Fusion turns by tier, part of the turn (solver,
+judge, escalation, repair, critic, revision) and model, with their AI units, and how the turns ended, with each
+turn's pattern.</li><li><strong>In the usage log</strong>, every call is a line of its own, the reviews and the answers not used included, with the
+turn's id, its tier, pattern and Copilot's rule, the call's part in the turn, the review's score and how the turn
+ended (<code>fusion_id</code>, <code>fusion_tier</code>, <code>fusion_pattern</code>, <code>fusion_rule</code>, <code>fusion_phase</code>, <code>fusion_verdict</code>,
+<code>fusion_outcome</code>; see <a href="usage-export.html#the-usage-record-schema">the usage record schema</a>). Group by them with
+<code>maple-proxy usage query --group-by fusion_phase,model</code>.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-copilot-fusion-light.webp" alt="The Savings card on the setup page: Copilot&#x27;s own discount, shown apart from Maple&#x27;s savings (what was charged for requests with a list price, what Copilot took off the list price, and the same requests at the discount set for the sign-in), then Copilot Fusion: every call of its turns, a table of Copilot Fusion High calls by part of the turn (solver and judge on claude-sonnet-5, escalation on claude-opus-5) with their calls and AI units charged, and how two cascade turns ended: one accepted by the review, one where a stronger model&#x27;s answer was used." width="1000" height="725" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-copilot-fusion-dark.webp" alt="The Savings card on the setup page: Copilot&#x27;s own discount, shown apart from Maple&#x27;s savings (what was charged for requests with a list price, what Copilot took off the list price, and the same requests at the discount set for the sign-in), then Copilot Fusion: every call of its turns, a table of Copilot Fusion High calls by part of the turn (solver and judge on claude-sonnet-5, escalation on claude-opus-5) with their calls and AI units charged, and how two cascade turns ended: one accepted by the review, one where a stronger model&#x27;s answer was used." width="1000" height="725" loading="lazy" decoding="async">
+<figcaption>Two Copilot Fusion High turns on the Savings card: one the review accepted, one a stronger model took over. A demo setup with a stand-in Copilot service.</figcaption>
+</figure>
+<ul><li><strong>In the response headers</strong>, <code>X-Maple-Fusion</code> gives each request's place in its turn, and <code>X-Maple-Served-By</code> the
+model that answered it.</li></ul>
+<p>What it costs:</p>
+<ul><li><strong>Every call is billed</strong> by GitHub at that model's own rate, the reviews and the answers not used included, and
+each counts against your budgets like any other request. High and Max can use several models for one task, so a
+task can cost more than with one model. Copilot counts a review as a request of yours, as it does in Copilot's own
+apps.</li><li><strong>Copilot's discount applies</strong>, and is read from what Copilot charged (see <a href="proxy.html#discounts">Discounts</a>).</li><li><strong>Things to know:</strong> a review sees the task's commands and their results, not your files. A model that took over
+continues from the files as they are; nothing a draft changed is undone. Fusion's limits are those of the smallest
+model it may use. Like Copilot Auto, it relies on a part of Copilot that GitHub does not document, which may change
+without notice.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
 What a request costs is recorded as Copilot reports it, like any other model; nothing here says it costs more or
 less than choosing a model yourself.</li></ul>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
@@ -155,7 +196,7 @@ see <a href="saving-tokens.html">See and reduce what a task costs</a>.</p>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>
