@@ -30,7 +30,7 @@ The modules compiled into `maple-harness` and `maple-proxy` on any of the releas
 | `github.com/Azure/azure-sdk-for-go/sdk/internal` | v1.13.0 | MIT |
 | `github.com/AzureAD/microsoft-authentication-library-for-go` | v1.8.0 | MIT |
 | `github.com/alecthomas/chroma/v2` | v2.20.0 | MIT |
-| `github.com/andybalholm/brotli` | v1.1.0 | MIT |
+| `github.com/andybalholm/brotli` | v1.2.7 | MIT |
 | `github.com/atotto/clipboard` | v0.1.4 | BSD-3-Clause |
 | `github.com/aws/aws-sdk-go-v2` | v1.47.3 | Apache-2.0 AND BSD-3-Clause |
 | `github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream` | v1.7.22 | Apache-2.0 |
@@ -76,7 +76,7 @@ The modules compiled into `maple-harness` and `maple-proxy` on any of the releas
 | `github.com/jackc/pgservicefile` | v0.0.0-20240606120523-5a60cdf6a761 | MIT |
 | `github.com/jackc/pgx/v5` | v5.11.0 | MIT |
 | `github.com/jackc/puddle/v2` | v2.2.2 | MIT |
-| `github.com/klauspost/compress` | v1.18.7 | Apache-2.0 AND BSD-3-Clause AND MIT |
+| `github.com/klauspost/compress` | v1.20.2 | Apache-2.0 AND BSD-3-Clause AND MIT |
 | `github.com/kylelemons/godebug` | v1.1.0 | Apache-2.0 |
 | `github.com/lucasb-eyer/go-colorful` | v1.3.0 | MIT |
 | `github.com/mattn/go-isatty` | v0.0.24 | MIT |
@@ -104,14 +104,14 @@ The modules compiled into `maple-harness` and `maple-proxy` on any of the releas
 | `github.com/yuin/goldmark-emoji` | v1.0.6 | MIT |
 | `go.opentelemetry.io/proto/otlp` | v1.11.0 | Apache-2.0 |
 | `go.uber.org/atomic` | v1.12.0 | MIT |
-| `golang.org/x/crypto` | v0.57.0 | BSD-3-Clause |
+| `golang.org/x/crypto` | v0.58.0 | BSD-3-Clause |
 | `golang.org/x/image` | v0.45.0 | BSD-3-Clause |
-| `golang.org/x/net` | v0.60.0 | BSD-3-Clause |
+| `golang.org/x/net` | v0.62.0 | BSD-3-Clause |
 | `golang.org/x/oauth2` | v0.37.0 | BSD-3-Clause |
-| `golang.org/x/sync` | v0.23.0 | BSD-3-Clause |
-| `golang.org/x/sys` | v0.48.0 | BSD-3-Clause |
-| `golang.org/x/term` | v0.46.0 | BSD-3-Clause |
-| `golang.org/x/text` | v0.42.0 | BSD-3-Clause |
+| `golang.org/x/sync` | v0.24.0 | BSD-3-Clause |
+| `golang.org/x/sys` | v0.49.0 | BSD-3-Clause |
+| `golang.org/x/term` | v0.47.0 | BSD-3-Clause |
+| `golang.org/x/text` | v0.43.0 | BSD-3-Clause |
 | `golang.org/x/time` | v0.15.0 | BSD-3-Clause |
 | `google.golang.org/genproto/googleapis/api` | v0.0.0-20260720211330-0afa2a65878a | Apache-2.0 |
 | `google.golang.org/genproto/googleapis/rpc` | v0.0.0-20260720211330-0afa2a65878a | Apache-2.0 |
@@ -541,7 +541,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### github.com/andybalholm/brotli v1.1.0 — MIT
+### github.com/andybalholm/brotli v1.2.7 — MIT
 
 `LICENSE`
 
@@ -4907,7 +4907,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### github.com/klauspost/compress v1.18.7 — Apache-2.0 AND BSD-3-Clause AND MIT
+### github.com/klauspost/compress v1.20.2 — Apache-2.0 AND BSD-3-Clause AND MIT
 
 `LICENSE`
 
@@ -6782,7 +6782,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### golang.org/x/crypto v0.57.0 — BSD-3-Clause
+### golang.org/x/crypto v0.58.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -6904,7 +6904,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/net v0.60.0 — BSD-3-Clause
+### golang.org/x/net v0.62.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -6999,7 +6999,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-### golang.org/x/sync v0.23.0 — BSD-3-Clause
+### golang.org/x/sync v0.24.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7060,7 +7060,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/sys v0.48.0 — BSD-3-Clause
+### golang.org/x/sys v0.49.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7121,7 +7121,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/term v0.46.0 — BSD-3-Clause
+### golang.org/x/term v0.47.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7182,7 +7182,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/text v0.42.0 — BSD-3-Clause
+### golang.org/x/text v0.43.0 — BSD-3-Clause
 
 `LICENSE`
 
