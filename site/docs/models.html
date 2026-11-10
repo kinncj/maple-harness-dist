@@ -146,10 +146,27 @@ and <code>Copilot Fusion Max (github-copilot)</code>. A tier your account does n
 example, a model it needs is not enabled for you), and asking for it says the same.</p>
 <p>How a task is worked, as Copilot plans it:</p>
 <ul><li><strong>Single:</strong> one model does the whole task.</li><li><strong>Cascade:</strong> one model does the task; when it gives its final answer, a review scores the answer from 1 to 5 against
-what you asked, using the commands and results of the task as evidence. A score of 3 or more is accepted and you
-get the answer. Below that, a stronger model takes over from where things stand, with the review's reasons; if its
+what you asked, using the commands and results of the task as evidence, and your files when you let it (see
+below). A score of 3 or more is accepted and you get the answer. Below that, a stronger model takes over from where things stand, with the review's reasons; if its
 answer is not accepted either, a third model repairs the work; after that, the last answer is passed on, marked
 not accepted.</li><li><strong>Critique:</strong> one model drafts the answer, a model from another family critiques it, and the first revises once.</li></ul>
+<p><strong>The review reads your files through your own tool</strong>, as Copilot CLI's review does. It is on by default; untick
+<strong>Let the review read files</strong> when editing the GitHub Copilot provider on the setup page, or set
+<code>fusion_review_reads: off</code> on the sign-in, to keep the review to the task's commands and results:</p>
+<pre><code class="language-yaml">providers:
+  - id: github-copilot
+    type: github-copilot
+    fusion_review_reads: off   # on (the default): the review may read files through your tool</code></pre>
+<p>With it on and read-only tools in your tool (Maple Harness's <code>read_file</code> and <code>grep</code>; Claude Code's Read, Grep,
+Glob and LS; OpenCode's grep and glob), the review may use them, at most 12 calls a review, to open the files the
+answer is about and check what it claims. Its calls come to your tool like any other step, so your tool's permission
+rules and the folders it hides apply as usual. They are the review's, not the agent's: the models that do the task
+are never sent them. Maple Harness marks each one <code>· Copilot Fusion review</code> (and asks about it under that name), and
+lets a review only read, only inside the project, whatever the proxy asks. A tool that offers no read-only tool, or
+a sign-in with the setting off, gets the review as in 2.4.</p>
+<p><strong>Streaming.</strong> A step whose answer nothing will review streams as it comes: every step of a Single turn, and any step
+that calls a tool. Only a final answer a review will score is held until the review has scored it, since what has
+been shown cannot be taken back.</p>
 <p>What you see:</p>
 <ul><li><strong>In Maple Harness</strong>, the status bar shows the turn in progress (for example <code>Copilot Fusion High · cascade ·
 escalation</code>), and when the turn ends, one line tells its story: which model worked on it, each review's score, who
@@ -170,8 +187,9 @@ model that answered it.</li></ul>
 <ul><li><strong>Every call is billed</strong> by GitHub at that model's own rate, the reviews and the answers not used included, and
 each counts against your budgets like any other request. High and Max can use several models for one task, so a
 task can cost more than with one model. Copilot counts a review as a request of yours, as it does in Copilot's own
-apps.</li><li><strong>Copilot's discount applies</strong>, and is read from what Copilot charged (see <a href="proxy.html#discounts">Discounts</a>).</li><li><strong>Things to know:</strong> a review sees the task's commands and their results, not your files. A model that took over
-continues from the files as they are; nothing a draft changed is undone. Fusion's limits are those of the smallest
+apps.</li><li><strong>Copilot's discount applies</strong>, and is read from what Copilot charged (see <a href="proxy.html#discounts">Discounts</a>).</li><li><strong>Things to know:</strong> with <code>fusion_review_reads</code> off, or a tool with no read-only tools, a review sees the task's
+commands and their results, not your files. A model that took over continues from the files as they are; nothing a draft changed is undone (Copilot's
+own apps work the same way: the model that takes over is given the review's reasons and fixes what needs fixing). Fusion's limits are those of the smallest
 model it may use. Like Copilot Auto, it relies on a part of Copilot that GitHub does not document, which may change
 without notice. If Copilot cannot plan a task (it refuses, or answers in a way Maple cannot carry out), the task
 goes through Copilot Auto instead of failing and is billed as Copilot Auto. It says so everywhere: Maple Harness's
