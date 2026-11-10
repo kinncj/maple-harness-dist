@@ -173,7 +173,11 @@ task can cost more than with one model. Copilot counts a review as a request of 
 apps.</li><li><strong>Copilot's discount applies</strong>, and is read from what Copilot charged (see <a href="proxy.html#discounts">Discounts</a>).</li><li><strong>Things to know:</strong> a review sees the task's commands and their results, not your files. A model that took over
 continues from the files as they are; nothing a draft changed is undone. Fusion's limits are those of the smallest
 model it may use. Like Copilot Auto, it relies on a part of Copilot that GitHub does not document, which may change
-without notice.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
+without notice. If Copilot cannot plan a task (it refuses, or answers in a way Maple cannot carry out), the task
+goes through Copilot Auto instead of failing and is billed as Copilot Auto. It says so everywhere: Maple Harness's
+story of the turn ("Copilot could not plan it, so Copilot Auto answered"), the usage log (<code>fusion_phase</code> and
+<code>fusion_outcome</code> are <code>fallback</code>), the setup page, and <code>X-Maple-Router</code> ("in place of Copilot Fusion High, because
+…"). Maple asks for a plan again after ten minutes.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
 What a request costs is recorded as Copilot reports it, like any other model; nothing here says it costs more or
 less than choosing a model yourself.</li></ul>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>

@@ -150,15 +150,15 @@
     },
     "fusion_outcome": {
       "type": "string",
-      "description": "On the turn's last request: accepted (the review accepted the first answer), escalated (a stronger model's answer was used), repaired (the repair model's was), revised (critique: the revised answer was used), not_accepted (no answer passed the review; the last was used) or done (a Single turn: one model did the task). May be left out; absent means not the turn's last request. Added in schema version 8: lines written before it do not have it."
+      "description": "On the turn's last request: accepted (the review accepted the first answer), escalated (a stronger model's answer was used), repaired (the repair model's was), revised (critique: the revised answer was used), not_accepted (no answer passed the review; the last was used) or done (a Single turn: one model did the task); or fallback: Copilot could not plan the turn, and Copilot Auto's answer was used. May be left out; absent means not the turn's last request. Added in schema version 8: lines written before it do not have it."
     },
     "fusion_pattern": {
       "type": "string",
-      "description": "How Copilot's plan worked the turn: single (one model), cascade (a solver, then a read-only judge, and a stronger model if the judge rejects) or critique (a draft, critics, then one revision). May be left out; absent means not a Copilot Fusion request. Added in schema version 8: lines written before it do not have it."
+      "description": "How Copilot's plan worked the turn: single (one model), cascade (a solver, then a read-only judge, and a stronger model if the judge rejects) or critique (a draft, critics, then one revision); auto when Copilot could not plan the turn and Copilot Auto served it. May be left out; absent means not a Copilot Fusion request. Added in schema version 8: lines written before it do not have it."
     },
     "fusion_phase": {
       "type": "string",
-      "description": "The request's part in the turn: solver, judge, escalation, repair, critic or revision. May be left out; absent means not a Copilot Fusion request. Added in schema version 8: lines written before it do not have it."
+      "description": "The request's part in the turn: solver, judge, escalation, repair, critic or revision, or fallback (Copilot could not plan the turn, and Copilot Auto served it). May be left out; absent means not a Copilot Fusion request. Added in schema version 8: lines written before it do not have it."
     },
     "fusion_rule": {
       "type": "string",
