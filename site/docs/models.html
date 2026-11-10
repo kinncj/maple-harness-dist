@@ -170,7 +170,14 @@ been shown cannot be taken back.</p>
 <p>What you see:</p>
 <ul><li><strong>In Maple Harness</strong>, the status bar shows the turn in progress (for example <code>Copilot Fusion High · cascade ·
 escalation</code>), and when the turn ends, one line tells its story: which model worked on it, each review's score, who
-took over and which answer was used.</li><li><strong>On the setup page</strong>, the Savings card lists every call of today's Fusion turns by tier, part of the turn (solver,
+took over and which answer was used, and when one of Maple Harness's own checks asked for another round ("reopened
+by Maple Harness's build check"). Then its receipt: what the work, the reviews and any answers not used were billed
+(as Copilot stated), about how many premium requests the turn took (estimated: the calls Copilot was told you
+started, which is what it counts) and which files the review read. For example: <em>Billed 5.16 AI units for the work,
+2.67 for reviews (as Copilot stated); about 4 premium request(s) (estimated). The review read index.html (×2),
+tests/dungeon.test.mjs.</em></li><li><strong>A budget per turn</strong>, if you want one: <code>harness.fusion_turn_budget: 10</code> finishes any Copilot Fusion High or Max
+turn that passes 10 AI units on Copilot Fusion Standard, and says so. Off by default.</li><li><strong>On the setup page</strong>, the Savings card sums up each tier (how its turns ended, the reviews' share of what it was
+billed, measured, and its premium requests, estimated) and lists every call of today's Fusion turns by tier, part of the turn (solver,
 judge, escalation, repair, critic, revision) and model, with their AI units, and how the turns ended, with each
 turn's pattern.</li><li><strong>In the usage log</strong>, every call is a line of its own, the reviews and the answers not used included, with the
 turn's id, its tier, pattern and Copilot's rule, the call's part in the turn, the review's score and how the turn
