@@ -331,7 +331,7 @@ no asset named $asset in release $Version of $Repo.
         }
         if (-not ($f['key'] -and $f['tag'] -and $f['sig'])) { Fail 'SHA256SUMS.sig is incomplete. Nothing has been installed.' }
         if ($Version -ne 'latest' -and $f['tag'] -ne $Version) {
-            Fail "the signature is for release $($f['tag']), not $Version: it was moved from another release. Nothing has been installed."
+            Fail "the signature is for release $($f['tag']), not ${Version}: it was moved from another release. Nothing has been installed."
         }
 
         $ring = Resolve-Setting '' 'MAPLEHARNESS_RELEASE_KEYS' $DefaultReleaseKeys
