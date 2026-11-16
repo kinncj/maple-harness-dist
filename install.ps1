@@ -75,6 +75,16 @@ function Write-Banner {
 function Write-Step { param([string]$Message) Write-Host "-> $Message" }
 function Write-Info { param([string]$Message) Write-Host "   $Message" }
 
+# Windows PowerShell 5.1 turns anything a native program writes to stderr into an error record, and
+# $ErrorActionPreference = 'Stop' makes that fatal: a gh that is not signed in, or that prints an update
+# notice, stopped the installer. Native programs run with 'Continue' and are judged by their exit code.
+function Invoke-Native {
+    param([scriptblock]$Command)
+    $saved = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try { & $Command } finally { $ErrorActionPreference = $saved }
+}
+
 function Fail {
     param([string]$Message)
     Write-Host ''
@@ -157,7 +167,7 @@ if ($hostArch -and $hostArch -notmatch '^(AMD64|x86)$') {
 # credential means is explained at the failed download, not before it.
 $UseGh = $false
 if (Get-Command gh -ErrorAction SilentlyContinue) {
-    & gh auth status *> $null
+    Invoke-Native { & gh auth status *> $null }
     $UseGh = ($LASTEXITCODE -eq 0)
 }
 
@@ -185,9 +195,9 @@ function Get-Asset {
 
     if ($UseGh) {
         if ($Version -eq 'latest') {
-            & gh release download --repo $Repo --pattern $Name --output $Destination --clobber 2>$null
+            Invoke-Native { & gh release download --repo $Repo --pattern $Name --output $Destination --clobber 2>$null }
         } else {
-            & gh release download $Version --repo $Repo --pattern $Name --output $Destination --clobber 2>$null
+            Invoke-Native { & gh release download $Version --repo $Repo --pattern $Name --output $Destination --clobber 2>$null }
         }
         if ($LASTEXITCODE -eq 0) { return }
     }
@@ -312,12 +322,12 @@ could not download $asset from release $Version of $Repo.
             $d = Join-Path $Tmp ('probe-' + [Guid]::NewGuid().ToString('N'))
             New-Item -ItemType Directory -Path $d | Out-Null
             try {
-                & $c genpkey -algorithm ed25519 -out (Join-Path $d 'k.pem') *> $null
+                Invoke-Native { & $c genpkey -algorithm ed25519 -out (Join-Path $d 'k.pem') *> $null }
                 if ($LASTEXITCODE -ne 0) { continue }
                 [IO.File]::WriteAllBytes((Join-Path $d 'm'), [byte[]](120))
-                & $c pkeyutl -sign -inkey (Join-Path $d 'k.pem') -rawin -in (Join-Path $d 'm') -out (Join-Path $d 's') *> $null
+                Invoke-Native { & $c pkeyutl -sign -inkey (Join-Path $d 'k.pem') -rawin -in (Join-Path $d 'm') -out (Join-Path $d 's') *> $null }
                 if ($LASTEXITCODE -ne 0) { continue }
-                & $c pkeyutl -verify -inkey (Join-Path $d 'k.pem') -rawin -in (Join-Path $d 'm') -sigfile (Join-Path $d 's') *> $null
+                Invoke-Native { & $c pkeyutl -verify -inkey (Join-Path $d 'k.pem') -rawin -in (Join-Path $d 'm') -sigfile (Join-Path $d 's') *> $null }
                 if ($LASTEXITCODE -eq 0) { return $c }
             } finally { Remove-Item -Recurse -Force $d -ErrorAction SilentlyContinue }
         }
@@ -373,7 +383,7 @@ this installer has no release key yet (it carries a placeholder), so it cannot v
             $pem = "-----BEGIN PUBLIC KEY-----`n" + [Convert]::ToBase64String($der) + "`n-----END PUBLIC KEY-----`n"
             $pemPath = Join-Path $Tmp 'pub.pem'
             [IO.File]::WriteAllText($pemPath, $pem)
-            & $ossl pkeyutl -verify -pubin -inkey $pemPath -rawin -in $msg -sigfile $sigBin *> $null
+            Invoke-Native { & $ossl pkeyutl -verify -pubin -inkey $pemPath -rawin -in $msg -sigfile $sigBin *> $null }
             if ($LASTEXITCODE -ne 0) {
                 Fail "the signature on SHA256SUMS does NOT match. The release was altered after it was signed, or is not genuine.`n`n  Nothing has been installed. Do not use these files."
             }
@@ -383,7 +393,7 @@ this installer has no release key yet (it carries a placeholder), so it cannot v
             # downloaded cannot vouch for itself.
             $existing = Join-Path $InstallLocation 'maple-harness.exe'
             if (Test-Path -LiteralPath $existing) {
-                & $existing update --verify-release $sumsPath --sig $sigPath --version $f['tag'] *> $null
+                Invoke-Native { & $existing update --verify-release $sumsPath --sig $sigPath --version $f['tag'] *> $null }
                 if ($LASTEXITCODE -ne 0) { Fail 'the installed maple-harness rejected the signature on SHA256SUMS. Nothing has been installed.' }
                 $keyName = "$keyName (via the installed maple-harness)"
                 $signed = $true
@@ -485,7 +495,7 @@ checksum mismatch for $asset.
         $dest = Join-Path $InstallLocation "$bin.exe"
         $reported = 'installed'
         try {
-            $out = & $dest version 2>$null
+            $out = Invoke-Native { & $dest version 2>$null }
             if ($out) { $reported = ($out | Select-Object -First 1) }
         } catch {
             # A binary that will not run is still installed; `version` is a
