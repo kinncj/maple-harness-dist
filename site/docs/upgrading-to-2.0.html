@@ -33,16 +33,16 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Upgrading to 2.0</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-inside.html">Get started</a></li><li aria-current="page">Upgrading to 2.0</li></ol></div></nav>
 <article>
 <h1 id="upgrading-to-20">Upgrading to 2.0 <a class="anchor" href="#upgrading-to-20" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-118-or-117">Going back to 1.18 or 1.17</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-1x">Going back to 1.x</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></details>
 
 <p>If you use Maple Harness on your own machine, upgrading to 2.0 asks nothing of you: update, restart the proxy, and
 carry on. The team, hub and container features are new, but they stay out of the way until you set them up.</p>
-<p>This page says what keeps working, what is new and on, what is new and off, what changed, how to go back to 1.18 or
-1.17 if you need to, and what 2.0 does not do yet.</p>
+<p>This page says what keeps working, what is new and on, what is new and off, what changed, that going back to 1.x is
+no longer possible, and what 2.0 does not do yet.</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>On one computer, nothing to do.</strong> Update, restart the proxy, carry on. Your settings, sign-ins, tokens,
 sessions and usage history keep working.</li><li><strong>New things stay out of the way.</strong> Teams, hubs and containers only appear once you set them up.</li><li><strong>The setup page looks different.</strong> Its tabs now sit in two groups, <strong>Watch</strong> and <strong>Configure</strong> (from 2.2), and
-a <strong>Find a setting</strong> box finds any setting by a word. Old links and bookmarks keep going to the right place.</li><li><strong>Going back</strong> to 1.18 or 1.17 is possible; the steps are below.</li></ul>
+a <strong>Find a setting</strong> box finds any setting by a word. Old links and bookmarks keep going to the right place.</li><li><strong>Going back</strong> to 1.x is no longer possible: releases before 2.0.0 are no longer published.</li></ul>
 <figure>
 <img class="shot shot-light" src="../img/docs/setup-find-light.webp" alt="The setup page menu in two groups, Watch and Configure, with the word listen typed into Find a setting and a list of matching settings, each with the tab it is on." width="1000" height="455" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-find-dark.webp" alt="The setup page menu in two groups, Watch and Configure, with the word listen typed into Find a setting and a list of matching settings, each with the tab it is on." width="1000" height="455" loading="lazy" decoding="async">
 <figcaption>The 2.2 menu, with Find a setting. A demo setup with stand-in model services.</figcaption>
@@ -108,22 +108,10 @@ replicas.</p>
 relies on what its hub offers (the hub endpoints and the details a hub reads about who asked), so the hub needs to
 have them first. A proxy on 2.0 cannot chain to a hub that is still on 1.x at all: 1.x has none of the hub
 endpoints, and <code>maple-proxy chain status</code> says the hub does not serve chained proxies.</p>
-<h2 id="going-back-to-118-or-117">Going back to 1.18 or 1.17 <a class="anchor" href="#going-back-to-118-or-117" aria-label="Link to this heading">#</a></h2>
-<p>If you need to, install the older release over 2.0. On macOS and Linux:</p>
-<pre><code class="language-sh">MAPLEHARNESS_VERSION=v1.18.0 curl -fsSL https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.sh | bash</code></pre>
-<p>On Windows, in PowerShell:</p>
-<pre><code class="language-powershell">$env:MAPLEHARNESS_VERSION = 'v1.18.0'; irm https://raw.githubusercontent.com/kinncj/maple-harness-dist/main/install.ps1 | iex</code></pre>
-<p>We tested going back to 1.18 and to 1.17 on the files 2.0 left, after using 2.0 with people, a team, budgets, alerts,
-health, a chain token and an MCP hub token. What we saw:</p>
-<ul><li><strong>It starts and works, with no crash.</strong> Routing, aliases, fallbacks, account fallback, budgets, provider keys,
-older tokens and their scopes, paired devices and saved sessions behave as they did before 2.0.</li><li><strong>What 1.x does not know, it ignores:</strong> people, teams, default accounts and the self view; alerts; provider health
-and health failover; the MCP hub; chaining; and central mode. While you are on 1.x, <strong>per-person budgets, model
-lists and accounts are not enforced</strong>, requests are not attributed to a person, and no alert fires.</li><li><strong>Your 2.0 settings are kept.</strong> Saving a setting on the 1.18 setup page keeps the <code>people:</code>, <code>teams:</code> and
-<code>alerts:</code> blocks in <code>config.yaml</code>, so they apply again when you return to 2.0.</li><li><strong>Tokens.</strong> 1.x lists the tokens made on 2.0. A token with only the <code>mcp-hub</code> scope opens nothing on 1.x. A
-<code>proxy-chain</code> token works there as an ordinary proxy token, and stays bound to its proxy for when you return
-to 2.0.</li><li><strong>Usage.</strong> 1.17 and 1.18 read the usage lines 2.0 wrote, in exports and in their DuckDB views, without the new
-columns.</li></ul>
-<p>See also <a href="teams.html#going-back-to-an-older-version">Going back to an older version</a> on the Teams page.</p>
+<h2 id="going-back-to-1x">Going back to 1.x <a class="anchor" href="#going-back-to-1x" aria-label="Link to this heading">#</a></h2>
+<p>Releases before 2.0.0 are no longer published, so the installers cannot install 1.18, 1.17 or any other 1.x
+release. To go back to an earlier version, install an earlier 2.x release, for example
+<code>MAPLEHARNESS_VERSION=v2.6.2</code> (the <a href="install.html">install page</a> shows how).</p>
 <h2 id="known-limitations-in-20">Known limitations in 2.0 <a class="anchor" href="#known-limitations-in-20" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>The setup page's live view</strong> is limited to eight open views per proxy; past that, a tab refreshes every few
 seconds instead. With several replicas, "in flight" counts the replica serving the page, and the others' requests
@@ -145,7 +133,7 @@ is back (the log says how many lines);</li><li>a single Redis (or one with a sta
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-118-or-117">Going back to 1.18 or 1.17</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#nothing-to-do">Nothing to do</a></li><li><a href="#new-and-on-by-default">New, and on by default</a></li><li><a href="#new-and-off-until-you-turn-it-on">New, and off until you turn it on</a></li><li><a href="#what-changed">What changed</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#going-back-to-1x">Going back to 1.x</a></li><li><a href="#known-limitations-in-20">Known limitations in 2.0</a></li><li><a href="#related">Related</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>

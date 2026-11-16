@@ -100,7 +100,8 @@ Environment:
   MAPLEHARNESS_BIN_DIR   install directory
   MAPLEHARNESS_REPO      owner/repo to install from
   MAPLEHARNESS_RELEASE_KEYS  trusted release keys (name=base64, comma separated)
-  GITHUB_TOKEN            required (or GH_TOKEN, or an authenticated gh)
+  GITHUB_TOKEN            optional (or GH_TOKEN, or an authenticated gh);
+                          only needed for a private repository
 "@
 }
 
@@ -257,11 +258,16 @@ try {
         try {
             Get-Asset -Name $asset -Destination $path
         } catch {
+            $why = $_.Exception.Message
             Fail @"
-no asset named $asset in release $Version of $Repo.
+could not download $asset from release $Version of $Repo.
 
-  Either the release predates this installer's binary names, or the release is
-  still publishing. List what it does have:
+  The error was: $why
+
+  If that is a network, proxy or TLS error, the download itself failed: check
+  that this machine can reach github.com and release-assets.githubusercontent.com
+  (the address GitHub sends release downloads to). If it is a 404, the release
+  does not have this file, or it is still publishing. List what it does have:
 
     gh release view $Version --repo $Repo$(Get-NoCredentialHint)
 "@
