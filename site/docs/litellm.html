@@ -70,7 +70,9 @@ preview a figure, labelled as yours.</p>
 <p>A tool set up for a LiteLLM gateway sends the gateway's key in the <code>x-litellm-api-key</code> header (for Claude Code, through
 <code>ANTHROPIC_CUSTOM_HEADERS</code>). The Maple proxy reads its access token from that header too, ahead of <code>Authorization</code>,
 so such a tool needs only its address changed and a Maple access token in place of the LiteLLM key. On this machine
-the proxy needs no token at all.</p>
+the proxy needs no token unless people are set up; a token sent there in <code>x-litellm-api-key</code> names the person, and a
+wrong one is refused, as in <code>Authorization</code>. LiteLLM's <code>x-litellm-tags</code> is read as the request's tags (the usage
+log's <code>tags</code> column) when <code>X-Maple-Tags</code> is absent.</p>
 <h2 id="litellm-in-front-of-maple">LiteLLM in front of Maple <a class="anchor" href="#litellm-in-front-of-maple" aria-label="Link to this heading">#</a></h2>
 <p>In LiteLLM's <code>config.yaml</code>, add a model whose <code>api_base</code> is the Maple proxy. Use LiteLLM's <code>openai/</code> prefix with
 the name the Maple proxy serves:</p>
