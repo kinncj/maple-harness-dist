@@ -33,7 +33,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">Use it with LiteLLM</li></ol></div></nav>
 <article>
 <h1 id="use-it-with-litellm">Use it with LiteLLM <a class="anchor" href="#use-it-with-litellm" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></details>
 
 <p><a href="https://docs.litellm.ai" rel="noopener noreferrer">LiteLLM</a> is a gateway many teams already run in front of their model accounts. The Maple
 proxy works with it in both directions: it can use a LiteLLM gateway as one of its providers, and a LiteLLM gateway
@@ -66,6 +66,11 @@ and the usage log. Its requests show <code>team-litellm</code> in the usage log'
 <p><strong>What Maple sees of the cost.</strong> LiteLLM keeps its own spend records; Maple's usage log has each request's tokens,
 not what LiteLLM charged for it. A <a href="proxy.html#prices-for-each-model">price set on the model</a> gives Maple's cost
 preview a figure, labelled as yours.</p>
+<h2 id="moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple <a class="anchor" href="#moving-a-client-from-litellm-to-maple" aria-label="Link to this heading">#</a></h2>
+<p>A tool set up for a LiteLLM gateway sends the gateway's key in the <code>x-litellm-api-key</code> header (for Claude Code, through
+<code>ANTHROPIC_CUSTOM_HEADERS</code>). The Maple proxy reads its access token from that header too, ahead of <code>Authorization</code>,
+so such a tool needs only its address changed and a Maple access token in place of the LiteLLM key. On this machine
+the proxy needs no token at all.</p>
 <h2 id="litellm-in-front-of-maple">LiteLLM in front of Maple <a class="anchor" href="#litellm-in-front-of-maple" aria-label="Link to this heading">#</a></h2>
 <p>In LiteLLM's <code>config.yaml</code>, add a model whose <code>api_base</code> is the Maple proxy. Use LiteLLM's <code>openai/</code> prefix with
 the name the Maple proxy serves:</p>
@@ -89,7 +94,7 @@ prefix pointed at Maple's Anthropic-compatible address has not been tested.</li>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>
