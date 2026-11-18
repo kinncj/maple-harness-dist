@@ -33,7 +33,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">Drive it from another program</li></ol></div></nav>
 <article>
 <h1 id="drive-it-from-another-program">Drive it from another program <a class="anchor" href="#drive-it-from-another-program" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#start-it">Start it</a></li><li><a href="#commands">Commands</a></li><li><a href="#events">Events</a></li><li><a href="#a-permission-question">A permission question</a></li><li><a href="#what-it-is-not">What it is not</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#start-it">Start it</a></li><li><a href="#commands">Commands</a></li><li><a href="#events">Events</a></li><li><a href="#a-permission-question">A permission question</a></li><li><a href="#launch-it-from-another-program">Launch it from another program</a></li><li><a href="#what-it-is-not">What it is not</a></li></ol></details>
 
 <p><code>maple-harness --rpc</code> reads commands from another process instead of a person, and writes back everything that
 process needs to follow along: the model's own output, tool calls and results, questions that need an answer, and
@@ -83,6 +83,18 @@ mode control (ask/auto/yolo) govern — is not decided for you. It arrives as an
 <pre><code class="language-json">{"cmd": "permission_answer", "request_id": "a1b2c3", "allow": true}</code></pre>
 <p>and a <code>permission_resolved</code> event confirms it, with <code>allow</code> and <code>always</code>. There is no timeout on a question left
 unanswered — the tool call waits, exactly as it would for a person at a terminal.</p>
+<h2 id="launch-it-from-another-program">Launch it from another program <a class="anchor" href="#launch-it-from-another-program" aria-label="Link to this heading">#</a></h2>
+<p>A program that opens the harness in a terminal pane for a person (an orchestrator, an editor, a script that sets up
+a task) can use these instead of the pipe above:</p>
+<ul><li><strong>Start with a task.</strong> <code>maple-harness --message "implement story 12"</code> (or the text after the flags) starts the
+interface with that as the first message, as if typed. From a script, use <code>--message "$TASK"</code>: text after the flags
+that starts with <code>-</code> is read as a flag, and a single word that names a command runs the command. Add <code>--yolo</code> for
+a run that should not stop to ask.</li><li><strong>Find and resume sessions.</strong> <code>maple-harness sessions list --json</code> lists saved sessions (name, folder, title,
+times, messages, tool calls, tokens, and the command line that resumes each); <code>sessions show &lt;name&gt; --json</code> adds
+the transcript, with each tool call's arguments and each result (file contents and command output included). Both carry <code>"schema": 1</code>, which changes only if a field is
+removed or changes meaning. Resume with <code>maple-harness --session &lt;name&gt;</code>.</li><li><strong>Project rules.</strong> Hooks in a project's <code>.claude/settings.json</code>, written for Claude Code, run here too, after the
+person trusts the project; see <a href="configuration.html#hook-files">Hook files</a>.</li><li><strong>See its state.</strong> In <a href="herdr.html">herdr</a>, the pane shows whether the session is working, waiting for approval or
+idle; anywhere, the window title says the same.</li></ul>
 <h2 id="what-it-is-not">What it is not <a class="anchor" href="#what-it-is-not" aria-label="Link to this heading">#</a></h2>
 <p>This is a local pipe between a parent process and the child it started — there is no listening address and no
 token, because whoever can write to this process's stdin already has everything a shell here would give them. If
@@ -94,7 +106,7 @@ is a different feature with its own, separate authentication.</p>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#start-it">Start it</a></li><li><a href="#commands">Commands</a></li><li><a href="#events">Events</a></li><li><a href="#a-permission-question">A permission question</a></li><li><a href="#what-it-is-not">What it is not</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#start-it">Start it</a></li><li><a href="#commands">Commands</a></li><li><a href="#events">Events</a></li><li><a href="#a-permission-question">A permission question</a></li><li><a href="#launch-it-from-another-program">Launch it from another program</a></li><li><a href="#what-it-is-not">What it is not</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>
