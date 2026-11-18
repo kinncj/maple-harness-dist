@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>What the proxy adds for other tools · Maple Harness docs</title>
-<meta name="description" content="Claude Code, OpenCode, pi, GitHub Copilot CLI and Hermes can send their requests through the Maple proxy instead of straight to a provider. Use your models from other tools has a tested setup for each">
+<meta name="description" content="Claude Code, OpenCode, pi, GitHub Copilot CLI, Hermes and Codex CLI can send their requests through the Maple proxy instead of straight to a provider. Use your models from other tools has a tested set">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
@@ -35,27 +35,27 @@
 <h1 id="what-the-proxy-adds-for-other-tools">What the proxy adds for other tools <a class="anchor" href="#what-the-proxy-adds-for-other-tools" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#at-a-glance">At a glance</a></li><li><a href="#one-address-for-many-models">One address for many models</a></li><li><a href="#keeps-going-when-an-account-runs-out">Keeps going when an account runs out</a></li><li><a href="#budgets">Budgets</a></li><li><a href="#see-what-each-tool-spends">See what each tool spends</a></li><li><a href="#prompt-cache">Prompt cache</a></li><li><a href="#settings-you-can-turn-on">Settings you can turn on</a></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#what-stays-in-maple-harness">What stays in Maple Harness</a></li><li><a href="#measure-it-yourself">Measure it yourself</a></li></ol></details>
 
-<p>Claude Code, OpenCode, pi, GitHub Copilot CLI and Hermes can send their requests through the Maple proxy instead of
+<p>Claude Code, OpenCode, pi, GitHub Copilot CLI, Hermes and Codex CLI can send their requests through the Maple proxy instead of
 straight to a provider. <a href="endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a> has a tested
 setup for each. This page says what they get from it, and what stays in Maple Harness.</p>
 <p>Other tools that speak the OpenAI or Anthropic API can use the same addresses. There is no tested setup for them
 here.</p>
 <p>Everything below describes what the proxy does. Nothing here is a promise about your bill.</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
-<ul><li><strong>What it is.</strong> Claude Code, OpenCode, pi, Copilot CLI and Hermes can send their requests through the Maple
+<ul><li><strong>What it is.</strong> Claude Code, OpenCode, pi, Copilot CLI, Hermes and Codex can send their requests through the Maple
 proxy instead of straight to a provider.</li><li><strong>Why you want it.</strong> They get every model the proxy serves, its fallbacks when an account runs out, its budgets,
 and their usage on the same charts as Maple's.</li><li><strong>What to do.</strong> Point the tool at the proxy's address (the setup page's header shows both); the tested lines for
 each tool are in <a href="endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a>.</li></ul>
 <h2 id="at-a-glance">At a glance <a class="anchor" href="#at-a-glance" aria-label="Link to this heading">#</a></h2>
 <p>What each tool sent was checked with Claude Code 2.1.284, OpenCode 1.18.33, pi 0.87.1, Copilot CLI 1.0.89 and
-Hermes Agent 0.19.0. Other versions may send different headers or cache marks.</p>
-<div class="tablewrap"><table><thead><tr><th></th><th>Claude Code</th><th>OpenCode</th><th>pi</th><th>Copilot CLI</th><th>Hermes</th></tr></thead><tbody><tr><td>Every model the proxy serves</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Aliases, fallbacks, budgets</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td></tr><tr><td><code>auto</code>, <code>auto-heavy</code>, <code>auto-medium</code>, <code>auto-light</code></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Usage log, Cache and Savings cards</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Its name in the usage log's <code>agent</code> column</td><td><code>claude-code</code></td><td><code>opencode</code></td><td><code>other</code></td><td><code>other</code></td><td><code>other</code></td></tr><tr><td>Sessions card</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td>Cache marks for Claude models</td><td>Its own, and the proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td></tr><tr><td>Prefix stabiliser</td><td>Left alone</td><td>On by default</td><td>On by default</td><td>On by default</td><td>On by default</td></tr><tr><td>Image shrinking, snapshot trimming</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td></tr><tr><td>Response cache</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr></tbody></table></div>
+Hermes Agent 0.19.0; Codex CLI 0.170.0 was checked for tool calls, streaming and the usage log. Other versions may send different headers or cache marks.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>Claude Code</th><th>OpenCode</th><th>pi</th><th>Copilot CLI</th><th>Hermes</th><th>Codex</th></tr></thead><tbody><tr><td>Every model the proxy serves</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Aliases, fallbacks, budgets</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td><td>Once you set them</td></tr><tr><td><code>auto</code>, <code>auto-heavy</code>, <code>auto-medium</code>, <code>auto-light</code></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Usage log, Cache and Savings cards</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Its name in the usage log's <code>agent</code> column</td><td><code>claude-code</code></td><td><code>opencode</code></td><td><code>other</code></td><td><code>other</code></td><td><code>other</code></td><td><code>codex</code></td></tr><tr><td>Sessions card</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td>Cache marks for Claude models</td><td>Its own, and the proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td><td>The proxy's</td></tr><tr><td>Prefix stabiliser</td><td>Left alone</td><td>On by default</td><td>On by default</td><td>On by default</td><td>On by default</td><td>On by default</td></tr><tr><td>Image shrinking, snapshot trimming</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td><td>Once you turn them on</td></tr><tr><td>Response cache</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr></tbody></table></div>
 <p>Each row is explained below.</p>
 <h2 id="one-address-for-many-models">One address for many models <a class="anchor" href="#one-address-for-many-models" aria-label="Link to this heading">#</a></h2>
 <p>The tool asks for a model by name, and the proxy sends the request to whichever provider serves it: your GitHub
 Copilot account, an Anthropic account, or a model server such as Ollama, LM Studio or oMLX. The proxy translates
 between the two APIs in both directions. Claude Code, which speaks the Anthropic API, can use a Copilot model or a
-local one. OpenCode, pi, Copilot CLI and Hermes, which speak the OpenAI API, can use a Claude model from an Anthropic
+local one. OpenCode, pi, Copilot CLI, Hermes and Codex, which speak the OpenAI API, can use a Claude model from an Anthropic
 account.</p>
 <p>Give the tool a name the proxy lists (<code>curl http://127.0.0.1:11535/v1/models</code>), or an alias from <code>model_aliases</code>. You
 can then change which model an alias means without touching the tool. See <a href="proxy.html#model-aliases">Model aliases</a>.</p>
@@ -87,8 +87,8 @@ tokens in and out, tokens read from and written to the cache, AI units when the 
 cost and savings columns. The log keeps counts and labels, never prompts or answers. You can query it with DuckDB,
 or export it to CSV or Parquet (<a href="usage-export.html">Your usage data</a>).</p>
 <p>To tell tools apart:</p>
-<ul><li><strong><code>agent</code></strong> is taken from the tool's User-Agent. Claude Code shows as <code>claude-code</code> and OpenCode as <code>opencode</code>. pi,
-Copilot CLI and Hermes show as <code>other</code>.</li><li><strong><code>client</code></strong> is the label of the access token a tool used. That is the reliable way to separate tools on other
+<ul><li><strong><code>agent</code></strong> is taken from the tool's User-Agent. Claude Code shows as <code>claude-code</code>, OpenCode as <code>opencode</code> and Codex as <code>codex</code>.
+pi, Copilot CLI and Hermes show as <code>other</code>.</li><li><strong><code>client</code></strong> is the label of the access token a tool used. That is the reliable way to separate tools on other
 machines, or two tools that both show as <code>other</code>: give each one its own token.</li></ul>
 <p>The <strong>Cache</strong> card (hit rate and cache tokens, per model and per client) and the <strong>Savings</strong> card (what the proxy's
 own settings saved and cost, each figure marked measured or estimated) include these tools' requests. The
@@ -97,7 +97,7 @@ own settings saved and cost, each figure marked measured or estimated) include t
 <p>Providers charge less for the start of a request they have already seen. For Claude models, reached through an
 Anthropic account or through Copilot, the provider caches only the parts of a request that are marked for caching.
 The proxy marks them (<code>prompt_cache</code>, on by default):</p>
-<ul><li><strong>Claude Code</strong> marks its own system prompt. The proxy keeps those marks and marks the conversation too.</li><li><strong>OpenCode, pi, Copilot CLI and Hermes</strong>, on the OpenAI-compatible address, get the proxy's marks.</li></ul>
+<ul><li><strong>Claude Code</strong> marks its own system prompt. The proxy keeps those marks and marks the conversation too.</li><li><strong>OpenCode, pi, Copilot CLI, Hermes and Codex</strong>, on the OpenAI-compatible address, get the proxy's marks.</li></ul>
 <p>The <strong>prefix stabiliser</strong> (<code>prefix_stabilizer</code>, on by default) keeps the start of each request the same from turn to
 turn, so a provider's cache can keep matching it. It works with any provider, and each response that it changed
 carries <code>X-Maple-Prefix-Stabilized</code>. It leaves a request alone when the tool marks its own cache points, so it does

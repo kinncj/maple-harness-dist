@@ -33,7 +33,7 @@
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-inside.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div></nav>
 <article>
 <h1 id="connect-a-model-server">Connect a model server <a class="anchor" href="#connect-a-model-server" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#codex-cli">Codex CLI</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></details>
 
 <p>Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio,
 vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editing the
@@ -97,7 +97,7 @@ goes to it.</li></ul>
 <p>Any tool that speaks the OpenAI or Anthropic API can use the proxy. For what a tool gains from it (every model the
 proxy serves, fallbacks, budgets, the usage log and prompt caching) and what stays in Maple Harness, see
 <a href="other-tools.html">What the proxy adds for other tools</a>. Point it at the proxy's addresses:</p>
-<div class="tablewrap"><table><thead><tr><th>API</th><th>Address</th><th>Path</th></tr></thead><tbody><tr><td>OpenAI-compatible</td><td><code>http://127.0.0.1:11535/v1</code></td><td>give it <strong>with</strong> <code>/v1</code></td></tr><tr><td>Anthropic-compatible</td><td><code>http://127.0.0.1:11537</code></td><td>give it <strong>without</strong> <code>/v1</code>: the tool adds it</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>API</th><th>Address</th><th>Path</th></tr></thead><tbody><tr><td>OpenAI-compatible (chat completions and the Responses API)</td><td><code>http://127.0.0.1:11535/v1</code></td><td>give it <strong>with</strong> <code>/v1</code></td></tr><tr><td>Anthropic-compatible</td><td><code>http://127.0.0.1:11537</code></td><td>give it <strong>without</strong> <code>/v1</code>: the tool adds it</td></tr></tbody></table></div>
 <pre><code class="language-sh"># anything OpenAI-compatible
 OPENAI_BASE_URL=http://127.0.0.1:11535/v1</code></pre>
 <p><strong>Which model.</strong> Use a name the proxy lists: a model's <code>id</code>, or its alias. <code>local</code> is the alias from the example
@@ -116,6 +116,10 @@ export ANTHROPIC_DEFAULT_HAIKU_MODEL=local   # the model for its background task
 claude</code></pre>
 <p>Without <code>ANTHROPIC_DEFAULT_HAIKU_MODEL</code>, Claude Code asks the proxy for its own small model by name for background
 work, which fails unless the proxy serves that name.</p>
+<p>The Anthropic-compatible address also answers <code>GET /v1/models</code> (the models you may use, in Anthropic's shape, for
+tools that discover models from a gateway) and <code>POST /v1/messages/count_tokens</code>. The count is the proxy's own
+estimate from the request's size, not the provider's count, and the response header <code>X-Maple-Token-Count:
+estimated</code> says so.</p>
 <h3 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h3>
 <p>Add a provider to <code>~/.config/opencode/opencode.json</code>:</p>
 <pre><code class="language-json">{
@@ -166,6 +170,25 @@ custom endpoint at the proxy:</p>
   default: local</code></pre>
 <p><code>hermes model</code> (choose <strong>Custom endpoint</strong>) writes the same settings for you. Hermes needs a model with at least
 64,000 tokens of context. For a proxy on another machine, put the access token in <code>api_key</code>.</p>
+<h3 id="codex-cli">Codex CLI <a class="anchor" href="#codex-cli" aria-label="Link to this heading">#</a></h3>
+<p>Codex speaks the OpenAI Responses API, which the proxy serves at the same OpenAI-compatible address. Add a provider
+to <code>~/.codex/config.toml</code> (or <code>$CODEX_HOME/config.toml</code>):</p>
+<pre><code class="language-toml">model = "local"
+model_provider = "maple"
+
+[model_providers.maple]
+name = "Maple"
+base_url = "http://127.0.0.1:11535/v1"
+wire_api = "responses"
+env_key = "MAPLE_API_KEY"   # any value on this machine: export MAPLE_API_KEY=maple</code></pre>
+<p><code>model</code> is a name the proxy lists. Codex warns that it has no metadata for a name it does not know, and then uses
+its defaults; it works. For a proxy on another machine, put the access token in <code>MAPLE_API_KEY</code>.</p>
+<p>What the proxy does with Codex's requests:</p>
+<ul><li><strong>Tools.</strong> Codex's function tools and its free-text tools (such as <code>apply_patch</code>) are offered to any model the
+proxy serves; a free-text tool becomes one text argument, and the call goes back to Codex in its own form.</li><li><strong>Not supported.</strong> Tools the provider runs (<code>web_search</code> and similar) are not offered to the model, and a
+structured-output format (<code>text.format</code>) is not enforced; the response header <code>X-Maple-Ignored</code> names what was
+left out. Images must be sent inline or by address, not as uploaded file ids.</li><li><strong><code>previous_response_id</code></strong> works against the same proxy for a few hours (responses are kept in memory, per
+access token). Codex sends the whole conversation each time, so it does not need it.</li></ul>
 <h3 id="copilot-fusion-in-these-tools">Copilot Fusion in these tools <a class="anchor" href="#copilot-fusion-in-these-tools" aria-label="Link to this heading">#</a></h3>
 <p>Every tool above can use Copilot Fusion: give it <code>github-copilot/fusion</code>, <code>github-copilot/fusion-high</code> or
 <code>github-copilot/fusion-max</code> as the model (in OpenCode and pi, list them under <code>models</code> like any other name, then pick
@@ -189,7 +212,7 @@ half. Try again.</li><li>It listens on a port other than its usual one, or only 
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#codex-cli">Codex CLI</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></aside>
 </div>
 <script src="../docs/site.js?v=4ef5025e" defer></script>
 </body>
