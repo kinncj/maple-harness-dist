@@ -135,7 +135,7 @@ or press ctrl+o, to read it.</p>
 <p>In more detail: lines starting with <code>»</code> are always the harness's own, never the model's or yours. <code>» check: …</code>
 means an answer was sent back; <code>» checked: …</code> says what became of each command it named (ran and passed, ran and
 failed, or no longer claimed); <code>» continuing: …</code> means the model described a next step without taking it and was
-asked to carry on (<code>harness.disable_auto_continue</code> turns that off). The note the model gets asks for its whole
+asked to carry on (<code>harness.disable_auto_continue</code> turns that off). A larger model can say it is finished with the <code>report_done</code> tool instead: its summary ends the turn, and the reply's wording is not read. The note the model gets asks for its whole
 answer again, corrected, and not for a reply to the check. If a model replies to the check anyway ("Confirmed, I
 ran it"), and every command it had named has now run and passed, that reply is folded instead and the earlier
 answer is shown again as the final one, under "the answer stands". If a command failed, the model's newest answer
