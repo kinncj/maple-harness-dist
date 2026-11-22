@@ -1,5 +1,5 @@
-# The maple-proxy container image and Helm chart, published to GitHub Container Registry when a
-# release of this repository is published.
+# The maple-proxy container image and Helm chart, published to GitHub Container Registry (and the
+# image to Docker Hub, when configured) when a release of this repository is published.
 #
 # This file is a TEMPLATE copied here at every release, together with infra/ (the Dockerfile and
 # the chart). Do not edit it here.
@@ -15,7 +15,11 @@
 #      build provenance attached;
 #   3. signs the image with Sigstore cosign (keyless: the certificate names this workflow and tag);
 #   4. runs the image for its version, and checks the signature;
-#   5. packages infra/helm/maple-proxy as version X.Y.Z, pushes it to
+#   5. when the secrets DOCKERHUB_USERNAME and DOCKERHUB_TOKEN are set, the same build (one build,
+#      the same digest) also goes to Docker Hub as docker.io/kinncj/maple-harness:proxy-X.Y.Z, plus
+#      proxy-X.Y and proxy-latest by the same rules, and is signed there too (the repository variable
+#      DOCKERHUB_IMAGE overrides the name). Without the secrets, Docker Hub is skipped with a notice;
+#   6. packages infra/helm/maple-proxy as version X.Y.Z, pushes it to
 #      oci://ghcr.io/<owner>/charts/maple-proxy, and signs it the same way.
 #
 # One-time setup, after the first run: in the owner's Packages, set maple-proxy and charts/maple-proxy
@@ -53,6 +57,8 @@ jobs:
       image: ${{ steps.tags.outputs.image }}
       version: ${{ steps.tags.outputs.version }}
       tags: ${{ steps.tags.outputs.tags }}
+      hub_image: ${{ steps.tags.outputs.hub_image }}
+      hub_tags: ${{ steps.tags.outputs.hub_tags }}
     steps:
       - name: Work out the tags
         id: tags
@@ -62,6 +68,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           EVENT: ${{ github.event_name }}
           REF: ${{ github.ref }}
+          HUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE || 'docker.io/kinncj/maple-harness' }}
         run: |
           set -euo pipefail
           # Only a release tag: it ends up in image tags and shell commands.
@@ -86,6 +93,9 @@ jobs:
           owner=$(printf '%s' "$OWNER" | tr '[:upper:]' '[:lower:]')
           image="ghcr.io/${owner}/maple-proxy"
           tags="${image}:${v}"
+          # Docker Hub: one repository for every Maple image, the image named by a tag prefix.
+          [[ "$HUB_IMAGE" =~ ^docker\.io/[a-z0-9._-]+/[a-z0-9._-]+$ ]] || { echo "::error::DOCKERHUB_IMAGE is not docker.io/NAMESPACE/REPOSITORY: $HUB_IMAGE"; exit 1; }
+          hub_tags="${HUB_IMAGE}:proxy-${v}"
           # The release must be published (not a draft) before anything is pushed for it.
           gh release view "$TAG" --repo "$REPO" --json isDraft --jq 'select(.isDraft|not)|1' | grep -qx 1 \
             || { echo "::error::$TAG is not a published release of $REPO"; exit 1; }
@@ -98,16 +108,25 @@ jobs:
                 --jq '.[] | select(.draft|not) | select(.prerelease|not) | .tag_name' \
                 | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true)
               newest_minor=$(printf '%s\n' "$stable" | grep -E "^v${major}\.${minor}\.[0-9]+$" | sort -V | tail -n1)
-              [ "$newest_minor" = "$TAG" ] && tags="${tags},${image}:${major}.${minor}"
+              if [ "$newest_minor" = "$TAG" ]; then
+                tags="${tags},${image}:${major}.${minor}"
+                hub_tags="${hub_tags},${HUB_IMAGE}:proxy-${major}.${minor}"
+              fi
               newest=$(printf '%s\n' "$stable" | sort -V | tail -n1)
-              [ "$newest" = "$TAG" ] && tags="${tags},${image}:latest"
+              if [ "$newest" = "$TAG" ]; then
+                tags="${tags},${image}:latest"
+                hub_tags="${hub_tags},${HUB_IMAGE}:proxy-latest"
+              fi
               ;;
           esac
           echo "publish=true" >> "$GITHUB_OUTPUT"
           echo "image=${image}" >> "$GITHUB_OUTPUT"
           echo "version=${v}" >> "$GITHUB_OUTPUT"
           echo "tags=${tags}" >> "$GITHUB_OUTPUT"
+          echo "hub_image=${HUB_IMAGE}" >> "$GITHUB_OUTPUT"
+          echo "hub_tags=${hub_tags}" >> "$GITHUB_OUTPUT"
           echo "tags: ${tags}"
+          echo "Docker Hub tags (when its secrets are set): ${hub_tags}"
 
   image:
     name: Build, push and sign the image
@@ -122,6 +141,7 @@ jobs:
     outputs:
       digest: ${{ steps.build.outputs.digest }}
       version: ${{ needs.plan.outputs.version }}
+      hub: ${{ steps.hub.outputs.enabled }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
@@ -154,6 +174,34 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      # Docker Hub is optional: with both secrets set, the same build is pushed there as well;
+      # without them it is skipped, and nothing fails. The secrets are only tested for presence here.
+      - name: Docker Hub configured?
+        id: hub
+        env:
+          HUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          HUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          GHCR_TAGS: ${{ needs.plan.outputs.tags }}
+          HUB_TAGS: ${{ needs.plan.outputs.hub_tags }}
+        run: |
+          set -euo pipefail
+          if [ -n "$HUB_USER" ] && [ -n "$HUB_TOKEN" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "tags=${GHCR_TAGS},${HUB_TAGS}" >> "$GITHUB_OUTPUT"
+            echo "Docker Hub: ${HUB_TAGS}"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "tags=${GHCR_TAGS}" >> "$GITHUB_OUTPUT"
+            echo "::notice::Docker Hub skipped: the secrets DOCKERHUB_USERNAME and DOCKERHUB_TOKEN are not both set"
+          fi
+
+      - if: ${{ steps.hub.outputs.enabled == 'true' }}
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push
         id: build
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
@@ -164,7 +212,7 @@ jobs:
             MAPLE_VERSION=${{ env.TAG }}
             MAPLE_REPO=${{ github.repository }}
             MAPLE_SUMS_SHA256=${{ steps.sums.outputs.sha256 }}
-          tags: ${{ needs.plan.outputs.tags }}
+          tags: ${{ steps.hub.outputs.tags }}
           labels: |
             org.opencontainers.image.title=maple-proxy
             org.opencontainers.image.description=The Maple Harness model router
@@ -183,6 +231,20 @@ jobs:
         env:
           REF: ${{ needs.plan.outputs.image }}@${{ steps.build.outputs.digest }}
         run: cosign sign --yes "$REF"
+
+      # The same digest under its Docker Hub name: the signature is stored beside the image in each
+      # registry. The SBOM and provenance are part of the pushed index, so they are there already.
+      - name: Sign the image on Docker Hub
+        if: ${{ steps.hub.outputs.enabled == 'true' }}
+        env:
+          REF: ${{ needs.plan.outputs.hub_image }}@${{ steps.build.outputs.digest }}
+          IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/image.yml@refs/tags/${{ env.TAG }}
+        run: |
+          set -euo pipefail
+          cosign sign --yes "$REF"
+          cosign verify "$REF" --certificate-identity "$IDENTITY" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com >/dev/null
+          echo "signed and verified: ${REF}"
 
       - name: Check the image
         env:

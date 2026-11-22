@@ -75,6 +75,12 @@ Intel/AMD and ARM machines. Pull it, give it a token, start it: there is nothing
 index (<code>linux/amd64</code>, <code>linux/arm64</code>), built by the public repository's <code>image</code> workflow from <code>infra/docker/Dockerfile</code>
 with that release's verified binaries, signed with Sigstore cosign (keyless: the certificate names the workflow and
 the tag), and has an SBOM and build provenance attached.</p>
+<p>The same image is also on Docker Hub, with tags that start with <code>proxy-</code> and follow the same rules:
+<code>kinncj/maple-harness:proxy-3.0.0</code>, <code>kinncj/maple-harness:proxy-3.0</code> and <code>kinncj/maple-harness:proxy-latest</code>. It is the same build, with the same digest,
+signature, SBOM and provenance:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">docker</span> pull ghcr.io/kinncj/maple-proxy:3.0.0      <span class="t-c"># GitHub Container Registry</span>
+<span class="t-k">docker</span> pull kinncj/maple-harness:proxy-3.0.0      <span class="t-c"># Docker Hub</span>
+<span class="t-k">docker</span> pull kinncj/maple-harness:proxy-latest     <span class="t-c"># Docker Hub, the latest stable release</span></code></pre></div>
 <div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>Pin what you deploy</span></p><p>Pin a release tag, or better its digest, in anything you deploy. <code>latest</code> moves with every stable release.</p></div>
 <p>To check the signature:</p>
 <div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">cosign</span> verify ghcr.io/kinncj/maple-proxy:3.0.0 \
