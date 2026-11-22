@@ -31,8 +31,10 @@ mode: disk
 replicaCount: 1
 
 image:
-  repository: ghcr.io/kinncj/maple-proxy
-  # Empty: the chart's appVersion, the release this chart was published with.
+  # Docker Hub: one repository for every Maple image, the proxy's tags start with proxy-.
+  repository: docker.io/kinncj/maple-harness
+  # Empty: the release this chart was published with, its appVersion: proxy-<appVersion> (proxy-3.0.1)
+  # on a repository named maple-harness, plain <appVersion> on any other (your own build or copy).
   tag: ""
   # sha256:... pins the exact image; it wins over the tag.
   digest: ""

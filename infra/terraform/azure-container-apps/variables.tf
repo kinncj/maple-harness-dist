@@ -20,9 +20,9 @@ variable "name" {
 }
 
 variable "image" {
-  description = "The maple-proxy image (published on GitHub Container Registry)."
+  description = "The maple-proxy image, on Docker Hub (its tags are proxy-<release>)."
   type        = string
-  default     = "ghcr.io/kinncj/maple-proxy"
+  default     = "docker.io/kinncj/maple-harness"
 }
 
 variable "image_tag" {

@@ -20,7 +20,7 @@
 #     maple-proxy storage import-config --from /etc/maple/import.yaml --force
 services:
   maple-proxy:
-    image: ghcr.io/kinncj/maple-proxy:${MAPLE_VERSION:?set MAPLE_VERSION to a release, such as 3.0.0}
+    image: docker.io/kinncj/maple-harness:proxy-${MAPLE_VERSION:?set MAPLE_VERSION to a release, such as 3.0.0}
     restart: unless-stopped
     read_only: true
     cap_drop: [ALL]

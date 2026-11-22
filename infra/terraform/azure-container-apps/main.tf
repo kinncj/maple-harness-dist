@@ -25,6 +25,9 @@ provider "azurerm" {
 
 locals {
   port = var.anthropic_surface ? 11537 : 11535
+  # A repository named maple-harness (Docker Hub, or a copy of it) names Maple's images by a tag
+  # prefix: the proxy's release 3.0.0 is proxy-3.0.0. Any other (your own build) is 3.0.0.
+  image = "${var.image}:${endswith(var.image, "/maple-harness") ? "proxy-" : ""}${var.image_tag}"
   # Container Apps secret names are lowercase with dashes; each is given to the proxy as
   # MAPLE_SECRET_<NAME>, the variable form of ${secret:...}.
   secrets = merge({
@@ -123,7 +126,7 @@ resource "azurerm_container_app" "proxy" {
 
     container {
       name   = "maple-proxy"
-      image  = "${var.image}:${var.image_tag}"
+      image  = local.image
       args   = ["serve"]
       cpu    = 0.5
       memory = "1Gi"

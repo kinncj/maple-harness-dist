@@ -26,15 +26,15 @@ own registry, secrets and databases.
 | `config/cloud-identity/aks/`, `config/cloud-identity/gke/` | Components for workload identity on AKS or GKE (Azure and Vertex providers with no stored key). |
 | `config/metrics/` | A component for Prometheus scraping (ServiceMonitor, for the Prometheus Operator) with a metrics-scope token. |
 | `config/cloud-identity/eks/` | A component for IAM roles for service accounts (or Pod Identity) on EKS (Bedrock providers with no stored key). |
-| `helm/maple-proxy/` | The Helm chart (3.0 and later; also published as `oci://ghcr.io/kinncj/charts/maple-proxy`): the same disk and central setups, the MCP hub, the lake jobs, metrics and workload identity, from values. |
+| `helm/maple-proxy/` | The Helm chart (3.0 and later; also published on Docker Hub as `oci://registry-1.docker.io/kinncj/maple-proxy` from 3.0.1): the same disk and central setups, the MCP hub, the lake jobs, metrics and workload identity, from values. |
 | `terraform/` | Examples for AWS ECS (Fargate), Google Cloud Run and Azure Container Apps, in central mode. |
 
 From 3.0, the image is published, built from `docker/Dockerfile` for linux/amd64 and linux/arm64, signed (Sigstore
-cosign, keyless) and with an SBOM and build provenance:
+cosign, keyless) and with an SBOM and build provenance, on Docker Hub (tags `proxy-3.0.0`, `proxy-3.0`, `proxy-latest`):
 
 ```sh
-docker pull ghcr.io/kinncj/maple-proxy:3.0.0
-cosign verify ghcr.io/kinncj/maple-proxy:3.0.0 \
+docker pull docker.io/kinncj/maple-harness:proxy-3.0.0
+cosign verify docker.io/kinncj/maple-harness:proxy-3.0.0 \
   --certificate-identity https://github.com/kinncj/maple-harness-dist/.github/workflows/image.yml@refs/tags/v3.0.0 \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
@@ -52,7 +52,7 @@ With Helm (3.0 and later):
 ```sh
 kubectl create namespace maple
 kubectl -n maple create secret generic maple-proxy --from-file=access.proxy_tokens=./proxy_tokens
-helm install maple-proxy oci://ghcr.io/kinncj/charts/maple-proxy --version 3.0.0 -n maple --set existingSecret=maple-proxy
+helm install maple-proxy oci://registry-1.docker.io/kinncj/maple-proxy --version 3.0.1 -n maple --set existingSecret=maple-proxy
 ```
 
 Or with Kustomize:

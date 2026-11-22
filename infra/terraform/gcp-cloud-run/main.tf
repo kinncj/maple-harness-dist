@@ -24,8 +24,9 @@ provider "google" {
 
 locals {
   port = var.anthropic_surface ? 11537 : 11535
-  # Cloud Run pulls from Artifact Registry: a remote repository in front of GitHub Container Registry.
-  image = "${var.region}-docker.pkg.dev/${var.project}/${google_artifact_registry_repository.ghcr.repository_id}/kinncj/maple-proxy:${var.image_tag}"
+  # Cloud Run pulls from Artifact Registry: a remote repository in front of Docker Hub, where the
+  # proxy's release 3.0.0 is kinncj/maple-harness:proxy-3.0.0.
+  image = "${var.region}-docker.pkg.dev/${var.project}/${google_artifact_registry_repository.dockerhub.repository_id}/kinncj/maple-harness:proxy-${var.image_tag}"
   # Each secret becomes MAPLE_SECRET_<NAME>, the variable form of ${secret:...}.
   secrets = merge({
     MAPLE_SECRET_ACCESS_PROXY_TOKENS  = var.proxy_tokens_secret
@@ -35,17 +36,15 @@ locals {
   }, var.extra_secrets)
 }
 
-resource "google_artifact_registry_repository" "ghcr" {
-  repository_id = "${var.name}-ghcr"
+resource "google_artifact_registry_repository" "dockerhub" {
+  repository_id = "${var.name}-dockerhub"
   location      = var.region
   format        = "DOCKER"
   mode          = "REMOTE_REPOSITORY"
-  description   = "GitHub Container Registry, for the maple-proxy image"
+  description   = "Docker Hub, for the maple-proxy image"
   remote_repository_config {
     docker_repository {
-      custom_repository {
-        uri = "https://ghcr.io"
-      }
+      public_repository = "DOCKER_HUB"
     }
   }
 }

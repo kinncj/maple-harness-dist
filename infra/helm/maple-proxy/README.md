@@ -22,7 +22,7 @@ setting with what it does.
 kubectl create namespace maple
 printf 'laptop=%s\n' "$(openssl rand -hex 24)" > proxy_tokens
 kubectl -n maple create secret generic maple-proxy --from-file=access.proxy_tokens=./proxy_tokens
-helm install maple-proxy oci://ghcr.io/kinncj/charts/maple-proxy --version 3.0.0 \
+helm install maple-proxy oci://registry-1.docker.io/kinncj/maple-proxy --version 3.0.1 \
   -n maple --set existingSecret=maple-proxy
 ```
 

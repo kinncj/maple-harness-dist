@@ -18,7 +18,10 @@ What they have in common:
 - **Four secrets are needed:** the access tokens (one `label=token` per line, the tokens your tools use with `mh_`
   in front), the PostgreSQL DSN, the Redis URL, and the storage key (64 hex characters). A provider key is one more:
   `MAPLE_SECRET_PROVIDER_<ID>_API_KEY`, referenced in `config.yaml` as `${secret:provider/<id>/api_key}`.
-- **A pinned release.** `image_tag` is a version such as `3.0.0`; `latest` is refused.
+- **A pinned release.** `image_tag` is a version such as `3.0.0`; `latest` is refused. The image is
+  `docker.io/kinncj/maple-harness:proxy-3.0.0` on Docker Hub (the `proxy-` is added for you on a repository named
+  `maple-harness`; your own build in another repository keeps plain version tags). Cloud Run pulls it through an
+  Artifact Registry remote repository in front of Docker Hub.
 - **Private by default.** Nothing listens on the internet unless you change it, and the proxy answers only to the
   host names in `allowed_hosts` (Cloud Run and Container Apps: the service's own name, shown after the first apply,
   then apply again).

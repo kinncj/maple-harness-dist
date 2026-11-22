@@ -19,7 +19,9 @@ provider "aws" {
 }
 
 locals {
-  image = "${var.image}:${var.image_tag}"
+  # A repository named maple-harness (Docker Hub, or a copy of it) names Maple's images by a tag
+  # prefix: the proxy's release 3.0.0 is proxy-3.0.0. Any other (your own build) is 3.0.0.
+  image = "${var.image}:${endswith(var.image, "/maple-harness") ? "proxy-" : ""}${var.image_tag}"
   # Each secret becomes MAPLE_SECRET_<NAME>, the variable form of ${secret:...}: access/proxy_tokens
   # is MAPLE_SECRET_ACCESS_PROXY_TOKENS, storage/postgres_dsn is MAPLE_SECRET_STORAGE_POSTGRES_DSN.
   secrets = merge({

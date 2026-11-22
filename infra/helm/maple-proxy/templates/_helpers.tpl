@@ -51,12 +51,18 @@ app.kubernetes.io/component: {{ .component }}
 {{- end -}}
 {{- end -}}
 
-{{/* The proxy image, by digest when one is given. */}}
+{{/* The proxy image, by digest when one is given. Without a tag: the chart's appVersion, written
+     proxy-<appVersion> for a repository named maple-harness (Docker Hub, where every Maple image
+     is named by a tag prefix, or a copy of it), and as is for any other (your own build). */}}
 {{- define "maple.image" -}}
 {{- if .Values.image.digest -}}
 {{- printf "%s@%s" .Values.image.repository .Values.image.digest -}}
+{{- else if .Values.image.tag -}}
+{{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
+{{- else if hasSuffix "/maple-harness" .Values.image.repository -}}
+{{- printf "%s:proxy-%s" .Values.image.repository .Chart.AppVersion -}}
 {{- else -}}
-{{- printf "%s:%s" .Values.image.repository (default .Chart.AppVersion .Values.image.tag) -}}
+{{- printf "%s:%s" .Values.image.repository .Chart.AppVersion -}}
 {{- end -}}
 {{- end -}}
 
