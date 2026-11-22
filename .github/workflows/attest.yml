@@ -1,0 +1,67 @@
+# Attests a release's SHA256SUMS: a record, signed through GitHub (Sigstore) with this workflow's
+# identity, that this repository's own workflow saw exactly these checksums while the release was
+# still a draft. The installers check it with GitHub's gh when it is installed:
+#
+#   gh attestation verify SHA256SUMS --repo kinncj/maple-harness-dist --bundle SHA256SUMS.attestation.json \
+#     --cert-identity https://github.com/kinncj/maple-harness-dist/.github/workflows/attest.yml@refs/heads/main \
+#     --source-ref refs/heads/main --deny-self-hosted-runners
+#
+# Started by the release workflow of the source repository for each release (a repository_dispatch,
+# which always runs this file as it is on main), before the release is published. A run started any
+# other way, or from another branch, carries another identity and does not pass the check above.
+# It proves the files were published by this repository's release process, not that a particular
+# build made them.
+#
+# This file is a TEMPLATE kept in the private source repository
+# (packaging/dist-repo/.github/workflows/attest.yml) and copied here by its release workflow.
+# Do not edit it here.
+name: attest
+run-name: attest ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.request }}
+
+on:
+  repository_dispatch:
+    types: [attest]
+
+concurrency:
+  group: attest-${{ github.event.client_payload.tag }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # read the draft release and attach the attestation to it
+      id-token: write     # the identity the attestation is signed with
+      attestations: write # keep the attestation with this repository
+    steps:
+      - name: Download SHA256SUMS from the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.client_payload.tag }}
+        run: |
+          set -euo pipefail
+          case "$TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "::error::not a release tag: $TAG"; exit 1 ;;
+          esac
+          case "$TAG" in *[!A-Za-z0-9.+-]*) echo "::error::not a release tag: $TAG"; exit 1 ;; esac
+          mkdir -p out
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern SHA256SUMS --dir out
+          test -s out/SHA256SUMS
+
+      - id: attest
+        uses: actions/attest@v4
+        with:
+          subject-path: out/SHA256SUMS
+
+      - name: Attach the attestation to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.client_payload.tag }}
+          BUNDLE: ${{ steps.attest.outputs.bundle-path }}
+        run: |
+          set -euo pipefail
+          cp "$BUNDLE" out/SHA256SUMS.attestation.json
+          gh release upload "$TAG" out/SHA256SUMS.attestation.json --repo "$GITHUB_REPOSITORY" --clobber

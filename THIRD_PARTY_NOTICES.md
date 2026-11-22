@@ -104,14 +104,14 @@ The modules compiled into `maple-harness` and `maple-proxy` on any of the releas
 | `github.com/yuin/goldmark-emoji` | v1.0.6 | MIT |
 | `go.opentelemetry.io/proto/otlp` | v1.11.0 | Apache-2.0 |
 | `go.uber.org/atomic` | v1.12.0 | MIT |
-| `golang.org/x/crypto` | v0.58.0 | BSD-3-Clause |
+| `golang.org/x/crypto` | v0.59.0 | BSD-3-Clause |
 | `golang.org/x/image` | v0.45.0 | BSD-3-Clause |
 | `golang.org/x/net` | v0.62.0 | BSD-3-Clause |
 | `golang.org/x/oauth2` | v0.37.0 | BSD-3-Clause |
-| `golang.org/x/sync` | v0.24.0 | BSD-3-Clause |
-| `golang.org/x/sys` | v0.49.0 | BSD-3-Clause |
-| `golang.org/x/term` | v0.47.0 | BSD-3-Clause |
-| `golang.org/x/text` | v0.43.0 | BSD-3-Clause |
+| `golang.org/x/sync` | v0.25.0 | BSD-3-Clause |
+| `golang.org/x/sys` | v0.50.0 | BSD-3-Clause |
+| `golang.org/x/term` | v0.48.0 | BSD-3-Clause |
+| `golang.org/x/text` | v0.44.0 | BSD-3-Clause |
 | `golang.org/x/time` | v0.15.0 | BSD-3-Clause |
 | `google.golang.org/genproto/googleapis/api` | v0.0.0-20260720211330-0afa2a65878a | Apache-2.0 |
 | `google.golang.org/genproto/googleapis/rpc` | v0.0.0-20260720211330-0afa2a65878a | Apache-2.0 |
@@ -6782,7 +6782,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### golang.org/x/crypto v0.58.0 — BSD-3-Clause
+### golang.org/x/crypto v0.59.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -6999,7 +6999,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-### golang.org/x/sync v0.24.0 — BSD-3-Clause
+### golang.org/x/sync v0.25.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7060,7 +7060,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/sys v0.49.0 — BSD-3-Clause
+### golang.org/x/sys v0.50.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7121,7 +7121,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/term v0.47.0 — BSD-3-Clause
+### golang.org/x/term v0.48.0 — BSD-3-Clause
 
 `LICENSE`
 
@@ -7182,7 +7182,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-### golang.org/x/text v0.43.0 — BSD-3-Clause
+### golang.org/x/text v0.44.0 — BSD-3-Clause
 
 `LICENSE`
 
