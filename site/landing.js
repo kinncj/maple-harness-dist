@@ -4,19 +4,25 @@
   'use strict';
   var root = document.documentElement, KEY = 'maple-theme';
 
+  /* Colour theme: the system's, unless the visitor picked light or dark (system -> light -> dark -> system). */
   var themeBtn = document.getElementById('theme');
-  function theme() { return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
-  function label() {
-    var t = theme();
-    themeBtn.setAttribute('title', 'Colour theme: ' + t + ' (click to change)');
-    themeBtn.setAttribute('aria-label', 'Colour theme: ' + t + '. Activate to change.');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function pref() { var t = null; try { t = localStorage.getItem(KEY); } catch (e) {} return t === 'light' || t === 'dark' ? t : 'system'; }
+  function apply() {
+    var p = pref(), t = p === 'system' ? (mq && mq.matches ? 'dark' : 'light') : p;
+    root.setAttribute('data-theme', t);
+    root.setAttribute('data-theme-pref', p);
+    if (p === 'system') root.setAttribute('data-theme-auto', ''); else root.removeAttribute('data-theme-auto');
+    var name = p === 'system' ? 'same as your system (' + t + ')' : p;
+    themeBtn.setAttribute('title', 'Colour theme: ' + name + '. Click to change.');
+    themeBtn.setAttribute('aria-label', 'Colour theme: ' + name + '. Activate to change.');
   }
-  label();
+  apply();
+  if (mq) { var onSys = function () { if (pref() === 'system') apply(); }; if (mq.addEventListener) mq.addEventListener('change', onSys); else if (mq.addListener) mq.addListener(onSys); }
   themeBtn.addEventListener('click', function () {
-    var next = theme() === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem(KEY, next); } catch (e) {}
-    root.setAttribute('data-theme', next);
-    label();
+    var next = {system: 'light', light: 'dark', dark: 'system'}[pref()];
+    try { if (next === 'system') localStorage.removeItem(KEY); else localStorage.setItem(KEY, next); } catch (e) {}
+    apply();
   });
 
   /* The release notice: dismissing it stores its version, so the inline script hides it before the first

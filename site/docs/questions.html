@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Questions the agent asks you · Maple Harness docs</title>
+<meta name="description" content="Some decisions are yours, not the agent&#x27;s: which storage to use, whether a test belongs in one suite or another, what a screen should say. When the agent reaches one of those, it can ask you a short q">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html" aria-current="page">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Questions the agent asks you</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
+<h1 id="questions-the-agent-asks-you">Questions the agent asks you <a class="anchor" href="#questions-the-agent-asks-you" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-you-see">What you see</a><ol><li><a href="#keys">Keys</a></li><li><a href="#on-a-narrow-terminal">On a narrow terminal</a></li><li><a href="#what-stays-in-the-conversation">What stays in the conversation</a></li></ol></li><li><a href="#where-else-you-can-answer">Where else you can answer</a></li><li><a href="#in-the-plain-repl">In the plain REPL</a></li><li><a href="#when-nobody-answers">When nobody answers</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a><ol><li><a href="#the-tool">The tool</a></li><li><a href="#the-answer">The answer</a></li><li><a href="#over---rpc">Over <code>--rpc</code></a></li><li><a href="#over-a2a">Over A2A</a></li><li><a href="#over-the-control-socket">Over the control socket</a></li><li><a href="#safety">Safety</a></li></ol></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">Some decisions are yours, not the agent's: which storage to use, whether a test belongs in one suite or another,
+what a screen should say. When the agent reaches one of those, it can ask you a short question with a few options
+to pick from, instead of guessing or writing a paragraph that asks you to type an answer. You pick, add a word of
+your own if you like, and it carries on.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> A small dialog over the conversation: one to four questions, each with two to four options, an
+<strong>Other…</strong> row for your own words, and room for a note. Sometimes a preview (code, a diff, a mockup) beside the
+options shows what an option means.</li><li><strong>Why you want it.</strong> The agent asks only when the choice is really yours, you answer with a key or two, and what
+you chose stays in the conversation as one line.</li><li><strong>What to do.</strong> Nothing to set up. When a dialog opens, pick with the arrow keys and <strong>Enter</strong> (or the number of an
+option). <strong>Esc</strong>, then <strong>y</strong>, skips it: the agent then decides for itself and should say what it chose.</li><li><strong>What it is not.</strong> An answer is information, never approval. A command or a file change after it still asks you
+as your permission rules say.</li></ul>
+<div class="callout c-tip" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span>Answer from wherever you are</span></p><p>The same question shows on your phone, in an attached terminal, to a program driving the session and to an agent
+that sent the task. The first answer wins, and the line in the conversation says where it came from.</p></div></section>
+<h2 id="what-you-see">What you see <a class="anchor" href="#what-you-see" aria-label="Link to this heading">#</a></h2>
+<p>In the terminal the dialog is framed over the conversation, which is dimmed behind it. Its title says who asks:</p>
+<div class="tablewrap"><table><thead><tr><th>Title</th><th>When</th></tr></thead><tbody><tr><td><code>A quick question, eh</code></td><td>The agent asks one question</td></tr><tr><td><code>A few quick questions, eh</code></td><td>The agent asks two to four</td></tr><tr><td><code>&lt;agent&gt; has a question</code></td><td>A <a href="subagents.html">subagent</a> asks; its question line starts with <code>[&lt;agent&gt;]</code></td></tr></tbody></table></div>
+<p>Each question shows its options, numbered, with a line saying what each means. The agent may mark the one it would
+choose <code>(recommended)</code>. A question where several options can be picked says <code>(pick any)</code> and shows ticks.</p>
+<p>With several questions, a tab per question runs along the top, and a last page, <strong>All set?</strong>, shows every answer
+before anything is sent. A single question is sent as soon as you answer it.</p>
+<p>When the terminal is not in front, a desktop notification says <code>Maple Harness has a question</code> (or which subagent
+has one), and the session shows as waiting for you, as it does for an approval.</p>
+<p>If an approval is waiting at the same time, the approval comes first; the mode line says a question is waiting
+behind it.</p>
+<h3 id="keys">Keys <a class="anchor" href="#keys" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>What it does</th></tr></thead><tbody><tr><td><code>↑</code>/<code>↓</code> or <code>k</code>/<code>j</code></td><td data-label="What it does">Move between the options</td></tr><tr><td><code>1</code> to <code>4</code></td><td data-label="What it does">Pick that option (one-answer question: and go on to the next), or tick it (pick-any question)</td></tr><tr><td><code>Space</code></td><td data-label="What it does">Tick or untick the option under the cursor</td></tr><tr><td><code>Enter</code></td><td data-label="What it does">Answer and go to the next question; on <strong>All set?</strong>, send</td></tr><tr><td><code>Tab</code>, <code>←</code>/<code>→</code></td><td data-label="What it does">Switch between the questions</td></tr><tr><td><code>n</code></td><td data-label="What it does">Add a note to this question</td></tr><tr><td><code>p</code></td><td data-label="What it does">Show or hide the preview</td></tr><tr><td><code>Esc</code></td><td data-label="What it does">Asks <code>Skip all the questions?</code>; <code>y</code> skips them, any other key goes back</td></tr></tbody></table></div>
+<p>On <strong>Other…</strong>, <code>Enter</code> (or its number) opens a line for your own answer; <code>Enter</code> keeps it, <code>Esc</code> leaves it.</p>
+<h3 id="on-a-narrow-terminal">On a narrow terminal <a class="anchor" href="#on-a-narrow-terminal" aria-label="Link to this heading">#</a></h3>
+<p>Under 80 columns or 20 rows, with <code>harness.dialogs: stacked</code>, or in screen reader mode, the questions appear as a
+panel above the message box instead, with the same keys. There, and whenever the dialog is too narrow for two
+columns, <code>p</code> opens the preview full width and <code>p</code> or <code>Esc</code> closes it.</p>
+<h3 id="what-stays-in-the-conversation">What stays in the conversation <a class="anchor" href="#what-stays-in-the-conversation" aria-label="Link to this heading">#</a></h3>
+<p>One line for the call and one for the answers:</p>
+<div class="codeblock"><pre><code class="language-text">● Ask(3 questions)
+  ⎿ Storage: Redis (note: we already run it) · Auth: Other "the company's SSO" · Tests: Unit tests, Contract tests</code></pre></div>
+<p>When the answer came from somewhere other than this terminal, the line says where: <code>· answered on phone (pixel)</code>,
+or <code>· answered by agent:reviewer, another program, not you</code>. A skipped dialog shows <code>skipped</code>; one asked where
+nobody could answer shows <code>nobody to answer</code>.</p>
+<h2 id="where-else-you-can-answer">Where else you can answer <a class="anchor" href="#where-else-you-can-answer" aria-label="Link to this heading">#</a></h2>
+<p>The same question goes everywhere that can answer it. <strong>The first answer wins</strong>; the others close and say where it
+was answered.</p>
+<ul><li><strong>Your phone.</strong> On the <a href="remote-control.html#using-the-page">remote control page</a>, the question is a card: a button
+per option, an <strong>Other…</strong> field and a note field per question. <strong>Review answers</strong> shows what you picked, then
+<strong>Send answers</strong> sends it. <strong>Skip all</strong> needs a second tap. A watch-only device sees the card but cannot answer;
+a share that can drive the session can answer it, as it answers approvals.</li><li><strong>A program driving the session</strong> with <code>maple-harness --rpc</code> (<a href="#over---rpc">below</a>).</li><li><strong>A terminal attached to the session</strong> with <code>maple-harness attach</code>: the same dialog as here. Its answer is
+marked as given at an attached terminal.</li><li><strong>An agent that sent the task</strong> over <a href="a2a.html">A2A</a> (<a href="#over-a2a">below</a>).</li><li><strong>Another program on this machine</strong>, over the session's control socket, only when you turn that on
+(<a href="#over-the-control-socket">below</a>).</li></ul>
+<h2 id="in-the-plain-repl">In the plain REPL <a class="anchor" href="#in-the-plain-repl" aria-label="Link to this heading">#</a></h2>
+<p>In the line-by-line REPL (<code>maple-harness --repl</code> at a terminal) the questions come as a numbered list, one question
+after another:</p>
+<div class="codeblock"><pre><code class="language-text">? The agent asks (an empty line or s skips all of it):
+
+  [1/1] Storage: Where should sessions be stored?
+    1. Redis (recommended) — Shared across replicas
+    2. Disk — One replica only
+    3. Other… (type your own answer)
+  pick one number:</code></pre></div>
+<p>Type a number and Enter; for a question that takes several, numbers with commas (<code>1,3</code>). <strong>Other</strong> asks for your
+own words on the next line. A number that is not on the list is asked again.</p>
+<h2 id="when-nobody-answers">When nobody answers <a class="anchor" href="#when-nobody-answers" aria-label="Link to this heading">#</a></h2>
+<p>A run with nobody there to answer (<code>maple-harness --prompt</code>, or a REPL whose input is not a terminal) never waits: the
+model is told at once that nobody can answer, and to choose and say what it chose. The same happens when you turn
+questions off.</p>
+<p>By default a question waits for you as long as it takes. With <code>harness.questions.timeout</code> set, a question nobody
+answers in that time closes, says <code>left unanswered: its time ran out</code>, and the model is told nobody answered in
+time, so it decides on its own and says what it chose. The timeout is for the terminal: it does not run while a
+phone or a browser is connected to the session, or in screen reader mode.</p>
+<p>Approvals of tool calls have their own wait, <code>harness.approvals.timeout</code> (10 minutes by default): see
+<a href="approvals.html">Approvals when nobody answers</a>.</p>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>harness.<wbr>ask_<wbr>person</code></td><td data-label="Default"><code>on</code></td><td data-label="What it does"><code>off</code> does not offer the model the tool at all (from the next session), so it decides on its own</td></tr><tr><td><code>harness.<wbr>agents.<wbr>questions</code></td><td data-label="Default"><code>off</code></td><td data-label="What it does"><code>on</code> lets another program answer over this session's control socket. Linux only for now. Not settable from a project's config</td></tr><tr><td><code>harness.<wbr>questions.<wbr>timeout</code></td><td data-label="Default"><code>off</code></td><td data-label="What it does"><code>30s</code>, <code>60s</code>, <code>2m</code>, <code>5m</code> or <code>10m</code>: how long a question waits in the terminal before the model is told nobody answered</td></tr><tr><td><code>harness.<wbr>dialogs</code></td><td data-label="Default"><code>auto</code></td><td data-label="What it does"><code>stacked</code> always shows the questions above the message box</td></tr></tbody></table></div>
+<p>See <a href="configuration.html">Harness settings</a>.</p>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<h3 id="the-tool">The tool <a class="anchor" href="#the-tool" aria-label="Link to this heading">#</a></h3>
+<p>The model calls <code>ask_person</code> with a list of questions:</p>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>questions</code></td><td>1 to 4 questions</td></tr><tr><td><code>questions[].id</code></td><td>A short id the answer refers to (default <code>q1</code>, <code>q2</code>, …)</td></tr><tr><td><code>questions[].header</code></td><td>The tab label, at most 12 characters (longer is cut)</td></tr><tr><td><code>questions[].question</code></td><td>The question, one sentence</td></tr><tr><td><code>questions[].multi_select</code></td><td>Several options may be picked</td></tr><tr><td><code>questions[].allow_other</code></td><td>Offer the <strong>Other…</strong> row (default on)</td></tr><tr><td><code>questions[].options</code></td><td>2 to 4 options</td></tr><tr><td><code>options[].label</code></td><td>At most 40 characters; labels in one question must differ</td></tr><tr><td><code>options[].description</code></td><td>What choosing it means, one line</td></tr><tr><td><code>options[].recommended</code></td><td>Mark the option the agent would choose</td></tr><tr><td><code>options[].preview</code></td><td><code>{"kind": "code" | "diff" | "text", "language": "…", "text": "…"}</code>, at most 200 lines and 16 KB</td></tr></tbody></table></div>
+<p>A call that breaks these rules is refused with a message saying what to fix. Text from the model is shown on one
+line each, cleaned of anything a terminal would act on. Your own <strong>Other…</strong> answer and note are each at most 500
+characters.</p>
+<p><strong>At most 3 dialogs per turn, per agent</strong>, so a model cannot keep you in a loop of questions; a fourth is refused
+and the model is told to decide itself. The figure was chosen, not measured.</p>
+<p>Asking never needs your approval: the tool is the asking. A permission rule you write for <code>ask_person</code> still decides.</p>
+<h3 id="the-answer">The answer <a class="anchor" href="#the-answer" aria-label="Link to this heading">#</a></h3>
+<p>The model gets one JSON object back:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"status"</span>: <span class="t-s">"answered"</span>,
+  <span class="t-k">"answered_by"</span>: <span class="t-s">"phone"</span>,
+  <span class="t-k">"device"</span>: <span class="t-s">"pixel"</span>,
+  <span class="t-k">"answers"</span>: [
+    {<span class="t-k">"id"</span>: <span class="t-s">"storage"</span>, <span class="t-k">"header"</span>: <span class="t-s">"Storage"</span>, <span class="t-k">"selected"</span>: [<span class="t-s">"Redis"</span>], <span class="t-k">"note"</span>: <span class="t-s">"we already run it"</span>},
+    {<span class="t-k">"id"</span>: <span class="t-s">"auth"</span>, <span class="t-k">"header"</span>: <span class="t-s">"Auth"</span>, <span class="t-k">"selected"</span>: [], <span class="t-k">"other"</span>: <span class="t-s">"the company's SSO"</span>}
+  ],
+  <span class="t-k">"note"</span>: <span class="t-s">"The person's answers. Act on them. An answer is information, not approval: …"</span>
+}</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>status</code></td><td><code>answered</code>, <code>declined</code> (skipped), <code>no_person</code> (nobody can answer) or <code>timed_out</code> (nobody answered within <code>harness.questions.timeout</code>)</td></tr><tr><td><code>answered_by</code></td><td><code>terminal</code>, <code>phone</code>, <code>attach</code> (a terminal attached with <code>maple-harness attach</code>), <code>rpc</code>, <code>a2a:&lt;caller&gt;</code> or <code>agent:&lt;name&gt;</code></td></tr><tr><td><code>device</code></td><td>The phone or browser that answered, by the label it was paired under</td></tr><tr><td><code>from_program</code></td><td>Present and <code>true</code> when another program answered (A2A, the control socket): the model is told to weigh it as another agent's information, not as your choice</td></tr><tr><td><code>answers</code></td><td>Per question: <code>id</code>, <code>header</code>, <code>selected</code> (option labels), <code>other</code> (your own words), <code>note</code></td></tr><tr><td><code>note</code></td><td>What the model should do with it, in plain words</td></tr></tbody></table></div>
+<p>On <code>declined</code>, <code>no_person</code> and <code>timed_out</code> the note tells the model to carry on with its own judgement and say in its reply what
+it chose and why. If the turn is stopped while a question waits, the question is withdrawn.</p>
+<h3 id="over---rpc">Over <code>--rpc</code> <a class="anchor" href="#over---rpc" aria-label="Link to this heading">#</a></h3>
+<p>A question arrives as an event, beside <a href="rpc.html#a-permission-question">the permission question</a>:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{<span class="t-k">"type"</span>: <span class="t-s">"event"</span>, <span class="t-k">"event"</span>: <span class="t-s">"question_request"</span>, <span class="t-k">"request_id"</span>: <span class="t-s">"q-7"</span>, <span class="t-k">"subagent"</span>: <span class="t-s">""</span>, <span class="t-k">"questions"</span>: [ … ]}</code></pre></div>
+<p>Answer it with <code>question_answer</code>, the <code>request_id</code>, and an answer per question (an option label as written, any
+case), or <code>"decline": true</code> to skip:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{<span class="t-k">"cmd"</span>: <span class="t-s">"question_answer"</span>, <span class="t-k">"request_id"</span>: <span class="t-s">"q-7"</span>, <span class="t-k">"answers"</span>: [{<span class="t-k">"id"</span>: <span class="t-s">"storage"</span>, <span class="t-k">"selected"</span>: [<span class="t-s">"Redis"</span>], <span class="t-k">"note"</span>: <span class="t-s">""</span>}]}</code></pre></div>
+<p>A <code>question_resolved</code> event follows, with <code>request_id</code>, <code>status</code>, <code>by</code> and <code>summary</code> (the one-line answer). An answer
+that does not fit the questions (an unknown label, two picks on a one-answer question) is refused and the question
+stays open. See <a href="rpc.html">Drive it from another program</a>.</p>
+<h3 id="over-a2a">Over A2A <a class="anchor" href="#over-a2a" aria-label="Link to this heading">#</a></h3>
+<p>While the session runs an <a href="a2a.html#what-a-task-does">A2A task</a>, a question moves the task to <strong>input-required</strong>. Its
+status message says so in words and carries a data part:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{<span class="t-k">"question"</span>: {<span class="t-k">"requestId"</span>: <span class="t-s">"q-7"</span>, <span class="t-k">"questions"</span>: [ … ], <span class="t-k">"subagent"</span>: <span class="t-s">"…"</span>}}</code></pre></div>
+<p>Answer with a message to the same task holding a data part <code>{"answers": [{"id", "selected", "other", "note"}]}</code>,
+or <code>{"decline": true}</code>. A sentence is not an answer: the task stays as it is and the reply says what to send. The
+model is told the answer came from another program (<code>a2a:&lt;caller&gt;</code>). A question left unanswered for 10 minutes is
+skipped. An approval waiting in the same task comes first.</p>
+<h3 id="over-the-control-socket">Over the control socket <a class="anchor" href="#over-the-control-socket" aria-label="Link to this heading">#</a></h3>
+<p>Off by default. With <code>harness.agents.questions: on</code> in that session's settings (Linux only for now), the
+<a href="herdr.html#for-an-orchestrator-the-control-socket">control socket</a> takes two more commands, and <code>hello</code> lists them:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-bash"><span class="t-k">maple-harness</span> agents questions fix-parser            <span class="t-c"># the questions its model waits on, with ids and options</span>
+<span class="t-k">maple-harness</span> agents reply fix-parser q-7 Redis <span class="t-f">--note</span> <span class="t-s">"we already run it"</span> <span class="t-f">--from</span> reviewer
+<span class="t-k">maple-harness</span> agents reply fix-parser q-7 <span class="t-f">--answers</span> <span class="t-s">'[{"id":"storage","selected":["Redis"]}]'</span>
+<span class="t-k">maple-harness</span> agents reply fix-parser q-7 <span class="t-f">--decline</span></code></pre></div>
+<p>Option labels after the id answer a dialog with one question; use <code>--answers</code> for several. <code>--other TEXT</code> gives an
+answer of your own words. An answer given this way is marked as from another program (<code>agent:&lt;name&gt;</code>, from
+<code>--from</code>), never as yours, and is written to <code>agents-audit.log</code>.</p>
+<div class="callout c-warning" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/></svg><span>Off by default for a reason</span></p><p>Any program of yours that reaches the socket could then answer for you. Commands the agent runs inside the
+<a href="sandbox.html">sandbox</a> cannot reach it; a command run outside the sandbox can.</p></div>
+<h3 id="safety">Safety <a class="anchor" href="#safety" aria-label="Link to this heading">#</a></h3>
+<ul><li>An answer, from anywhere, is information for the model. It approves nothing: every tool call after it asks as
+your rules and mode say.</li><li>An answer from another program is always labelled as such, to the model and in the transcript.</li><li>The model is told never to use a question to ask permission to run a tool; approvals do that.</li></ul>
+<p>Tested on Linux (the terminal at wide and narrow sizes, the phone page in a desktop browser, <code>--rpc</code>, A2A and the
+control socket). macOS and Windows, and a real phone, have not been tried.</p></section>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="plan-mode.html">Plan mode</a> The plan the agent hands you to approve, in the same dialog.</li><li><a href="subagents.html">Subagents</a> Helpers whose questions reach you with their name on them.</li><li><a href="remote-control.html">Remote control</a> Answer questions and approvals from your phone.</li><li><a href="rpc.html">Drive it from another program</a> The <code>--rpc</code> events and commands, questions included.</li><li><a href="commands.html">Commands and keys</a> Every key in the terminal, dialogs included.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/background-agents.html" rel="prev"><small>Previous</small>Background agents: out on the ice while you talk</a><a class="next" href="../docs/plan-mode.html" rel="next"><small>Next</small>Plan mode</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-you-see">What you see</a><ol><li><a href="#keys">Keys</a></li><li><a href="#on-a-narrow-terminal">On a narrow terminal</a></li><li><a href="#what-stays-in-the-conversation">What stays in the conversation</a></li></ol></li><li><a href="#where-else-you-can-answer">Where else you can answer</a></li><li><a href="#in-the-plain-repl">In the plain REPL</a></li><li><a href="#when-nobody-answers">When nobody answers</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a><ol><li><a href="#the-tool">The tool</a></li><li><a href="#the-answer">The answer</a></li><li><a href="#over---rpc">Over <code>--rpc</code></a></li><li><a href="#over-a2a">Over A2A</a></li><li><a href="#over-the-control-socket">Over the control socket</a></li><li><a href="#safety">Safety</a></li></ol></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

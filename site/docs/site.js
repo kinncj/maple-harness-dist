@@ -1,24 +1,117 @@
-/* Maple Harness documentation: colour theme, the phone drawer, "On this page" highlighting and the
+/* Maple Harness documentation: colour theme, copy buttons, the screenshot viewer, the phone drawer, "On this page" highlighting and the
    offline search. No other origin is contacted. Text from the index is only ever set with textContent. */
 (function () {
   'use strict';
   var root = document.documentElement, KEY = 'maple-theme';
 
-  /* Colour theme (the page is painted with the stored choice before this runs). */
+  /* Colour theme: the system's, unless the reader picked light or dark. The button goes
+     system -> light -> dark -> system; the page was painted with the right one before this ran. */
   var themeBtn = document.getElementById('theme');
-  function theme() { return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
-  function label() {
-    if (!themeBtn) return;
-    var t = theme();
-    themeBtn.setAttribute('title', 'Colour theme: ' + t + ' (click to change)');
-    themeBtn.setAttribute('aria-label', 'Colour theme: ' + t + '. Activate to change.');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function pref() { var t = null; try { t = localStorage.getItem(KEY); } catch (e) {} return t === 'light' || t === 'dark' ? t : 'system'; }
+  function apply() {
+    var p = pref(), t = p === 'system' ? (mq && mq.matches ? 'dark' : 'light') : p;
+    root.setAttribute('data-theme', t);
+    root.setAttribute('data-theme-pref', p);
+    if (p === 'system') root.setAttribute('data-theme-auto', ''); else root.removeAttribute('data-theme-auto');
+    if (themeBtn) {
+      var name = p === 'system' ? 'same as your system (' + t + ')' : p;
+      themeBtn.setAttribute('title', 'Colour theme: ' + name + '. Click to change.');
+      themeBtn.setAttribute('aria-label', 'Colour theme: ' + name + '. Activate to change.');
+    }
   }
-  label();
+  apply();
+  if (mq) { var onSys = function () { if (pref() === 'system') apply(); }; if (mq.addEventListener) mq.addEventListener('change', onSys); else if (mq.addListener) mq.addListener(onSys); }
   if (themeBtn) themeBtn.addEventListener('click', function () {
-    var next = theme() === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem(KEY, next); } catch (e) {}
-    root.setAttribute('data-theme', next);
-    label();
+    var next = {system: 'light', light: 'dark', dark: 'system'}[pref()];
+    try { if (next === 'system') localStorage.removeItem(KEY); else localStorage.setItem(KEY, next); } catch (e) {}
+    apply();
+    toast('Theme: ' + (next === 'system' ? 'same as your system' : next));
+  });
+
+  /* A short message at the bottom of the screen, also read out by screen readers. */
+  var toastEl = document.getElementById('toast'), toastTimer;
+  function toast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('on'); }, 1600);
+  }
+  function copyText(text, ok, fail) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(ok, fail);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var done = false; try { done = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      (done ? ok : fail)();
+    }
+  }
+
+  /* Copy buttons on code blocks. */
+  [].forEach.call(document.querySelectorAll('.codeblock'), function (cb) {
+    var code = cb.querySelector('pre');
+    if (!code) return;
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'copy'; b.textContent = 'Copy';
+    var lang = cb.querySelector('.lang');
+    b.setAttribute('aria-label', 'Copy this ' + (lang ? lang.textContent + ' ' : '') + 'code');
+    b.addEventListener('click', function () {
+      copyText(code.textContent.replace(/\n$/, ''), function () {
+        b.textContent = 'Copied'; b.classList.add('done'); toast('Copied to the clipboard');
+        setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1600);
+      }, function () { toast('Select the text and copy it'); });
+    });
+    cb.appendChild(b);
+  });
+
+  /* Heading links: a click copies the address of that section too. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.anchor');
+    if (!a) return;
+    var url = location.href.split('#')[0] + a.getAttribute('href');
+    copyText(url, function () { toast('Link to this section copied'); }, function () {});
+  });
+
+  /* Screenshots open larger in a dialog (Esc or the button closes it, focus returns to the picture). */
+  var dlg = null, dlgImg, dlgCap, opener = null;
+  function lightbox(img, caption) {
+    if (!window.HTMLDialogElement) return;
+    if (!dlg) {
+      dlg = document.createElement('dialog');
+      dlg.className = 'lightbox';
+      dlg.setAttribute('aria-label', 'Enlarged screenshot');
+      var close = document.createElement('button');
+      close.type = 'button'; close.textContent = '×'; close.setAttribute('aria-label', 'Close');
+      close.addEventListener('click', function () { dlg.close(); });
+      dlgImg = document.createElement('img');
+      dlgCap = document.createElement('p');
+      dlg.appendChild(close); dlg.appendChild(dlgImg); dlg.appendChild(dlgCap);
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('close', function () { if (opener) opener.focus(); });
+      document.body.appendChild(dlg);
+    }
+    dlgImg.src = img.currentSrc || img.src;
+    dlgImg.alt = img.alt;
+    dlgCap.textContent = caption || '';
+    dlgCap.hidden = !caption;
+    dlg.showModal();
+  }
+  [].forEach.call(document.querySelectorAll('figure'), function (fig) {
+    var shots = [].slice.call(fig.querySelectorAll('img.shot'));
+    if (!shots.length) return;
+    var cap = fig.querySelector('figcaption');
+    shots.forEach(function (img) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'zoom' + (img.classList.contains('shot-dark') ? ' shot-dark' : img.classList.contains('shot-light') ? ' shot-light' : '');
+      b.setAttribute('aria-label', 'Enlarge: ' + (img.alt || 'screenshot'));
+      img.parentNode.insertBefore(b, img);
+      b.appendChild(img);
+      b.addEventListener('click', function () { opener = b; lightbox(img, cap ? cap.textContent.trim() : ''); });
+    });
   });
 
   /* The release notice: dismissing it stores its version, so the inline script hides it before the first
@@ -80,7 +173,7 @@
   });
 
   /* "On this page": highlight the section being read. Without IntersectionObserver the list is static. */
-  var tocLinks = [].slice.call(document.querySelectorAll('.toc a'));
+  var tocLinks = [].slice.call(document.querySelectorAll('.toc ol a'));
   if (tocLinks.length && 'IntersectionObserver' in window) {
     var byId = {}, visible = {};
     tocLinks.forEach(function (a) { byId[decodeURIComponent(a.getAttribute('href').slice(1))] = a; });
@@ -118,6 +211,22 @@
     if (text != null) e.textContent = text;
     return e;
   }
+  /* Text with the search words marked, built from text nodes only. */
+  function marked(tag, cls, text, terms) {
+    var e = el(tag, cls), low = text.toLowerCase(), i = 0;
+    while (i < text.length) {
+      var best = -1, len = 0;
+      for (var k = 0; k < terms.length; k++) {
+        var at = low.indexOf(terms[k], i);
+        if (at >= 0 && (best < 0 || at < best)) { best = at; len = terms[k].length; }
+      }
+      if (best < 0) { e.appendChild(document.createTextNode(text.slice(i))); break; }
+      if (best > i) e.appendChild(document.createTextNode(text.slice(i, best)));
+      e.appendChild(el('mark', null, text.slice(best, best + len)));
+      i = best + len;
+    }
+    return e;
+  }
   function close() { list.hidden = true; q.setAttribute('aria-expanded', 'false'); q.removeAttribute('aria-activedescendant'); sel = -1; }
   function run() {
     var terms = q.value.toLowerCase().split(/\s+/).filter(function (t) { return t.length > 1; });
@@ -140,19 +249,20 @@
       hits.push([score, d]);
     });
     hits.sort(function (a, b) { return b[0] - a[0]; });
+    if (hits.length) list.appendChild(el('li', 'count', hits.length > 8 ? 'Top 8 of ' + hits.length + ' sections' : hits.length + (hits.length === 1 ? ' section' : ' sections')));
     hits.slice(0, 8).forEach(function (hit, n) {
       var d = hit[1], li = el('li'), a = el('a');
       a.href = base + d.u;
       a.id = 'r' + n;
       a.setAttribute('role', 'option');
-      a.appendChild(el('span', 'where', d.h));
+      a.appendChild(marked('span', 'where', d.h, terms));
       if (d.h !== d.p || d.m) {
         var pg = el('span', 'page', d.h !== d.p ? d.p : '');
         if (d.m) pg.appendChild(el('span', 'mtag', d.m === 'both' ? 'Both modes' : (modeNames[d.m] || d.m)));
         a.appendChild(pg);
       }
       var x = d.x, at = x.toLowerCase().indexOf(terms[0]), start = at > 50 ? x.indexOf(' ', at - 40) + 1 : 0;
-      if (x) a.appendChild(el('span', 'snip', (start ? '…' : '') + x.slice(start, start + 170)));
+      if (x) a.appendChild(marked('span', 'snip', (start ? '…' : '') + x.slice(start, start + 170), terms));
       li.appendChild(a);
       list.appendChild(li);
     });
@@ -180,6 +290,7 @@
   document.addEventListener('keydown', function (e) {
     var t = e.target, typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
     if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); q.focus(); }
+    else if ((e.key === 'k' || e.key === 'K') && (e.ctrlKey || e.metaKey) && !e.altKey) { e.preventDefault(); q.focus(); q.select(); }
   });
   document.addEventListener('click', function (e) { if (!e.target.closest('.search')) close(); });
 })();

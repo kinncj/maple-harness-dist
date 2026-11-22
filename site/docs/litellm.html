@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Use it with LiteLLM · Maple Harness docs</title>
 <meta name="description" content="LiteLLM is a gateway many teams already run in front of their model accounts. The Maple proxy works with it in both directions: it can use a LiteLLM gateway as one of its providers, and a LiteLLM gate">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
@@ -23,81 +24,441 @@
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html" aria-current="page">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html" aria-current="page">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">Use it with LiteLLM</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">Other tools</span><span class="rt" title="Estimated at about 220 words a minute">23 min read</span></p>
 <h1 id="use-it-with-litellm">Use it with LiteLLM <a class="anchor" href="#use-it-with-litellm" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a><ol><li><a href="#telling-litellm-who-asked">Telling LiteLLM who asked</a></li><li><a href="#serving-the-models-litellm-lists">Serving the models LiteLLM lists</a></li></ol></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellms-management-api">LiteLLM's management API</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li><li><a href="#for-litellm-users-the-same-ideas-by-name">For LiteLLM users: the same ideas, by name</a><ol><li><a href="#a-whole-config-side-by-side">A whole config, side by side</a></li></ol></li><li><a href="#move-a-litellm-config-to-maple">Move a LiteLLM config to Maple</a><ol><li><a href="#from-a-running-litellm">From a running LiteLLM</a></li></ol></li><li><a href="#see-also">See also</a></li></ol></details>
 
-<p><a href="https://docs.litellm.ai" rel="noopener noreferrer">LiteLLM</a> is a gateway many teams already run in front of their model accounts. The Maple
+<p class="lede"><a href="https://docs.litellm.ai" rel="noopener noreferrer">LiteLLM</a> is a gateway many teams already run in front of their model accounts. The Maple
 proxy works with it in both directions: it can use a LiteLLM gateway as one of its providers, and a LiteLLM gateway
 can use the Maple proxy as one of its models.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> Two ways to combine them. Maple in front: your tools talk to Maple, and Maple sends some models'
 requests to your team's LiteLLM. LiteLLM in front: your team's LiteLLM sends some models' requests to a Maple
 proxy, which serves them from its own accounts (a GitHub Copilot seat, for example).</li><li><strong>Why you want it.</strong> Keep the gateway your team already has, and add what Maple does: Copilot accounts and
 Copilot Fusion, fallbacks between accounts, its budgets, and its usage log.</li><li><strong>What to do.</strong> For Maple in front, add a provider of type <code>litellm</code>. For LiteLLM in front, add a model in
-LiteLLM's <code>config.yaml</code> whose <code>api_base</code> is the Maple proxy's address.</li></ul>
-<p>Tested with LiteLLM 1.110.0 on 2026-11-18: chat completions (streamed and not), the Responses API, Anthropic
+LiteLLM's <code>config.yaml</code> whose <code>api_base</code> is the Maple proxy's address. Moving over for good? Import the LiteLLM
+config, or a running LiteLLM, with <code>maple-proxy import litellm</code>.</li></ul>
+<p>Pick your way round:</p>
+<ul class="cards-grid"><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a> Your tools talk to Maple; some models come from your team's LiteLLM.</li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a> Your LiteLLM serves some models from a Maple proxy's accounts.</li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a> A tool set up for LiteLLM needs only a new address and token.</li><li><a href="#litellms-management-api">LiteLLM's management API</a> Scripts written for LiteLLM's <code>/key</code>, <code>/user</code> and <code>/team</code> keep working.</li><li><a href="#move-a-litellm-config-to-maple">Move a LiteLLM config to Maple</a> Translate a LiteLLM config, or a running LiteLLM, into Maple settings.</li></ul>
+<div class="callout c-note" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>What was tested</span></p><p>Tested with LiteLLM 1.110.0 on 2026-11-18: chat completions (streamed and not), the Responses API, Anthropic
 messages through LiteLLM, and tool calls, including Codex CLI's whole tool loop through Maple and LiteLLM. Other
 versions may differ.</p>
+<p>Run again on 2026-11-21 against LiteLLM 1.110.0 (installed from PyPI, with its PostgreSQL database), both ways, with
+a stand-in model server: also the cost header in both directions, telling LiteLLM who asked (seen in LiteLLM's own
+spend logs), a LiteLLM token naming your people, LiteLLM's tag and key headers, LiteLLM's own Python client against
+the management API, the live import, serving its live model list (models added to LiteLLM later included), its
+session and end-user headers sent to Maple, and a LiteLLM serving https with a certificate from a private CA
+(trusted through <code>SSL_CERT_FILE</code>). LiteLLM keeps a caller's <code>x-litellm-session-id</code> for itself: it does not reach
+Maple.</p></div></section>
 <h2 id="maple-in-front-of-litellm">Maple in front of LiteLLM <a class="anchor" href="#maple-in-front-of-litellm" aria-label="Link to this heading">#</a></h2>
 <p>Add your LiteLLM gateway as a provider, with a LiteLLM key, and list the models you want from it:</p>
-<pre><code class="language-yaml">providers:
-  - id: team-litellm
-    type: litellm
-    base_url: https://litellm.example.com/v1   # your gateway, with /v1
-    api_key: ${secret:team-litellm}           # a LiteLLM key
-    models:
-      - id: gpt-team                           # a model name LiteLLM serves
-        supports_tools: true</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> team-litellm
+<span class="t-k">    type:</span> litellm
+<span class="t-k">    base_url:</span> https://litellm.example.com/v1   <span class="t-c"># your gateway, with /v1</span>
+<span class="t-k">    api_key:</span> ${secret:team-litellm}           <span class="t-c"># a LiteLLM key</span>
+<span class="t-k">    models:</span>
+<span class="t-k">      - id:</span> gpt-team                           <span class="t-c"># a model name LiteLLM serves</span>
+<span class="t-k">        supports_tools:</span> <span class="t-n">true</span></code></pre></div>
 <p>On the setup page, <strong>Providers</strong> offers <strong>LiteLLM</strong>; <strong>Detect models</strong> lists what the key may use and fills in each
 model's context window from LiteLLM's model information. A key that may not read that information still lists its
 models, without the windows.</p>
 <p>Each model is then served like any other: <code>gpt-team</code> or <code>team-litellm/gpt-team</code>, with aliases, fallbacks, budgets
 and the usage log. Its requests show <code>team-litellm</code> in the usage log's <code>provider</code> column, and the response header
 <code>X-Maple-Served-By: team-litellm/gpt-team</code>.</p>
-<p><strong>What Maple sees of the cost.</strong> LiteLLM keeps its own spend records; Maple's usage log has each request's tokens,
-not what LiteLLM charged for it. A <a href="proxy.html#prices-for-each-model">price set on the model</a> gives Maple's cost
-preview a figure, labelled as yours.</p>
+<p><strong>What Maple sees of the cost.</strong> LiteLLM says what each request cost, and Maple records that figure as <em>reported by
+LiteLLM</em>: the usage log's <code>list_cost_usd</code> holds it, with <code>price_list_version</code> <code>litellm</code> and <code>price_basis</code> <code>reported</code>,
+so it is never mistaken for Maple's own estimate, and dollar budgets count it. A request LiteLLM gave no figure for
+has none. A <a href="proxy.html#prices-for-each-model">price set on the model</a> still gives Maple's cost preview and savings a
+figure of your own, beside LiteLLM's.</p>
+<ul><li>The figure is LiteLLM's <code>x-litellm-response-cost</code> response header, read for chat completions (streamed or not)
+and for requests passed on to LiteLLM as they came (the other OpenAI routes and pass-through routes), over https
+or to this machine only: over plain http to another machine, anyone on the way could change it, so it
+is not read. A value that is not a plain positive number of dollars, or above $500 for one request, is not
+recorded.</li><li>LiteLLM computes it from its own price table, so it is what LiteLLM would charge, not your provider's bill.</li></ul>
+<h3 id="telling-litellm-who-asked">Telling LiteLLM who asked <a class="anchor" href="#telling-litellm-who-asked" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> By default LiteLLM sees every request from Maple as coming from Maple's key. If you want
+LiteLLM's own spend records and budgets to tell your people and teams apart, say so, and Maple sends their ids along.
+Nothing else about the caller is sent. Set it below, in <code>config.yaml</code>, or on the setup page (<strong>Providers</strong>, <strong>Model
+details and cloud accounts</strong>), which also sets the live model list of the next section.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> team-litellm
+<span class="t-k">    type:</span> litellm
+<span class="t-k">    base_url:</span> https://litellm.example.com/v1
+<span class="t-k">    api_key:</span> ${secret:team-litellm}
+<span class="t-k">    litellm:</span>
+<span class="t-k">      forward:</span> [person, team]      <span class="t-c"># either or both; leave it out to send nothing</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li><code>person</code> sends the person's id as the OpenAI <code>user</code> field (LiteLLM's end user) and as the tag
+<code>maple-person:&lt;id&gt;</code> in <code>metadata.tags</code>; <code>team</code> sends the tag <code>maple-team:&lt;id&gt;</code>. These are the ids in your <code>people:</code>
+and <code>teams:</code>; an id with characters other than letters, digits and <code>. _ - @ :</code> is not sent.</li><li>Chat completions carry them in the body. A request passed on to LiteLLM as it came carries them in LiteLLM's
+headers instead, <code>x-litellm-end-user-id</code> and <code>x-litellm-tags</code> (replacing any the caller set), since its body is the
+caller's own. A request with no person (no people set up) sends nothing.</li><li>No token, name, address or other request detail is ever sent this way.</li></ul>
+<h3 id="serving-the-models-litellm-lists">Serving the models LiteLLM lists <a class="anchor" href="#serving-the-models-litellm-lists" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Instead of writing each model under the provider, Maple can serve whatever your LiteLLM lists,
+and pick up models added to it later, within a list of names you allow.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">    litellm:</span>
+<span class="t-k">      live_models:</span>
+<span class="t-k">        allow:</span> [<span class="t-s">"gpt-*"</span>, <span class="t-s">"claude-*"</span>]   <span class="t-c"># required: names or patterns; "*" for all</span>
+<span class="t-k">        refresh_minutes:</span> <span class="t-n">10</span>            <span class="t-c"># how often the list is read again (the default)</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li>The list is LiteLLM's <code>/v1/models</code> for this key, read when the proxy starts and every <code>refresh_minutes</code>; each
+model's window and longest reply come from <code>/v1/model/info</code> when the key may read it. If LiteLLM cannot be reached,
+the last list stays and it is asked again within 15 seconds (so a proxy that starts before LiteLLM serves its
+models soon after LiteLLM is up).</li><li>A listed model is served by its LiteLLM name, or as <code>team-litellm/&lt;name&gt;</code> when another provider already has that
+name: the models you configure always come first. A model LiteLLM stops listing stops being served.</li><li><code>allow</code> decides which listed names are served at all; your people's and teams' model lists still apply on top.</li></ul>
 <h2 id="moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple <a class="anchor" href="#moving-a-client-from-litellm-to-maple" aria-label="Link to this heading">#</a></h2>
 <p>A tool set up for a LiteLLM gateway sends the gateway's key in the <code>x-litellm-api-key</code> header (for Claude Code, through
 <code>ANTHROPIC_CUSTOM_HEADERS</code>). The Maple proxy reads its access token from that header too, ahead of <code>Authorization</code>,
 so such a tool needs only its address changed and a Maple access token in place of the LiteLLM key. On this machine
 the proxy needs no token unless people are set up; a token sent there in <code>x-litellm-api-key</code> names the person, and a
-wrong one is refused, as in <code>Authorization</code>. LiteLLM's <code>x-litellm-tags</code> is read as the request's tags (the usage
-log's <code>tags</code> column) when <code>X-Maple-Tags</code> is absent.</p>
+wrong one is refused, as in <code>Authorization</code>.</p>
+<p>The other things LiteLLM's clients send are read too:</p>
+<div class="tablewrap"><table><thead><tr><th>LiteLLM</th><th>What Maple does with it</th></tr></thead><tbody><tr><td><code>x-litellm-tags</code> header, or <code>metadata.tags</code> / a top-level <code>tags</code> list in a chat request</td><td>The request's tags (the usage log's <code>tags</code> column, routing by tags, and the <code>priority:</code> tag), when <code>X-Maple-Tags</code> is absent</td></tr><tr><td><code>x-litellm-session-id</code></td><td>The request's session, when <code>X-Maple-Session</code> is absent</td></tr><tr><td><code>x-litellm-end-user-id</code>, <code>x-litellm-customer-id</code></td><td>The end user, for <a href="access-control.html#end-user-budgets">end-user budgets</a>, when you set no <code>end_users.header</code> of your own, before the body's <code>user</code></td></tr><tr><td><code>user</code></td><td>The end user; or the person, from a token allowed to name people (see <a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a>)</td></tr><tr><td><code>metadata</code> (other fields)</td><td>Not sent on to any provider</td></tr></tbody></table></div>
+<p>Errors keep OpenAI's shape (<code>error.message</code>, <code>type</code>, <code>code</code>), which LiteLLM's clients and the OpenAI SDKs read; <code>code</code>
+holds Maple's reason (<code>budget_exceeded</code>, <code>context_length_exceeded</code>, <code>rate_limited</code>, ...), where LiteLLM's model routes
+put the HTTP status. The management API below answers in LiteLLM's own shape, <code>code</code> holding the status.</p>
+<h2 id="litellms-management-api">LiteLLM's management API <a class="anchor" href="#litellms-management-api" aria-label="Link to this heading">#</a></h2>
+<p>Scripts and tools that manage a LiteLLM gateway's keys, users and teams (LiteLLM's <code>/key</code>, <code>/user</code> and <code>/team</code>
+routes, or its <code>litellm-proxy</code> command) can manage a Maple proxy the same way, with its address changed. The routes
+are on the proxy's OpenAI-compatible address, and need an access token with the <strong>manage</strong> scope, in place of
+LiteLLM's master key:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-bash"><span class="t-k">maple-proxy</span> token add platform-admin <span class="t-f">--scope</span> manage     <span class="t-c"># shown once; keep it like a password</span>
+<span class="t-k">export</span> LITELLM_PROXY_URL=http://127.0.0.1:11535 LITELLM_PROXY_API_KEY=&lt;that token&gt;
+<span class="t-k">litellm-proxy</span> users create <span class="t-f">--email</span> alice@example.com <span class="t-f">--team</span> platform <span class="t-f">--max-budget</span> 20
+<span class="t-k">litellm-proxy</span> keys generate <span class="t-f">--user-id</span> alice@example.com <span class="t-f">--key-alias</span> alice-laptop</code></pre></div>
+<p>A manage token can make and revoke tokens and change people, teams and budgets, so it is never made through a pairing
+code or single sign-on, and it is needed on this machine too. It sends no model requests.</p>
+<p>With <code>management_api: on</code>, people's own tokens reach these routes too, as far as their role goes: a viewer reads
+everything, an <code>org_admin</code> looks after its organization's teams and their people, a <code>team_admin</code> its team's members, a
+member itself and its own keys. See <a href="access-control.html#roles">roles</a>.</p>
+<p>How LiteLLM's words map to Maple's:</p>
+<div class="tablewrap"><table><thead><tr><th>LiteLLM</th><th>Maple</th></tr></thead><tbody><tr><td>a key</td><td>an access token with the proxy scope; <code>key_alias</code> is its label</td></tr><tr><td>a user (<code>user_id</code>, or <code>user_email</code> when no id is given)</td><td>a person</td></tr><tr><td>a team</td><td>a team; a person belongs to one team</td></tr><tr><td><code>user_role</code></td><td><code>proxy_admin</code> for an admin, <code>proxy_admin_viewer</code> for a viewer, <code>org_admin</code> for an org_admin, <code>internal_user</code> for everyone else; a team_admin is <code>internal_user</code> with the <code>admin</code> role in the team's <code>members_with_roles</code>, as LiteLLM names a team admin</td></tr><tr><td><code>models</code></td><td>the person's or team's allowed models</td></tr><tr><td><code>max_budget</code> with <code>budget_duration</code> <code>1d</code> or <code>30d</code></td><td>a daily or monthly dollar budget (other periods are refused)</td></tr><tr><td><code>rpm_limit</code>, <code>max_parallel_requests</code></td><td>requests a minute, requests at once</td></tr><tr><td><code>tpm_limit</code></td><td>estimated input tokens a minute (LiteLLM counts all tokens)</td></tr><tr><td><code>duration</code></td><td>the token's expiry</td></tr><tr><td><code>/key/block</code>, <code>/key/unblock</code>, <code>/key/regenerate</code> with <code>grace_period</code></td><td>block, unblock, rotate (at most 7 days' grace)</td></tr></tbody></table></div>
+<ul><li><strong>A key made without a user</strong> gets a person of its own (<code>key-&lt;alias&gt;-&lt;id&gt;</code>), which holds the models, budget and
+limits given with it. A key made for a user shares that user's, so models, budgets and limits for it are set on
+the user (<code>/user/update</code>); a key-level value there is refused.</li><li><strong>Deleting a user</strong> revokes their keys; their remote-control devices and other tokens are only untied.</li><li><strong>Fields Maple does not act on</strong> (metadata, guardrails, and others) are named in the answer's <code>X-Maple-Ignored</code>
+header, never dropped silently.</li><li><strong>The secret is made by Maple.</strong> A request that sets <code>key</code> itself is refused, so <code>litellm-proxy keys import</code> does
+not carry LiteLLM's keys over: make new ones.</li><li><code>/key/info?key=&lt;secret&gt;</code> puts a secret in the address. Maple never logs it, but a reverse proxy in front of it may:
+ask with the key's id instead.</li><li><code>/model/info</code> lists every model with the provider behind it, so it needs the manage token too (or, with roles on,
+an admin's or a viewer's); people's keys list their models with <code>/v1/models</code>.</li><li><code>/team/member_delete</code> takes a person out of the team named only if they are in it.</li><li><code>spend</code> on a user, team or key is the person's or team's estimated dollars this month, at list prices, through
+this proxy. Dollars are counted only once some dollar budget is set; until then <code>spend</code> is <code>null</code>, not 0.</li><li><code>/health</code> (manage token, or an admin's or viewer's) lists the models as healthy or unhealthy endpoints. LiteLLM sends a test request to each
+model; Maple answers from how real requests fared lately, so it costs nothing and a model nobody has used yet counts
+as healthy.</li><li><strong>Probes.</strong> Where the proxy answers probes (in a container, in central mode, or with <code>MAPLE_PROBES=on</code>; see <a href="docker.html">Docker</a>), LiteLLM's <code>/health/liveliness</code> (and <code>/health/liveness</code>) and
+<code>/health/readiness</code> answer like <code>/healthz</code> and <code>/readyz</code>, in LiteLLM's shape and without a token, so manifests
+written for LiteLLM keep working.</li></ul>
+<p>Tested with LiteLLM's <code>litellm-proxy</code> 1.110.0 on 2026-11-18: users (create, get, list, delete), keys (generate,
+list, delete) and teams (list) against a Maple proxy, and the key it made sending a model request. On 2026-11-21
+LiteLLM 1.110.0's own Python client made the same calls on a real LiteLLM and on a Maple proxy (users, teams and their
+members, keys made, read, listed, changed and deleted, model info, readiness) and the answers were compared: every
+call that worked on LiteLLM worked on Maple, with the fields LiteLLM's CLI reads, except where this page says Maple
+differs. Two more differences it showed: <code>/user/new</code> makes no key (LiteLLM's makes one; make it with
+<code>/key/generate</code>), and <code>/models</code> lists models for a token with the proxy scope (a manage token reads them at
+<code>/model/info</code>). LiteLLM's admin page, its spend routes and other routes are not served.</p>
 <h2 id="litellm-in-front-of-maple">LiteLLM in front of Maple <a class="anchor" href="#litellm-in-front-of-maple" aria-label="Link to this heading">#</a></h2>
 <p>In LiteLLM's <code>config.yaml</code>, add a model whose <code>api_base</code> is the Maple proxy. Use LiteLLM's <code>openai/</code> prefix with
 the name the Maple proxy serves:</p>
-<pre><code class="language-yaml">model_list:
-  - model_name: copilot-fusion-high
-    litellm_params:
-      model: openai/github-copilot/fusion-high   # a name the Maple proxy lists
-      api_base: https://maple.example.com:11535/v1
-      api_key: os.environ/MAPLE_PROXY_TOKEN      # a Maple access token</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model_list:</span>
+<span class="t-k">  - model_name:</span> copilot-fusion-high
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> openai/github-copilot/fusion-high   <span class="t-c"># a name the Maple proxy lists</span>
+<span class="t-k">      api_base:</span> https://maple.example.com:<span class="t-n">11535</span>/v1
+<span class="t-k">      api_key:</span> os.environ/MAPLE_PROXY_TOKEN      <span class="t-c"># a Maple access token</span></code></pre></div>
 <p>LiteLLM's callers then use <code>copilot-fusion-high</code> through LiteLLM's chat completions, Responses API or Anthropic
 messages endpoint, and the Maple proxy answers from its own accounts, with its fallbacks and budgets.</p>
 <ul><li><strong>A token for LiteLLM.</strong> A Maple proxy on another machine needs an access token for each caller
 (<a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>). Give LiteLLM its own token, or one per
 LiteLLM team, so Maple's usage log and budgets can tell them apart: everything LiteLLM sends with one token counts
-as one caller in Maple.</li><li><strong>Callers on LiteLLM's Anthropic endpoint.</strong> LiteLLM translates its <code>/v1/messages</code> requests for an <code>openai/</code> model,
-so they reach Maple's OpenAI-compatible address too; that was part of the test above. LiteLLM's <code>anthropic/</code>
-prefix pointed at Maple's Anthropic-compatible address has not been tested.</li></ul>
+as one caller in Maple.</li><li><strong>Your people behind LiteLLM.</strong> If LiteLLM's callers are your people, let LiteLLM's token name the person each
+request is for, and their own models, budgets and limits apply (<a href="access-control.html#a-gateway-that-names-people">A gateway that names people</a>):
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">keys:</span>
+<span class="t-k">  - token:</span> &lt;the token LiteLLM uses&gt;
+<span class="t-k">    names_people:</span> [alice, bob, team:platform]   <span class="t-c"># whom it may name; no wildcard</span></code></pre></div>
+<p>The OpenAI <code>user</code> field LiteLLM sends then names the person (by their id in <code>people:</code>); anyone else is refused
+with <code>403 person_not_found</code> (through LiteLLM: a 403 with Maple's reason, in LiteLLM's error shape). Without
+<code>names_people</code>, <code>user</code> only names an end user, as before. LiteLLM passes on what its callers send unless it sets
+<code>user</code> itself, so use this only where LiteLLM sets <code>user</code> from the caller it signed in (see the link above).</p></li><li><strong>LiteLLM sends <code>user</code> on only when told.</strong> LiteLLM 1.110.0 sends the <code>user</code> field to OpenAI's own model names
+only, so for a Maple model add <code>allowed_openai_params: [user]</code> to its <code>litellm_params</code>; without it Maple never sees
+who the request is for:
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> openai/copilot-fusion-high
+<span class="t-k">      api_base:</span> https://maple.example.com:<span class="t-n">11535</span>/v1
+<span class="t-k">      api_key:</span> os.environ/MAPLE_PROXY_TOKEN
+<span class="t-k">      allowed_openai_params:</span> [user]</code></pre></div></li><li><strong>Maple's cost, in LiteLLM.</strong> A Maple answer that is not streamed carries <code>x-litellm-response-cost</code>, Maple's dollar
+figure for it (the same one its dollar budgets count; <code>0</code> for an answer from the response cache), and LiteLLM
+1.110.0 records that as the request's cost unless the model has prices of its own in LiteLLM's config. An answer
+with no dollar figure (a GitHub Copilot account counts AI units) carries none, and LiteLLM prices it its own way.
+A streamed answer carries none either: the cost is known only once it ends.</li><li><strong>Callers on LiteLLM's Anthropic endpoint.</strong> LiteLLM translates its <code>/v1/messages</code> requests for an <code>openai/</code> model,
+so they reach Maple's OpenAI-compatible address too; that was part of the test above, and so was LiteLLM's
+<code>anthropic/</code> prefix pointed at Maple's Anthropic-compatible address.</li></ul>
+<h2 id="for-litellm-users-the-same-ideas-by-name">For LiteLLM users: the same ideas, by name <a class="anchor" href="#for-litellm-users-the-same-ideas-by-name" aria-label="Link to this heading">#</a></h2>
+<p><strong>In plain words.</strong> Most of what you set up in LiteLLM has a Maple counterpart with another name. This table is
+for finding it; <code>maple-proxy import litellm</code> (below) does the translating for a config file.</p>
+<div class="tablewrap"><table><thead><tr><th>In LiteLLM</th><th>In Maple</th><th>Notes</th></tr></thead><tbody><tr><td><code>config.yaml</code>, <code>model_list</code></td><td><code>config.yaml</code>, <code>providers</code> with their <code>models</code></td><td>One provider per account (address and key); its models are listed under it</td></tr><tr><td><code>model_name</code> shared by several deployments</td><td>a <a href="proxy-settings.html#model-groups">model group</a></td><td>Weights, order and tags are kept</td></tr><tr><td><code>routing_strategy</code></td><td>the model group's <code>strategy</code></td><td><code>weighted</code>, <code>round-robin</code>, <code>least-busy</code>, <code>latency</code>, <code>ordered</code></td></tr><tr><td><code>fallbacks</code>, <code>content_policy_fallbacks</code></td><td><code>model_fallbacks</code>, <code>content_policy_fallbacks</code></td><td>Fallbacks can also move to another account of the same model</td></tr><tr><td><code>model_group_alias</code>, a renamed model</td><td><code>model_aliases</code></td><td></td></tr><tr><td><code>os.environ/NAME</code></td><td><code>${env:NAME}</code></td><td>Keys can also live in Maple's secret store: <code>${secret:name}</code></td></tr><tr><td>master key</td><td>a token with the <code>manage</code> scope</td><td><code>maple-proxy token add &lt;label&gt; --scope manage</code></td></tr><tr><td>virtual keys</td><td>access tokens, one per person or tool</td><td><code>maple-proxy token add &lt;label&gt; [--person &lt;id&gt;]</code>; tools send them in <code>Authorization</code> or <code>x-litellm-api-key</code></td></tr><tr><td>users and teams</td><td><a href="teams-and-hubs.html">people and teams</a></td><td></td></tr><tr><td>budgets (per key, user, team)</td><td>budgets per person, team and provider</td><td></td></tr><tr><td><code>rpm</code> / <code>tpm</code>, <code>max_parallel_requests</code> on a deployment</td><td>a model's <code>limits</code> on its account</td><td>Also rate limits per person, team and token</td></tr><tr><td><code>num_retries</code></td><td><code>retries</code></td><td>For every model outside a model group; a model group has its own</td></tr><tr><td>spend logs</td><td>the usage log</td><td>One line per request: tokens, outcome, who sent it, tags</td></tr><tr><td>the admin UI</td><td>the setup page</td><td>On this machine at <code>127.0.0.1:11539</code></td></tr><tr><td><code>/key</code>, <code>/user</code>, <code>/team</code> management routes</td><td>the same routes, answered by Maple</td><td>See <a href="#litellms-management-api">LiteLLM's management API</a> above</td></tr><tr><td>caching</td><td>the response cache</td><td>In memory, only for requests that ask for it</td></tr><tr><td><code>mcp_servers</code></td><td>the <a href="mcp-hub.html">MCP hub</a></td><td></td></tr><tr><td>guardrails</td><td><a href="guardrails.html">guardrails</a></td><td>LiteLLM's generic guardrail API, OpenAI moderation, Bedrock, Azure, Model Armor, and built-in PII and secret checks</td></tr><tr><td>callbacks</td><td><code>callbacks:</code></td><td>Langfuse, Datadog, S3, Azure Blob storage, a webhook; set up with their own keys</td></tr><tr><td><code>x-litellm-response-cost</code></td><td>the usage log's <code>list_cost_usd</code></td><td>Maple's figure goes back to a LiteLLM in front in the same header</td></tr><tr><td>agents</td><td>no counterpart yet</td><td>The importer lists them; keep LiteLLM in front for them meanwhile (see above)</td></tr></tbody></table></div>
+<p><strong>Running both while you move.</strong> You do not have to switch at once: put Maple in front and give it your LiteLLM
+as a provider (above), so models you have not moved yet still go through LiteLLM; or keep LiteLLM in front and add
+Maple as one of its models. Move one model or one team at a time, and compare the usage log with LiteLLM's spend
+records as you go.</p>
+<h3 id="a-whole-config-side-by-side">A whole config, side by side <a class="anchor" href="#a-whole-config-side-by-side" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Here is a typical LiteLLM <code>config.yaml</code> and the Maple settings <code>maple-proxy import litellm</code>
+makes from it, unchanged, followed by what came across differently. Your own file's report says the same for yours.</p>
+<p>The LiteLLM config:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model_list:</span>
+<span class="t-k">  - model_name:</span> gpt-4o
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> openai/gpt-4o
+<span class="t-k">      api_key:</span> os.environ/OPENAI_API_KEY
+<span class="t-k">      rpm:</span> <span class="t-n">500</span>
+<span class="t-k">  - model_name:</span> gpt-4o
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> azure/gpt-4o-eu
+<span class="t-k">      api_base:</span> https://contoso-eu.openai.azure.com
+<span class="t-k">      api_key:</span> os.environ/AZURE_EU_KEY
+<span class="t-k">      api_version:</span> <span class="t-s">"2024-10-21"</span>
+<span class="t-k">      rpm:</span> <span class="t-n">300</span>
+<span class="t-k">  - model_name:</span> claude-sonnet
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> anthropic/claude-sonnet-4-5
+<span class="t-k">      api_key:</span> os.environ/ANTHROPIC_API_KEY
+<span class="t-k">      max_parallel_requests:</span> <span class="t-n">8</span>
+<span class="t-k">  - model_name:</span> claude-opus
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      model:</span> anthropic/claude-opus-4-1
+<span class="t-k">      api_key:</span> os.environ/ANTHROPIC_API_KEY
+<span class="t-k">      max_parallel_requests:</span> <span class="t-n">2</span>
+<span class="t-k">
+router_settings:</span>
+<span class="t-k">  routing_strategy:</span> simple-shuffle
+<span class="t-k">  num_retries:</span> <span class="t-n">2</span>
+<span class="t-k">  timeout:</span> <span class="t-n">120</span>
+<span class="t-k">  fallbacks:</span>
+<span class="t-k">    - gpt-4o:</span> [<span class="t-s">"claude-sonnet"</span>]
+<span class="t-k">  model_group_alias:</span>
+<span class="t-k">    smart:</span> claude-opus
+<span class="t-k">
+litellm_settings:</span>
+<span class="t-k">  context_window_fallbacks:</span>
+<span class="t-k">    - claude-sonnet:</span> [<span class="t-s">"claude-opus"</span>]
+<span class="t-k">  cache:</span> <span class="t-n">true</span>
+<span class="t-k">  cache_params:</span>
+<span class="t-k">    type:</span> redis
+<span class="t-k">    ttl:</span> <span class="t-n">600</span>
+<span class="t-k">  success_callback:</span> [<span class="t-s">"langfuse"</span>]
+<span class="t-k">
+general_settings:</span>
+<span class="t-k">  master_key:</span> os.environ/LITELLM_MASTER_KEY
+<span class="t-k">  database_url:</span> os.environ/DATABASE_URL
+<span class="t-k">
+guardrails:</span>
+<span class="t-k">  - guardrail_name:</span> pii-mask
+<span class="t-k">    litellm_params:</span>
+<span class="t-k">      guardrail:</span> presidio
+<span class="t-k">      mode:</span> pre_call
+<span class="t-k">      default_on:</span> <span class="t-n">true</span></code></pre></div>
+<p>What the importer prints for it (<code>maple-proxy import litellm litellm-config.yaml</code>; the keys stay in the environment
+variables LiteLLM read them from):</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">    - id:</span> openai
+<span class="t-k">      type:</span> openai-compatible
+<span class="t-k">      base_url:</span> https://api.openai.com/v1
+<span class="t-k">      api_key:</span> ${env:OPENAI_API_KEY}
+<span class="t-k">      models:</span>
+<span class="t-k">        - id:</span> gpt-4o
+<span class="t-k">          supports_tools:</span> <span class="t-n">true</span>
+<span class="t-k">          limits:</span>
+<span class="t-k">            requests_per_minute:</span> <span class="t-n">500</span>
+<span class="t-k">      first_output_timeout_seconds:</span> <span class="t-n">120</span>
+<span class="t-k">    - id:</span> azure-contoso-eu
+<span class="t-k">      type:</span> azure
+<span class="t-k">      base_url:</span> https://contoso-eu.openai.azure.com
+<span class="t-k">      api_key:</span> ${env:AZURE_EU_KEY}
+<span class="t-k">      models:</span>
+<span class="t-k">        - id:</span> gpt-4o-eu
+<span class="t-k">          supports_tools:</span> <span class="t-n">true</span>
+<span class="t-k">          limits:</span>
+<span class="t-k">            requests_per_minute:</span> <span class="t-n">300</span>
+<span class="t-k">      azure:</span>
+<span class="t-k">        api_version:</span> <span class="t-s">"2024-10-21"</span>
+<span class="t-k">      first_output_timeout_seconds:</span> <span class="t-n">120</span>
+<span class="t-k">    - id:</span> anthropic
+<span class="t-k">      type:</span> anthropic
+<span class="t-k">      api_key:</span> ${env:ANTHROPIC_API_KEY}
+<span class="t-k">      models:</span>
+<span class="t-k">        - id:</span> claude-sonnet-4-5
+<span class="t-k">          supports_tools:</span> <span class="t-n">true</span>
+<span class="t-k">          limits:</span>
+<span class="t-k">            max_concurrent:</span> <span class="t-n">8</span>
+<span class="t-k">        - id:</span> claude-opus-4-1
+<span class="t-k">          supports_tools:</span> <span class="t-n">true</span>
+<span class="t-k">          limits:</span>
+<span class="t-k">            max_concurrent:</span> <span class="t-n">2</span>
+<span class="t-k">      first_output_timeout_seconds:</span> <span class="t-n">120</span>
+<span class="t-k">model_aliases:</span>
+<span class="t-k">    claude-opus:</span> anthropic/claude-opus-4-1
+<span class="t-k">    claude-sonnet:</span> anthropic/claude-sonnet-4-5
+<span class="t-k">    smart:</span> anthropic/claude-opus-4-1
+<span class="t-k">model_groups:</span>
+<span class="t-k">    - name:</span> gpt-4o
+<span class="t-k">      strategy:</span> weighted
+<span class="t-k">      deployments:</span>
+<span class="t-k">        - model:</span> openai/gpt-4o
+<span class="t-k">          weight:</span> <span class="t-n">500</span>
+<span class="t-k">        - model:</span> azure-contoso-eu/gpt-4o-eu
+<span class="t-k">          weight:</span> <span class="t-n">300</span>
+<span class="t-k">      retries:</span> <span class="t-n">2</span>
+<span class="t-k">model_fallbacks:</span>
+<span class="t-k">    claude-sonnet:</span>
+        - claude-opus
+<span class="t-k">    gpt-4o:</span>
+        - claude-sonnet
+<span class="t-k">response_cache:</span> <span class="t-s">"on"</span>
+<span class="t-k">response_cache_ttl:</span> 600s
+<span class="t-k">retries:</span> <span class="t-n">2</span>
+<span class="t-k">guardrails:</span>
+<span class="t-k">    - name:</span> pii-mask
+<span class="t-k">      type:</span> pii
+<span class="t-k">      action:</span> mask
+<span class="t-k">      phases:</span>
+        - pre_call
+<span class="t-k">      default_on:</span> <span class="t-n">true</span></code></pre></div>
+<p><strong>What is different.</strong></p>
+<ul><li><strong>Accounts, not deployments.</strong> Each address and key becomes one provider (<code>openai</code>, <code>azure-contoso-eu</code>,
+<code>anthropic</code>); the two <code>gpt-4o</code> deployments become a model group, weighted 500 to 300 by their <code>rpm</code>, as LiteLLM's
+<code>simple-shuffle</code> weights them.</li><li><strong>Names.</strong> <code>claude-sonnet</code>, <code>claude-opus</code> and LiteLLM's <code>smart</code> alias become model aliases of the Anthropic models.</li><li><strong>Timeout.</strong> <code>timeout: 120</code> limits how long a provider may take to <em>start</em> answering
+(<code>first_output_timeout_seconds</code>); once it answers, a reply may stream for as long as it needs.</li><li><strong>Retries and fallbacks.</strong> <code>num_retries: 2</code> is <code>retries: 2</code> for every model, and for the <code>gpt-4o</code> group's own, never once a
+provider has taken the request; the
+<code>context_window_fallbacks</code> join the ordinary fallbacks, tried when a model fails, a request too long for it included.</li><li><strong>Limits.</strong> <code>rpm</code> and <code>max_parallel_requests</code> become each model's own limits on its account
+(<code>limits.requests_per_minute</code>, <code>limits.max_concurrent</code>); a request over one goes to the model's fallbacks, as
+LiteLLM routes around a deployment at its limit.</li><li><strong>Cache.</strong> The response cache answers a repeat only when the request allows it (<code>X-Maple-Cache: allow</code>), and is not
+kept in LiteLLM's Redis.</li><li><strong>Guardrail.</strong> The Presidio guardrail becomes Maple's own PII check, which masks what it finds on this machine.</li><li><strong>Not carried over.</strong> The <code>langfuse</code> callback (set Maple's own up with <code>callbacks:</code> and its keys), <code>database_url</code>
+(Maple keeps its data in its config folder; several proxies share one with <code>storage.mode: central</code>), the master key
+(make a token with <code>--scope manage</code>), and LiteLLM's virtual keys (make a token per person or tool).</li></ul>
+<h2 id="move-a-litellm-config-to-maple">Move a LiteLLM config to Maple <a class="anchor" href="#move-a-litellm-config-to-maple" aria-label="Link to this heading">#</a></h2>
+<p><strong>In plain words.</strong> <code>maple-proxy import litellm</code> reads your LiteLLM <code>config.yaml</code> and writes the matching Maple
+settings: your models, their accounts, groups of deployments, fallbacks and MCP servers. It prints what it would add
+and a report of what came across, what came across a little differently, and what has no equivalent, with what to do
+instead. Nothing changes until you ask it to.</p>
+<ol class="steps"><li><strong>Read the report first.</strong> Run the import without <code>--write</code>: it prints the Maple settings it would add, and the
+report of what came across, what came across a little differently, and what has no equivalent.</li><li><strong>Settle the keys.</strong> A key written in the LiteLLM file is never copied into <code>config.yaml</code>: add <code>--store-keys</code> to
+keep those keys in the secret store, or change them to <code>os.environ/NAME</code> in the LiteLLM file and import again.</li><li><strong>Write it.</strong> Run it again with <code>--write</code>, which merges the result into the proxy's <code>config.yaml</code>, keeping its
+comments and other sections.</li><li><strong>Set the environment variables the report names</strong>, then start the proxy: it does not start while a new
+provider's key variable is not set.</li><li><strong>Make new tokens</strong> for your people (<code>maple-proxy token add &lt;label&gt; --person &lt;id&gt;</code>): LiteLLM's virtual keys do not
+come across.</li></ol>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-bash"><span class="t-k">maple-proxy</span> import litellm litellm-config.yaml              <span class="t-c"># print the Maple settings and the report; change nothing</span>
+<span class="t-k">maple-proxy</span> import litellm litellm-config.yaml <span class="t-f">--write</span>      <span class="t-c"># merge them into the proxy's config.yaml</span>
+<span class="t-k">maple-proxy</span> import litellm litellm-config.yaml <span class="t-f">--json</span>       <span class="t-c"># the report as JSON, for a script</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li>The translated settings go to standard output and the report to standard error. With <code>--json</code>, one JSON object
+goes to standard output instead: the translated settings (<code>config_yaml</code>), every report item with its status, the
+counts, the files <code>include:</code> brought in, and where keys are written in the file (never the keys); with <code>--write</code>,
+it comes after the merge and names the file written, and the messages go to standard error.</li><li><strong><code>include:</code></strong> files are read as LiteLLM reads them: their lists added to the config's, their other values in place
+of the config's, each file once, a file's own <code>include:</code> relative to it. Only files inside the LiteLLM config's
+folder are read (not through <code>..</code> or a symbolic link out of it), only regular files, at most 32 of them; a file
+that cannot be read stops the import, changing nothing. <code>--write</code> merges them into
+<code>config.yaml</code> (the one <code>--config</code> names, or the default one), keeping its comments and other sections. It refuses,
+changing nothing, when a provider, model name, fallback or MCP server it adds already exists; <code>--replace</code> replaces
+those instead.</li><li><strong>Keys.</strong> <code>os.environ/NAME</code> becomes <code>${env:NAME}</code>, so the proxy reads the same variable. A key written in the
+LiteLLM file is never printed or copied into <code>config.yaml</code>: the config refers to the secret store
+(<code>${secret:provider/&lt;id&gt;/api_key}</code>), and <code>--write</code> refuses until you choose: <code>--store-keys</code> keeps those keys in the
+secret store (the keyring when there is one), checking each reads back before the config changes; or change them to
+<code>os.environ/NAME</code> in the LiteLLM file and import again.
+An address with a query (<code>?key=...</code>) is not copied either, since it may hold a key, and an MCP server value written
+in Maple's own <code>${...}</code> form is refused.</li><li><strong>Models.</strong> Each <code>model_list</code> entry becomes a provider (one per address and key, so deployments on one account share
+it) and a model. A <code>model_name</code> different from the model's own name becomes an alias; several deployments under one
+<code>model_name</code> become a <a href="proxy-settings.html#model-groups">model group</a>. <code>model_info</code> limits and prices are kept.</li><li><strong>Routing.</strong> <code>simple-shuffle</code> becomes <code>weighted</code> (by <code>weight</code>, or by <code>rpm</code>), or <code>round-robin</code> without weights;
+<code>least-busy</code> and <code>latency-based-routing</code> map directly; deployments with <code>order</code> become <code>ordered</code>. <code>num_retries</code> becomes
+the top-level <code>retries</code> (at most 3), and each model group's own. <code>fallbacks</code>, <code>content_policy_fallbacks</code> and <code>model_group_alias</code>
+are kept; <code>default_fallbacks</code> is written out for each model, and <code>context_window_fallbacks</code> are added to the model's
+fallbacks: Maple tries them when the model fails, a request too long for it included, and passes over one whose
+context window is too small. A timeout becomes <code>first_output_timeout_seconds</code>, which limits how long a provider may
+take to start answering, not the whole reply.</li><li><strong>Limits.</strong> A deployment's <code>rpm</code>, <code>tpm</code> and <code>max_parallel_requests</code> become the model's own limits on its account
+(<code>limits.requests_per_minute</code>, <code>limits.input_tokens_per_minute</code>, <code>limits.max_concurrent</code>): over one, the account is
+passed over and the model's fallbacks tried. Maple counts the input tokens it estimates before sending, where
+LiteLLM's <code>tpm</code> counts all tokens. <code>rpm</code> also still weights a model group's deployments.</li><li><strong>Guardrails</strong> become Maple <a href="guardrails.html">guardrails</a> where Maple has the same check: LiteLLM's generic guardrail
+API (a webhook guardrail), OpenAI moderation, Bedrock Guardrails (with the imported bedrock provider), Azure Content
+Safety and Prompt Shields, Google Model Armor, and Presidio and <code>hide-secrets</code> as Maple's own PII and secret checks.
+<code>mode</code> becomes the phases (<code>during_call</code> runs before sending), <code>logging_only</code> the <code>log_only</code> action, and
+<code>default_on</code> is kept as LiteLLM means it: off unless set, so such a guardrail runs only for a request that names it
+(in <code>X-Maple-Guardrails</code>). A guardrail's key comes from a <code>MAPLE_GUARDRAIL_...</code> variable the report names, or the
+secret store; with a key, its address is kept beside it. Other guardrails are reported.</li><li><strong>MCP servers</strong> in <code>mcp_servers</code> become <a href="mcp-hub.html">MCP hub</a> servers, added switched off; turn each on with
+<code>maple-proxy mcp-hub enable &lt;name&gt;</code>. As with <code>maple-proxy mcp-hub add</code>, writing a server that runs a command, or a
+header that refers to a secret, needs you at a terminal.</li><li><strong>Not carried over</strong>, with a line in the report each: LiteLLM's virtual keys (LiteLLM keeps only their hashes: make
+new tokens with <code>maple-proxy token add &lt;label&gt; [--person &lt;id&gt;]</code>, and tools keep working with the Maple address and
+that token, in <code>Authorization</code> or <code>x-litellm-api-key</code>), the <code>master_key</code> (make a manage token instead, above),
+agents, callbacks (Maple has its own, set up with their keys), guardrails Maple has no check for, cooldown
+settings, and wildcard models.</li><li><strong>Providers Maple does not speak.</strong> A deployment with a provider Maple has no equivalent for is reported. With
+<code>--via-litellm &lt;address&gt;</code>, such deployments are served through your existing LiteLLM instead, by their LiteLLM
+names, with a LiteLLM key from <code>LITELLM_API_KEY</code>; a provider Maple does not know that has an <code>api_base</code> is otherwise
+assumed to speak the OpenAI API.</li><li>Read the report before you start the proxy with the result: it lists the environment variables the new providers
+read their keys from, and the proxy does not start while one of them is not set.</li></ul>
+<div class="callout c-note" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>Note</span></p><p>Tested on sample LiteLLM configs (by the proxy's own config checks); not yet against a large real deployment.</p></div>
+<h3 id="from-a-running-litellm">From a running LiteLLM <a class="anchor" href="#from-a-running-litellm" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> If your LiteLLM keeps models, teams and users in its database (added on its admin page or
+through its API), they are not in <code>config.yaml</code>. <code>--from-url</code> asks the running LiteLLM for them instead, and
+brings its teams and users across as Maple <a href="teams-and-hubs.html">people and teams</a>, with their budgets and limits.
+It only reads; it never changes anything in LiteLLM.</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-bash"><span class="t-k">export</span> LITELLM_MASTER_KEY=...                                             <span class="t-c"># LiteLLM's admin key, typed into the environment</span>
+<span class="t-k">maple-proxy</span> import litellm <span class="t-f">--from-url</span> https://litellm.example.com           <span class="t-c"># print the result and the report; change nothing</span>
+<span class="t-k">maple-proxy</span> import litellm <span class="t-f">--from-url</span> https://litellm.example.com <span class="t-f">--write</span>   <span class="t-c"># merge it into config.yaml</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li><strong>The key.</strong> LiteLLM's admin key (its master key, or a key with the <code>proxy_admin</code> role) is read from
+<code>LITELLM_MASTER_KEY</code>, or from the variable <code>--key-env NAME</code> names. There is no flag that takes the key itself, so
+it does not land in your shell history. It is sent only to the address you give: a redirect to another address
+is not followed. A refused key is reported as such, without the key or LiteLLM's answer.</li><li><strong>The address.</strong> <code>https://</code> is required, except to this machine (<code>http://127.0.0.1:4000</code> or <code>localhost</code>). An
+address with a user name, a password or a query is refused.</li><li><strong>An HTTP proxy.</strong> The proxy set in the environment (<code>HTTPS_PROXY</code>) is not used unless you add
+<code>--use-proxy-env</code> (https only; <code>NO_PROXY</code> is honoured). With it, LiteLLM's own address is still checked first, as
+for a direct connection, and the encrypted session is with LiteLLM itself, so the proxy in between sees neither the
+key nor the answers.</li><li><strong>What is read.</strong> <code>GET /model/info</code> (the deployments), the team list (<code>/v2/team/list</code>, or <code>/team/list</code> on older
+versions), <code>/user/list</code>, <code>/key/list</code> (each key's alias, owner and limits only), every page, and <code>/router/settings</code> (the routing strategy, retries, timeout, fallbacks and
+model group aliases; nothing else of that answer is kept).</li><li><strong>Models</strong> come across as from a file's <code>model_list</code>, above. LiteLLM's API does not give out the deployments'
+keys, so none is copied: a provider whose key LiteLLM read from <code>os.environ/NAME</code> reads <code>${env:NAME}</code>; any other
+reads its provider's usual variable (<code>OPENAI_API_KEY</code>, for example), and the report names each one. Deployments on
+one address are joined into one provider, as LiteLLM does not show whether their keys differ: split them by hand
+if they do. The report says which variable each provider sends, and to which address: check them, since they come
+from LiteLLM's answer. A deployment whose key would be the admin key's variable is left out, and an address LiteLLM
+gives as <code>os.environ/NAME</code> is not read from your environment (add those deployments by hand).</li><li><strong>Teams</strong> become teams, named after the team's alias (made into a usable id when it is not one), and <strong>users</strong>
+become people, named after their email when they have one, in their first team. <code>max_budget</code> over a
+<code>budget_duration</code> of a day or a month becomes a daily or monthly dollar budget (Maple counts calendar days and
+months); over a whole number of days up to 62, such as a week, a
+<a href="access-control.html#budget-windows-and-temporary-increases">budget window</a> of that many days (what was spent over
+the last 7 days, say: at least as strict as LiteLLM's week from its last reset); over another period, its share of
+a day (estimated, and stricter). <code>rpm_limit</code>, <code>tpm_limit</code> (counted by Maple as input tokens) and
+<code>max_parallel_requests</code> become the person's or team's limits, and <code>models</code> the allow-list.</li><li><strong>Nothing comes across looser than it was.</strong> A team or user that cannot be carried over as it is, or stricter,
+is left out, with a line in the report saying why: a budget that resets more often than daily,
+<code>no-default-models</code>, a blocked team, and a user whose team was left out. A budget that never resets becomes a
+<a href="access-control.html#lifetime-budgets">lifetime budget</a>, counting what is spent through Maple from the import
+(LiteLLM's recorded spend is not carried over).</li><li><strong>Not carried over</strong>, each with a line in the report: virtual keys (make a token for each person with
+<code>maple-proxy token add &lt;label&gt; --person &lt;id&gt;</code>; for a key with <code>rpm_limit</code>, <code>tpm_limit</code> or
+<code>max_parallel_requests</code> the report gives the <code>keys[].limits</code> to add for its new token, and for a key with a
+<code>max_budget</code> of its own the <code>keys[].budget</code>, read from <code>/key/list</code>, which never gives out the key), LiteLLM's
+<code>default_user_id</code> (its stand-in for the master key, not a person), recorded spend, team admins, and what LiteLLM keeps
+only in its <code>config.yaml</code> (<code>litellm_settings</code>: the cache, callbacks, default fallbacks; and the routing of a LiteLLM
+without <code>/router/settings</code>): import that file as well.</li><li><code>--write</code> merges as with a file. A person or team that already exists is a clash; with <code>--replace</code>, their team,
+budget, limits and models are replaced and their tokens kept, unless that would raise or remove a budget or limit,
+or allow another model: then it is refused, and you change it by hand.</li></ul>
+<p>Tested against a stand-in that answers as LiteLLM 1.110.0's management API does, and on 2026-11-21 against a real
+LiteLLM 1.110.0 with its database (a team, a user and a key made there, and its router settings); <code>--use-proxy-env</code>
+not through a real company proxy.</p>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="access-control.html">Access control</a> Organizations, roles, key rules and end-user budgets, the Maple side of LiteLLM's teams and keys.</li><li><a href="guardrails.html">Guardrails</a> The checks LiteLLM guardrails become, and services in LiteLLM's guardrail shape.</li><li><a href="proxy-settings.html#model-groups">Model groups</a> Several deployments under one model name, with routing and retries.</li><li><a href="mcp-hub.html">MCP hub</a> Where LiteLLM's <code>mcp_servers</code> land after an import.</li></ul>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/other-tools.html" rel="prev"><small>Previous</small>What the proxy adds for other tools</a><a class="next" href="../docs/mcp.html" rel="next"><small>Next</small>Give other tools this project&#x27;s knowledge</a></div></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/more-endpoints.html" rel="prev"><small>Previous</small>More API routes: rerank, images, audio, files and pass-through</a><a class="next" href="../docs/mcp.html" rel="next"><small>Next</small>Give other tools this project&#x27;s knowledge</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#maple-in-front-of-litellm">Maple in front of LiteLLM</a><ol><li><a href="#telling-litellm-who-asked">Telling LiteLLM who asked</a></li><li><a href="#serving-the-models-litellm-lists">Serving the models LiteLLM lists</a></li></ol></li><li><a href="#moving-a-client-from-litellm-to-maple">Moving a client from LiteLLM to Maple</a></li><li><a href="#litellms-management-api">LiteLLM's management API</a></li><li><a href="#litellm-in-front-of-maple">LiteLLM in front of Maple</a></li><li><a href="#for-litellm-users-the-same-ideas-by-name">For LiteLLM users: the same ideas, by name</a><ol><li><a href="#a-whole-config-side-by-side">A whole config, side by side</a></li></ol></li><li><a href="#move-a-litellm-config-to-maple">Move a LiteLLM config to Maple</a><ol><li><a href="#from-a-running-litellm">From a running LiteLLM</a></li></ol></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

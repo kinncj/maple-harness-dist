@@ -1,0 +1,37 @@
+{{- $sel := include "maple.selectorLabels" (dict "ctx" . "component" "proxy") -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "maple.fullname" . }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "proxy") | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- $sel | nindent 4 }}
+  ports:
+    - {name: openai, port: {{ .Values.service.openaiPort }}, targetPort: openai}
+    - {name: anthropic, port: {{ .Values.service.anthropicPort }}, targetPort: anthropic}
+    {{- if .Values.metrics.serviceMonitor.enabled }}
+    # /metrics is served on the OpenAI-compatible port, to a metrics-scope token only. A port number
+    # of its own: a Service refuses the same number twice.
+    - {name: metrics, port: 9090, targetPort: openai}
+    {{- end }}
+{{- if and .Values.podDisruptionBudget.enabled (gt (int .Values.replicaCount) 1) }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "maple.fullname" . }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  selector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+{{- end }}

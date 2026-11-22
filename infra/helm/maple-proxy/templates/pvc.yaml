@@ -1,0 +1,37 @@
+{{- if eq .Values.mode "disk" }}
+{{- $fullname := include "maple.fullname" . -}}
+{{- if not .Values.persistence.data.existingClaim }}
+# Everything the proxy keeps: config.yaml, access tokens, the usage log and its views.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $fullname }}-data
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+  annotations:
+    # Kept on uninstall: it holds the settings, tokens and usage history.
+    helm.sh/resource-policy: keep
+spec:
+  accessModes: {{ toJson .Values.persistence.data.accessModes }}
+  {{- with .Values.persistence.data.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources: {requests: {storage: {{ .Values.persistence.data.size }}}}
+{{- end }}
+{{- if and .Values.persistence.models.enabled (not .Values.persistence.models.existingClaim) }}
+---
+# The embedding models the proxy downloads on first use.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $fullname }}-models
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  accessModes: {{ toJson .Values.persistence.models.accessModes }}
+  {{- with .Values.persistence.models.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources: {requests: {storage: {{ .Values.persistence.models.size }}}}
+{{- end }}
+{{- end }}

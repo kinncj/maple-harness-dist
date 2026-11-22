@@ -1,0 +1,155 @@
+{{- if .Values.redis.enabled }}
+{{- $name := printf "%s-redis" (include "maple.fullname" .) -}}
+{{- $sel := include "maple.selectorLabels" (dict "ctx" . "component" "redis") -}}
+{{- if eq .Values.mode "redis" }}
+# FOR TRYING IT OUT: one Redis that KEEPS what it holds, for mode redis, where it is the only store:
+# usage, budgets, settings and tokens live here. The proxy refuses a Redis without an append-only file
+# or one that may evict keys, so both are set, on a persistent volume. No replica and no backups: in
+# production use a Redis or Valkey with the same settings on a persistent disk, and back up its data
+# folder (the appendonlydir).
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "redis") | nindent 4 }}
+spec:
+  serviceName: {{ $name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "maple.componentLabels" (dict "ctx" . "component" "redis") | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: {{ .Values.redis.image }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom: {secretKeyRef: {name: {{ .Values.redis.existingSecret | quote }}, key: password}}
+          # The password goes into a config file in memory, never onto the command line (where a process
+          # list on the node shows it), without the trailing newline a password file made with
+          # openssl rand ... > file has (kubectl create secret --from-file keeps it). The proxy signs in as the user maple, which cannot run FLUSHALL,
+          # CONFIG, DEBUG, SHUTDOWN or any other dangerous command (INFO stays: the proxy checks
+          # durability with it); the default user is off.
+          # appendonly yes + appendfsync everysec: at most about a second of writes lost on a crash.
+          # noeviction: a full Redis refuses writes instead of deleting keys.
+          command: ["sh", "-c"]
+          args:
+            - >-
+              REDIS_PASSWORD=$(printf '%s' "$REDIS_PASSWORD") && case "$REDIS_PASSWORD" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 &&
+              printf 'user default off\nuser maple on >%s ~* &* +@all -@dangerous +info\n' "$REDIS_PASSWORD" > /conf/redis.conf && unset REDIS_PASSWORD &&
+              exec redis-server /conf/redis.conf --dir /data --appendonly yes --appendfsync everysec
+              --maxmemory {{ .Values.redis.maxmemory }} --maxmemory-policy noeviction
+          ports: [{name: redis, containerPort: 6379}]
+          readinessProbe:
+            # The password through the environment (REDISCLI_AUTH), not the command line.
+            exec: {command: ["sh", "-c", "REDISCLI_AUTH=\"$(printf '%s' \"$REDIS_PASSWORD\")\" redis-cli --user maple ping | grep -q PONG"]}
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.redis.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - {name: conf, emptyDir: {medium: Memory, sizeLimit: 1Mi}}
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec:
+        accessModes: [ReadWriteOnce]
+        {{- with .Values.redis.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources: {requests: {storage: {{ .Values.redis.size }}}}
+{{- else }}
+# FOR TRYING IT OUT: one Redis, memory only. Sessions and shared caches live here; losing it signs
+# browsers out of the setup page and empties caches, nothing more. In production use your managed
+# Redis (with a password and TLS).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "redis") | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "maple.componentLabels" (dict "ctx" . "component" "redis") | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: {{ .Values.redis.image }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom: {secretKeyRef: {name: {{ .Values.redis.existingSecret | quote }}, key: password}}
+          # The password goes into a config file in memory, never onto the command line (where a process
+          # list on the node shows it), without the trailing newline a password file made with
+          # openssl rand ... > file has (kubectl create secret --from-file keeps it).
+          command: ["sh", "-c"]
+          args:
+            - >-
+              REDIS_PASSWORD=$(printf '%s' "$REDIS_PASSWORD") && case "$REDIS_PASSWORD" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 && printf 'requirepass "%s"\n' "$REDIS_PASSWORD" > /conf/redis.conf && unset REDIS_PASSWORD &&
+              exec redis-server /conf/redis.conf --save '' --appendonly no
+              --maxmemory {{ .Values.redis.maxmemory }} --maxmemory-policy volatile-lru
+          ports: [{name: redis, containerPort: 6379}]
+          resources:
+            {{- toYaml .Values.redis.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - {name: data, emptyDir: {}}
+        - {name: conf, emptyDir: {medium: Memory, sizeLimit: 1Mi}}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- $sel | nindent 4 }}
+  ports: [{name: redis, port: 6379, targetPort: redis}]
+---
+# Only the proxy may reach Redis: anyone who can write it can sign browsers in and clear limits (and,
+# in mode redis, change budgets and usage, or stop the replicas).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              {{- include "maple.selectorLabels" (dict "ctx" . "component" "proxy") | nindent 14 }}
+      ports: [{port: 6379}]
+{{- end }}

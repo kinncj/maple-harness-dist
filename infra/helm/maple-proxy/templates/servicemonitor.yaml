@@ -1,0 +1,27 @@
+{{- if .Values.metrics.serviceMonitor.enabled }}
+# Scrapes /metrics on each replica with a metrics-scope token (it reads /metrics and cannot use the
+# models). Plain http inside the cluster: restrict it with a NetworkPolicy, or a mesh with TLS.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "maple.fullname" . }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+    {{- with .Values.metrics.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "maple.selectorLabels" (dict "ctx" . "component" "proxy") | nindent 6 }}
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: {{ .Values.metrics.serviceMonitor.interval }}
+      scheme: http
+      authorization:
+        type: Bearer
+        credentials:
+          name: {{ .Values.metrics.serviceMonitor.tokenSecret.name | quote }}
+          key: {{ .Values.metrics.serviceMonitor.tokenSecret.key | quote }}
+{{- end }}

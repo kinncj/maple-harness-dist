@@ -22,4 +22,4 @@ patches:
     patch: |-
       - op: add
         path: /spec/ports/-
-        value: {name: metrics, port: 11535, targetPort: openai}
+        value: {name: metrics, port: 9090, targetPort: openai}

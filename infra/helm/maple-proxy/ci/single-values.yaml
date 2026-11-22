@@ -1,0 +1,2 @@
+# config/single: one replica, disk mode.
+existingSecret: maple-proxy

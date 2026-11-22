@@ -3,92 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>MCP hub (experimental) · Maple Harness docs</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>MCP hub · Maple Harness docs</title>
 <meta name="description" content="The proxy can run your MCP servers once and offer all of their tools at one address. Maple Harness, Claude Code, OpenCode and any other tool that speaks MCP then point at that address instead of each ">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
-<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
 <div class="search" role="search" data-docs="../docs/">
 <label class="sr" for="q">Search the documentation</label>
 <input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html" aria-current="page">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html" aria-current="page">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html" aria-current="page">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/access-control.html">Access control: organizations, roles, keys and end users</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html" aria-current="page">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
-<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">MCP hub (experimental)</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">MCP hub (experimental)</li></ol></div></nav>
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">MCP hub</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">MCP hub</li></ol></div></nav>
 <article>
-<h1 id="mcp-hub-experimental">MCP hub (experimental) <a class="anchor" href="#mcp-hub-experimental" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#point-your-tools-at-it">Point your tools at it</a><ol><li><a href="#maple-harness">Maple Harness</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#who-may-use-which-tools">Who may use which tools</a></li><li><a href="#security">Security</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li><li><a href="#running-it-as-a-service-of-its-own">Running it as a service of its own</a></li><li><a href="#running-it-in-a-container">Running it in a container</a></li><li><a href="#limits">Limits</a></li><li><a href="#commands">Commands</a></li></ol></details>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The proxy</span><span class="rt" title="Estimated at about 220 words a minute">38 min read</span></p>
+<h1 id="mcp-hub">MCP hub <a class="anchor" href="#mcp-hub" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#point-your-tools-at-it">Point your tools at it</a><ol><li><a href="#maple-harness">Maple Harness</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#who-may-use-which-tools">Who may use which tools</a></li><li><a href="#servers-that-ask-you-to-sign-in">Servers that ask you to sign in</a><ol><li><a href="#in-plain-words-1">In plain words</a></li><li><a href="#technically">Technically</a></li><li><a href="#acting-for-each-person-without-a-browser">Acting for each person without a browser</a></li></ol></li><li><a href="#more-ways-to-limit-access">More ways to limit access</a></li><li><a href="#prompts-and-resources">Prompts and resources</a></li><li><a href="#pinning-tools">Pinning tools</a></li><li><a href="#when-a-servers-tools-change">When a server's tools change</a></li><li><a href="#cost-and-limits-per-server">Cost and limits per server</a></li><li><a href="#finding-a2a-agents-from-an-mcp-client">Finding A2A agents from an MCP client</a><ol><li><a href="#in-plain-words-3">In plain words</a></li><li><a href="#technically-2">Technically</a></li></ol></li><li><a href="#letting-the-proxy-run-tools-for-a-chat-request">Letting the proxy run tools for a chat request</a><ol><li><a href="#in-plain-words-4">In plain words</a></li><li><a href="#turn-it-on-1">Turn it on</a></li><li><a href="#ask-for-it">Ask for it</a></li><li><a href="#what-comes-back">What comes back</a></li><li><a href="#limits">Limits</a></li><li><a href="#what-is-recorded">What is recorded</a></li><li><a href="#risks">Risks</a></li><li><a href="#compared-with-openai-litellm-and-anthropic">Compared with OpenAI, LiteLLM and Anthropic</a></li><li><a href="#providers-own-mcp-connectors">Providers' own MCP connectors</a></li></ol></li><li><a href="#other-ways-in">Other ways in</a></li><li><a href="#upgrading-from-2x">Upgrading from 2.x</a></li><li><a href="#security">Security</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li><li><a href="#running-it-as-a-service-of-its-own">Running it as a service of its own</a></li><li><a href="#running-it-in-a-container">Running it in a container</a></li><li><a href="#limits-1">Limits</a></li><li><a href="#commands">Commands</a></li><li><a href="#see-also">See also</a></li></ol></details>
 
-<p>The proxy can run your MCP servers once and offer all of their tools at one address. Maple Harness, Claude Code,
+<p class="lede">The proxy can run your MCP servers once and offer all of their tools at one address. Maple Harness, Claude Code,
 OpenCode and any other tool that speaks MCP then point at that address instead of each starting its own copy of
 every server.</p>
-<p>It is <strong>experimental</strong> and <strong>off by default</strong>. While it is off nothing listens, nothing starts and nothing changes:
-the proxy and the agent work exactly as without it, and the agent's own MCP servers are unaffected.</p>
+<div class="callout c-note" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>Off by default, and stable since 3.0</span></p><p>While it is off nothing listens, nothing starts and nothing changes: the proxy and the agent work exactly as
+without it, and the agent's own MCP servers are unaffected. Since 3.0 it is no longer experimental: its settings,
+commands and endpoints are kept from one release to the next like the rest of the proxy's (see
+<a href="#upgrading-from-2x">Upgrading from 2.x</a>).</p></div>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> The proxy runs your MCP servers (the add-ons that give an agent extra tools) once, and every tool
 you use reaches them at one address.</li><li><strong>Why you want it.</strong> One copy of each server instead of one per tool, one place to limit what each person may
-call.</li><li><strong>The clicks.</strong> Servers are added in a terminal (<code>maple-proxy mcp-hub add</code>), because a server can be a program
-the proxy runs. Then the setup page's <strong>MCP hub</strong> tab (from <strong>Set up more</strong>, <strong>MCP hub (experimental)</strong>) shows each
+call, and one place to sign in to hosted servers: once for everyone, or each person for themselves.</li><li><strong>The clicks.</strong> On the setup page, <strong>Set up more</strong>, then <strong>MCP hub</strong>, <strong>Set up</strong>: add a remote
+server by its <code>https</code> address (a token for it is kept in the secret store), and turn the hub on. A program server,
+or one on this machine or your network, is added in a terminal (<code>maple-proxy mcp-hub add</code>), because a program on
+this machine can reach the setup page too; the tab writes the command out for you to copy. The tab then shows each
 server and its tools, and switches them on and off.</li></ul>
 <figure>
-<img class="shot shot-light" src="../img/docs/setup-mcp-hub-light.webp" alt="The MCP hub card: the hub on and serving on this machine, and one HTTP server, docs, running with two tools." width="1000" height="307" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-mcp-hub-dark.webp" alt="The MCP hub card: the hub on and serving on this machine, and one HTTP server, docs, running with two tools." width="1000" height="307" loading="lazy" decoding="async">
-<figcaption>The MCP hub tab with one server. A demo setup.</figcaption>
-</figure>
+<img class="shot shot-light" src="../img/docs/setup-mcp-hub-light.webp" alt="The MCP hub tab: MCP hub on and serving; the docs server running with 1 tool, 2 prompts and 1 resource, pinned, with a note that 1 tool changed and is held back until accepted; the tracker server running, not signed in yet, with the command to sign the hub in; Add a remote server (https) opened with its name, address, transport and tools fields" width="1000" height="794" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-mcp-hub-dark.webp" alt="The MCP hub tab: MCP hub on and serving; the docs server running with 1 tool, 2 prompts and 1 resource, pinned, with a note that 1 tool changed and is held back until accepted; the tracker server running, not signed in yet, with the command to sign the hub in; Add a remote server (https) opened with its name, address, transport and tools fields" width="1000" height="794" loading="lazy" decoding="async">
+<figcaption>The MCP hub tab with two servers, and the form to add another. A demo setup.</figcaption>
+</figure></section>
 <h2 id="how-it-works">How it works <a class="anchor" href="#how-it-works" aria-label="Link to this heading">#</a></h2>
 <ul><li>You list the servers in <code>config.yaml</code> under <code>mcp_hub.servers</code>, in the same shape as the agent's <code>mcp_servers</code>:
 a program the proxy starts (stdio), or a server it reaches by URL (<code>http</code> or <code>sse</code>).</li><li>The proxy serves one MCP endpoint, <code>http://127.0.0.1:11545/mcp</code> by default (Streamable HTTP).</li><li>Each tool is named <code>&lt;server&gt;__&lt;tool&gt;</code>: a <code>github</code> server's <code>create_issue</code> is <code>github__create_issue</code>.</li><li>A server can be limited to some of its tools, and each person can be limited to some of the hub's tools.</li><li>A server that stops is started again, waiting a little longer each time; all of them stop with the proxy.</li></ul>
 <h2 id="turn-it-on">Turn it on <a class="anchor" href="#turn-it-on" aria-label="Link to this heading">#</a></h2>
-<p>Add a server from a terminal, then turn the hub on:</p>
-<pre><code class="language-sh">maple-proxy mcp-hub add files -- npx -y @modelcontextprotocol/server-filesystem /home/me/projects
-maple-proxy mcp-hub add docs --url https://mcp.example.com/mcp --header "Authorization=Bearer \${secret:docs/token}"
-maple-proxy mcp-hub enable
-maple-proxy mcp-hub token my-laptop
-maple-proxy mcp-hub status</code></pre>
+<ol class="steps"><li><strong>Add a server</strong>, a program the proxy starts or a server it reaches by URL (<code>maple-proxy mcp-hub add</code>).</li><li><strong>Turn the hub on</strong> (<code>maple-proxy mcp-hub enable</code>).</li><li><strong>Make a token</strong> for each tool that will use it (<code>maple-proxy mcp-hub token &lt;label&gt;</code>); it is shown once.</li><li><strong>Check it</strong> (<code>maple-proxy mcp-hub status</code>): each server, its state and its tools.</li><li><strong>Point your tools at it</strong> (<a href="#point-your-tools-at-it">below</a>).</li></ol>
+<p>From a terminal:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> mcp-hub add files -- npx <span class="t-f">-y</span> @modelcontextprotocol/server-filesystem /home/me/projects
+<span class="t-k">maple-proxy</span> mcp-hub add docs <span class="t-f">--url</span> https://mcp.example.com/mcp <span class="t-f">--header</span> <span class="t-s">"Authorization=Bearer \${secret:docs/token}"</span>
+<span class="t-k">maple-proxy</span> mcp-hub enable
+<span class="t-k">maple-proxy</span> mcp-hub token my-laptop
+<span class="t-k">maple-proxy</span> mcp-hub status</code></pre></div>
 <p><code>token</code> prints an access token once: every tool that uses the hub sends it (see below).</p>
 <p>or write it in <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">mcp_hub:
-  enabled: true
-  servers:
-    - name: files
-      command: npx
-      args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/me/projects"]
-    - name: docs
-      url: https://mcp.example.com/mcp
-      headers:
-        Authorization: "Bearer ${secret:docs/token}"
-      tools: ["search*", "fetch"]</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  enabled:</span> <span class="t-n">true</span>
+<span class="t-k">  servers:</span>
+<span class="t-k">    - name:</span> files
+<span class="t-k">      command:</span> npx
+<span class="t-k">      args:</span> [<span class="t-s">"-y"</span>, <span class="t-s">"@modelcontextprotocol/server-filesystem"</span>, <span class="t-s">"/home/me/projects"</span>]
+<span class="t-k">    - name:</span> docs
+<span class="t-k">      url:</span> https://mcp.example.com/mcp
+<span class="t-k">      headers:</span>
+<span class="t-k">        Authorization:</span> <span class="t-s">"Bearer ${secret:docs/token}"</span>
+<span class="t-k">      tools:</span> [<span class="t-s">"search*"</span>, <span class="t-s">"fetch"</span>]</code></pre></div>
 <p>A running proxy picks the change up within a few seconds; there is nothing to restart. The setup page's
-<strong>MCP hub</strong> card shows each server, its state and its tools, and switches the hub or a server on and off. It
-cannot add a server or change what one runs: that is done in <code>config.yaml</code> or with <code>maple-proxy mcp-hub</code> in a
-terminal.</p>
+<strong>MCP hub</strong> tab shows each server, its state and its tools, and switches the hub or a server on and off. It also adds
+and removes <strong>remote</strong> servers: an <code>https</code> address on the internet, with header values you type there (kept as new
+secrets, named <code>mcp-hub/&lt;server&gt;/&lt;header&gt;</code>, and deleted with the server). It never adds a program server, a server on
+this machine or a private network, or a header that names one of your existing secrets (<code>${secret:…}</code>), and never
+removes a program server: those need a terminal, and the tab writes the <code>maple-proxy mcp-hub add</code> command out to copy.</p>
+<div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>Servers added on the page start off without a page password</span></p><p>Without a page password, any program on this machine can use the setup page, so a server added there starts
+<strong>off</strong>: turn it on with <code>maple-proxy mcp-hub enable NAME</code> in a terminal, or set a page password (<strong>Security &amp;
+access</strong>, <strong>Protect this page</strong>) and turn it on from the tab.</p></div>
 <h2 id="point-your-tools-at-it">Point your tools at it <a class="anchor" href="#point-your-tools-at-it" aria-label="Link to this heading">#</a></h2>
 <p>Each tool sends the token from <code>maple-proxy mcp-hub token</code> as <code>Authorization: Bearer &lt;token&gt;</code>. Keep it in an
 environment variable or your tool's secret store rather than in a file you share.</p>
 <h3 id="maple-harness">Maple Harness <a class="anchor" href="#maple-harness" aria-label="Link to this heading">#</a></h3>
 <p>In <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">harness:
-  mcp_servers:
-    - name: hub
-      url: http://127.0.0.1:11545/mcp
-      allow_private: true
-      headers:
-        Authorization: "Bearer ${env:MAPLE_HUB_TOKEN}"</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  mcp_servers:</span>
+<span class="t-k">    - name:</span> hub
+<span class="t-k">      url:</span> http://127.0.0.1:<span class="t-n">11545</span>/mcp
+<span class="t-k">      allow_private:</span> <span class="t-n">true</span>
+<span class="t-k">      headers:</span>
+<span class="t-k">        Authorization:</span> <span class="t-s">"Bearer ${env:MAPLE_HUB_TOKEN}"</span></code></pre></div>
 <p>The tools appear as <code>mcp__hub__&lt;server&gt;__&lt;tool&gt;</code> and ask for approval like any other tool. To allow one without
 asking, name it in a rule, for example <code>- {decision: allow, pattern: mcp__hub__files__read_file}</code>.</p>
 <p>Maple Harness sends the token to the hub's address on this machine only after the hub proves, on that connection,
@@ -96,57 +109,451 @@ that it is your own (the same check as for your proxy; see
 <a href="proxy.html#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a>). While the hub is off, a program that
 takes its port gets nothing. Other tools, such as Claude Code, do not make this check.</p>
 <h3 id="claude-code">Claude Code <a class="anchor" href="#claude-code" aria-label="Link to this heading">#</a></h3>
-<pre><code class="language-sh">claude mcp add --transport http maple-hub http://127.0.0.1:11545/mcp --header "Authorization: Bearer $MAPLE_HUB_TOKEN"</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">claude</span> mcp add <span class="t-f">--transport</span> http maple-hub http://127.0.0.1:11545/mcp <span class="t-f">--header</span> <span class="t-s">"Authorization: Bearer $MAPLE_HUB_TOKEN"</span></code></pre></div>
 <p>or in <code>.mcp.json</code>:</p>
-<pre><code class="language-json">{
-  "mcpServers": {
-    "maple-hub": {
-      "type": "http",
-      "url": "http://127.0.0.1:11545/mcp",
-      "headers": { "Authorization": "Bearer ${MAPLE_HUB_TOKEN}" }
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"mcpServers"</span>: {
+    <span class="t-k">"maple-hub"</span>: {
+      <span class="t-k">"type"</span>: <span class="t-s">"http"</span>,
+      <span class="t-k">"url"</span>: <span class="t-s">"http://127.0.0.1:11545/mcp"</span>,
+      <span class="t-k">"headers"</span>: { <span class="t-k">"Authorization"</span>: <span class="t-s">"Bearer ${MAPLE_HUB_TOKEN}"</span> }
     }
   }
-}</code></pre>
+}</code></pre></div>
 <h3 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h3>
 <p>In <code>opencode.json</code>:</p>
-<pre><code class="language-json">{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "maple-hub": {
-      "type": "remote",
-      "url": "http://127.0.0.1:11545/mcp",
-      "headers": { "Authorization": "Bearer {env:MAPLE_HUB_TOKEN}" },
-      "enabled": true
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"$schema"</span>: <span class="t-s">"https://opencode.ai/config.json"</span>,
+  <span class="t-k">"mcp"</span>: {
+    <span class="t-k">"maple-hub"</span>: {
+      <span class="t-k">"type"</span>: <span class="t-s">"remote"</span>,
+      <span class="t-k">"url"</span>: <span class="t-s">"http://127.0.0.1:11545/mcp"</span>,
+      <span class="t-k">"headers"</span>: { <span class="t-k">"Authorization"</span>: <span class="t-s">"Bearer {env:MAPLE_HUB_TOKEN}"</span> },
+      <span class="t-k">"enabled"</span>: <span class="t-n">true</span>
     }
   }
-}</code></pre>
+}</code></pre></div>
 <h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
-<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>mcp_<wbr>hub.<wbr>enabled</code></td><td data-label="Default">off</td><td data-label="What it does">Turns the hub on</td></tr><tr><td><code>mcp_hub.listen</code></td><td data-label="Default"><code>127.0.0.1:11545</code></td><td data-label="What it does">Where the endpoint is served (path <code>/mcp</code>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>loopback_<wbr>without_<wbr>token</code></td><td data-label="Default">off</td><td data-label="What it does">Lets tools on this machine use the hub without a token. Anything that runs on this machine, a sandboxed command included, could then call every tool</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]</code></td><td data-label="Default">none</td><td data-label="What it does">The servers: <code>name</code>, then <code>command</code>, <code>args</code> and <code>env</code> for a program, or <code>url</code>, <code>type</code> (<code>http</code> or <code>sse</code>), <code>headers</code>, <code>allow_private</code> and <code>allow_insecure</code> for a server reached by URL, as for the agent's <code>mcp_servers</code></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>tools</code></td><td data-label="Default">every tool</td><td data-label="What it does">Only these tools of the server, by its own names; <code>*</code> matches any run of characters</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>disabled</code></td><td data-label="Default">off</td><td data-label="What it does">Keeps the server configured but not started</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>sandbox</code></td><td data-label="Default"><code>auto</code></td><td data-label="What it does">How a program the hub starts is contained: <code>auto</code>, <code>strict</code> or <code>off</code>, as for the agent's <a href="sandbox.html">sandbox</a></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>allow_<wbr>uncontained_<wbr>stdio</code></td><td data-label="Default">off</td><td data-label="What it does">In the container image only: starts stdio servers without a sandbox. Off, a stdio server there is refused (the image has no sandbox); see <a href="#running-it-in-a-container">Running it in a container</a></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>rate_<wbr>limit_<wbr>per_<wbr>minute</code></td><td data-label="Default"><code>120</code></td><td data-label="What it does">Tool calls a minute per token (per caller on this machine without one)</td></tr><tr><td><code>mcp_hub.people</code></td><td data-label="Default">none</td><td data-label="What it does">Per-person lists of the hub's tools each person may see and call</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>tls_<wbr>cert</code>, <code>mcp_<wbr>hub.<wbr>tls_<wbr>key</code></td><td data-label="Default">none</td><td data-label="What it does">A certificate for serving off this machine</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>insecure_<wbr>http</code></td><td data-label="Default">off</td><td data-label="What it does">Serves off this machine over plain HTTP; tokens then cross the network unencrypted</td></tr></tbody></table></div>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>mcp_<wbr>hub.<wbr>enabled</code></td><td data-label="Default">off</td><td data-label="What it does">Turns the hub on</td></tr><tr><td><code>mcp_hub.listen</code></td><td data-label="Default"><code>127.0.0.1:11545</code></td><td data-label="What it does">Where the endpoint is served (path <code>/mcp</code>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>loopback_<wbr>without_<wbr>token</code></td><td data-label="Default">off</td><td data-label="What it does">Lets tools on this machine use the hub without a token. Anything that runs on this machine, a sandboxed command included, could then call every tool</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]</code></td><td data-label="Default">none</td><td data-label="What it does">The servers: <code>name</code>, then <code>command</code>, <code>args</code> and <code>env</code> for a program, or <code>url</code>, <code>type</code> (<code>http</code> or <code>sse</code>), <code>headers</code>, <code>allow_private</code> and <code>allow_insecure</code> for a server reached by URL, as for the agent's <code>mcp_servers</code></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>tools</code></td><td data-label="Default">every tool</td><td data-label="What it does">Only these tools of the server, by its own names; <code>*</code> matches any run of characters</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>disabled</code></td><td data-label="Default">off</td><td data-label="What it does">Keeps the server configured but not started</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>sandbox</code></td><td data-label="Default"><code>auto</code></td><td data-label="What it does">How a program the hub starts is contained: <code>auto</code>, <code>strict</code> or <code>off</code>, as for the agent's <a href="sandbox.html">sandbox</a></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>allow_<wbr>uncontained_<wbr>stdio</code></td><td data-label="Default">off</td><td data-label="What it does">In the container image only: starts stdio servers without a sandbox. Off, a stdio server there is refused (the image has no sandbox); see <a href="#running-it-in-a-container">Running it in a container</a></td></tr><tr><td><code>mcp_<wbr>hub.<wbr>rate_<wbr>limit_<wbr>per_<wbr>minute</code></td><td data-label="Default"><code>120</code></td><td data-label="What it does">Tool calls a minute per token (per caller on this machine without one)</td></tr><tr><td><code>mcp_hub.people</code></td><td data-label="Default">none</td><td data-label="What it does">Per-person lists of the hub's tools each person may see and call</td></tr><tr><td><code>mcp_hub.teams</code>, <code>mcp_hub.tokens</code></td><td data-label="Default">none</td><td data-label="What it does">Per-team and per-token lists, on top of the per-person ones (see <a href="#more-ways-to-limit-access">More ways to limit access</a>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>access_<wbr>groups</code></td><td data-label="Default">none</td><td data-label="What it does">Named lists of tools that <code>@name</code> stands for in the other lists</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>end_<wbr>user_<wbr>header</code></td><td data-label="Default">off</td><td data-label="What it does">Lets a client name the person it acts for (<code>X-Maple-End-User</code>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>auth</code></td><td data-label="Default">none</td><td data-label="What it does">How the hub signs in to a remote server (see <a href="#servers-that-ask-you-to-sign-in">Servers that ask you to sign in</a>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>prompts</code>, <code>resources</code></td><td data-label="Default">off</td><td data-label="What it does">Also offers the server's prompts and resources</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>pin</code></td><td data-label="Default">off</td><td data-label="What it does">Freezes the server's tools as first seen (see <a href="#pinning-tools">Pinning tools</a>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>allowed_<wbr>params</code></td><td data-label="Default">none</td><td data-label="What it does">Per tool, the only arguments a call may carry</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>cost_<wbr>per_<wbr>call</code>, <code>tool_costs</code></td><td data-label="Default">none</td><td data-label="What it does">What a call costs, in US dollars, as you set it</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>servers[]<wbr>.<wbr>rate_<wbr>limit_<wbr>per_<wbr>minute</code></td><td data-label="Default">none</td><td data-label="What it does">Calls to this server a minute per caller, on top of the hub's limit</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>provider_<wbr>hosted_<wbr>mcp</code></td><td data-label="Default"><code>refuse</code></td><td data-label="What it does">Whether a request passed on to a provider may name MCP servers or connectors for the provider to reach (see <a href="#providers-own-mcp-connectors">Providers' own MCP connectors</a>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>tool_<wbr>loop</code></td><td data-label="Default">off</td><td data-label="What it does">Lets a chat request have the proxy run hub tools (see <a href="#letting-the-proxy-run-tools-for-a-chat-request">Letting the proxy run tools for a chat request</a>)</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>tls_<wbr>cert</code>, <code>mcp_<wbr>hub.<wbr>tls_<wbr>key</code></td><td data-label="Default">none</td><td data-label="What it does">A certificate for serving off this machine</td></tr><tr><td><code>mcp_<wbr>hub.<wbr>insecure_<wbr>http</code></td><td data-label="Default">off</td><td data-label="What it does">Serves off this machine over plain HTTP; tokens then cross the network unencrypted</td></tr></tbody></table></div>
 <p>Server names are letters, digits and dashes. <code>env</code> and <code>headers</code> values may be <code>${secret:name}</code> or <code>${env:NAME}</code>
 references, looked up when the server starts, so the keys are never written in the file.</p>
 <h2 id="who-may-use-which-tools">Who may use which tools <a class="anchor" href="#who-may-use-which-tools" aria-label="Link to this heading">#</a></h2>
 <p>With <a href="teams.html">people</a> set up, each access token belongs to a person, and <code>mcp_hub.people</code> says which of the hub's
 tools each person may see and call:</p>
-<pre><code class="language-yaml">mcp_hub:
-  people:
-    alice: ["files__*", "docs__*"]
-    bob: ["docs__search"]
-    local: ["*"]</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  people:</span>
+<span class="t-k">    alice:</span> [<span class="t-s">"files__*"</span>, <span class="t-s">"docs__*"</span>]
+<span class="t-k">    bob:</span> [<span class="t-s">"docs__search"</span>]
+<span class="t-k">    local:</span> [<span class="t-s">"*"</span>]</code></pre></div>
 <p><code>local</code> is whoever calls from this machine without a token (only with <code>loopback_without_token</code>), <code>unattributed</code> a token tied to no person, and <code>*</code> anyone
 not listed. With no <code>people</code> lists, everyone may use every tool the hub offers. Once there is a list, someone with
 no entry (and no <code>*</code> entry) gets none. A person only sees the tools they may call.</p>
+<h2 id="servers-that-ask-you-to-sign-in">Servers that ask you to sign in <a class="anchor" href="#servers-that-ask-you-to-sign-in" aria-label="Link to this heading">#</a></h2>
+<p>Hosted MCP servers often want a sign-in with an account instead of a fixed token. The hub signs in to them in one of
+four ways, set per server under <code>auth</code>:</p>
+<ul><li><strong>One sign-in for everyone</strong> (<code>type: oauth</code>). You sign the hub in once, in a terminal on the hub's machine, and
+everyone who may use the server works through that one account.</li><li><strong>Each person for themselves</strong> (<code>type: oauth</code>, <code>per_person: true</code>). Every person signs in with their own account,
+and their calls go out as them. Someone who has not signed in is told how to, and nobody can use another person's
+sign-in.</li><li><strong>The hub as an app</strong> (<code>type: client_credentials</code>). For services that give you a client id and secret for a
+machine, not a person: no browser at all.</li><li><strong>The hub acting for each person</strong> (<code>type: token_exchange</code>). For services whose sign-in server can trade a token
+that says who someone is for an access token of theirs: every person's calls go out as them, and nobody opens a
+browser. See <a href="#acting-for-each-person-without-a-browser">Acting for each person without a browser</a>.</li></ul>
+<p>A fixed token still goes in <code>headers</code> (<code>Authorization: "Bearer ${secret:name}"</code>, a basic-auth header, or an API key
+header), as before.</p>
+<h3 id="in-plain-words-1">In plain words <a class="anchor" href="#in-plain-words-1" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>One account for the team</strong>: add <code>auth: {type: oauth}</code> to the server, then run
+<code>maple-proxy mcp-hub login NAME</code> on the hub's machine and approve in the browser. The hub's MCP hub tab and
+<code>maple-proxy mcp-hub status</code> show the server as <em>needs a sign-in</em> until then, and <em>running</em> a few seconds after.</li><li><strong>Everyone their own</strong>: add <code>per_person: true</code>. Each person runs, on their own machine,
+<code>maple-proxy mcp-hub login NAME --hub https://hub.example.com:11545</code> with their hub token in <code>MAPLE_HUB_TOKEN</code>, and
+approves in their browser. The server's tools then appear in their sessions.</li></ul>
+<h3 id="technically">Technically <a class="anchor" href="#technically" aria-label="Link to this heading">#</a></h3>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  servers:</span>
+<span class="t-k">    - name:</span> tracker                  <span class="t-c"># one sign-in for everyone</span>
+<span class="t-k">      url:</span> https://mcp.tracker.example/mcp
+<span class="t-k">      auth:</span> {type: oauth}
+<span class="t-k">    - name:</span> wiki                     <span class="t-c"># each person signs in</span>
+<span class="t-k">      url:</span> https://mcp.wiki.example/mcp
+<span class="t-k">      auth:</span>
+<span class="t-k">        type:</span> oauth
+<span class="t-k">        per_person:</span> <span class="t-n">true</span>
+<span class="t-k">    - name:</span> billing                  <span class="t-c"># an app registered beforehand</span>
+<span class="t-k">      url:</span> https://mcp.billing.example/mcp
+<span class="t-k">      auth:</span>
+<span class="t-k">        type:</span> oauth
+<span class="t-k">        client_id:</span> maple-hub
+<span class="t-k">        client_secret:</span> ${secret:billing/client-secret}
+<span class="t-k">        issuer:</span> https://auth.billing.example   <span class="t-c"># where the secret may go (needed with a secret)</span>
+<span class="t-k">        callback_port:</span> <span class="t-n">8765</span>          <span class="t-c"># when the app's return address must match exactly</span>
+<span class="t-k">    - name:</span> reports                  <span class="t-c"># the hub as an app, no person</span>
+<span class="t-k">      url:</span> https://mcp.reports.example/mcp
+<span class="t-k">      auth:</span>
+<span class="t-k">        type:</span> client_credentials
+<span class="t-k">        client_id:</span> maple-hub
+<span class="t-k">        client_secret:</span> ${secret:reports/client-secret}
+<span class="t-k">        token_url:</span> https://auth.reports.example/token
+<span class="t-k">        scopes:</span> [reports.read]</code></pre></div>
+<ul><li>Sign-in follows MCP's authorization: OAuth 2.1 with PKCE, the server's and the authorization server's metadata, and
+automatic client registration where the server offers it (or the <code>client_id</code> you give).</li><li><code>client_secret</code> is always a <code>${secret:…}</code> or <code>${env:…}</code> reference: a secret written into <code>config.yaml</code> is refused,
+as is one that names another feature's credential. It is only ever sent to an address you named: <code>token_url</code> for
+<code>client_credentials</code>, <code>issuer</code> for an <code>oauth</code> app, never to one an MCP server's own metadata points at.</li><li>Sign-ins are kept in the proxy's secret store (the keyring, or its encrypted file), never in <code>config.yaml</code>, and
+renewed on their own. A sign-in is for the server's address: change the <code>url</code> and the server asks for a sign-in
+again.</li><li>With <code>per_person</code>, each person's tools are listed from their own connection and shown to no one else (accounts
+can differ). Signing in needs the person's own hub token. The person's browser comes back to their own machine,
+which hands the result to the hub over the same token they use for the hub; a sign-in started with one token cannot be finished with another, and an answer
+is used once and expires after ten minutes. Calls from a client acting for someone else (<code>end_user_header</code>) still
+use the caller's own sign-in.</li><li><code>maple-proxy mcp-hub logout NAME</code> (or <code>logout NAME --hub URL</code> for your own) forgets a sign-in.</li><li>Only servers reached over Streamable HTTP (<code>type: http</code>) sign in.</li></ul>
+<h3 id="acting-for-each-person-without-a-browser">Acting for each person without a browser <a class="anchor" href="#acting-for-each-person-without-a-browser" aria-label="Link to this heading">#</a></h3>
+<h4 id="in-plain-words-2">In plain words <a class="anchor" href="#in-plain-words-2" aria-label="Link to this heading">#</a></h4>
+<p>Some sign-in services (identity providers such as Keycloak, Okta or Microsoft Entra, set up for it) can trade one
+token for another: "this is Alice, says the hub; give me a token for the tracker in her name". With
+<code>type: token_exchange</code>, the hub does that for every call: each person's calls reach the server as them, with their
+own account's rights, and nobody signs in through a browser or keeps a sign-in on the hub. People who use the hub do
+nothing new: their hub token says who they are.</p>
+<p>You set it up once:</p>
+<ol class="steps"><li>Register the hub as an app with the sign-in service, allowed to exchange tokens, and note its client id and secret.</li><li>Run <code>maple-proxy mcp-hub jwks</code> on the hub's machine, as the user the hub runs as. It prints the hub's public key;
+tell the sign-in service to trust tokens signed with it, under the issuer name you pick for this hub
+(<code>subject_issuer</code>), as an external issuer (often called a "trusted token issuer" or "identity provider"). Let it
+accept them only from the hub's app and only for the people and services you mean.</li><li>Add the server with <code>auth.type: token_exchange</code>, as below.</li></ol>
+<h4 id="technically-1">Technically <a class="anchor" href="#technically-1" aria-label="Link to this heading">#</a></h4>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  servers:</span>
+<span class="t-k">    - name:</span> tracker
+<span class="t-k">      url:</span> https://mcp.tracker.example/mcp
+<span class="t-k">      auth:</span>
+<span class="t-k">        type:</span> token_exchange
+<span class="t-k">        client_id:</span> maple-hub
+<span class="t-k">        client_secret:</span> ${secret:tracker/hub-secret}
+<span class="t-k">        token_url:</span> https://auth.example/oauth2/token
+<span class="t-k">        subject_issuer:</span> https://hub.example.com   <span class="t-c"># how the sign-in service knows this hub</span>
+<span class="t-k">        audience:</span> tracker                <span class="t-c"># optional</span>
+<span class="t-k">        scopes:</span> [tracker.read]           <span class="t-c"># optional</span></code></pre></div>
+<ul><li>This is OAuth 2.0 Token Exchange (RFC 8693). For each person, the hub signs a short-lived JWT (ES256, two
+minutes, a fresh <code>jti</code> each time) with <code>iss</code> = <code>subject_issuer</code>, <code>sub</code> = the person's id from your
+<a href="teams.html">people</a>, <code>aud</code> = <code>token_url</code>, and <code>client_id</code> = the app's id. It sends it to <code>token_url</code> as the
+<code>subject_token</code> (type <code>urn:ietf:params:oauth:token-type:jwt</code>), with <code>resource</code> = the server's address, <code>audience</code>
+and <code>scope</code> when set, and the app's id and secret (HTTP basic). The access token that comes back is used for that
+person's calls until it expires (at most an hour), then exchanged again.</li><li><code>subject_issuer</code> is required: give each hub its own (its address is a good choice), so a sign-in service that
+trusts several hubs tells them apart.</li><li>The person's id is what the authorization server sees: map it to an account there (person ids are often user
+names or e-mail addresses). Ids are compared exactly: <code>Alice</code> and <code>alice</code> are two people here, so check how the
+sign-in service matches them. The proxy says so at start (a <code>config.warning</code> event) and <code>maple-harness doctor</code>
+names such pairs.</li></ul>
+<div class="callout c-warning" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/></svg><span>Who decides whose name the hub acts in</span></p><p>Whoever can add people, or tie a token to one: the people who edit <code>config.yaml</code> or the People settings, approve
+developer sign-ins, or run a <a href="teams-and-hubs.html">parent hub</a> whose people this one inherits. Give those rights
+only to people you would trust with every account the hub exchanges tokens for.</p></div>
+<ul><li>The hub exchanges a token only for a server the person's <a href="#who-may-use-which-tools">lists</a> let them use.</li><li>Only the proxy's owner and admins configure hub servers (in <code>config.yaml</code>, or a terminal on the hub's machine): a
+server's headers may name a provider's key, for an MCP server that calls a model API itself.</li><li>Only callers tied to one of your people are acted for. A token tied to no person, or a caller on this machine
+without a token, gets none of the server's tools.</li><li><code>client_secret</code> follows the same rules as above (a reference, never the value), and the app's secret and the
+person's subject token go only to <code>token_url</code>, never to an address the MCP server's metadata names. <code>token_url</code>
+must be https, unless it is on this machine or the server has <code>allow_insecure</code>.</li><li>The hub's signing key is made on first use and kept in the secret store of the user the hub runs as (a store that
+would forget it at the next start is refused); <code>maple-proxy mcp-hub jwks</code> shows its public half (a JSON Web Key
+Set, key id = its RFC 7638 thumbprint) and never the private key. Keep the secret store when you move or rebuild
+the hub, or register the new key. A server's <code>headers</code> and <code>env</code> can never name it, nor any other of Maple's own
+secrets: such a server is not started.</li><li>Each person's tools are listed from their own connection, as with <code>per_person</code>, and <code>pin</code> does not go with it.</li><li>Exchanging a token a person brings with them (their identity provider's own token) is not supported: the hub
+vouches for its people itself, as below.</li></ul>
+<h4 id="who-the-person-is-at-your-identity-provider">Who the person is at your identity provider <a class="anchor" href="#who-the-person-is-at-your-identity-provider" aria-label="Link to this heading">#</a></h4>
+<p>In plain words: when your people sign in to the proxy through <a href="single-sign-on.html">single sign-on</a>, the hub can tell the sign-in
+service which account at your identity provider each person used, so the service matches them by that account rather
+than by their id here. The hub vouches for it, from the sign-in the proxy checked: the identity provider does not sign
+this token itself.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">      auth:</span>
+<span class="t-k">        type:</span> token_exchange
+        <span class="t-c"># ... as above</span>
+<span class="t-k">        subject_identity:</span> sso   <span class="t-c"># add the person's identity provider account</span>
+<span class="t-k">        subject_email:</span> <span class="t-n">true</span>     <span class="t-c"># and the email it gave, when it gave one (optional)</span></code></pre></div>
+<ul><li>The subject token then also carries <code>idp_iss</code> and <code>idp_sub</code>, the identity provider's issuer and the person's
+subject there, as the proxy verified them when the person signed in, and with <code>subject_email</code> their <code>email</code>.</li><li>Only a sign-in that is the person's own now counts: one made by this person (not by an earlier person who had the
+same id). Someone with no such sign-in, signed in with two accounts, or calling with a token tied to no person, gets
+no exchange for the server, never one in some other name: they are offered one tool that says to sign in through
+the proxy's single sign-on (My access).</li><li>The hub reads the sign-in afresh before each exchange: a person signed out, or removed, stops at the next one.</li><li>With several replicas (storage mode central, shared settings), the sign-ins are read from the shared store, so a
+person who signed in through any replica counts. A hub run on its own (<code>maple-proxy mcp-hub serve</code>) does not reach
+that store and acts for nobody with <code>subject_identity: sso</code>: run the hub in a replica (<code>MAPLE_MCP_HUB=embedded</code>).</li></ul>
+<h2 id="more-ways-to-limit-access">More ways to limit access <a class="anchor" href="#more-ways-to-limit-access" aria-label="Link to this heading">#</a></h2>
+<p>Besides <code>people</code>, the hub reads lists per team, per access token, and named groups of tools:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  access_groups:</span>
+<span class="t-k">    readers:</span> [<span class="t-s">"docs__search"</span>, <span class="t-s">"docs__read*"</span>, <span class="t-s">"wiki__*"</span>]
+<span class="t-k">  people:</span>
+<span class="t-k">    alice:</span> [<span class="t-s">"*"</span>]
+<span class="t-k">    bob:</span> [<span class="t-s">"@readers"</span>]
+<span class="t-k">  teams:</span>
+<span class="t-k">    contractors:</span> [<span class="t-s">"@readers"</span>]
+    <span class="t-s">"*"</span>: [<span class="t-s">"*"</span>]
+<span class="t-k">  tokens:</span>
+<span class="t-k">    ci-bot-token-id:</span> [<span class="t-s">"docs__search"</span>]
+    <span class="t-s">"*"</span>: [<span class="t-s">"*"</span>]</code></pre></div>
+<ul><li><strong>The most restrictive wins.</strong> A tool is offered only when every list that applies allows it: the person's, their
+team's, and their token's. Alice in the <code>contractors</code> team gets only the readers' tools.</li><li>An empty section limits no one. Once a section has entries, a name with no entry gets its <code>*</code> entry, else nothing.
+Someone in no team is limited by <code>teams</code> only through its <code>*</code> entry; a caller without a token, by <code>tokens</code> not at all.</li><li>Token lists use the access token's id, as the setup page shows it.</li><li><code>end_user_header: true</code> lets a client that serves several people (one token, many users) say who it acts for in
+<code>X-Maple-End-User: &lt;person id&gt;</code>. That person's lists, and their team's, then apply as well: it can only narrow what
+the token may do. An id that is not one of your people gets nothing.</li><li><code>allowed_params</code> limits a tool's arguments: <code>allowed_params: {query: [sql]}</code> offers <code>query</code> with only <code>sql</code> in its
+schema, and refuses a call that carries anything else.</li></ul>
+<h2 id="prompts-and-resources">Prompts and resources <a class="anchor" href="#prompts-and-resources" aria-label="Link to this heading">#</a></h2>
+<p>With <code>prompts: true</code> or <code>resources: true</code> on a server, the hub offers that server's prompts and resources too, not
+only its tools. Prompts are named like tools (<code>docs__summarise</code>); resources keep their own addresses
+(<code>docs://readme</code>), and a read goes to the server that offers it. The access lists cover them as well: <code>docs__*</code>
+includes the server's prompts and resources; a resource's name in a list is <code>docs__resource:&lt;its address&gt;</code>. The
+events log records each prompt and read like a call, without the address that was read. Both are off by default, so
+a server added before 3.0 offers its tools only, as it did.</p>
+<h2 id="pinning-tools">Pinning tools <a class="anchor" href="#pinning-tools" aria-label="Link to this heading">#</a></h2>
+<p>A tool's description is what the model reads, so a server that changes it later changes what your agents are told.
+With <code>pin: true</code>, the hub keeps each tool's name, description and schema (and each prompt and resource it passes on)
+as it first saw them:</p>
+<ul><li>One that changes, or a new one, is <strong>held back</strong>: not listed and not callable. The hub says so in its log, as an
+<code>mcp.drift</code> event in the <a href="observability.html">events log</a>, in <code>maple-proxy mcp-hub status</code>, and on the setup page's
+<strong>MCP hub</strong> tab, which marks the server <em>pinned</em> and names the tools held back. The tab also shows each server's
+prompts and resources, how it signs in, and its calls since the hub started.</li><li><code>maple-proxy mcp-hub pins</code> shows what changed, with a short digest of what is waiting;
+<code>maple-proxy mcp-hub pins accept NAME DIGEST</code> takes exactly that as the new pins (if it changed again meanwhile,
+nothing is accepted), and <code>pins reset NAME</code> forgets them (the next listing is pinned as it is). A running hub
+follows within a few seconds.</li><li>The pins are kept beside <code>config.yaml</code>, in <code>mcp-hub-pins</code>. Pins that cannot be read or saved (a read-only config
+folder, say) hold the server's tools back rather than letting them through.</li><li><code>pin</code> does not go with <code>per_person</code>: each person's account may offer different tools.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-mcp-hub-servers-light.webp" alt="The MCP hub tab&#x27;s servers: docs, pinned, offering 2 prompts and 1 resource, with 1 tool changed and held back until accepted and the commands to see and accept it; tracker, which signs in with OAuth, not signed in yet, with the command to sign the hub in" width="1000" height="516" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-mcp-hub-servers-dark.webp" alt="The MCP hub tab&#x27;s servers: docs, pinned, offering 2 prompts and 1 resource, with 1 tool changed and held back until accepted and the commands to see and accept it; tracker, which signs in with OAuth, not signed in yet, with the command to sign the hub in" width="1000" height="516" loading="lazy" decoding="async">
+<figcaption>A pinned server with a tool held back, and a server waiting for its sign-in.</figcaption>
+</figure>
+<h2 id="when-a-servers-tools-change">When a server's tools change <a class="anchor" href="#when-a-servers-tools-change" aria-label="Link to this heading">#</a></h2>
+<p>The hub reads a server's lists again when the server says they changed, and every few minutes for servers that never
+say so. Every open session sees the change at once: there is nothing to restart.</p>
+<h2 id="cost-and-limits-per-server">Cost and limits per server <a class="anchor" href="#cost-and-limits-per-server" aria-label="Link to this heading">#</a></h2>
+<ul><li><code>cost_per_call: 0.002</code> (US dollars), or <code>tool_costs: {expensive_search: 0.05}</code>, records a cost with every call that
+reached the server: in the <code>mcp.call</code> event (<code>cost_usd=…</code>, labelled <code>cost=configured</code>) and as a running total per
+server in <code>maple-proxy mcp-hub status</code>. It is your figure, not a measured one.</li><li><code>rate_limit_per_minute</code> on a server caps calls to it per caller, on top of the hub's own limit.</li></ul>
+<h2 id="finding-a2a-agents-from-an-mcp-client">Finding A2A agents from an MCP client <a class="anchor" href="#finding-a2a-agents-from-an-mcp-client" aria-label="Link to this heading">#</a></h2>
+<h3 id="in-plain-words-3">In plain words <a class="anchor" href="#in-plain-words-3" aria-label="Link to this heading">#</a></h3>
+<p>When the proxy's <a href="a2a.html">A2A gateway</a> is on as well, the hub offers one tool of its own, <strong><code>agent_search</code></strong>. An MCP
+client (Claude Code, Maple Harness, an agent framework) can ask it "which agent writes tests?" and get back the
+agents behind the gateway that are meant for this caller, with what they do and where to send them tasks. It never
+finds more than <a href="a2a.html#find-an-agent"><code>GET /v1/agents</code></a> would for the same person: only agents whose <code>people</code> or
+<code>teams</code> name the caller's person or team. An agent open to every a2a token (no lists) is not shown to hub callers,
+who hold no a2a token.</p>
+<p>There is nothing to turn on: it appears when both the hub and the gateway are on, and goes when either is switched
+off.</p>
+<h3 id="technically-2">Technically <a class="anchor" href="#technically-2" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>Name and arguments.</strong> <code>agent_search</code>, without a <code>server__</code> prefix, so it never clashes with a server's tool.
+<code>query</code> (words, up to 2000 bytes; empty lists every agent) and <code>limit</code> (1 to 100, default 20). The answer is JSON:
+<code>{"agents": [...], "method": "meaning" | "words"}</code>, each agent with its <code>name</code>, <code>description</code>, <code>tags</code>, <code>skills</code>
+(from its card), <code>url</code> (the gateway address to send it tasks at), <code>card_url</code> and, with a query, a <code>score</code>.</li><li><strong>Who sees it.</strong> Only a caller that sent an mcp-hub token: a caller on this machine without one
+(<code>loopback_without_token</code>) does not get it, as the gateway takes no caller without a token. With hub access lists
+set, they must name <code>agent_search</code> itself (directly or in an <code>access_groups</code> entry): <code>*</code> and other patterns do not
+grant it, so lists written before it existed do not hand it out.</li><li><strong>Which agents.</strong> Those whose <code>people</code> or <code>teams</code> name the token's person or team; agents with neither list are
+left out. The token's, the team's and the organization's <a href="access-control.html">address lists and access hours</a> apply; outside
+them the call answers with the reason. With <code>end_user_header</code>, an agent is listed only when both the token's person
+and the end user may call it, and the end user's team's address lists and hours apply too.</li><li><strong>Same checks as any tool.</strong> The hub's rate limit, the <code>mcp_call</code> and <code>mcp_result</code> <a href="guardrails.html">guardrails</a> (on
+the query, and on the answer: an agent's card text is someone else's words), and an <code>mcp.call</code> event under the
+server name <code>_maple</code>. The REST endpoints (<code>/mcp-rest/tools/list</code> and <code>/call</code>) offer it too.</li><li><strong>Calling an agent it found</strong> still needs an <strong>a2a</strong> token (<code>maple-proxy token add &lt;label&gt; --scope a2a</code>): an
+mcp-hub token finds agents, it does not send them tasks.</li><li><strong>Not offered</strong> to the proxy-run tool loop below (it runs the tools of the servers a request names), nor by a hub
+served on its own (<code>maple-proxy mcp-hub serve</code>), which has no gateway beside it. Pins are for servers' tools:
+<code>agent_search</code>'s description comes with the proxy and changes only with an upgrade.</li><li><strong>The address it gives</strong> is <code>a2a_gateway.public_url</code> when it is set (the address callers really use, <code>https</code>
+behind a TLS front). Without it, the proxy's OpenAI-compatible address as the proxy listens on it, over <code>http</code>;
+when it listens on every interface, the name the client reached the hub by, with that port. When that address
+would not reach this proxy from the caller (a loopback address for a caller on another machine), <code>url</code> and
+<code>card_url</code> are left out.</li><li><strong>Chained hubs.</strong> A proxy that lists another hub as an MCP server passes that hub's <code>agent_search</code> on to its own
+callers like any of that hub's tools (as <code>&lt;server&gt;__agent_search</code>), answering for the chain token's person.</li></ul>
+<h2 id="letting-the-proxy-run-tools-for-a-chat-request">Letting the proxy run tools for a chat request <a class="anchor" href="#letting-the-proxy-run-tools-for-a-chat-request" aria-label="Link to this heading">#</a></h2>
+<h3 id="in-plain-words-4">In plain words <a class="anchor" href="#in-plain-words-4" aria-label="Link to this heading">#</a></h3>
+<ul><li><strong>What it is.</strong> Normally a tool runs in the program that asked the model (your agent). With the
+tool loop on, a chat request can instead say "use these hub servers, and run their tools for me":
+the proxy offers the model those tools, runs each call the model makes on the hub, gives the model
+the result, and asks it again, until it answers. The program gets one answer back.</li><li><strong>Why you want it.</strong> A script, a chat page or a small service gets tools without being an agent:
+no MCP client, no tool code, one request.</li><li><strong>What keeps it safe.</strong> It is <strong>off</strong> until you turn it on, and then it runs nothing until you
+name who may use it and which tools it may run on its own: everything else goes back to the
+program as an ordinary tool call. Every call goes through the same checks as a call to the hub
+itself (who may use which tool, pinning, argument limits, rate limits, guardrails), every model
+call counts against budgets like any other request, every loop has limits, and one loop runs the
+tools of one server unless you allow more.</li></ul>
+<h3 id="turn-it-on-1">Turn it on <a class="anchor" href="#turn-it-on-1" aria-label="Link to this heading">#</a></h3>
+<p>On the setup page's <strong>MCP hub</strong> tab, fold <strong>The tool loop</strong> (it needs a page password), or in <code>config.yaml</code>:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  enabled:</span> <span class="t-n">true</span>
+<span class="t-k">  tool_loop:</span>
+<span class="t-k">    enabled:</span> <span class="t-n">true</span>
+<span class="t-k">    teams:</span> [support]          <span class="t-c"># who may (people, teams, tokens); nobody listed: nobody may</span>
+<span class="t-k">    tools:</span> [<span class="t-s">"docs/search"</span>, <span class="t-s">"wiki/*"</span>]  <span class="t-c"># what it may run on its own (server/tool); none listed: nothing</span>
+<span class="t-k">    models:</span> [<span class="t-s">"gpt-*"</span>, <span class="t-s">"claude-*"</span>]
+<span class="t-k">    max_tool_calls:</span> <span class="t-n">8</span>         <span class="t-c"># see the limits below</span></code></pre></div>
+<p>A running proxy follows the change within a few seconds.</p>
+<ul><li><strong>Who may</strong> (<code>people</code>, <code>teams</code>, <code>tokens</code>): a caller named in any of the three may use the loop;
+with all three empty, no one may. <code>*</code> in <code>people</code> is anyone tied to a person, in <code>teams</code> anyone in
+a team, in <code>tokens</code> any of this proxy's own tokens. A token inherited from a
+<a href="teams-and-hubs.html">parent hub</a> only by its own id in <code>tokens</code>, never through <code>*</code>, a person or a
+team. A caller on this machine without a token only when <code>tokens</code> lists <code>local</code> (and
+<code>loopback_without_token</code> is on, on a hub that serves this machine alone).</li><li><strong>What it may run</strong> (<code>tools</code>): hub tools as <code>server/tool</code> patterns (<code>docs/search</code>, <code>docs/*</code>). A
+call to any other hub tool goes back to the program as an ordinary tool call, whatever the request
+asked, and the answer's summary says why. Empty, the loop runs nothing on its own.</li><li><strong>One server per loop</strong> (<code>servers_per_loop</code>, default 1): once a loop has run a tool of one server,
+calls to the tools of any other server go back to the program. It counts the whole conversation:
+the servers this proxy's loop reached on its earlier turns, and hub tool calls in what the
+program sends back (a call the loop returned and the program ran). With <code>docs</code> reached earlier,
+only <code>docs</code> tools run on later turns; a conversation that already reached more servers than the
+limit runs none. The proxy knows a conversation by the answers it gave in it, as the program
+sends them back (their text and tool calls; white space aside): a later turn whose history holds
+any of them continues it, so other conversations, people, tokens and end users never share it
+(an answer given word for word in two conversations counts for both). A program that compacts
+its history but keeps any earlier answer keeps the count; one that drops them all, or rewrites
+every answer (strips parts of it, makes up its own tool-call ids), starts a new conversation: this
+holds for programs that send answers back as they got them. When the proxy cannot read or write what a conversation reached, or no
+longer holds it (the conversation's record had to make room), the loop runs no server it has not
+already run in that request (reason <code>servers_per_loop_unknown</code>) and says so in the events log.
+For a day after its records were lost (a log it could not read and
+started again, a Redis that lost them), a turn whose history holds an answer it does not know is
+treated the same way, since it may be one it forgot. An answer the proxy could not record keeps
+its next turn the same way too, on the proxy (or replica) that gave it; another replica, or the
+proxy after a restart, takes that turn as a new conversation. It guards against the model being steered by a tool's result, not
+against a program working around it, which who may and what it may run hold. This keeps one tool's result from
+steering the model into another server's tools without you, say from reading a page to sending it
+somewhere.</li></ul>
+<h3 id="ask-for-it">Ask for it <a class="anchor" href="#ask-for-it" aria-label="Link to this heading">#</a></h3>
+<p>On the OpenAI-compatible address (<code>/v1/chat/completions</code>), a tool of type <code>mcp</code>, in the shape the
+OpenAI Responses API and LiteLLM use:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"model"</span>: <span class="t-s">"gpt-5"</span>,
+  <span class="t-k">"messages"</span>: [{<span class="t-k">"role"</span>: <span class="t-s">"user"</span>, <span class="t-k">"content"</span>: <span class="t-s">"What do our docs say about refunds?"</span>}],
+  <span class="t-k">"tools"</span>: [
+    {<span class="t-k">"type"</span>: <span class="t-s">"mcp"</span>, <span class="t-k">"server_label"</span>: <span class="t-s">"docs"</span>, <span class="t-k">"require_approval"</span>: <span class="t-s">"never"</span>, <span class="t-k">"allowed_tools"</span>: [<span class="t-s">"search"</span>]}
+  ]
+}</code></pre></div>
+<p>On the Anthropic-compatible address (<code>/v1/messages</code>), Anthropic's MCP connector shape:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"model"</span>: <span class="t-s">"claude-sonnet-5"</span>,
+  <span class="t-k">"max_tokens"</span>: <span class="t-n">1024</span>,
+  <span class="t-k">"messages"</span>: [{<span class="t-k">"role"</span>: <span class="t-s">"user"</span>, <span class="t-k">"content"</span>: <span class="t-s">"What do our docs say about refunds?"</span>}],
+  <span class="t-k">"mcp_servers"</span>: [{<span class="t-k">"type"</span>: <span class="t-s">"url"</span>, <span class="t-k">"name"</span>: <span class="t-s">"docs"</span>}],
+  <span class="t-k">"tools"</span>: [{<span class="t-k">"type"</span>: <span class="t-s">"mcp_toolset"</span>, <span class="t-k">"mcp_server_name"</span>: <span class="t-s">"docs"</span>}]
+}</code></pre></div>
+<ul><li><strong>Which servers.</strong> <code>server_label</code> (or <code>name</code>) is a hub server's name. <code>server_url</code> (or <code>url</code>) is
+left out, or <code>maple_hub</code> for every server you may use, or <code>maple_hub/mcp/&lt;server&gt;</code> for one.
+LiteLLM's <code>litellm_proxy</code> and <code>litellm_proxy/mcp/&lt;server&gt;</code> mean the same. Any other address is
+refused: the proxy runs its own hub's tools only.</li><li><strong>Which tools.</strong> <code>allowed_tools</code> (a list, or <code>{"tool_names": [...]}</code>) narrows a server's tools,
+by the server's own names or the hub's (<code>docs__search</code>). On the Messages surface,
+<code>default_config</code> and <code>configs</code> of the <code>mcp_toolset</code> do the same; the older <code>tool_configuration</code>
+(<code>enabled</code>, <code>allowed_tools</code>) is read too.</li><li><strong>Which ones the proxy runs.</strong> Only tools both you (<code>tool_loop.tools</code>) and the request allow.
+In the request, <code>require_approval: "never"</code> lets it run them all; <code>{"never": {"tool_names": [...]}}</code>
+only those named; <code>"always"</code>, or no <code>require_approval</code>, none. A tool the proxy does not run is still offered to the model, and the model's call to it
+is returned to you as an ordinary tool call (<code>finish_reason: "tool_calls"</code>): run it yourself, for
+example through <code>/mcp-rest/tools/call</code>. The proxy has no approval prompt. On the Messages surface
+every tool a toolset enables may run, as Anthropic's connector does, within <code>tool_loop.tools</code>.</li><li><strong>Written once.</strong> A request with MCP tools that writes a key twice, or two of the keys the proxy
+reads that differ only in case (<code>server_label</code> and <code>Server_Label</code>), is refused: the proxy and the
+model's provider could read them differently.</li><li><strong>Your own tools too.</strong> Function tools you send are offered beside the hub's and come back to you
+as always. A round where the model calls one of yours ends the loop with your calls; hub calls
+in that same round are not run (the answer's summary says so), and the model can ask again on
+your next turn.</li><li><strong>Who you are.</strong> The hub sees the request's own access token: the hub's person, team and token
+lists apply as well as <code>tool_loop</code>'s, and a server where each person signs in uses your own
+sign-in. <code>X-Maple-End-User</code> narrows it further when <code>end_user_header</code> is on. All of this is checked
+again before every tool call: a loop stops running tools once you turn it off, take the tool out
+of <code>tools</code> or the model out of <code>models</code>, the caller leaves your lists, or the token expires, is
+blocked, is revoked or (for one inherited from a parent hub) is no longer handed down.</li></ul>
+<h3 id="what-comes-back">What comes back <a class="anchor" href="#what-comes-back" aria-label="Link to this heading">#</a></h3>
+<ul><li>One answer: the text of every round (a blank line between them), the model's last message, and
+the usage of all its model calls added up.</li><li><code>maple_tool_loop</code> beside it: <code>rounds</code> (model calls), <code>tool_calls</code> (tools the proxy ran), <code>stop</code>
+(why it ended), <code>calls</code> (each call's name and outcome, <code>cut: true</code> when its result was cut, and for one not run a
+<code>reason</code>: <code>approval</code> (the request did not mark it <code>never</code>), <code>not_in_tools</code> (<code>tool_loop.tools</code> does
+not list it), <code>servers_per_loop</code>, <code>client_round</code> (the same round called one of your tools), or the
+limit that stopped it), and
+<code>tool_cost_usd</code> when your servers have <code>cost_per_call</code> (your figure, not a measured one). Clients
+that do not know the field ignore it.</li><li><code>stop</code> is <code>answered</code>, <code>client_tools</code> (the model called a tool the proxy does not run), a limit
+(<code>max_iterations</code>, <code>max_tool_calls</code>, <code>max_seconds</code>, <code>max_tokens</code>, <code>max_cost</code>), <code>budget</code> (one of
+your budgets or rate limits refused a later model call) or <code>model_error</code> (a later model call
+failed; <code>note</code> says how). A limit or a later failure ends the answer with
+<code>finish_reason: "tool_loop_limit"</code> on the OpenAI surface and <code>stop_reason: "pause_turn"</code> on the
+Anthropic one, with the text so far. A refusal of the very first model call is that call's own
+error, as without the loop.</li><li><strong>Streamed</strong> (<code>"stream": true</code>), the model's text and thinking stream as they come, round after
+round, and so do calls to tools the proxy does not run. The tool rounds themselves are silent:
+nothing is sent for a call the proxy runs or its result, and while a tool runs only the usual
+keep-alives are. The stream ends with one usage chunk (the totals) and the last chunk carries
+<code>maple_tool_loop</code>.</li><li>The tool calls and their results are not in the answer: on your next turn the model sees its own
+answer, not the tool rounds behind it.</li></ul>
+<h3 id="limits">Limits <a class="anchor" href="#limits" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>Ends the loop when</th></tr></thead><tbody><tr><td><code>max_iterations</code></td><td data-label="Default">8</td><td data-label="Ends the loop when">this many model calls were made</td></tr><tr><td><code>max_tool_calls</code></td><td data-label="Default">16</td><td data-label="Ends the loop when">the next round's calls would go past it (none of that round's run)</td></tr><tr><td><code>max_seconds</code></td><td data-label="Default">120</td><td data-label="Ends the loop when">the loop has run this long (a model call still going is stopped)</td></tr><tr><td><code>max_tokens</code></td><td data-label="Default">200000</td><td data-label="Ends the loop when">the model calls' input and output tokens reach it</td></tr><tr><td><code>max_cost_usd</code></td><td data-label="Default">1.00</td><td data-label="Ends the loop when">their estimated dollars, plus the tools' configured costs, reach it</td></tr><tr><td><code>max_<wbr>result_<wbr>bytes</code></td><td data-label="Default">32768</td><td data-label="Ends the loop when">(per result) a longer result reaches the model cut, saying so</td></tr></tbody></table></div>
+<p>Tokens and dollars are checked before each model call, so the call that crosses a limit still
+finishes. Dollars are the proxy's estimate at list prices where it can price a model; a model it
+cannot price counts no dollars, and <code>max_tokens</code> holds it instead. Your budgets and rate limits are
+separate and always apply to every model call. One request can make several model calls and tool
+calls: a listener's limit on requests a minute counts it once, while people's rate limits and the
+hub's limit on tool calls count each call.</p>
+<h3 id="what-is-recorded">What is recorded <a class="anchor" href="#what-is-recorded" aria-label="Link to this heading">#</a></h3>
+<ul><li>Every model call is its own line in the usage log, all with the request's id, so totals and
+budgets count each one once.</li><li>Every tool call is an <code>mcp.call</code> event, as through the hub, with <code>via=tool_loop</code>.</li><li>What each conversation's loops reached is kept for 24 hours, at most 500 conversations per
+person, token or end user (their own oldest leave first) and 20,000 in all (past that, the
+oldest of whoever holds the most leaves; a conversation whose record left runs no new server): in a log beside
+<code>config.yaml</code>, which several proxies on one folder share, or, with central storage
+(<a href="kubernetes.html#several-replicas">several replicas</a>), in Redis, encrypted with the storage key
+and shared by every replica (all of it in one hash slot, so a Redis Cluster works, with one node
+holding it). Only keyed hashes name the person and the conversation. A log that
+cannot be read is reported in the events log and started again.</li><li>Every loop is one <code>mcp.tool_loop</code> event: the model asked for, why it ended, how many tool calls
+ran, the rounds, the request id, the person, the tokens and the estimated dollars. Never a message,
+arguments or a result.</li></ul>
+<h3 id="risks">Risks <a class="anchor" href="#risks" aria-label="Link to this heading">#</a></h3>
+<div class="callout c-caution" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8z"/><path d="M12 8v5M12 16.5v.01"/></svg><span>Caution</span></p><p>Mark as <code>never</code> (no approval) only tools you would let the model call unattended. The tool loop runs them with
+nobody watching.</p></div>
+<ul><li><strong>A tool's result can try to steer the model</strong> (prompt injection): a page or a ticket the tool
+read may say "now call delete". The proxy only runs tools you allowed, for whoever may call them,
+within the limits; results go at the end of the conversation as tool results, never as
+instructions from you; and <a href="guardrails.html">guardrails</a> with the <code>mcp_result</code> phase check or mask
+them before the model sees them, as <code>mcp_call</code> checks each call's arguments.</li><li>A model-surface token reaches hub tools only through the loop, and only when <code>tool_loop</code> names
+it; the hub's own lists still apply. Keep <code>tools</code> to what you would let a model run unattended,
+and <code>servers_per_loop</code> at 1 unless a task needs more.</li></ul>
+<h3 id="compared-with-openai-litellm-and-anthropic">Compared with OpenAI, LiteLLM and Anthropic <a class="anchor" href="#compared-with-openai-litellm-and-anthropic" aria-label="Link to this heading">#</a></h3>
+<ul><li>OpenAI's Responses API and Anthropic's connector reach MCP servers anywhere by URL, with a token
+you send. Here only this proxy's hub servers can be named, and the hub signs in to them itself:
+<code>server_url</code> addresses, <code>authorization</code>, <code>headers</code>, <code>connector_id</code> and <code>authorization_token</code> are
+refused.</li><li>No <code>mcp_list_tools</code>, <code>mcp_call</code> or <code>mcp_approval_request</code> items, and no <code>mcp_tool_use</code> or
+<code>mcp_tool_result</code> blocks: the answer is an ordinary chat answer with <code>maple_tool_loop</code> beside it.</li><li><code>/v1/responses</code> does not run the loop: an <code>mcp</code> tool naming this proxy's hub is listed as ignored
+(<code>X-Maple-Ignored</code>), as before; one naming another server is refused (see below).</li><li>A <code>tool_choice</code> that forces a tool call applies to the first model call only, so the model can
+answer. <code>defer_loading</code> is not used: every enabled tool is offered at once.</li><li>A request another Maple proxy passed on does not run the loop: the proxy the client talks to does.</li><li>The hub must run in the same proxy: not with <code>maple-proxy mcp-hub serve</code> on its own, nor on a
+replica that does not serve the hub in central storage.</li></ul>
+<h3 id="providers-own-mcp-connectors">Providers' own MCP connectors <a class="anchor" href="#providers-own-mcp-connectors" aria-label="Link to this heading">#</a></h3>
+<p>Some providers reach MCP servers themselves when a request names them: OpenAI's Responses API with
+an <code>mcp</code> tool that has a <code>server_url</code> or <code>connector_id</code>, or a prompt saved at the provider
+(<code>prompt: {"id": ...}</code>, whose tools the proxy cannot see), Anthropic's MCP connector with
+<code>mcp_servers</code> that have a <code>url</code>. A request the proxy passes on as it came could then make the
+provider reach any address, with whatever credentials the request carries, outside the hub and its
+rules. So by default the proxy refuses such a request with a 400 that names the setting, on every
+route that passes a body on: <a href="more-endpoints.html#pass-through-routes">pass-through routes</a>, batch files uploaded to <code>/v1/files</code>
+for <code>/v1/batches</code>, <code>/v1/messages/batches</code>, and <code>/v1/responses</code>.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  provider_hosted_mcp:</span> allow   <span class="t-c"># default: refuse</span></code></pre></div>
+<p>A body the proxy cannot read in full as plain UTF-8 JSON (a number out of range, a byte-order mark,
+another encoding), or that writes a key twice, or two of the keys the check reads differing only in
+case, is refused the same way, since a provider might read what the check could not. A
+batch file uploaded before this check existed cannot start a batch until it is uploaded again.</p>
+<p>With <code>allow</code>, those bodies go on to the provider as before. <code>/v1/responses</code> translates rather than
+forwards, so there the tool is still not sent on: it is listed as ignored. In a body passed on as it came, any
+address counts, this proxy's own hub names (<code>maple_hub</code>, <code>litellm_proxy</code>) included, since a provider
+or a LiteLLM above would read them as its own; an entry with no address is not refused. An answer to
+a provider's own MCP approval request (an <code>mcp_approval_response</code> item) is refused too. A body on a
+pass-through route that is not plain JSON is refused as unreadable. This setting
+works whether or not the MCP hub is on.</p>
+<h2 id="other-ways-in">Other ways in <a class="anchor" href="#other-ways-in" aria-label="Link to this heading">#</a></h2>
+<p>Behind the same token and checks as <code>/mcp</code>:</p>
+<div class="tablewrap"><table><thead><tr><th>Endpoint</th><th>What it does</th></tr></thead><tbody><tr><td><code>GET</code> or <code>POST /mcp-rest/tools/list</code></td><td>The caller's tools as JSON (<code>?server_id=NAME</code> for one server)</td></tr><tr><td><code>POST /mcp-rest/tools/call</code></td><td><code>{"name": "docs__search", "arguments": {...}}</code>: one call, with the same checks, limits and records as through MCP</td></tr><tr><td><code>GET /mcp-servers</code></td><td>The servers the caller may use (with how each signs in, and whether the caller has), and ready-made settings for Claude Code, a <code>.mcp.json</code> and Maple Harness that read the token from <code>MAPLE_HUB_TOKEN</code></td></tr></tbody></table></div>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> <span class="t-f">-s</span> <span class="t-f">-H</span> <span class="t-s">"Authorization: Bearer $MAPLE_HUB_TOKEN"</span> http://127.0.0.1:11545/mcp-servers</code></pre></div>
+<h2 id="upgrading-from-2x">Upgrading from 2.x <a class="anchor" href="#upgrading-from-2x" aria-label="Link to this heading">#</a></h2>
+<p>Nothing to change: a 2.x <code>mcp_hub</code> section works as it is, with the same settings, commands, tool names, tokens and
+endpoint, with one exception: a server whose <code>headers</code>, <code>env</code> or <code>client_secret</code> name a credential of another of
+Maple's own features (a stored sign-in, the storage key or its variables, a webhook's or a guardrail's variable,
+single sign-on's secret) is <strong>not started</strong> any more, since its value would go to that server or program. The proxy
+and every other server run on; that server shows as <code>refused</code> in <code>maple-proxy mcp-hub status</code> and on the setup page's
+MCP hub tab, with an <code>mcp.refused</code> event in the <a href="observability.html">events log</a>, and <code>maple-harness doctor</code> names it.
+Give it a secret of its own (<code>maple-proxy secrets set NAME</code>, then <code>${secret:NAME}</code>). Header values the setup page kept
+for the server itself (under <code>mcp-hub/&lt;server&gt;/</code>) are its own and still work. A program the hub starts no longer inherits Maple's own credentials from the proxy's environment either (the storage key and addresses, webhook and guardrail variables), contained or not. What is new is opt-in, per server or per section (<code>auth</code>, <code>pin</code>, <code>prompts</code>, <code>resources</code>,
+<code>allowed_params</code>, the costs and limits, <code>teams</code>, <code>tokens</code>, <code>access_groups</code>, <code>end_user_header</code>). <code>maple-proxy mcp-hub
+status --json</code> still has the <code>experimental</code> field, now <code>false</code>. A 2.x proxy reading a 3.0 config ignores the new
+settings: a server with <code>auth</code> then gets no sign-in, and the new lists no longer apply.</p>
 <h2 id="security">Security <a class="anchor" href="#security" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>This machine only, by default, and a token on every request.</strong> The token has the <code>mcp-hub</code> scope, which no
 other scope includes, so a token made for the model surfaces or for remote control cannot reach the hub. Make one
 with <code>maple-proxy mcp-hub token &lt;label&gt;</code> in a terminal (it is shown once) and revoke it on the setup page. Requests
-from web pages in a browser are refused.</li><li><strong>Off this machine it also needs a certificate</strong> (or <code>insecure_http</code>), and the proxy will not serve the hub there
+from web pages in a browser are refused. A model-surface token reaches hub tools only through the
+<a href="#letting-the-proxy-run-tools-for-a-chat-request">tool loop</a>, and only when you name it there.</li><li><strong>Off this machine it also needs a certificate</strong> (or <code>insecure_http</code>), and the proxy will not serve the hub there
 until an <code>mcp-hub</code> token exists.</li><li><strong>A program the hub starts runs on your machine.</strong> It is contained like the agent's commands when this machine has
 a <a href="sandbox.html">sandbox</a> (<code>mcp_hub.sandbox: auto</code>): it cannot read your SSH keys or Maple's own settings, and works
 in a folder of its own. Add only servers you trust; a tool that runs commands runs them for whoever may call it.
 In the container image, which has no sandbox, the hub does not start such a program at all (see
-<a href="#running-it-in-a-container">Running it in a container</a>).</li><li><strong>Servers are added only by you, at a terminal or in <code>config.yaml</code>.</strong> The setup page cannot add one or change its
-command, and adding a program, a server with a <code>${secret:}</code> header or <code>allow_private</code>, or turning the hub on from the command
-line needs a terminal.</li><li><strong>Every tool call is recorded</strong> in the <a href="observability.html">events log</a> as an <code>mcp.call</code> event: the server, the tool,
+<a href="#running-it-in-a-container">Running it in a container</a>).</li><li><strong>Program servers are added only by you, at a terminal or in <code>config.yaml</code>.</strong> The setup page never adds a program or
+changes its command, arguments or environment, and adding a program, a server whose header names one of your existing
+secrets, or turning the hub on from the command line needs a terminal. With a page password set, the page's <strong>Server
+details</strong>, <strong>Who may use which tools</strong> and <strong>The tool loop</strong> forms change the rest (a remote server's address and
+headers, <code>allow_private</code>, sign-in, prices and limits); a changed address asks for the server's headers and client
+secret again, and a header typed there goes to the secret store.</li><li><strong>Every tool call is recorded</strong> in the <a href="observability.html">events log</a> as an <code>mcp.call</code> event: the server, the tool,
 the person, how long it took and how it ended. Never its arguments or its result.</li><li><strong>Tool descriptions are passed on as the server wrote them</strong>, as text, so a client sees what the server says
 about itself. Treat a server's descriptions as you would its code.</li></ul>
 <h2 id="reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services <a class="anchor" href="#reaching-cloud-metadata-or-link-local-services" aria-label="Link to this heading">#</a></h2>
@@ -162,7 +569,7 @@ connection read them.</p>
 <p><strong>When you need it.</strong> A few real services live at these addresses: the container credentials endpoint on Amazon ECS
 (<code>169.254.170.2</code>), say, or a server you run on a link-local interface. For those, list the exact addresses in the
 environment variable <code>MAPLE_MCP_ALLOW_ADDRESSES</code>, separated by commas, each with a port if you like:</p>
-<pre><code class="language-sh">MAPLE_MCP_ALLOW_ADDRESSES=169.254.170.2:80,[fe80::1%eth0]:8080 maple-proxy serve</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh">MAPLE_MCP_ALLOW_ADDRESSES=169.254.170.2:80,[fe80::1%eth0]:8080 maple-proxy serve</code></pre></div>
 <ul><li><strong>Exact addresses only.</strong> Names, ranges (<code>169.254.0.0/16</code>, <code>a-b</code>), wildcards (<code>*</code>) and <code>0.0.0.0</code> are refused, as
 is an address that is neither link-local nor metadata (a server on a private network needs <code>allow_private</code>
 instead). A bad value stops the proxy, or the agent, from starting, with a message naming the entry.</li><li><strong>With a port, only that port.</strong> An IPv6 link-local address needs its interface (<code>%eth0</code>) to be reached, and is
@@ -190,28 +597,31 @@ tokens do not refuse every client (see <a href="kubernetes.html#load-balancing">
 starts a stdio server only if a working sandbox is available, and otherwise refuses it with a message in its log and
 in <code>maple-proxy mcp-hub status</code>. The status shows the sandbox as <code>container-strict</code>.</p>
 <p>Run each MCP server as a container of its own that serves MCP over HTTP, and add it by URL:</p>
-<pre><code class="language-yaml">mcp_hub:
-  servers:
-    - name: example
-      type: http
-      url: http://127.0.0.1:8000/mcp   # a sidecar in the hub's pod
-      allow_private: true</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">mcp_hub:</span>
+<span class="t-k">  servers:</span>
+<span class="t-k">    - name:</span> example
+<span class="t-k">      type:</span> http
+<span class="t-k">      url:</span> http://127.0.0.1:<span class="t-n">8000</span>/mcp   <span class="t-c"># a sidecar in the hub's pod</span>
+<span class="t-k">      allow_private:</span> <span class="t-n">true</span></code></pre></div>
 <p>The <a href="kubernetes.html#the-mcp-hub">Kubernetes page</a> has a sidecar sample and the choice between a sidecar and a
 Deployment of its own. <code>mcp_hub.allow_uncontained_stdio: true</code> starts stdio servers in the container anyway, with no
 containment: the program can read everything the hub's container can, its mounted secret included, and reach the
 network. Turn it on only for programs you would trust with that secret.</p>
-<h2 id="limits">Limits <a class="anchor" href="#limits" aria-label="Link to this heading">#</a></h2>
-<ul><li>Experimental: names and settings may still change before it is final.</li><li>Tools only: a server's resources and prompts are not offered through the hub.</li><li>A server's tool list is read when it starts; a server that changes its tools later is seen after it restarts.</li><li>A call through the hub stops after 5 minutes.</li><li>An older proxy ignores <code>mcp_hub</code>: after going back to one, the hub and its limits no longer apply.</li></ul>
+<h2 id="limits-1">Limits <a class="anchor" href="#limits-1" aria-label="Link to this heading">#</a></h2>
+<ul><li>Resources: reading is passed on; subscribing to a resource's changes is not.</li><li>Sign-in through the hub works with Streamable HTTP servers only; the older SSE transport takes headers.</li><li>A call through the hub stops after 5 minutes.</li><li>An older proxy ignores <code>mcp_hub</code>: after going back to one, the hub and its limits no longer apply.</li></ul>
 <h2 id="commands">Commands <a class="anchor" href="#commands" aria-label="Link to this heading">#</a></h2>
-<div class="tablewrap"><table class="ref"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>status</code></td><td data-label="What it does">What the running hub is doing: its address, each server's state and tools. <code>--json</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>serve</code></td><td data-label="What it does">Run only the hub, without the model surfaces or the setup page, from the same <code>config.yaml</code> and tokens: for running it as a service of its own</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>list</code></td><td data-label="What it does">The configured servers</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>add<wbr> <wbr>NAME<wbr> <wbr><span class="nw">--</span><wbr> <wbr>COMMAND<wbr> <wbr>[ARG.<wbr>.<wbr>.<wbr>]</code></td><td data-label="What it does">Add a program (needs a terminal). <code>--env KEY=VALUE</code>, <code>--tools a,b</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>add<wbr> <wbr>NAME<wbr> <wbr><span class="nw">--url</span><wbr> <wbr>URL</code></td><td data-label="What it does">Add a server reached by URL. <code>--type sse</code>, <code>--header KEY=VALUE</code>, <code>--tools</code>, <code>--allow-private</code>, <code>--allow-insecure</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>rm<wbr> <wbr>NAME</code></td><td data-label="What it does">Remove a server (a program needs a terminal)</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>enable</code>, <code>disable</code></td><td data-label="What it does">Turn the hub on (needs a terminal) or off; with a <code>NAME</code>, one server</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>token<wbr> <wbr>LABEL</code></td><td data-label="What it does">Make an access token with the <code>mcp-hub</code> scope (needs a terminal)</td></tr></tbody></table></div>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>status</code></td><td data-label="What it does">What the running hub is doing: its address, each server's state and tools. <code>--json</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>serve</code></td><td data-label="What it does">Run only the hub, without the model surfaces or the setup page, from the same <code>config.yaml</code> and tokens: for running it as a service of its own</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>list</code></td><td data-label="What it does">The configured servers</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>add<wbr> <wbr>NAME<wbr> <wbr><span class="nw">--</span><wbr> <wbr>COMMAND<wbr> <wbr>[ARG.<wbr>.<wbr>.<wbr>]</code></td><td data-label="What it does">Add a program (needs a terminal). <code>--env KEY=VALUE</code>, <code>--tools a,b</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>add<wbr> <wbr>NAME<wbr> <wbr><span class="nw">--url</span><wbr> <wbr>URL</code></td><td data-label="What it does">Add a server reached by URL. <code>--type sse</code>, <code>--header KEY=VALUE</code>, <code>--tools</code>, <code>--allow-private</code>, <code>--allow-insecure</code></td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>rm<wbr> <wbr>NAME</code></td><td data-label="What it does">Remove a server (a program needs a terminal)</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>enable</code>, <code>disable</code></td><td data-label="What it does">Turn the hub on (needs a terminal) or off; with a <code>NAME</code>, one server</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>token<wbr> <wbr>LABEL</code></td><td data-label="What it does">Make an access token with the <code>mcp-hub</code> scope (needs a terminal)</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>login<wbr> <wbr>NAME</code></td><td data-label="What it does">Sign the hub in to a server (one sign-in for everyone; needs a terminal on the hub's machine, as does <code>logout NAME</code>)</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>login<wbr> <wbr>NAME<wbr> <wbr><span class="nw">--hub</span><wbr> <wbr>URL</code></td><td data-label="What it does">Your own sign-in to a per-person server, from your machine (<code>MAPLE_HUB_TOKEN</code>, or <code>--token-env VAR</code>)</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>logout<wbr> <wbr>NAME<wbr> <wbr><span class="nw">[--hub</span><wbr> <wbr>URL]</code></td><td data-label="What it does">Forget that sign-in</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>jwks</code></td><td data-label="What it does">The public key of the hub's subject tokens (<code>auth.type: token_exchange</code>), for the sign-in service to trust</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>pins</code></td><td data-label="What it does">Pinned servers, and their tools held back since they changed</td></tr><tr><td><code><span class="nw">maple-proxy</span><wbr> <wbr><span class="nw">mcp-hub</span><wbr> <wbr>pins<wbr> <wbr>accept<wbr> <wbr>NAME<wbr> <wbr>DIGEST</code>, <code>pins<wbr> <wbr>reset<wbr> <wbr>NAME</code></td><td data-label="What it does">Accept what <code>pins</code> showed, or forget the pins (needs a terminal)</td></tr></tbody></table></div>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="mcp.html">Give other tools this project's knowledge</a> The harness's own MCP server, for one project.</li><li><a href="guardrails.html">Guardrails</a> Check tool calls and their results on the way through the hub.</li><li><a href="a2a.html">Agents that call agents (A2A)</a> The gateway whose agents the hub's <code>agent_search</code> finds.</li><li><a href="kubernetes.html#the-mcp-hub">Run the proxy on Kubernetes</a> The hub as a sidecar or a Deployment of its own.</li><li><a href="single-sign-on.html">Single sign-on</a> How people sign in, which token exchange can pass on.</li></ul>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/docker.html" rel="prev"><small>Previous</small>Run the proxy in Docker</a><a class="next" href="../docs/remote-control.html" rel="next"><small>Next</small>Control it from your phone</a></div><div class="mset m-teams"><a class="prev" href="../docs/docker.html" rel="prev"><small>Previous</small>Run the proxy in Docker</a><a class="next" href="../docs/observability.html" rel="next"><small>Next</small>See and filter your usage</a></div></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/docker.html" rel="prev"><small>Previous</small>Run the proxy in Docker</a><a class="next" href="../docs/guardrails.html" rel="next"><small>Next</small>Guardrails</a></div><div class="mset m-teams"><a class="prev" href="../docs/docker.html" rel="prev"><small>Previous</small>Run the proxy in Docker</a><a class="next" href="../docs/guardrails.html" rel="next"><small>Next</small>Guardrails</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#point-your-tools-at-it">Point your tools at it</a><ol><li><a href="#maple-harness">Maple Harness</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#who-may-use-which-tools">Who may use which tools</a></li><li><a href="#security">Security</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li><li><a href="#running-it-as-a-service-of-its-own">Running it as a service of its own</a></li><li><a href="#running-it-in-a-container">Running it in a container</a></li><li><a href="#limits">Limits</a></li><li><a href="#commands">Commands</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#point-your-tools-at-it">Point your tools at it</a><ol><li><a href="#maple-harness">Maple Harness</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#who-may-use-which-tools">Who may use which tools</a></li><li><a href="#servers-that-ask-you-to-sign-in">Servers that ask you to sign in</a><ol><li><a href="#in-plain-words-1">In plain words</a></li><li><a href="#technically">Technically</a></li><li><a href="#acting-for-each-person-without-a-browser">Acting for each person without a browser</a></li></ol></li><li><a href="#more-ways-to-limit-access">More ways to limit access</a></li><li><a href="#prompts-and-resources">Prompts and resources</a></li><li><a href="#pinning-tools">Pinning tools</a></li><li><a href="#when-a-servers-tools-change">When a server's tools change</a></li><li><a href="#cost-and-limits-per-server">Cost and limits per server</a></li><li><a href="#finding-a2a-agents-from-an-mcp-client">Finding A2A agents from an MCP client</a><ol><li><a href="#in-plain-words-3">In plain words</a></li><li><a href="#technically-2">Technically</a></li></ol></li><li><a href="#letting-the-proxy-run-tools-for-a-chat-request">Letting the proxy run tools for a chat request</a><ol><li><a href="#in-plain-words-4">In plain words</a></li><li><a href="#turn-it-on-1">Turn it on</a></li><li><a href="#ask-for-it">Ask for it</a></li><li><a href="#what-comes-back">What comes back</a></li><li><a href="#limits">Limits</a></li><li><a href="#what-is-recorded">What is recorded</a></li><li><a href="#risks">Risks</a></li><li><a href="#compared-with-openai-litellm-and-anthropic">Compared with OpenAI, LiteLLM and Anthropic</a></li><li><a href="#providers-own-mcp-connectors">Providers' own MCP connectors</a></li></ol></li><li><a href="#other-ways-in">Other ways in</a></li><li><a href="#upgrading-from-2x">Upgrading from 2.x</a></li><li><a href="#security">Security</a></li><li><a href="#reaching-cloud-metadata-or-link-local-services">Reaching cloud metadata or link-local services</a></li><li><a href="#running-it-as-a-service-of-its-own">Running it as a service of its own</a></li><li><a href="#running-it-in-a-container">Running it in a container</a></li><li><a href="#limits-1">Limits</a></li><li><a href="#commands">Commands</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

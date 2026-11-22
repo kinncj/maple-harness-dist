@@ -6,8 +6,10 @@ own registry, secrets and databases.
 
 | Path | What it is |
 | --- | --- |
-| `docker/Dockerfile` | Builds the image from a published release (checksums and signature checked); nothing is compiled. |
-| `docker/compose.yaml` | One proxy, its state on one volume. |
+| `docker/Dockerfile` | Builds the image from a published release (checksums and signature checked); nothing is compiled. The published image (3.0 and later) is built from this file. |
+| `docker/compose.quickstart.yaml` | **Quick start**: the published image, one proxy, its state on one volume. |
+| `docker/compose.quickstart-central.yaml` | **Quick start**: the published image with PostgreSQL and Redis (storage mode central), one proxy. |
+| `docker/compose.yaml` | One proxy, its state on one volume, with an image you build. |
 | `docker/compose.ha-shared.yaml` | **Recommended for several replicas.** Three proxies, PostgreSQL, Redis and a load balancer (Caddy); your `config.yaml` is copied into PostgreSQL once and every proxy runs that one copy. |
 | `docker/compose.ha.yaml` | The same as in 2.1, starting from each proxy's default settings. |
 | `docker/compose.ha-redis.yaml` | Three proxies and one durable Redis, no PostgreSQL (storage mode redis, 2.3): Redis with an append-only file, `noeviction` and a volume. Supported; PostgreSQL and Redis together stay the recommendation. |
@@ -24,8 +26,20 @@ own registry, secrets and databases.
 | `config/cloud-identity/aks/`, `config/cloud-identity/gke/` | Components for workload identity on AKS or GKE (Azure and Vertex providers with no stored key). |
 | `config/metrics/` | A component for Prometheus scraping (ServiceMonitor, for the Prometheus Operator) with a metrics-scope token. |
 | `config/cloud-identity/eks/` | A component for IAM roles for service accounts (or Pod Identity) on EKS (Bedrock providers with no stored key). |
+| `helm/maple-proxy/` | The Helm chart (3.0 and later; also published as `oci://ghcr.io/kinncj/charts/maple-proxy`): the same disk and central setups, the MCP hub, the lake jobs, metrics and workload identity, from values. |
+| `terraform/` | Examples for AWS ECS (Fargate), Google Cloud Run and Azure Container Apps, in central mode. |
 
-Build the image first (no image is published):
+From 3.0, the image is published, built from `docker/Dockerfile` for linux/amd64 and linux/arm64, signed (Sigstore
+cosign, keyless) and with an SBOM and build provenance:
+
+```sh
+docker pull ghcr.io/kinncj/maple-proxy:3.0.0
+cosign verify ghcr.io/kinncj/maple-proxy:3.0.0 \
+  --certificate-identity https://github.com/kinncj/maple-harness-dist/.github/workflows/image.yml@refs/tags/v3.0.0 \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
+
+Or build it yourself, from any published release:
 
 ```sh
 cd docker
@@ -33,7 +47,15 @@ docker buildx build --build-arg MAPLE_VERSION=v2.0.0 \
   --platform linux/amd64,linux/arm64 -t registry.example.com/you/maple-proxy:2.0.0 --push .
 ```
 
-Then, for Kubernetes:
+With Helm (3.0 and later):
+
+```sh
+kubectl create namespace maple
+kubectl -n maple create secret generic maple-proxy --from-file=access.proxy_tokens=./proxy_tokens
+helm install maple-proxy oci://ghcr.io/kinncj/charts/maple-proxy --version 3.0.0 -n maple --set existingSecret=maple-proxy
+```
+
+Or with Kustomize:
 
 ```sh
 cd config/single        # or config/ha-shared, or config/ha

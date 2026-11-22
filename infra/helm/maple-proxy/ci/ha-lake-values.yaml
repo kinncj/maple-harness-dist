@@ -1,0 +1,17 @@
+# config/ha-lake: settings from the ConfigMap (read-only), the lake jobs, metrics, a NetworkPolicy.
+mode: central
+replicaCount: 3
+existingSecret: maple-proxy
+settings: {source: file}
+postgres: {enabled: true, existingSecret: maple-postgres}
+redis: {enabled: true, existingSecret: maple-redis}
+lake: {enabled: true, existingSecret: maple-lake}
+metrics: {serviceMonitor: {enabled: true, tokenSecret: {name: maple-metrics-scrape}}}
+networkPolicy:
+  enabled: true
+  from:
+    - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: ingress}}
+serviceAccount:
+  annotations: {eks.amazonaws.com/role-arn: "arn:aws:iam::111122223333:role/REPLACE-ME"}
+extraEnv:
+  - {name: AWS_EC2_METADATA_DISABLED, value: "true"}

@@ -3,43 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>The Maple data lake (DuckLake) · Maple Harness docs</title>
 <meta name="description" content="The lake is where your usage history goes to stay. The daily files and PostgreSQL keep a window (90 days unless you change it); the lake keeps every record it was given, in a form that is quick to que">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
-<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
 <div class="search" role="search" data-docs="../docs/">
 <label class="sr" for="q">Search the documentation</label>
 <input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html" aria-current="page">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html" aria-current="page">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html" aria-current="page">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html" aria-current="true">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/access-control.html">Access control: organizations, roles, keys and end users</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li></ul></details><details open><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html" aria-current="page">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost and usage</a></li><li>Your data</li><li aria-current="page">The Maple data lake (DuckLake)</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/observability.html">Cost and usage</a></li><li>Your data</li><li aria-current="page">The Maple data lake (DuckLake)</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Cost and usage</span><span class="eb">Your data</span><span class="rt" title="Estimated at about 220 words a minute">13 min read</span></p>
 <h1 id="the-maple-data-lake-ducklake">The Maple data lake (DuckLake) <a class="anchor" href="#the-maple-data-lake-ducklake" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-ducklake-is">What DuckLake is</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#on-one-machine">On one machine</a><ol><li><a href="#let-the-proxy-keep-it-current">Let the proxy keep it current</a></li><li><a href="#query-it">Query it</a></li></ol></li><li><a href="#for-a-team-postgresql-and-a-shared-lake">For a team: PostgreSQL and a shared lake</a><ol><li><a href="#what-the-move-does">What the move does</a></li><li><a href="#try-it-by-hand-first">Try it by hand first</a></li><li><a href="#the-kubernetes-cronjobs">The Kubernetes CronJobs</a></li><li><a href="#credentials">Credentials</a></li><li><a href="#read-only-access-for-analysts">Read-only access for analysts</a></li></ol></li><li><a href="#maintenance">Maintenance</a></li><li><a href="#the-lake-on-the-setup-page">The lake on the setup page</a></li><li><a href="#time-travel-and-snapshots">Time travel and snapshots</a></li><li><a href="#hubs-every-proxys-data-in-one-lake">Hubs: every proxy's data in one lake</a></li><li><a href="#backups">Backups</a></li><li><a href="#troubleshooting">Troubleshooting</a></li></ol></details>
 
-<p>The lake is where your usage history goes to stay. The daily files and PostgreSQL keep a window (90 days unless you
+<p class="lede">The lake is where your usage history goes to stay. The daily files and PostgreSQL keep a window (90 days unless you
 change it); the lake keeps every record it was given, in a form that is quick to query over months or years, and lets
 you read it as it was at an earlier point. This page sets it up on one machine and for a team, and covers upkeep,
 time travel, hubs, backups and what to do when something goes wrong. Which store to use when is on
 <a href="your-data.html">Your data</a>; queries are in <a href="querying.html">Query your usage</a>.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> A place for your whole usage history, quick to query over months or years, that you can also read
 as it was on an earlier day.</li><li><strong>Why you want it.</strong> The daily files keep 90 days by default; the lake keeps everything.</li><li><strong>The clicks.</strong> On the setup page, <strong>Data &amp; storage</strong>, <strong>Usage data</strong>, set <strong>Analytics files</strong> to keep a lake, and
@@ -48,7 +51,7 @@ follow.</li></ul>
 <figure>
 <img class="shot shot-light" src="../img/docs/setup-data-light.webp" alt="The Data &amp; storage tab on one machine: storage, usage log size, days kept and how charts read the log; DuckDB queries to copy; and the Usage data card with Location, Keep and Analytics files set to Monthly Parquet and a DuckLake." width="1000" height="1445" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-data-dark.webp" alt="The Data &amp; storage tab on one machine: storage, usage log size, days kept and how charts read the log; DuckDB queries to copy; and the Usage data card with Location, Keep and Analytics files set to Monthly Parquet and a DuckLake." width="1000" height="1445" loading="lazy" decoding="async">
 <figcaption>Data &amp; storage, with Analytics files set to keep a lake. A demo setup.</figcaption>
-</figure>
+</figure></section>
 <h2 id="what-ducklake-is">What DuckLake is <a class="anchor" href="#what-ducklake-is" aria-label="Link to this heading">#</a></h2>
 <p><a href="https://ducklake.select/" rel="noopener noreferrer">DuckLake</a> is an open table format from the makers of <a href="https://duckdb.org/" rel="noopener noreferrer">DuckDB</a>. It has
 two parts:</p>
@@ -58,18 +61,18 @@ file; for a team it is a schema in PostgreSQL.</li></ul>
 <code>duckdb</code> program, in plain SQL, with the same <code>usage</code> table and <code>maple.*</code> views as everywhere else.</p>
 <p>The proxy fills the lake and writes the SQL for it; it never runs DuckDB inside itself and never downloads anything.</p>
 <h2 id="before-you-start">Before you start <a class="anchor" href="#before-you-start" aria-label="Link to this heading">#</a></h2>
-<ol><li>Install DuckDB's command line, from <a href="https://duckdb.org/docs/installation/" rel="noopener noreferrer">duckdb.org</a>, and put <code>duckdb</code> on your
+<ol class="steps"><li>Install DuckDB's command line, from <a href="https://duckdb.org/docs/installation/" rel="noopener noreferrer">duckdb.org</a>, and put <code>duckdb</code> on your
 <code>PATH</code> (or pass <code>--duckdb /path/to/duckdb</code>). These pages were tested with DuckDB 1.5.6.</li><li>Install the extensions the lake needs, once:
-<pre><code class="language-sh">duckdb -c "INSTALL ducklake"                        # every lake
-duckdb -c "INSTALL postgres"                        # a team lake (its catalog in PostgreSQL)
-duckdb -c "INSTALL httpfs; INSTALL aws"             # data in S3</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">duckdb</span> <span class="t-f">-c</span> <span class="t-s">"INSTALL ducklake"</span>                        <span class="t-c"># every lake</span>
+<span class="t-k">duckdb</span> <span class="t-f">-c</span> <span class="t-s">"INSTALL postgres"</span>                        <span class="t-c"># a team lake (its catalog in PostgreSQL)</span>
+<span class="t-k">duckdb</span> <span class="t-f">-c</span> <span class="t-s">"INSTALL httpfs; INSTALL aws"</span>             <span class="t-c"># data in S3</span></code></pre></div>
 <p>The proxy runs <code>duckdb</code> with automatic extension downloads turned off, so a missing extension is an error, never a
 download you did not ask for.</p></li></ol>
 <h2 id="on-one-machine">On one machine <a class="anchor" href="#on-one-machine" aria-label="Link to this heading">#</a></h2>
 <p><code>maple-proxy usage lake</code> makes a lake from your daily files, or adds to it what they gained since the last run. By
 default it lives in <code>analytics/lake</code> inside your usage folder: the catalog <code>maple.ducklake</code> and a <code>data</code> folder, both
 private to you. See what it would do first; <code>--dry-run</code> writes nothing:</p>
-<pre><code class="language-text">$ maple-proxy usage lake --dry-run
+<div class="codeblock"><pre><code class="language-text">$ maple-proxy usage lake --dry-run
 would load 67,720 new line(s) (41.1 MiB) from 119 daily file(s) into DuckLake (catalog /home/demo/.config/maple-harness/usage/analytics/lake/maple.ducklake; data /home/demo/.config/maple-harness/usage/analytics/lake/data/)
 Estimated, from about 550 usage line(s) a day, averaged over the last 7 day(s) and an inlining limit of 10000 rows:
   a daily refresh holds about 550 row(s): kept in the catalog, no data file written.
@@ -77,44 +80,44 @@ Estimated, from about 550 usage line(s) a day, averaged over the last 7 day(s) a
   Object-store writes: about 2 to 4 a day.
 $ maple-proxy usage lake
 DuckLake (catalog /home/demo/.config/maple-harness/usage/analytics/lake/maple.ducklake; data /home/demo/.config/maple-harness/usage/analytics/lake/data/): loaded 67,720 new line(s) from 119 daily file(s); 67,720 request row(s), 0 event row(s)
-done in 1.098s</code></pre>
+done in 1.098s</code></pre></div>
 <p>The next day, only the new day's lines are read:</p>
-<pre><code class="language-text">$ maple-proxy usage lake
+<div class="codeblock"><pre><code class="language-text">$ maple-proxy usage lake
 DuckLake (catalog /home/demo/.config/maple-harness/usage/analytics/lake/maple.ducklake; data /home/demo/.config/maple-harness/usage/analytics/lake/data/): loaded 749 new line(s) from 1 daily file(s); 68,469 request row(s), 0 event row(s)
-done in 712ms</code></pre>
+done in 712ms</code></pre></div>
 <p><code>--catalog FILE</code> and <code>--data FOLDER</code> put it somewhere else, and <code>--data s3://bucket/prefix/</code> puts the data files in
 object storage.</p>
 <h3 id="let-the-proxy-keep-it-current">Let the proxy keep it current <a class="anchor" href="#let-the-proxy-keep-it-current" aria-label="Link to this heading">#</a></h3>
 <p>Set <strong>Analytics files</strong> to <strong>Monthly Parquet and a DuckLake</strong> on the setup page's Usage data card, or in
 <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">server:
-  usage_analytics: lake</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">server:</span>
+<span class="t-k">  usage_analytics:</span> lake</code></pre></div>
 <p>The proxy then refreshes the lake and runs its upkeep when it starts and once a day after the usage cleanup, with your
 <code>duckdb</code> program. It also packs the closed days into monthly Parquet files (<code>parquet</code> does only that, and <code>duckdb</code>
 keeps a DuckDB file instead of a lake). <code>off</code>, the default, makes nothing. Without <code>duckdb</code> on the <code>PATH</code>, the proxy
 makes only the monthly Parquet files and says so once in its log. What it logged on a start with 120 days of files
 and a 90-day retention:</p>
-<pre><code class="language-text">mapleharness proxy: usage log cleanup (keep 90 days): removed 30 old daily file(s), 8.7 MiB, from /home/demo/.config/maple-harness/usage
+<div class="codeblock"><pre><code class="language-text">mapleharness proxy: usage log cleanup (keep 90 days): removed 30 old daily file(s), 8.7 MiB, from /home/demo/.config/maple-harness/usage
 mapleharness proxy: usage analytics: 1 monthly file(s) written, 0 removed, in /home/demo/.config/maple-harness/usage/analytics
-mapleharness proxy: usage analytics: lake refreshed: 1 new line(s) from 1 file(s)</code></pre>
+mapleharness proxy: usage analytics: lake refreshed: 1 new line(s) from 1 file(s)</code></pre></div>
 <p>The cleanup removed the oldest 30 days of files; the lake still has them:</p>
-<pre><code class="language-text">$ duckdb -table -cmd ".read lake.sql" -c "SELECT count(*) AS requests, min(\"at\")::DATE AS first_day, max(\"at\")::DATE AS last_day FROM main.usage"
+<div class="codeblock"><pre><code class="language-text">$ duckdb -table -cmd ".read lake.sql" -c "SELECT count(*) AS requests, min(\"at\")::DATE AS first_day, max(\"at\")::DATE AS last_day FROM main.usage"
 +----------+------------+------------+
 | requests | first_day  |  last_day  |
 +----------+------------+------------+
 | 68469    | 2026-06-11 | 2026-10-08 |
-+----------+------------+------------+</code></pre>
-<p>The monthly Parquet files and the DuckDB file are different: they follow the daily files, and lose a day when the
-cleanup deletes it. Only the lake keeps history the daily files no longer have. To remove the lake, delete its folder.</p>
++----------+------------+------------+</code></pre></div>
+<div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>Only the lake keeps everything</span></p><p>The monthly Parquet files and the DuckDB file are different: they follow the daily files, and lose a day when the
+cleanup deletes it. Only the lake keeps history the daily files no longer have. To remove the lake, delete its folder.</p></div>
 <h3 id="query-it">Query it <a class="anchor" href="#query-it" aria-label="Link to this heading">#</a></h3>
 <p><code>--emit-sql attach</code> prints what to run in <code>duckdb</code>: it attaches the lake read-only.</p>
-<pre><code class="language-sh">L=~/.config/maple-harness/usage/analytics/lake
-maple-proxy usage lake --emit-sql attach --catalog $L/maple.ducklake --data $L/data &gt; lake.sql
-duckdb -cmd ".read lake.sql"</code></pre>
-<pre><code class="language-text">-- Maple usage lake, read-only. Needs DuckDB with the ducklake extension (INSTALL ducklake; once).
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh">L=~/.config/maple-harness/usage/analytics/lake
+<span class="t-k">maple-proxy</span> usage lake <span class="t-f">--emit-sql</span> attach <span class="t-f">--catalog</span> <span class="t-v">$L</span>/maple.ducklake <span class="t-f">--data</span> <span class="t-v">$L</span>/data &gt; lake.sql
+<span class="t-k">duckdb</span> <span class="t-f">-cmd</span> <span class="t-s">".read lake.sql"</span></code></pre></div>
+<div class="codeblock"><pre><code class="language-text">-- Maple usage lake, read-only. Needs DuckDB with the ducklake extension (INSTALL ducklake; once).
 LOAD ducklake;
 ATTACH 'ducklake:/home/demo/.config/maple-harness/usage/analytics/lake/maple.ducklake' AS maple_lake (DATA_PATH '/home/demo/.config/maple-harness/usage/analytics/lake/data/', READ_ONLY);
-USE maple_lake;</code></pre>
+USE maple_lake;</code></pre></div>
 <p>Inside, <code>main.usage</code> and <code>main.events</code> hold every record, and the <a href="usage-export.html#named-views">named views</a>
 (<code>maple.daily_spend</code>, <code>maple.sessions</code>, <code>maple.people</code> and the rest) work as they do over the files. Recipes are in
 <a href="querying.html#the-lake">Query your usage</a>.</p>
@@ -138,17 +141,17 @@ next one, and a line is never in the lake twice.</li><li>It only adds. PostgreSQ
 <p>With <code>MAPLE_POSTGRES_DSN</code> holding a connection string (it is read from the environment when the SQL runs, and never
 written into the SQL). Keep the password out of it, in <code>PGPASSWORD</code>: DuckDB can repeat the
 connection string in an error message.</p>
-<pre><code class="language-sh">export MAPLE_POSTGRES_DSN='postgres://maple_lake@db.example:5432/maple?sslmode=require'
-export PGPASSWORD='...'
-export MAPLE_LAKE_DATA_PATH=/srv/maple-lake/
-maple-proxy usage lake --source postgres --dsn-env MAPLE_POSTGRES_DSN \
-  --catalog-dsn-env MAPLE_POSTGRES_DSN --data-env MAPLE_LAKE_DATA_PATH --dry-run
-maple-proxy usage lake --source postgres --dsn-env MAPLE_POSTGRES_DSN \
-  --catalog-dsn-env MAPLE_POSTGRES_DSN --data-env MAPLE_LAKE_DATA_PATH</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">export</span> MAPLE_POSTGRES_DSN=<span class="t-s">'postgres://maple_lake@db.example:5432/maple?sslmode=require'</span>
+<span class="t-k">export</span> PGPASSWORD=<span class="t-s">'...'</span>
+<span class="t-k">export</span> MAPLE_LAKE_DATA_PATH=/srv/maple-lake/
+<span class="t-k">maple-proxy</span> usage lake <span class="t-f">--source</span> postgres <span class="t-f">--dsn-env</span> MAPLE_POSTGRES_DSN \
+  <span class="t-f">--catalog-dsn-env</span> MAPLE_POSTGRES_DSN <span class="t-f">--data-env</span> MAPLE_LAKE_DATA_PATH <span class="t-f">--dry-run</span>
+<span class="t-k">maple-proxy</span> usage lake <span class="t-f">--source</span> postgres <span class="t-f">--dsn-env</span> MAPLE_POSTGRES_DSN \
+  <span class="t-f">--catalog-dsn-env</span> MAPLE_POSTGRES_DSN <span class="t-f">--data-env</span> MAPLE_LAKE_DATA_PATH</code></pre></div>
 <p>What a first move printed, and a second one right after it:</p>
-<pre><code class="language-text">DuckLake (catalog in Postgres $MAPLE_POSTGRES_DSN, schema lake_test; data $MAPLE_LAKE_DATA_PATH): moved up to 99722 usage, 0 child and 0 event row(s) from Postgres
+<div class="codeblock"><pre><code class="language-text">DuckLake (catalog in Postgres $MAPLE_POSTGRES_DSN, schema lake_test; data $MAPLE_LAKE_DATA_PATH): moved up to 99722 usage, 0 child and 0 event row(s) from Postgres
 done in 8.379s
-DuckLake (catalog in Postgres $MAPLE_POSTGRES_DSN, schema lake_test; data $MAPLE_LAKE_DATA_PATH): moved up to 0 usage, 0 child and 0 event row(s) from Postgres</code></pre>
+DuckLake (catalog in Postgres $MAPLE_POSTGRES_DSN, schema lake_test; data $MAPLE_LAKE_DATA_PATH): moved up to 0 usage, 0 child and 0 event row(s) from Postgres</code></pre></div>
 <p>(<code>--catalog-schema lake_test</code> named the catalog's schema in that run; leave it out for <code>maple_lake</code>.) Add <code>--maintain</code>
 to run the daily upkeep in the same command. A lake whose catalog is in PostgreSQL always needs <code>--source</code>: without
 it the command stops instead of loading the daily files of the machine you run it on. A lake also keeps one source:
@@ -157,17 +160,17 @@ the first load records it, and a load from the other one is refused (see <a href
 <p>The <a href="kubernetes.html#usage-for-analysis">Kubernetes samples</a> run the move hourly and the upkeep daily as two CronJobs
 (<code>manifest/maple-lake</code>, and the overlay <code>config/ha-lake</code> on top of <code>config/ha</code>). They run the official DuckDB image on
 SQL the proxy writes for you. Generate it, put it in the sample's <code>sql/</code> folder, and apply:</p>
-<pre><code class="language-sh">maple-proxy usage lake --source postgres --dsn-env MAPLE_POSTGRES_DSN --catalog-dsn-env MAPLE_POSTGRES_DSN \
-  --data-env MAPLE_LAKE_DATA_PATH --emit-sql move &gt; manifest/maple-lake/sql/move.sql
-maple-proxy usage lake --catalog-dsn-env MAPLE_POSTGRES_DSN --data-env MAPLE_LAKE_DATA_PATH \
-  --emit-sql maintain &gt; manifest/maple-lake/sql/maintain.sql</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> usage lake <span class="t-f">--source</span> postgres <span class="t-f">--dsn-env</span> MAPLE_POSTGRES_DSN <span class="t-f">--catalog-dsn-env</span> MAPLE_POSTGRES_DSN \
+  <span class="t-f">--data-env</span> MAPLE_LAKE_DATA_PATH <span class="t-f">--emit-sql</span> move &gt; manifest/maple-lake/sql/move.sql
+<span class="t-k">maple-proxy</span> usage lake <span class="t-f">--catalog-dsn-env</span> MAPLE_POSTGRES_DSN <span class="t-f">--data-env</span> MAPLE_LAKE_DATA_PATH \
+  <span class="t-f">--emit-sql</span> maintain &gt; manifest/maple-lake/sql/maintain.sql</code></pre></div>
 <p>Then apply the <code>config/ha-lake</code> overlay as <a href="kubernetes.html#usage-for-analysis">Run the proxy on Kubernetes</a> describes,
 with the job's connection string in the <code>maple-lake</code> Secret and <code>MAPLE_LAKE_DATA_PATH</code> set to the volume's folder or
 your bucket. For Docker Compose, see <a href="docker.html">Run the proxy in Docker</a>.</p>
 <p>Add <code>--s3</code> to both when <code>MAPLE_LAKE_DATA_PATH</code> is an <code>s3://</code> address. Generate both files again after you upgrade the
 proxy. The job runs exactly what you can run yourself:</p>
-<pre><code class="language-sh">duckdb -bail -c ".read move.sql"        # hourly
-duckdb -bail -c ".read maintain.sql"    # daily</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">duckdb</span> <span class="t-f">-bail</span> <span class="t-f">-c</span> <span class="t-s">".read move.sql"</span>        <span class="t-c"># hourly</span>
+<span class="t-k">duckdb</span> <span class="t-f">-bail</span> <span class="t-f">-c</span> <span class="t-s">".read maintain.sql"</span>    <span class="t-c"># daily</span></code></pre></div>
 <p>The jobs need to reach DuckDB's extension site the first time they load an extension (the SQL loads <code>postgres</code> and
 <code>ducklake</code>), and a writable <code>HOME</code> to install them into (the sample mounts an empty folder there), or an image with
 the extensions already installed.</p>
@@ -179,10 +182,10 @@ the catalog's schema, <code>maple_lake.status</code>, which the setup page reads
 password in <code>PGPASSWORD</code> from the same Secret rather than in the string. Give the job
 its own role rather than the proxy's: it needs to read the usage tables and to own the catalog's schema, nothing
 else. As the database owner:</p>
-<pre><code class="language-sql">CREATE ROLE maple_lake LOGIN PASSWORD '...';
-GRANT USAGE ON SCHEMA public TO maple_lake;
-GRANT SELECT ON maple_usage, maple_child_usage, maple_events TO maple_lake;
-CREATE SCHEMA maple_lake AUTHORIZATION maple_lake;</code></pre></li><li><p><strong>S3.</strong> Credentials come from DuckDB's usual credential chain: the <code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code> and
+<div class="codeblock"><span class="lang">SQL</span><pre><code class="language-sql"><span class="t-k">CREATE</span> ROLE maple_lake LOGIN PASSWORD <span class="t-s">'...'</span>;
+GRANT USAGE <span class="t-k">ON</span> SCHEMA public <span class="t-k">TO</span> maple_lake;
+GRANT <span class="t-k">SELECT</span> <span class="t-k">ON</span> maple_usage, maple_child_usage, maple_events <span class="t-k">TO</span> maple_lake;
+<span class="t-k">CREATE</span> SCHEMA maple_lake AUTHORIZATION maple_lake;</code></pre></div></li><li><p><strong>S3.</strong> Credentials come from DuckDB's usual credential chain: the <code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code> and
 <code>AWS_REGION</code> environment variables (from the job's Secret), or, better, workload identity (IRSA on EKS, Workload
 Identity on GKE), which needs no key at all. With no credentials and no region the run stops with
 <code>Secret Validation Failure ... Credential Chain</code>.</p></li><li><p><strong>A volume.</strong> The sample mounts a PersistentVolumeClaim at <code>/lake</code>; the job runs as a non-root user and needs to
@@ -190,29 +193,30 @@ write there.</p></li></ul>
 <h3 id="read-only-access-for-analysts">Read-only access for analysts <a class="anchor" href="#read-only-access-for-analysts" aria-label="Link to this heading">#</a></h3>
 <p>Give analysts a role that can only read. For the lake, it needs to read the catalog's schema (and, with
 <code>ALTER DEFAULT PRIVILEGES</code>, the tables the lake adds to it later), and read access to the data files:</p>
-<pre><code class="language-sql">CREATE ROLE analyst LOGIN PASSWORD '...';
-GRANT USAGE ON SCHEMA maple_lake TO analyst;
-GRANT SELECT ON ALL TABLES IN SCHEMA maple_lake TO analyst;
-ALTER DEFAULT PRIVILEGES FOR ROLE maple_lake IN SCHEMA maple_lake GRANT SELECT ON TABLES TO analyst;</code></pre>
+<div class="codeblock"><span class="lang">SQL</span><pre><code class="language-sql"><span class="t-k">CREATE</span> ROLE analyst LOGIN PASSWORD <span class="t-s">'...'</span>;
+GRANT USAGE <span class="t-k">ON</span> SCHEMA maple_lake <span class="t-k">TO</span> analyst;
+GRANT <span class="t-k">SELECT</span> <span class="t-k">ON</span> <span class="t-k">ALL</span> TABLES <span class="t-k">IN</span> SCHEMA maple_lake <span class="t-k">TO</span> analyst;
+ALTER DEFAULT PRIVILEGES FOR ROLE maple_lake <span class="t-k">IN</span> SCHEMA maple_lake GRANT <span class="t-k">SELECT</span> <span class="t-k">ON</span> TABLES <span class="t-k">TO</span> analyst;</code></pre></div>
 <p>To also query the live data in PostgreSQL, add <code>GRANT USAGE ON SCHEMA public TO analyst</code> and
-<code>GRANT SELECT ON maple_usage, maple_child_usage, maple_events, maple_usage_rows, maple_events_rows TO analyst</code>.</p>
+<code>GRANT SELECT ON maple_usage, maple_child_usage, maple_events, maple_usage_rows, maple_usage_rows_v9, maple_events_rows TO analyst</code>
+(each later usage schema version adds a view <code>maple_usage_rows_v&lt;N&gt;</code>: grant it too).</p>
 <p>Each analyst prints the attach SQL with their own connection string in their own environment variable, and
 attaches read-only:</p>
-<pre><code class="language-sh">export MAPLE_LAKE_CATALOG='postgres://analyst@db.example:5432/maple?sslmode=require'
-export PGPASSWORD='...'
-maple-proxy usage lake --catalog-dsn-env MAPLE_LAKE_CATALOG --data s3://your-bucket/maple/ --emit-sql attach &gt; lake.sql
-duckdb -cmd ".read lake.sql"</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">export</span> MAPLE_LAKE_CATALOG=<span class="t-s">'postgres://analyst@db.example:5432/maple?sslmode=require'</span>
+<span class="t-k">export</span> PGPASSWORD=<span class="t-s">'...'</span>
+<span class="t-k">maple-proxy</span> usage lake <span class="t-f">--catalog-dsn-env</span> MAPLE_LAKE_CATALOG <span class="t-f">--data</span> s3://your-bucket/maple/ <span class="t-f">--emit-sql</span> attach &gt; lake.sql
+<span class="t-k">duckdb</span> <span class="t-f">-cmd</span> <span class="t-s">".read lake.sql"</span></code></pre></div>
 <p>A write through that attachment is refused:</p>
-<pre><code class="language-text">Invalid Input Error: Cannot execute statement of type "DELETE" on database "maple_lake" which is attached in read-only mode!</code></pre>
+<div class="codeblock"><pre><code class="language-text">Invalid Input Error: Cannot execute statement of type "DELETE" on database "maple_lake" which is attached in read-only mode!</code></pre></div>
 <h2 id="maintenance">Maintenance <a class="anchor" href="#maintenance" aria-label="Link to this heading">#</a></h2>
 <p>Each move adds a little: up to <code>--inline-rows</code> rows (10,000 by default) are kept in the catalog itself rather than
 written as a new Parquet file, so frequent small moves create no small files. Once a day the upkeep:</p>
 <ol><li>writes the rows kept in the catalog out as Parquet;</li><li>merges small files towards <code>--target-file-mb</code> (32 MB);</li><li>expires snapshots older than <code>--expire-days</code> (30);</li><li>deletes data files that no remaining snapshot needs.</li></ol>
 <p>On one machine <code>usage_analytics: lake</code> runs it daily, or run <code>maple-proxy usage lake --maintain</code>:</p>
-<pre><code class="language-text">$ maple-proxy usage lake --maintain
+<div class="codeblock"><pre><code class="language-text">$ maple-proxy usage lake --maintain
 DuckLake (catalog /home/demo/.config/maple-harness/usage/analytics/lake/maple.ducklake; data /home/demo/.config/maple-harness/usage/analytics/lake/data/): loaded 0 new line(s) from 0 daily file(s); 68,469 request row(s), 0 event row(s)
 upkeep done: inlined rows written out, small files merged, old snapshots expired
-done in 485ms</code></pre>
+done in 485ms</code></pre></div>
 <p>For a team, the daily CronJob runs <code>maintain.sql</code>. The upkeep never deletes your records: expiring a snapshot only
 means you can no longer read the lake as it was at that moment.</p>
 <h2 id="the-lake-on-the-setup-page">The lake on the setup page <a class="anchor" href="#the-lake-on-the-setup-page" aria-label="Link to this heading">#</a></h2>
@@ -231,25 +235,25 @@ note appears after three hours.</li></ul>
 string.</p>
 <h2 id="time-travel-and-snapshots">Time travel and snapshots <a class="anchor" href="#time-travel-and-snapshots" aria-label="Link to this heading">#</a></h2>
 <p>Every load, move and upkeep is a snapshot. List them, then read a table as it was at one:</p>
-<pre><code class="language-sql">SELECT snapshot_id, snapshot_time, changes
-FROM maple_lake.snapshots()
-WHERE map_contains(changes, 'inlined_insert') OR map_contains(changes, 'tables_inserted_into')
-ORDER BY snapshot_id;</code></pre>
-<pre><code class="language-text">+-------------+-------------------------------+------------------------------------------------+
+<div class="codeblock"><span class="lang">SQL</span><pre><code class="language-sql"><span class="t-k">SELECT</span> snapshot_id, snapshot_time, changes
+<span class="t-k">FROM</span> maple_lake.snapshots()
+<span class="t-k">WHERE</span> map_contains(changes, <span class="t-s">'inlined_insert'</span>) <span class="t-k">OR</span> map_contains(changes, <span class="t-s">'tables_inserted_into'</span>)
+<span class="t-k">ORDER</span> <span class="t-k">BY</span> snapshot_id;</code></pre></div>
+<div class="codeblock"><pre><code class="language-text">+-------------+-------------------------------+------------------------------------------------+
 | snapshot_id |         snapshot_time         |                    changes                     |
 +-------------+-------------------------------+------------------------------------------------+
 | 2           | 2026-10-09 03:48:31.157931+00 | {tables_inserted_into=[3], inlined_insert=[1]} |
 | 4           | 2026-10-09 03:48:32.225323+00 | {inlined_insert=[1, 3]}                        |
-+-------------+-------------------------------+------------------------------------------------+</code></pre>
-<pre><code class="language-sql">SELECT 'version 2' AS lake, count(*) AS requests, max("at")::DATE AS newest_day FROM main.usage AT (VERSION =&gt; 2)
-UNION ALL
-SELECT 'now', count(*), max("at")::DATE FROM main.usage;</code></pre>
-<pre><code class="language-text">+-----------+----------+------------+
++-------------+-------------------------------+------------------------------------------------+</code></pre></div>
+<div class="codeblock"><span class="lang">SQL</span><pre><code class="language-sql"><span class="t-k">SELECT</span> <span class="t-s">'version 2'</span> <span class="t-k">AS</span> lake, <span class="t-k">count</span>(*) <span class="t-k">AS</span> requests, <span class="t-k">max</span>("at")::DATE <span class="t-k">AS</span> newest_day <span class="t-k">FROM</span> main.usage AT (VERSION =&gt; <span class="t-n">2</span>)
+<span class="t-k">UNION</span> <span class="t-k">ALL</span>
+<span class="t-k">SELECT</span> <span class="t-s">'now'</span>, <span class="t-k">count</span>(*), <span class="t-k">max</span>("at")::DATE <span class="t-k">FROM</span> main.usage;</code></pre></div>
+<div class="codeblock"><pre><code class="language-text">+-----------+----------+------------+
 |   lake    | requests | newest_day |
 +-----------+----------+------------+
 | version 2 | 67720    | 2026-10-07 |
 | now       | 68469    | 2026-10-08 |
-+-----------+----------+------------+</code></pre>
++-----------+----------+------------+</code></pre></div>
 <p><code>AT (TIMESTAMP =&gt; TIMESTAMPTZ '2026-10-01 00:00:00+00')</code> reads the lake as it was at a time instead. Use it to
 reproduce a report exactly as it was first run, or to see what a late batch changed. Snapshots older than
 <code>--expire-days</code> are gone after the next upkeep.</p>
@@ -257,12 +261,12 @@ reproduce a report exactly as it was first run, or to see what a late batch chan
 <p>A hub keeps the usage the proxies below it send up (see <a href="chaining.html#usage-from-below">Usage from below</a>), and its
 lake takes both: its own lines with <code>source</code> <code>local</code> and the ones sent up with <code>source</code> <code>child</code>. On a top hub with two
 proxies below it:</p>
-<pre><code class="language-text">+--------+-------+
+<div class="codeblock"><pre><code class="language-text">+--------+-------+
 | source | lines |
 +--------+-------+
 | child  | 33    |
 | local  | 21    |
-+--------+-------+</code></pre>
++--------+-------+</code></pre></div>
 <p>The views that count each request once (<code>maple.client_requests</code>, <code>maple.origins</code>, <code>maple.proxies</code>) work in the lake
 as on the hub's files, so the whole chain is one query (see <a href="querying.html#a-roll-up-per-hub">Query your usage</a>).
 In central mode, what the proxies below sent up is moved with the rest (the move's <code>child</code> count).</p>
@@ -270,8 +274,8 @@ In central mode, what the proxies below sent up is moved with the rest (the move
 <ul><li><strong>One machine.</strong> The lake is its catalog file and its data folder (<code>analytics/lake</code>). Copy both together while no
 refresh is running (not during the proxy's daily run). The daily files can rebuild only the days they still hold,
 so the lake is the one copy of anything older: back it up if that history matters.
-<pre><code class="language-sh">tar -C ~/.config/maple-harness/usage/analytics -czf lake-backup.tgz lake        # back up
-tar -C ~/.config/maple-harness/usage/analytics -xzf lake-backup.tgz             # restore, to the same place</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">tar</span> <span class="t-f">-C</span> ~/.config/maple-harness/usage/analytics <span class="t-f">-czf</span> lake-backup.tgz lake        <span class="t-c"># back up</span>
+<span class="t-k">tar</span> <span class="t-f">-C</span> ~/.config/maple-harness/usage/analytics <span class="t-f">-xzf</span> lake-backup.tgz             <span class="t-c"># restore, to the same place</span></code></pre></div>
 <p>Restore it to the same folder: the catalog remembers where its data folder is, and attaching it somewhere else
 fails with <code>DATA_PATH parameter ... does not match existing data path in the catalog</code>.</p></li><li><strong>A team.</strong> Back up the catalog with PostgreSQL itself (<code>pg_dump</code>, or your provider's backups: the <code>maple_lake</code>
 schema is in the same database) and the data files with the volume or bucket (versioning or replication on the
@@ -279,7 +283,7 @@ bucket). Restore both from about the same time, and the data to the same place: 
 expects to find, and where.</li></ul>
 <h2 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h2>
 <p><strong><code>the duckdb command line was not found</code></strong></p>
-<pre><code class="language-text">usage lake: the duckdb command line was not found: install DuckDB's command line (https://duckdb.org/docs/installation/, for example `brew install duckdb` or the release zip) and put duckdb on your PATH, or pass --duckdb /path/to/duckdb</code></pre>
+<div class="codeblock"><pre><code class="language-text">usage lake: the duckdb command line was not found: install DuckDB's command line (https://duckdb.org/docs/installation/, for example `brew install duckdb` or the release zip) and put duckdb on your PATH, or pass --duckdb /path/to/duckdb</code></pre></div>
 <p>Install DuckDB's command line and put it on the <code>PATH</code>, or pass <code>--duckdb</code>. With <code>usage_analytics: lake</code> or <code>duckdb</code>
 and no <code>duckdb</code>, the proxy makes only the monthly Parquet files and logs this once.</p>
 <p><strong><code>... not an absolute path</code> / <code>... can be written by any user</code> / <code>found only through the current directory</code></strong></p>
@@ -326,8 +330,9 @@ identity. See <a href="#credentials">Credentials</a>.</p>
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-ducklake-is">What DuckLake is</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#on-one-machine">On one machine</a><ol><li><a href="#let-the-proxy-keep-it-current">Let the proxy keep it current</a></li><li><a href="#query-it">Query it</a></li></ol></li><li><a href="#for-a-team-postgresql-and-a-shared-lake">For a team: PostgreSQL and a shared lake</a><ol><li><a href="#what-the-move-does">What the move does</a></li><li><a href="#try-it-by-hand-first">Try it by hand first</a></li><li><a href="#the-kubernetes-cronjobs">The Kubernetes CronJobs</a></li><li><a href="#credentials">Credentials</a></li><li><a href="#read-only-access-for-analysts">Read-only access for analysts</a></li></ol></li><li><a href="#maintenance">Maintenance</a></li><li><a href="#the-lake-on-the-setup-page">The lake on the setup page</a></li><li><a href="#time-travel-and-snapshots">Time travel and snapshots</a></li><li><a href="#hubs-every-proxys-data-in-one-lake">Hubs: every proxy's data in one lake</a></li><li><a href="#backups">Backups</a></li><li><a href="#troubleshooting">Troubleshooting</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-ducklake-is">What DuckLake is</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#on-one-machine">On one machine</a><ol><li><a href="#let-the-proxy-keep-it-current">Let the proxy keep it current</a></li><li><a href="#query-it">Query it</a></li></ol></li><li><a href="#for-a-team-postgresql-and-a-shared-lake">For a team: PostgreSQL and a shared lake</a><ol><li><a href="#what-the-move-does">What the move does</a></li><li><a href="#try-it-by-hand-first">Try it by hand first</a></li><li><a href="#the-kubernetes-cronjobs">The Kubernetes CronJobs</a></li><li><a href="#credentials">Credentials</a></li><li><a href="#read-only-access-for-analysts">Read-only access for analysts</a></li></ol></li><li><a href="#maintenance">Maintenance</a></li><li><a href="#the-lake-on-the-setup-page">The lake on the setup page</a></li><li><a href="#time-travel-and-snapshots">Time travel and snapshots</a></li><li><a href="#hubs-every-proxys-data-in-one-lake">Hubs: every proxy's data in one lake</a></li><li><a href="#backups">Backups</a></li><li><a href="#troubleshooting">Troubleshooting</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

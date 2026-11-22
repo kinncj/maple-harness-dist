@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Give other tools this project&#x27;s knowledge · Maple Harness docs</title>
 <meta name="description" content="maple-harness mcp serve lets any tool that speaks MCP (Claude Code, OpenCode, another Maple Harness) read this project&#x27;s notes and code map, the same ones the agent uses.">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
@@ -23,58 +24,60 @@
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html" aria-current="page">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html" aria-current="page">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">Give other tools this project&#x27;s knowledge</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">Other tools</span><span class="rt" title="Estimated at about 220 words a minute">10 min read</span></p>
 <h1 id="give-other-tools-this-projects-knowledge">Give other tools this project's knowledge <a class="anchor" href="#give-other-tools-this-projects-knowledge" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#another-maple-harness">Another Maple Harness</a></li><li><a href="#using-mcp-servers-from-the-agent">Using MCP servers from the agent</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#another-maple-harness">Another Maple Harness</a></li><li><a href="#using-mcp-servers-from-the-agent">Using MCP servers from the agent</a><ol><li><a href="#where-a-local-server-starts">Where a local server starts</a></li><li><a href="#credential-variables">Credential variables</a></li><li><a href="#prompts-a-server-offers">Prompts a server offers</a></li><li><a href="#servers-that-ask-you-to-sign-in">Servers that ask you to sign in</a></li></ol></li><li><a href="#see-also">See also</a></li></ol></details>
 
-<p><code>maple-harness mcp serve</code> lets any tool that speaks MCP (Claude Code, OpenCode, another Maple Harness) read
+<p class="lede"><code>maple-harness mcp serve</code> lets any tool that speaks MCP (Claude Code, OpenCode, another Maple Harness) read
 this project's notes and code map, the same ones the agent uses.</p>
 <p>Build the index once from the project directory:</p>
-<pre><code class="language-sh">maple-harness graph reindex</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> graph reindex</code></pre></div>
 <p>Then connect a tool. A client normally launches the server itself.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> Other tools (Claude Code, OpenCode, another Maple) can read this project's memory notes and code
 map, the ones Maple builds as it works.</li><li><strong>Why you want it.</strong> Each tool starts already knowing your project's structure, instead of reading it again.</li><li><strong>What to do.</strong> <code>maple-harness graph reindex</code> once in the project, then add the server to your tool with the line
-below. There is no setup page step.</li></ul>
+below. There is no setup page step.</li></ul></section>
 <h2 id="claude-code">Claude Code <a class="anchor" href="#claude-code" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">claude mcp add maple-knowledge -- maple-harness mcp serve</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">claude</span> mcp add maple-knowledge -- maple-harness mcp serve</code></pre></div>
 <p>or in the project's <code>.mcp.json</code>:</p>
-<pre><code class="language-json">{
-  "mcpServers": {
-    "maple-knowledge": {
-      "command": "maple-harness",
-      "args": ["mcp", "serve"]
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"mcpServers"</span>: {
+    <span class="t-k">"maple-knowledge"</span>: {
+      <span class="t-k">"command"</span>: <span class="t-s">"maple-harness"</span>,
+      <span class="t-k">"args"</span>: [<span class="t-s">"mcp"</span>, <span class="t-s">"serve"</span>]
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>Add <code>"--read-only"</code> to the arguments to withhold the tools that write notes.</p>
 <h2 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h2>
 <p>In <code>opencode.json</code>:</p>
-<pre><code class="language-json">{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "maple-knowledge": {
-      "type": "local",
-      "command": ["maple-harness", "mcp", "serve"],
-      "enabled": true
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"$schema"</span>: <span class="t-s">"https://opencode.ai/config.json"</span>,
+  <span class="t-k">"mcp"</span>: {
+    <span class="t-k">"maple-knowledge"</span>: {
+      <span class="t-k">"type"</span>: <span class="t-s">"local"</span>,
+      <span class="t-k">"command"</span>: [<span class="t-s">"maple-harness"</span>, <span class="t-s">"mcp"</span>, <span class="t-s">"serve"</span>],
+      <span class="t-k">"enabled"</span>: <span class="t-n">true</span>
     }
   }
-}</code></pre>
+}</code></pre></div>
 <h2 id="another-maple-harness">Another Maple Harness <a class="anchor" href="#another-maple-harness" aria-label="Link to this heading">#</a></h2>
 <p>In <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">harness:
-  mcp_servers:
-    - name: knowledge
-      command: maple-harness
-      args: ["mcp", "serve", "--project", "/path/to/other/project"]</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  mcp_servers:</span>
+<span class="t-k">    - name:</span> knowledge
+<span class="t-k">      command:</span> maple-harness
+<span class="t-k">      args:</span> [<span class="t-s">"mcp"</span>, <span class="t-s">"serve"</span>, <span class="t-s">"--project"</span>, <span class="t-s">"/path/to/other/project"</span>]</code></pre></div>
 <h2 id="using-mcp-servers-from-the-agent">Using MCP servers from the agent <a class="anchor" href="#using-mcp-servers-from-the-agent" aria-label="Link to this heading">#</a></h2>
 <p>The agent can use MCP servers too, from the <code>harness.mcp_servers</code> list or a project's <code>.mcp.json</code>. Their
 tools ask for approval like any other tool. A server that runs as a program on your machine runs with your
@@ -85,18 +88,133 @@ project you have not seen before, Maple Harness asks before starting the server 
 terminal to ask on, skips it and says so). Once approved, it starts normally; editing the file afterwards
 asks again. <code>harness.mcp_servers</code> in your own <code>config.yaml</code> is unaffected — it always runs. See
 <code>maple-harness trust --help</code>.</p>
+<p>A server's tools are held back in <a href="plan-mode.html">plan mode</a>, unless you mark the server <code>read_only: true</code> (in
+<code>/settings</code> → MCP servers: <strong>read-only</strong>): then plan mode offers them, except a tool the server itself says is
+destructive. Only your own <code>config.yaml</code> can mark a server; a project's config or <code>.mcp.json</code> cannot.</p>
+<h3 id="where-a-local-server-starts">Where a local server starts <a class="anchor" href="#where-a-local-server-starts" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> A server that runs as a program starts in the project's folder, as it does in other coding
+agents, so a server that works on the project finds it. But a program started in a folder can pick up code from it:
+<code>npx</code> prefers a copy of a package the folder's <code>node_modules</code> holds, and <code>python -m</code> a module the folder has. If you
+give one of your own servers a secret (its environment or arguments name <code>${secret:…}</code> or <code>${env:…}</code>, or hold a
+credential written out, such as <code>GITHUB_TOKEN=…</code> or <code>--api-key=…</code>), a project you have not
+trusted could hand that secret to code it put there. So, while a project is not trusted, such a server starts from
+your home folder instead, and the session says so once:</p>
+<div class="codeblock"><pre><code class="language-text">github started from your home folder because this project isn't trusted; trust it to run servers inside it</code></pre></div>
+<p>Trusting the folder (answering yes when Maple asks about its files, or <code>maple-harness trust approve</code> in it, which
+works for a folder with nothing to ask about too) puts your servers back in the project folder. Servers without a
+secret, and the servers a project's own <code>.mcp.json</code> names, start in the project as before.</p>
+<p>Trusting is yours to do, in your own terminal. <code>maple-harness trust approve</code> does not grant it when it runs under
+a command Maple started (the agent's <code>bash</code>, a background command or monitor, a hook, an MCP server, a notification
+command), or without a terminal unless you pass <code>--yes</code> from a script of your own; the agent's pane tools do not type
+it; and a session started without a terminal, or by such a command, never asks the trust question. This keeps the
+agent from trusting a project by itself in the ordinary course of its work. It is not a wall: without the sandbox,
+the agent's commands run as you and could change any file you can, so keep the sandbox on for projects you do not
+trust.</p>
+<p><strong>Technically.</strong></p>
+<ul><li>The program is found first, on your own <code>PATH</code>, before the server starts anywhere: only the absolute folders in it
+count, so a <code>.</code> or a relative folder such as <code>node_modules/.bin</code> in your <code>PATH</code> never makes a project's copy the
+program. A path written with a folder (<code>./bin/server</code>) is taken from the folder the server starts in.</li><li><code>cwd</code> on a server in <code>harness.mcp_servers</code> (or <strong>starts in</strong> in <code>/settings</code>) chooses for it: <code>home</code> always starts it
+from your home folder; <code>project</code> always starts it in the project's folder, even when the project is not trusted
+(the session says so each time, since a project's copy of the package would get the secret). Unset, the rule above
+applies.</li><li>Your own servers are the ones in <code>harness.mcp_servers</code> of your <code>config.yaml</code> and in your <code>~/.mcp.json</code>, exactly as
+written there; a server of the project's <code>.mcp.json</code> or settings (even one named like yours) starts in the project.</li><li><strong>Credential variables (<code>harness.mcp.scrub_credential_env</code>, off by default).</strong> Off, every local server inherits
+Maple's environment as it is, as in 2.x: a <code>GITHUB_TOKEN</code> or a cloud key in your shell reaches every server you
+run. <code>on</code> starts each local server without the variables that hold credentials: Maple's own variables, a provider's
+API key, a cloud's (<code>AWS_*</code>, <code>AZURE_*</code>, <code>GCP_*</code>, <code>GOOGLE_APPLICATION_*</code>), <code>GITHUB_*</code>, <code>GH_*</code>, <code>GITLAB_*</code>,
+<code>ANTHROPIC_*</code>, <code>OPENAI_*</code>, <code>GEMINI_*</code>, <code>HF_*</code>, <code>COPILOT_*</code>, the SSH agent (<code>SSH_AUTH_SOCK</code>), <code>DATABASE_URL</code>, any
+name ending in <code>_KEY</code>, <code>_PAT</code> or <code>_DSN</code> or with <code>TOKEN</code>, <code>SECRET</code>, <code>PASSWORD</code>, <code>PASSPHRASE</code>, <code>CREDENTIAL</code>,
+<code>API_KEY</code>, <code>PRIVATE_KEY</code>, <code>ACCESS_KEY</code> or <code>AUTH</code> in it, and a proxy address with a password in it. The plain
+settings under those prefixes stay (<code>AWS_PROFILE</code>, <code>AWS_REGION</code>, <code>GH_HOST</code>, a CI run's <code>GITHUB_*</code> facts), and so
+does everything else (<code>HOME</code>, <code>PATH</code>, <code>LANG</code>, a proxy without a password…). The session names the variables it left
+out, once. See <a href="#credential-variables">Credential variables</a> for when to turn it on.</li><li>With the sandbox on, the sandbox's own environment is used, as for its commands, whatever this setting says.</li><li>While a project is not trusted, the folders of your <code>PATH</code> inside its repository (a direnv <code>PATH_add</code>, a project
+<code>bin</code>, a shim pointing into it) are left out, both for finding a server's program and in its environment. Run in your
+home folder (or one that holds it), nothing is left out: your own tool folders are there.</li><li><strong>What a project's server may name.</strong> A server from the project's <code>.mcp.json</code> or settings may name in its <code>env</code>,
+and a remote one in its headers, only <code>${env:NAME}</code> for a variable that is not a credential (above), and <code>${secret:mcp-project/&lt;id&gt;/NAME}</code>, a value
+you keep for that project with <code>maple-proxy secrets set</code> (the session's note gives the exact <code>&lt;id&gt;</code>, made from the
+project's folder). One that names anything else (your provider keys, Maple's own secrets, a credential variable)
+is not started, and the session says which reference it was.</li><li>Starting from your home folder changes only where the program starts. With the sandbox on, the project stays the
+folder it may write, and your home folder is not made writable.</li><li><code>npx</code> can still prefer a copy of a package installed higher up, in your home folder's own <code>node_modules</code>, and it
+downloads the package you name when it is not installed. For a server that holds a secret, the steadiest choice is a
+global install pinned to a version (<code>npm install -g &lt;package&gt;@&lt;version&gt;</code>, then name its program as the command), or
+<code>cwd: home</code>.</li></ul>
+<h3 id="credential-variables">Credential variables <a class="anchor" href="#credential-variables" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> Your shell often holds keys other tools use: a <code>GITHUB_TOKEN</code>, cloud keys, a provider's API key,
+the SSH agent. By default a local MCP server inherits them all, as in Maple 2.x, so
+a server that reads <code>GITHUB_TOKEN</code> from its environment just works. That also means every local server you run (and
+whatever package it pulls in) can read every key in your shell. Turning on <code>harness.mcp.scrub_credential_env</code> hands
+each server only the keys you name for it, so a server you added for one job does not quietly get the keys for all
+the others. Change it in <code>/settings</code> (Tools) or in <code>config.yaml</code>:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  mcp:</span>
+<span class="t-k">    scrub_credential_env:</span> <span class="t-s">"on"</span>
+<span class="t-k">  mcp_servers:</span>
+<span class="t-k">    - name:</span> github
+<span class="t-k">      command:</span> github-mcp-server
+<span class="t-k">      env:</span>
+        - GITHUB_TOKEN=${env:GITHUB_TOKEN}   <span class="t-c"># named, so this server still gets it</span></code></pre></div>
+<p><strong>What breaks when it is on.</strong> A server that reads a credential from its environment without its entry naming it
+starts without it, and usually fails to sign in or answers that it is not authorised. The session's note says which
+variables it left out; name each one the server needs in its own <code>env</code> (<code>NAME=${env:NAME}</code>), or keep the value in the
+secret store and name <code>${secret:…}</code> instead. Nothing else changes: the program, its folder and its other variables
+are the same.</p>
+<p><strong>Technically.</strong></p>
+<ul><li><code>harness.mcp.scrub_credential_env</code> is <code>on</code> or <code>off</code> (unset is off). It applies to your local (stdio) servers when
+the session starts; a remote server gets only the headers its entry names either way.</li><li>The variables left out are the ones listed under <a href="#where-a-local-server-starts">Where a local server starts</a>; a
+name in a server's own <code>env</code> passes that one variable through to that server only.</li><li>A project's own config (<code>.mapleharness/config</code>) cannot set <code>harness.mcp</code>: only your own <code>config.yaml</code> can.</li><li>Independent of this setting, and always: a project's servers may name only non-credential variables and
+<code>${secret:mcp-project/&lt;id&gt;/…}</code> values; while a project is not trusted, <code>PATH</code> folders inside its repository are left
+out; your own servers given a secret start from your home folder in a project you have not trusted.</li><li>Without the sandbox a server runs as you and could still find keys elsewhere on your machine (files, the keyring):
+this keeps them from being handed to it, it does not wall them off.</li></ul>
+<h3 id="prompts-a-server-offers">Prompts a server offers <a class="anchor" href="#prompts-a-server-offers" aria-label="Link to this heading">#</a></h3>
+<p>Some MCP servers offer ready-made prompts as well as tools ("review this file", "summarise the open issues"). They
+are a tab of the command palette, <strong>MCP prompts</strong> (<code>Ctrl+P</code>, then <code>Tab</code>), one row per prompt, named
+<code>server: prompt</code>, with its arguments (a <code>*</code> marks the ones it needs).</p>
+<ul><li>Picking one puts <code>/mcp prompt &lt;server&gt; &lt;prompt&gt;</code> in the message box. Add the arguments as <code>name=value</code> (quote a
+value with spaces: <code>path="docs/my notes.md"</code>) and send it.</li><li>Only then is the prompt fetched from the server, into the message box (after anything you had typed there), so
+you read it first. Change it if you like; <code>Enter</code> sends it as your message. Nothing a server wrote is sent
+without you sending it.</li><li>A missing argument the prompt needs is said before anything is fetched. Parts of a prompt that are not text
+(pictures, files) are left out, with a note saying so; a prompt larger than 64 KB is refused.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-mcp-prompts-light.webp" alt="The palette&#x27;s MCP prompts tab: docs: review, Review one file of acme-api for bugs (path*), and docs: release-notes" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-mcp-prompts-dark.webp" alt="The palette&#x27;s MCP prompts tab: docs: review, Review one file of acme-api for bugs (path*), and docs: release-notes" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption><code>Ctrl+P</code>, <code>Tab</code> to MCP prompts: each server's prompts, with the arguments they need.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-mcp-prompt-box-light.webp" alt="After /mcp prompt docs review with the path of the orders file: asking docs: review for its prompt, the prompt is in the box, read it, change it if you like, and Enter sends it; the box holds the review request for that file" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-mcp-prompt-box-dark.webp" alt="After /mcp prompt docs review with the path of the orders file: asking docs: review for its prompt, the prompt is in the box, read it, change it if you like, and Enter sends it; the box holds the review request for that file" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>The prompt lands in the box, to read before you send it.</figcaption>
+</figure>
+<p>The list is read when the session starts and again after a <code>/mcp</code> command, giving each server three seconds.</p>
+<h3 id="servers-that-ask-you-to-sign-in">Servers that ask you to sign in <a class="anchor" href="#servers-that-ask-you-to-sign-in" aria-label="Link to this heading">#</a></h3>
+<p>Some hosted MCP servers (Atlassian's, for example) ask you to sign in with your account instead of taking a
+fixed token. Maple Harness signs in to them the way Claude Code does: through your browser.</p>
+<ul><li>When you start Maple Harness in a terminal, it asks right away, naming the server's address and where it is
+configured: "The MCP server atlassian (mcp.atlassian.com, from your own configuration) wants you to sign in.
+Sign in now in your browser? [Y/n]". Say yes and approve in the browser (it waits up to three minutes), and the
+session starts with that server's tools; <code>n</code> starts without it. For a server from the project's own <code>.mcp.json</code>
+the answer defaults to no (<code>[y/N]</code>): type <code>y</code> to sign in.</li><li>A server that needs a sign-in never stops the session. Without a terminal (<code>--prompt</code>, a script), or when you
+say not now, it starts without that server, with a note naming the command that signs in, and <code>/mcp</code> lists it
+as not connected.</li><li><code>/mcp login &lt;server&gt;</code> (or <code>maple-harness mcp login &lt;server&gt;</code> in a terminal) opens the server's sign-in page in
+your browser, or shows its address to open. Once you approve, the server's tools are there from your next
+message.</li><li>The sign-in is kept in Maple's secret store (the system keyring, or its encrypted file) and renewed on its own,
+so later sessions connect without asking. It is never written to a config file, and a project's <code>.mcp.json</code>
+cannot read it.</li><li><code>/mcp logout &lt;server&gt;</code> (or <code>maple-harness mcp logout &lt;server&gt;</code>) forgets it.</li></ul>
+<p>A server that takes a fixed token instead can be given one in its <code>headers</code> in <code>.mcp.json</code>, for example
+<code>"Authorization": "Bearer ${MY_TOKEN}"</code>.</p>
+<p>Sign-in works with servers that support MCP's authorization (sign-in discovery and automatic client registration),
+over the Streamable HTTP transport. A server that wants an app registered beforehand takes it as Claude Code reads it,
+in <code>.mcp.json</code>: <code>"oauth": {"clientId": "your-app-id", "callbackPort": 8765}</code> (the port only when the app's return
+address must match exactly). Tested against a local test server only; a real hosted server
+(Atlassian's) has not been tried yet.</p>
 <p>The project is the directory the server is launched in, or <code>--project DIR</code>.</p>
-<p>Related: the settings for the MCP servers the agent uses are in
-<a href="configuration.html#tools-skills-and-hooks">Harness settings</a>; for scripts and editor plugins that drive a whole
-session, see <a href="rpc.html">Drive it from another program</a>.</p>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="configuration.html#tools-skills-and-hooks">Harness settings: Tools, skills and hooks</a> The MCP servers the agent itself uses.</li><li><a href="rpc.html">Drive it from another program</a> Sessions as JSON for scripts, editors and other tools.</li><li><a href="mcp-hub.html">MCP hub</a> Your MCP servers run once, at one address, with sign-in and access lists.</li><li><a href="search-by-meaning.html">Search by meaning</a> A small model on your machine that finds things by what they mean.</li></ul>
 </article>
 <nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/litellm.html" rel="prev"><small>Previous</small>Use it with LiteLLM</a><a class="next" href="../docs/rpc.html" rel="next"><small>Next</small>Drive it from another program</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#another-maple-harness">Another Maple Harness</a></li><li><a href="#using-mcp-servers-from-the-agent">Using MCP servers from the agent</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#another-maple-harness">Another Maple Harness</a></li><li><a href="#using-mcp-servers-from-the-agent">Using MCP servers from the agent</a><ol><li><a href="#where-a-local-server-starts">Where a local server starts</a></li><li><a href="#credential-variables">Credential variables</a></li><li><a href="#prompts-a-server-offers">Prompts a server offers</a></li><li><a href="#servers-that-ask-you-to-sign-in">Servers that ask you to sign in</a></li></ol></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

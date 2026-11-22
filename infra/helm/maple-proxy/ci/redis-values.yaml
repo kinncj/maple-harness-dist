@@ -1,0 +1,7 @@
+# config/ha-redis: three replicas, storage mode redis (one durable Redis, no PostgreSQL), settings
+# kept in Redis, the sample durable Redis.
+mode: redis
+replicaCount: 3
+existingSecret: maple-proxy
+persistence: {data: {size: 1Gi}}
+redis: {enabled: true, existingSecret: maple-redis}

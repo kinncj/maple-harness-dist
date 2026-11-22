@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Worktrees · Maple Harness docs</title>
+<meta name="description" content="A git worktree is a second (or third) checkout of the same repository, on another branch, in a folder of its own. You can work on a fix while a long branch stays as it is, or let an agent work on its ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html" aria-current="page">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Worktrees</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">10 min read</span></p>
+<h1 id="worktrees">Worktrees <a class="anchor" href="#worktrees" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#choose-where-worktrees-go">Choose where worktrees go</a><ol><li><a href="#a-path-of-your-own">A path of your own</a></li><li><a href="#only-you-choose">Only you choose</a></li></ol></li><li><a href="#make-a-worktree">Make a worktree</a></li><li><a href="#the-worktrees-dialog">The worktrees dialog</a><ol><li><a href="#what-is-never-removed">What is never removed</a></li></ol></li><li><a href="#from-the-shell">From the shell</a></li><li><a href="#from-your-phone">From your phone</a></li><li><a href="#the-agent-and-worktrees">The agent and worktrees</a><ol><li><a href="#agents-in-their-own-copy">Agents in their own copy</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a></li><li><a href="#not-yet-checked">Not yet checked</a></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">A git worktree is a second (or third) checkout of the same repository, on another branch, in a folder of its own.
+You can work on a fix while a long branch stays as it is, or let an agent work on its own branch beside you. Maple
+Harness lists your worktrees, makes new ones, opens a session in one, and removes them, from the terminal, the shell
+and your phone. Every worktree Maple makes goes in the one place you choose, and the agents are kept to it.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> <code>/worktrees</code> shows every worktree of the repository: its name, its branch, whether it has
+uncommitted changes, how far it is ahead of or behind its branch's upstream, who works in it, and when it was last
+used. From there you open a session in one, copy its folder, remove it, or make a new one.</li><li><strong>Where they go.</strong> You choose once: beside the repository (the default, as before), inside it in a <code>.worktrees</code>
+folder, in a <code>maple-worktrees</code> folder beside it, or a folder of your own. Every worktree Maple makes goes there, the
+ones the agent makes too.</li><li><strong>What to do.</strong> Nothing, to start: the default keeps them where Maple put them before. To choose another place, open
+<code>/settings</code> and change <strong>worktrees.location</strong>.</li><li><strong>What stays the same.</strong> Removing a worktree removes its folder, never its branch. A worktree with uncommitted
+changes is never removed unless you say what happens to them: stash them, or discard them on purpose.</li><li><strong>What it never does.</strong> Maple never removes a worktree it did not put where you said, never removes the main
+checkout, and never touches a folder git does not list as a worktree.</li></ul></section>
+<h2 id="choose-where-worktrees-go">Choose where worktrees go <a class="anchor" href="#choose-where-worktrees-go" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th><code>worktrees.location</code></th><th>A worktree named <code>fix</code> of <code>~/code/shop</code> goes in</th><th>Good for</th></tr></thead><tbody><tr><td><code>beside</code> (the default)</td><td><code>~/code/shop-fix</code></td><td>What you had: each worktree a folder beside the repository</td></tr><tr><td><code>inside</code></td><td><code>~/code/shop/.worktrees/fix</code></td><td>Everything about the project in one folder. Git is told to leave <code>.worktrees</code> out (an entry in <code>.git/info/exclude</code>), so nothing shows up in <code>git status</code> and your <code>.gitignore</code> is not changed</td></tr><tr><td><code>sibling</code></td><td><code>~/code/maple-worktrees/shop/fix</code></td><td>A tidy parent folder: every project's worktrees grouped in one <code>maple-worktrees</code> folder</td></tr><tr><td><code>custom</code></td><td>where <code>worktrees.path</code> says</td><td>A place of your own, such as <code>~/worktrees/{repo}/{name}</code></td></tr></tbody></table></div>
+<p>A repository that sits straight in your home folder (such as <code>~/shop</code>) has nothing beside it but your home folder
+itself, so <code>beside</code> makes no worktree for it rather than drop folders loose among your own; the message says so and
+names the folders <code>sibling</code> (<code>~/maple-worktrees/shop/fix</code>) and <code>inside</code> (<code>~/shop/.worktrees/fix</code>) would use. Set
+<code>worktrees.location</code> to one of them.</p>
+<p>How to choose:</p>
+<ul><li>You open each worktree in your editor as its own project, and like seeing them next to the repository: keep
+<strong>beside</strong>.</li><li>Your tools (an editor, a file watcher, a test runner) scan the repository's folder and would see the worktrees as
+part of it: avoid <strong>inside</strong>, or tell those tools to skip <code>.worktrees</code>.</li><li>You want one folder per project that you can back up or delete in one go: <strong>inside</strong>.</li><li>You keep many repositories side by side and do not want worktrees mixed in with them: <strong>sibling</strong> or <strong>custom</strong>.</li></ul>
+<h3 id="a-path-of-your-own">A path of your own <a class="anchor" href="#a-path-of-your-own" aria-label="Link to this heading">#</a></h3>
+<p>With <code>location: custom</code>, <code>worktrees.path</code> is a template:</p>
+<div class="tablewrap"><table><thead><tr><th>In the template</th><th>Becomes</th></tr></thead><tbody><tr><td><code>{repo}</code></td><td>The repository's folder name (<code>shop</code>)</td></tr><tr><td><code>{repo_parent}</code></td><td>The folder that holds the repository (<code>~/code</code>)</td></tr><tr><td><code>{name}</code></td><td>The worktree's name (<code>fix</code>)</td></tr><tr><td><code>{branch}</code></td><td>Its branch, with a slash made a dash (<code>feature/login</code> becomes <code>feature-login</code>)</td></tr><tr><td><code>~</code></td><td>Your home folder</td></tr></tbody></table></div>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  worktrees:</span>
+<span class="t-k">    location:</span> custom
+<span class="t-k">    path:</span> <span class="t-s">"{repo_parent}/{repo}-worktrees/{name}"</span>   <span class="t-c"># ~/code/shop-worktrees/fix</span></code></pre></div>
+<p>The path starts with <code>/</code>, <code>~/</code> or <code>{repo_parent}</code>. <code>{name}</code> or <code>{branch}</code> goes in its last part only, so all of a
+repository's worktrees share one folder. A path that would put worktrees straight in <code>/</code> or your home folder, inside the
+repository (use <code>inside</code> for that), or in a folder that holds the repository is refused, and so is any <code>..</code>. A name
+or branch can never lead out of that folder: a worktree's name is one folder name (letters, digits, <code>.</code>, <code>_</code>, <code>-</code>).</p>
+<h3 id="only-you-choose">Only you choose <a class="anchor" href="#only-you-choose" aria-label="Link to this heading">#</a></h3>
+<p><code>worktrees.location</code> and <code>worktrees.path</code> are read from your own <code>config.yaml</code>. A project's own settings file
+(<code>.mapleharness/config.yaml</code>) may suggest <code>location: inside</code>, and that applies only when you have not chosen a
+location; a project can never set a path, or send worktrees anywhere outside the repository.</p>
+<h2 id="make-a-worktree">Make a worktree <a class="anchor" href="#make-a-worktree" aria-label="Link to this heading">#</a></h2>
+<p>From the message box:</p>
+<div class="codeblock"><pre><code class="language-text">/worktrees new fix-login                    a new branch fix-login, from the current commit
+/worktrees new fix-login feature/login      check out feature/login (made if it does not exist)
+/worktrees new hotfix fix/hot --from main   a new branch fix/hot, starting from main</code></pre></div>
+<p>The branch works as in GitHub Desktop: left out, a new branch is named after the worktree; an existing branch is
+checked out; a branch that exists only on <code>origin</code> gets a local branch that tracks it. A branch already checked out in
+another worktree is refused, with where it is. The repository's git hooks do not run.</p>
+<p><code>/worktree &lt;branch&gt;</code> (one worktree for a branch, in a new tab, with a new session in it) puts it in the same place.
+In herdr with the default location, herdr's own worktree helper still makes it, as before; with any other location
+Maple makes it where you chose and opens it in a new tab.</p>
+<h2 id="the-worktrees-dialog">The worktrees dialog <a class="anchor" href="#the-worktrees-dialog" aria-label="Link to this heading">#</a></h2>
+<p><code>/worktrees</code> opens the list:</p>
+<div class="codeblock"><pre><code class="language-text">Worktrees · 3
+▸ shop · main · clean · this session
+    ~/code/shop · main checkout · last used 1m ago
+  shop-fix · feature/login · ● 2 changed · ↑1 ↓0 main
+    ~/code/shop-fix · used by background agent a3 · last used 20m ago
+  mine · experiment · clean
+    ~/elsewhere/mine · not Maple's
+  + New worktree
+  Prune stale entries</code></pre></div>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-worktrees-light.webp" alt="The Worktrees dialog with 3 entries: acme-api on main, clean, this session; fix-cancel with 1 changed; healthz on feature/healthz, clean, one commit ahead of main; then + New worktree and Prune stale entries" width="1000" height="442" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-worktrees-dark.webp" alt="The Worktrees dialog with 3 entries: acme-api on main, clean, this session; fix-cancel with 1 changed; healthz on feature/healthz, clean, one commit ahead of main; then + New worktree and Prune stale entries" width="1000" height="442" loading="lazy" decoding="async">
+<figcaption><code>/worktrees</code> in a repository with two worktrees, one with uncommitted changes. A demo setup with a scripted model.</figcaption>
+</figure>
+<p>Enter on one offers what fits it:</p>
+<div class="tablewrap"><table><thead><tr><th>Action</th><th>What happens</th></tr></thead><tbody><tr><td><strong>Open a session there</strong></td><td>A new Maple session in that worktree, in a new tab (herdr, tmux, WezTerm or kitty). This session stays as it is. Without a terminal workspace, Maple says how to start one there yourself</td></tr><tr><td><strong>Copy the folder</strong></td><td>Its folder, to your clipboard</td></tr><tr><td><strong>Remove it</strong></td><td>Asked first. Its folder goes; its branch stays</td></tr><tr><td><strong>Keep it / Stash the changes, then remove it / Remove it and discard the changes</strong></td><td>Offered instead of Remove for a worktree with uncommitted changes. Stashing keeps them in the repository's stash (<code>git stash list</code>, labelled with the worktree's name). Discarding asks once more</td></tr><tr><td><strong>Prune it</strong></td><td>For a worktree whose folder is gone already: git forgets it</td></tr></tbody></table></div>
+<p><strong>Prune stale entries</strong> makes git forget every worktree whose folder is gone (<code>git worktree prune</code>). No folder is
+touched.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-worktree-actions-light.webp" alt="Enter on fix-cancel: Open a session there, Copy the folder, and, because it has 1 uncommitted change, Keep it, Stash the change, then remove it, and Remove it and discard the change" width="1000" height="442" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-worktree-actions-dark.webp" alt="Enter on fix-cancel: Open a session there, Copy the folder, and, because it has 1 uncommitted change, Keep it, Stash the change, then remove it, and Remove it and discard the change" width="1000" height="442" loading="lazy" decoding="async">
+<figcaption>A worktree with uncommitted changes offers Keep, Stash or Discard instead of Remove.</figcaption>
+</figure>
+<p>The same, typed: <code>/worktrees list</code>, <code>/worktrees open &lt;name&gt;</code>, <code>/worktrees rm &lt;name&gt;</code> (with <code>--stash</code> or <code>--force</code> for
+uncommitted changes), <code>/worktrees prune</code>.</p>
+<h3 id="what-is-never-removed">What is never removed <a class="anchor" href="#what-is-never-removed" aria-label="Link to this heading">#</a></h3>
+<ul><li>The main checkout.</li><li>A worktree that is not where your setting puts worktrees (made by hand, by another tool, or before you changed the
+setting): it is listed as <strong>not Maple's</strong>, and <code>git worktree remove</code> is yours to run.</li><li>A worktree git has locked (<code>git worktree lock</code>).</li><li>A worktree whose links were changed (its <code>.git</code> file, or git's record of it, no longer agree): it is listed with
+that, and left for you to check.</li><li>The worktree this session works in, one another Maple session works in, and a background agent's own copy while it
+is in use.</li><li>Anything git does not list as a worktree, even a folder sitting where worktrees go.</li></ul>
+<h2 id="from-the-shell">From the shell <a class="anchor" href="#from-the-shell" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> worktree                         <span class="t-c"># the list (--json for scripts)</span>
+<span class="t-k">maple-harness</span> worktree add fix <span class="t-f">--branch</span> feature/login <span class="t-f">--from</span> main
+<span class="t-k">maple-harness</span> worktree rm fix                  <span class="t-c"># asks first; --yes when there is no terminal</span>
+<span class="t-k">maple-harness</span> worktree rm fix <span class="t-f">--stash</span>          <span class="t-c"># its uncommitted changes go to git's stash first</span>
+<span class="t-k">maple-harness</span> worktree rm fix <span class="t-f">--force</span>          <span class="t-c"># its uncommitted changes are discarded</span>
+<span class="t-k">maple-harness</span> worktree prune
+<span class="t-k">maple-harness</span> worktree open fix                <span class="t-c"># a new session in it, here in this terminal</span>
+<span class="t-k">cd</span> <span class="t-s">"$(maple-harness worktree open fix --path)"</span> <span class="t-c"># or just go there</span></code></pre></div>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-worktree-list-light.webp" alt="maple-harness worktree at a shell prompt: Worktrees (3), where new ones go, then acme-api (main, clean, main checkout), fix-cancel (1 uncommitted, 0 ahead, 0 behind main) and healthz (feature/healthz, clean, 1 ahead)" width="1000" height="187" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-worktree-list-dark.webp" alt="maple-harness worktree at a shell prompt: Worktrees (3), where new ones go, then acme-api (main, clean, main checkout), fix-cancel (1 uncommitted, 0 ahead, 0 behind main) and healthz (feature/healthz, clean, 1 ahead)" width="1000" height="187" loading="lazy" decoding="async">
+<figcaption><code>maple-harness worktree</code>: the same list from the shell.</figcaption>
+</figure>
+<h2 id="from-your-phone">From your phone <a class="anchor" href="#from-your-phone" aria-label="Link to this heading">#</a></h2>
+<p>The session sheet (the gear) lists the repository's worktrees: branch, uncommitted changes, who uses each one, and
+where new ones go.</p>
+<ul><li>A device that drives sessions has <strong>New worktree</strong> (a name, and a branch if you want one), <strong>Open session here</strong>
+(the new-session sheet, with that folder filled in) and <strong>Remove</strong>, which takes a second tap. A worktree with
+uncommitted changes is refused, and the sheet then offers <strong>Stash the changes, then remove</strong>, <strong>Discard</strong> (another
+tap) or <strong>Keep it</strong>.</li><li>A watch-only device sees the list and cannot change it.</li><li>A device limited to some folders sees none of them: worktrees can be outside its folders.</li><li>A shared link, and a device limited to some sessions, see neither.</li></ul>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/remote-phone-sheet-worktrees-light.webp" alt="A phone&#x27;s session settings sheet, Worktrees: where new ones go, acme-api (main checkout, this session), fix-cancel with 2 uncommitted changes and healthz, each other one with Open session here and Remove, then fields and a New worktree button" width="780" height="1688" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/remote-phone-sheet-worktrees-dark.webp" alt="A phone&#x27;s session settings sheet, Worktrees: where new ones go, acme-api (main checkout, this session), fix-cancel with 2 uncommitted changes and healthz, each other one with Open session here and Remove, then fields and a New worktree button" width="780" height="1688" loading="lazy" decoding="async">
+<figcaption>Worktrees on a paired phone's session sheet. A demo setup, in a phone-sized browser.</figcaption>
+</figure>
+<h2 id="the-agent-and-worktrees">The agent and worktrees <a class="anchor" href="#the-agent-and-worktrees" aria-label="Link to this heading">#</a></h2>
+<p>The agent has a <code>worktree</code> tool: it lists the worktrees, makes one, or removes one.</p>
+<ul><li><strong>Listing</strong> never asks.</li><li><strong>Making or removing one asks you</strong>, in every mode, yolo included, unless your permission rules decide:
+<code>worktree(create *)</code> allows it to make worktrees, <code>worktree(remove *)</code> to remove them, and a deny rule refuses.
+When nobody is there to answer (a run with no terminal, an A2A agent, an approval left unanswered past
+<a href="approvals.html"><code>harness.approvals.timeout</code></a>), the call is refused, the refusal is recorded, and the run goes on.</li><li><strong>It does not choose the folder.</strong> A worktree it makes goes where your setting says. If it asks for another folder
+(with the <code>worktree</code> tool or <code>worktree_open</code>), it is refused, and told where worktrees go.</li><li><strong>Starting another agent in a worktree</strong> (<code>agent_start</code>, <code>pane_open</code>) works in a worktree Maple keeps. A folder in a
+worktree somewhere else is refused, with where worktrees go.</li><li><strong>Uncommitted changes</strong> stay unless the call says to stash or discard them, and the question you are asked shows
+which.</li></ul>
+<p>While <a href="plan-mode.html">planning</a>, the agent can list worktrees and nothing more.</p>
+<h3 id="agents-in-their-own-copy">Agents in their own copy <a class="anchor" href="#agents-in-their-own-copy" aria-label="Link to this heading">#</a></h3>
+<p>A background agent that changes files works in its own copy of the project, a worktree too
+(<a href="subagents.html#agents-in-the-background">Agents in the background</a>). With the default location its copy stays in the
+project's <code>.mapleharness/worktrees</code> folder, as before. With any other location it goes there, named
+<code>agent-&lt;id&gt;-…</code>, and the sandbox and the file tools may write in that copy (only that copy, not the folder around it)
+for that agent only, until the copy is removed. A background command the agent started there is stopped when its
+copy is removed. Its changes still come back only when you agree. The dialog marks these copies as
+<strong>an agent's copy</strong>.</p>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>worktrees.<wbr>location</code></td><td data-label="Default"><code>beside</code></td><td data-label="What it does">Where the worktrees Maple makes go: <code>beside</code>, <code>inside</code>, <code>sibling</code> or <code>custom</code>. With any but <code>beside</code>, a background agent's copy goes there too</td></tr><tr><td><code>worktrees.path</code></td><td data-label="Default"></td><td data-label="What it does">For <code>custom</code> only: the template, such as <code>{repo_parent}/{repo}-worktrees/{name}</code> or <code>~/worktrees/{repo}/{name}</code></td></tr></tbody></table></div>
+<p>Both are in <code>/settings</code>. <code>custom</code> with no path yet loads, so you can set one after the other; until the path is set,
+making a worktree says so instead of guessing a place.</p>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<ul><li>Worktrees are listed, made and removed from the repository's main checkout. A session started inside a linked
+worktree says so and points you there: what git would read in a worktree is the worktree's own to change, and git
+runs outside the sandbox.</li><li>Worktrees are made with <code>git worktree add</code> from the main checkout, with the repository's hooks turned off. The
+folder that holds them must be a plain folder, not a link (and with <code>inside</code>, every folder on the way to it).</li><li>Every git command Maple runs names the repository's folders itself, so nothing a worktree (or a contained command)
+wrote can point git at other settings. A worktree whose links are not git's own (its <code>.git</code> file, or git's record
+of it, changed) is listed as such and never acted on.</li><li>Removal checks, just before it runs: git lists the worktree, it sits where your setting puts worktrees, its links
+are git's own, it is not locked or in use, and its uncommitted changes are what you were shown. Then
+<code>git worktree remove</code> does the work.</li><li>A new worktree is made empty, checked to be where it should be, and only then filled with the branch's files. With
+<code>inside</code>, where commands in the sandbox can write, the files are written inside the sandbox too.</li><li>A repository with git's per-worktree settings on (<code>extensions.worktreeConfig</code>, which <code>git sparse-checkout</code> turns
+on): git would read those settings from a place commands in the sandbox can write, so Maple lists the worktrees but
+does not count their changes, does not make new ones (git does, if you run it yourself), and removes one only when
+you choose to discard its changes. No background agent's own copy is made either: a background agent then works in
+the project itself, as with <code>subagents.isolation: none</code>, and its line in the conversation says why.</li><li>git's per-worktree settings file (<code>.git/config.worktree</code>) is remembered (whether it exists, and a hash of it) in
+your own config folder, never in the repository. When it changed since a session last saw it, the next session asks
+you at start; until you say yes, Maple runs no git in worktrees there (a session that cannot ask says so instead).</li><li>The list's ahead and behind are counted against the branch's upstream, or, without one, against the main checkout's
+branch.</li><li><code>maple-harness worktree</code> reads your own <code>config.yaml</code> (<code>--config</code> to choose another).</li></ul></section>
+<h2 id="not-yet-checked">Not yet checked <a class="anchor" href="#not-yet-checked" aria-label="Link to this heading">#</a></h2>
+<p>Tested on Linux with real git (2.56) in temporary repositories, the interface in tmux and the phone page in Chromium.
+macOS, Windows, herdr's own worktree helper and a real phone were not run.</p>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="subagents.html#agents-in-the-background">Agents in the background</a></li><li><a href="herdr.html#panes-tabs-and-agents-beside-the-session">Panes, tabs and agents</a> and <a href="tmux.html">Use it with tmux</a></li><li><a href="remote-control.html">Control it from your phone</a></li><li><a href="approvals.html">Approvals when nobody answers</a></li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/scheduling.html" rel="prev"><small>Previous</small>Scheduled work</a><a class="next" href="../docs/loops.html" rel="next"><small>Next</small>Loops</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#choose-where-worktrees-go">Choose where worktrees go</a><ol><li><a href="#a-path-of-your-own">A path of your own</a></li><li><a href="#only-you-choose">Only you choose</a></li></ol></li><li><a href="#make-a-worktree">Make a worktree</a></li><li><a href="#the-worktrees-dialog">The worktrees dialog</a><ol><li><a href="#what-is-never-removed">What is never removed</a></li></ol></li><li><a href="#from-the-shell">From the shell</a></li><li><a href="#from-your-phone">From your phone</a></li><li><a href="#the-agent-and-worktrees">The agent and worktrees</a><ol><li><a href="#agents-in-their-own-copy">Agents in their own copy</a></li></ol></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a></li><li><a href="#not-yet-checked">Not yet checked</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

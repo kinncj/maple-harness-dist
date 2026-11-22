@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Choose a model · Maple Harness docs</title>
-<meta name="description" content="Switch models at any time inside the agent:">
+<meta name="description" content="Pick the model that answers your messages, switch at any time with /model, or let auto choose a heavier or lighter one for each message. The list holds what you configured: the models your Copilot pla">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
@@ -23,29 +24,34 @@
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html" aria-current="page">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html" aria-current="page">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Choose a model</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">13 min read</span></p>
 <h1 id="choose-a-model">Choose a model <a class="anchor" href="#choose-a-model" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li><li><a href="#see-also">See also</a></li></ol></details>
 
+<p class="lede">Pick the model that answers your messages, switch at any time with <code>/model</code>, or let <code>auto</code> choose a heavier or
+lighter one for each message. The list holds what you configured: the models your Copilot plan allows, the ones
+your Anthropic key can call, and whatever your own model servers have loaded.</p>
 <p>Switch models at any time inside the agent:</p>
-<pre><code>/model              pick from a list
+<div class="codeblock"><pre><code class="language-text">/model              pick from a list
 /model gpt-4.1      switch directly
-/model auto         let the agent choose for each message</code></pre>
+/model auto         let the agent choose for each message</code></pre></div>
 <p>Which models appear depends on what you have configured: the ones your Copilot plan allows, the ones your
 Anthropic key can call, and whatever your local servers have loaded. The agent also shows how much of the
 model's context is used, in the status bar. <code>/context</code> shows the figures.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> Which model answers your messages. <code>/model</code> in the agent shows the list and switches.</li><li><strong>Let it choose.</strong> <code>/model auto</code> picks a heavier or lighter model for each message from the same provider, and
 says what it picked and why.</li><li><strong>On the setup page.</strong> <strong>Models &amp; routing</strong>, <strong>Auto mode</strong>, chooses what <code>auto</code> means for every tool that uses
-the proxy. Without a choice it follows your provider's own ranking.</li></ul>
+the proxy. Without a choice it follows your provider's own ranking.</li></ul></section>
 <h2 id="automatic-choice">Automatic choice <a class="anchor" href="#automatic-choice" aria-label="Link to this heading">#</a></h2>
 <p><code>/model auto</code> chooses a model for each message from your current provider's own ranking of its models, and
 tells you what it chose and why. For example, the status bar reads <code>gpt-4.1 (auto: heavy)</code> and the first
@@ -60,11 +66,11 @@ auto uses those labels. An account with no powerful model (Copilot's free plan) 
 best model it has.</li><li><strong>Providers without one.</strong> Ollama, LM Studio, oMLX and Apple's on-device model publish no ranking, so there
 is nothing to choose between and auto keeps your model. To rank a local provider's models yourself, add
 <code>category: powerful</code>, <code>versatile</code> or <code>lightweight</code> to each model in <code>config.yaml</code>.</li><li><strong>Choose it yourself.</strong> <code>harness.auto_model_map</code> pins the model used for heavy, medium and light work:
-<pre><code class="language-yaml">harness:
-  auto_model_map:
-    heavy: gpt-5-mini
-    medium: gpt-4.1
-    light: claude-haiku-4.5</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  auto_model_map:</span>
+<span class="t-k">    heavy:</span> gpt-5-mini
+<span class="t-k">    medium:</span> gpt-4.1
+<span class="t-k">    light:</span> claude-haiku-4.5</code></pre></div>
 <p>It is one map, and every model in it must belong to the provider you are currently on; an entry for
 another provider is ignored with a notice.</p></li></ul>
 <p>Auto keeps your own model when it fits, avoids models known to decline long tasks, and remembers models that
@@ -109,7 +115,7 @@ model each weight uses, use the proxy's <strong>Auto mode</strong> card.</p>
 <h2 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h2>
 <p>GitHub Copilot has an automatic mode of its own, in which <strong>Copilot</strong> picks the model for each request. The proxy
 lists it as a model of each Copilot account, named after the account, for example <code>github-copilot/auto</code>:</p>
-<pre><code>/model github-copilot/auto</code></pre>
+<div class="codeblock"><pre><code class="language-text">/model github-copilot/auto</code></pre></div>
 <p>In the <code>/model</code> list, and on the status bar once chosen, it reads <code>Copilot Auto (github-copilot)</code>, with the account's
 nickname in brackets when it has one:</p>
 <figure>
@@ -153,10 +159,10 @@ not accepted.</li><li><strong>Critique:</strong> one model drafts the answer, a 
 <p><strong>The review reads your files through your own tool</strong>, as Copilot CLI's review does. It is on by default; untick
 <strong>Let the review read files</strong> when editing the GitHub Copilot provider on the setup page, or set
 <code>fusion_review_reads: off</code> on the sign-in, to keep the review to the task's commands and results:</p>
-<pre><code class="language-yaml">providers:
-  - id: github-copilot
-    type: github-copilot
-    fusion_review_reads: off   # on (the default): the review may read files through your tool</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> github-copilot
+<span class="t-k">    type:</span> github-copilot
+<span class="t-k">    fusion_review_reads:</span> <span class="t-n">off</span>   <span class="t-c"># on (the default): the review may read files through your tool</span></code></pre></div>
 <p>With it on and read-only tools in your tool (Maple Harness's <code>read_file</code> and <code>grep</code>; Claude Code's Read, Grep,
 Glob and LS; OpenCode's grep and glob), the review may use them, at most 12 calls a review, to open the files the
 answer is about and check what it claims. Its calls come to your tool like any other step, so your tool's permission
@@ -207,26 +213,26 @@ What a request costs is recorded as Copilot reports it, like any other model; no
 less than choosing a model yourself.</li></ul>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
 <p>Set the model the agent starts with in <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">harness:
-  default_model: gpt-4.1
-  auto_model: false      # true starts every session in automatic mode</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  default_model:</span> gpt-4.1
+<span class="t-k">  auto_model:</span> <span class="t-n">false</span>      <span class="t-c"># true starts every session in automatic mode</span></code></pre></div>
 <p>If the configured model is not one your proxy serves, the agent starts on the first usable model it does
 serve and prints a one-line note listing the real names.</p>
 <h2 id="effort-and-thinking">Effort and thinking <a class="anchor" href="#effort-and-thinking" aria-label="Link to this heading">#</a></h2>
-<pre><code>/effort             list the levels this model accepts
+<div class="codeblock"><pre><code class="language-text">/effort             list the levels this model accepts
 /thinking off       spend no reasoning tokens
-/plan               read-only mode: the answer is a plan</code></pre>
-<p>Related: every model setting is in <a href="configuration.html#model-choice">Harness settings</a>; to fall back to another
-model or account when one cannot answer, see <a href="proxy-settings.html#fallbacks">Fallbacks</a>; for what a model costs you,
-see <a href="saving-tokens.html">See and reduce what a task costs</a>.</p>
+/plan               read-only mode: the answer is a plan</code></pre></div>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="configuration.html#model-choice">Harness settings: Model choice</a> Every model setting, with its default.</li><li><a href="proxy-settings.html#fallbacks">Fallbacks</a> Another model or account when one cannot answer.</li><li><a href="saving-tokens.html">See and reduce what a task costs</a> Why long tasks cost what they do, and the settings that help.</li><li><a href="endpoints.html">Connect a model server</a> Ollama, llama.cpp, vLLM, LM Studio and other tools, through the proxy.</li></ul>
 </article>
 <nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/endpoints.html" rel="prev"><small>Previous</small>Connect a model server</a><a class="next" href="../docs/proxy.html" rel="next"><small>Next</small>The proxy and its setup page</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

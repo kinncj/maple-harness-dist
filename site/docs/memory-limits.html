@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Memory caps and heavy runs · Maple Harness docs</title>
+<meta name="description" content="The agent runs commands for you: tests, builds, scripts. Some of them use a lot of memory, and several agents can start several of them at once. Maple Harness caps how much memory those commands may u">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html" aria-current="page">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Memory caps and heavy runs</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
+<h1 id="memory-caps-and-heavy-runs">Memory caps and heavy runs <a class="anchor" href="#memory-caps-and-heavy-runs" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-is-capped">What is capped</a></li><li><a href="#why-these-defaults">Why these defaults</a></li><li><a href="#what-counts-as-a-heavy-run">What counts as a heavy run</a></li><li><a href="#what-a-cap-hit-looks-like">What a cap hit looks like</a></li><li><a href="#what-waiting-for-a-slot-looks-like">What waiting for a slot looks like</a></li><li><a href="#change-the-caps">Change the caps</a><ol><li><a href="#a-cap-for-one-agent">A cap for one agent</a></li></ol></li><li><a href="#technical-details">Technical details</a></li><li><a href="#troubleshooting">Troubleshooting</a></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">The agent runs commands for you: tests, builds, scripts. Some of them use a lot of memory, and several agents can
+start several of them at once. Maple Harness caps how much memory those commands may use, and lets only one heavy
+run (a test suite, a build) go at a time, so the commands it runs can never take your whole machine.</p>
+<div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>Stopped at a cap is not a crash</span></p><p>When a command is stopped at a cap, <strong>that is the cap working, not a crash and not a memory leak in Maple</strong>. The
+message says which cap it was and how to change it.</p></div>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> A ceiling on the memory of each command the agent runs, another on all of one session's commands
+together, and a queue for heavy runs so two test suites never fight over your memory.</li><li><strong>Why it is there.</strong> A few test suites run at the same time, or one test that reads without a limit, can fill all of
+a computer's memory in seconds. The system then starts killing programs at random, often your terminal or your
+browser. The caps stop the one command that went too far, and nothing else.</li><li><strong>What you do.</strong> Usually nothing: the defaults are safe. If a command you trust really needs more, raise its cap in
+<code>/settings</code> (search for <code>limits</code>) or in <code>config.yaml</code>. If you have plenty of memory and want two test suites at
+once, set <code>limits.heavy_runs</code> to <code>2</code> or <code>auto</code>.</li><li><strong>What you see.</strong> A stopped command says, in one line, <code>stopped at the memory cap</code>, which cap, and this page. A
+command waiting its turn says <code>waiting for a heavy-run slot</code> and who holds it.</li></ul></section>
+<h2 id="what-is-capped">What is capped <a class="anchor" href="#what-is-capped" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Cap</th><th>What it covers</th><th>Default</th><th>Setting</th></tr></thead><tbody><tr><td>Per command</td><td>One command the agent runs (a <code>bash</code> call or a background job) and every process it starts, together</td><td>Half of your memory, at most 8 GiB</td><td><code>limits.command_memory</code></td></tr><tr><td>Per session</td><td>Every command one session runs, its helper agents' included, together</td><td>Half of your memory</td><td><code>limits.session_memory</code></td></tr><tr><td>Heavy runs</td><td>How many test suites and builds run at once, across all your sessions and agents on this computer</td><td>1</td><td><code>limits.heavy_runs</code></td></tr></tbody></table></div>
+<p>Not capped: Maple Harness itself, the proxy, and programs you start yourself. A command typed into a terminal pane
+(<code>pane_run</code>) is capped only when it is a heavy run, on Linux with a user systemd (below), and when your shell is a
+POSIX one (<code>sh</code>, <code>bash</code>, <code>zsh</code>, <code>dash</code>, <code>ksh</code>); it then runs as <code>sh -c '…'</code> under the cap, so your shell's aliases
+and functions do not apply to it. It never waits for a heavy-run slot, because Maple cannot see when a pane's command
+ends. An agent started in a pane (<code>agent_start</code>) is not capped by this
+session: a Maple Harness session there caps its own commands.</p>
+<p>"Half of your memory" is the memory this program may use: inside a container or a limited desktop session, that
+limit counts, not the whole machine's. Inside such a limit no cap is ever larger than it, whatever the settings say,
+and the limit on the number of processes is passed on too.</p>
+<h2 id="why-these-defaults">Why these defaults <a class="anchor" href="#why-these-defaults" aria-label="Link to this heading">#</a></h2>
+<p>The figures were chosen, not measured: 8 GiB is enough for a large race-enabled Go test suite or a big build, and one
+heavy run at a time is the rule that kept a busy machine usable once several agents worked on one project. A command
+that needs more than 8 GiB is rare, and when one does, it is better to hear it plainly and raise the cap on purpose.</p>
+<h2 id="what-counts-as-a-heavy-run">What counts as a heavy run <a class="anchor" href="#what-counts-as-a-heavy-run" aria-label="Link to this heading">#</a></h2>
+<p>A command is a heavy run when its first words are one of these (after <code>cd … &amp;&amp;</code>, environment settings such as
+<code>CI=1</code>, and wrappers such as <code>time</code>, <code>nice</code> or <code>timeout 600</code>):</p>
+<p><code>go test</code>, <code>go build</code>, <code>go install</code>, <code>make</code>, <code>gmake</code>, <code>ninja</code>, <code>cmake --build</code>, <code>ctest</code>, <code>bazel</code>, <code>bazelisk</code>,
+<code>cargo test</code>, <code>cargo build</code>, <code>cargo nextest</code>, <code>npm test</code>, <code>npm run test</code>, <code>npm run build</code>, <code>npm ci</code>, <code>pnpm test</code>,
+<code>pnpm run test</code>, <code>pnpm build</code>, <code>pnpm run build</code>, <code>yarn test</code>, <code>yarn build</code>, <code>yarn run test</code>, <code>yarn run build</code>,
+<code>bun test</code>, <code>npx jest</code>, <code>npx vitest</code>, <code>npx playwright test</code>, <code>pytest</code>, <code>python -m pytest</code>, <code>python3 -m pytest</code>, <code>tox</code>,
+<code>nox</code>, <code>mvn</code>, <code>gradle</code>, <code>gradlew</code>, <code>dotnet build</code>, <code>dotnet test</code>, <code>swift build</code>, <code>swift test</code>, <code>docker build</code>,
+<code>podman build</code>.</p>
+<p>The agent can also mark a command it knows is heavy (a project's own test script), and it then waits like the others.
+It can never take a command out of the list. You can:</p>
+<ul><li>add your own with <code>limits.heavy_commands</code>, for example <code>just ci</code> or <code>task test</code>;</li><li>take one out with <code>limits.not_heavy</code>, for example <code>make lint</code>.</li></ul>
+<p><code>make</code> targets that start something long-running or small are never heavy runs: <code>make serve</code>, <code>make server</code>,
+<code>make dev</code>, <code>make run</code>, <code>make watch</code>, <code>make start</code>, <code>make up</code>, <code>make down</code>, <code>make logs</code>, <code>make help</code>, <code>make clean</code>,
+<code>make fmt</code>, <code>make format</code> and <code>make docs-serve</code>.</p>
+<h2 id="what-a-cap-hit-looks-like">What a cap hit looks like <a class="anchor" href="#what-a-cap-hit-looks-like" aria-label="Link to this heading">#</a></h2>
+<p>In the conversation, under the command, one line for you:</p>
+<div class="codeblock"><pre><code class="language-text">■ stopped at the memory cap: the command used more than 8 GiB (harness.limits.command_memory). A limit, not a crash or a leak: https://kinncj.github.io/maple-harness-dist/docs/memory-limits.html</code></pre></div>
+<p>The agent reads the full reason before the command's output: the cap, its setting, that it is not a crash, and what
+to try instead (a smaller part of the test suite, fewer jobs at once such as <code>go test -p 2</code> or <code>make -j2</code>, or looking
+for something that reads without a limit). It is told not to run the same command again unchanged, and to ask you if
+the command really needs more.</p>
+<p>When the session cap is the one hit, the line says <code>this session's commands used more than …
+(harness.limits.session_memory)</code>, and the command stopped is the one using the most. Background jobs you no longer
+need count towards it: the agent can stop them with <code>kill_shell</code>.</p>
+<p>If the computer itself ran out of memory (something else used it all), the line says so and that it was <strong>not</strong> one
+of Maple's caps.</p>
+<p>After a cap hit the session carries on normally: only that command was stopped.</p>
+<h2 id="what-waiting-for-a-slot-looks-like">What waiting for a slot looks like <a class="anchor" href="#what-waiting-for-a-slot-looks-like" aria-label="Link to this heading">#</a></h2>
+<p>A heavy run that finds every slot taken waits, and you see who has it:</p>
+<div class="codeblock"><pre><code class="language-text">waiting for a heavy-run slot: 1 of 1 in use by session fix-auth (pid 4242): "go test -race ./..." for 2m10s. It starts as soon as one is free (harness.limits.heavy_runs).</code></pre></div>
+<p>When it gets its turn it runs, and its result starts with how long it waited. The wait does not count against the
+command's own timeout. Esc stops the wait like any command; a command that waits longer than <code>limits.heavy_wait</code> (30 minutes) is
+not run, and the agent is told why. In a run nobody watches (<code>--prompt</code>, <code>--rpc</code>, <code>serve</code>, <code>a2a serve</code>) the wait is
+<code>limits.heavy_wait_headless</code> (10 minutes), so a script fails sooner. Both take <code>1m</code>, <code>2m</code>, <code>5m</code>, <code>10m</code>, <code>15m</code>, <code>30m</code>
+or <code>1h</code>. A background job (<code>run_in_background</code>) gets its id at once, <code>bash_output</code> says it is waiting,
+and <code>kill_shell</code> cancels it before it starts. A background job gives its slot back after 30 minutes even if it is
+still running, so a long one cannot hold off every other session.</p>
+<p>What a waiting command shows about the holder (its session, its command) was written by another program, so it is
+cleaned of anything a terminal would act on, shortened, and the command is shown in quotes.</p>
+<p>A slot held by a session that ended, however it ended (closed, crashed, killed), is free again at once.</p>
+<h2 id="change-the-caps">Change the caps <a class="anchor" href="#change-the-caps" aria-label="Link to this heading">#</a></h2>
+<ol class="steps"><li>In a session, type <code>/settings</code>, then <code>limits</code> to filter the menu. Each cap shows its value, what it does and what
+it accepts.</li><li>Press <code>Enter</code> on one, type the new value (empty goes back to the default), and <code>Enter</code> again: it is saved to your
+own <code>config.yaml</code>.</li><li>Start a new session: the caps are read when a session starts.</li></ol>
+<p>Or in <code>config.yaml</code>:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  limits:</span>
+<span class="t-k">    command_memory:</span> 12G      <span class="t-c"># a size (512M, 4G, 1.5G), auto, or off</span>
+<span class="t-k">    session_memory:</span> auto     <span class="t-c"># a size, auto, or off</span>
+<span class="t-k">    heavy_runs:</span> auto         <span class="t-c"># 1 to 64, auto, or off</span>
+<span class="t-k">    heavy_commands:</span> [just ci, task test]
+<span class="t-k">    not_heavy:</span> [make lint]</code></pre></div>
+<ul><li>Sizes are in binary units: <code>1G</code> is 1024 MiB. The smallest cap is <code>64M</code>.</li><li><code>heavy_runs: auto</code> allows one heavy run per <code>command_memory</code> of memory free when the run starts (one per 8 GiB with
+the default cap), at least 1 and at most 8.</li><li>These settings are yours: a project's own <code>.mapleharness/config.yaml</code> cannot set or loosen them.</li><li>Changes apply the next time you start a session.</li></ul>
+<div class="callout c-caution" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8z"/><path d="M12 8v5M12 16.5v.01"/></svg><span><code>off</code> is a real off</span></p><p><code>off</code> turns a cap off. It is there for a machine where you would rather have the old behaviour, and it is not
+recommended: with no cap, a few test suites at once, or one test that reads without a limit, can fill the
+machine's memory, and the system then stops programs it picks itself, often your terminal.</p></div>
+<h3 id="a-cap-for-one-agent">A cap for one agent <a class="anchor" href="#a-cap-for-one-agent" aria-label="Link to this heading">#</a></h3>
+<p>An agent's file can give it a lower cap of its own (<code>limits.memory: 4G</code>, see
+<a href="subagents.html#more-fields">Make your own</a>): each command that agent runs may use at most that much, never more
+than <code>command_memory</code>. It applies even with <code>command_memory: off</code>. A command stopped at it says
+<code>stopped at this agent's memory cap</code>, names <code>limits.memory in the agent's file</code>, and is otherwise reported like any
+other cap hit.</p>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<p><strong>Linux with a user systemd</strong> (most desktop distributions): each command runs in its own transient systemd scope
+with <code>MemoryMax</code> set to the command cap, <code>MemorySwapMax=0</code> (so a command cannot get around the cap by swapping), and
+<code>OOMPolicy=kill</code> (when the kernel stops the largest process, the rest of that command stops with it, so a pipeline
+does not carry on as if it worked). All of a session's scopes sit in one slice, <code>maple-h&lt;pid&gt;.slice</code>, that carries
+the session cap. The kernel enforces both, at once. You can see them with <code>systemctl --user list-units 'maple-*'</code>. Maple runs
+<code>systemd-run</code>, <code>systemctl</code> (and on macOS <code>ps</code>) only from the system's own folders, never from your <code>PATH</code>.</p>
+<p><strong>Linux without a user systemd, and macOS</strong>: Maple reads the memory of the command's process tree twice a second and
+stops the whole tree once it is over the cap. It counts each process's resident memory, so memory shared between
+processes counts more than once and a command may be stopped a little earlier than a kernel cap would stop it. A
+command that allocates very fast can go over by what it allocates in half a second before it is stopped, and a
+command short enough to finish within half a second may not be measured at all. A process that leaves the
+command's process tree on purpose (a daemon that detaches itself) can leave the watch. On macOS this has not been
+run on a Mac yet.</p>
+<p><strong>Windows</strong>: no memory cap is applied in this release. Heavy-run slots work.</p>
+<p>The address-space limit (<code>ulimit -v</code>, <code>RLIMIT_AS</code>) is not used on purpose: it limits reserved address space, not
+memory, and some tools reserve far more than they use (Go's race detector reserves terabytes), so they could not run
+under it at all.</p>
+<p><strong>Heavy-run slots</strong> are small lock files in a folder only you can use (under <code>$XDG_RUNTIME_DIR</code> when it is set,
+otherwise in the temporary folder), shared by every Maple Harness session of your user on this computer. Each slot is
+held by an operating-system lock, which the system releases the moment the process holding it ends. If that folder
+can be written by other users, slots are not used, and the command says so.</p>
+<p><strong>Process counts</strong> were already capped separately: a command that starts processes without end is stopped and told
+so. See <a href="configuration.html#runaways-and-long-output">Harness settings</a>.</p></section>
+<h2 id="troubleshooting">Troubleshooting <a class="anchor" href="#troubleshooting" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>You see</th><th>What it means</th><th>What to do</th></tr></thead><tbody><tr><td><code>stopped at the memory cap … command_memory</code></td><td>One command went over its cap</td><td>Run a smaller part, fewer jobs at once, or raise <code>limits.command_memory</code></td></tr><tr><td><code>stopped at the memory cap … session_memory</code></td><td>The session's commands together went over</td><td>Stop background jobs you do not need, or raise <code>limits.session_memory</code></td></tr><tr><td><code>the machine ran out of memory … not one of Maple's caps</code></td><td>Something else used the memory</td><td>Close other programs, or lower the caps so Maple's commands stay within what is free</td></tr><tr><td>A command waits a long time for a slot</td><td>Another session's heavy run is going</td><td>Wait, stop the other run, or set <code>limits.heavy_runs</code> to <code>2</code> or <code>auto</code></td></tr><tr><td><code>heavy-run slots are not in use</code></td><td>The slots folder is not private to you</td><td>Check the permissions of the folder named; the command still ran</td></tr></tbody></table></div>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="sandbox.html">Sandbox</a> What the commands the agent runs can reach, and what they cannot.</li><li><a href="subagents.html">Subagents</a> Several agents at once, and how many run on one model.</li><li><a href="background-commands.html">Background commands and monitors</a> Long runs in the background, under the same caps.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/sandbox.html" rel="prev"><small>Previous</small>The shell sandbox</a><a class="next" href="../docs/other-tools.html" rel="next"><small>Next</small>What the proxy adds for other tools</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-is-capped">What is capped</a></li><li><a href="#why-these-defaults">Why these defaults</a></li><li><a href="#what-counts-as-a-heavy-run">What counts as a heavy run</a></li><li><a href="#what-a-cap-hit-looks-like">What a cap hit looks like</a></li><li><a href="#what-waiting-for-a-slot-looks-like">What waiting for a slot looks like</a></li><li><a href="#change-the-caps">Change the caps</a><ol><li><a href="#a-cap-for-one-agent">A cap for one agent</a></li></ol></li><li><a href="#technical-details">Technical details</a></li><li><a href="#troubleshooting">Troubleshooting</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>More API routes: rerank, images, audio, files and pass-through · Maple Harness docs</title>
+<meta name="description" content="Besides chat, the proxy&#x27;s OpenAI-compatible address serves the other routes tools ask for: reranking, moderation, images, audio, files and batches. It can also pass a provider&#x27;s own API through, for a">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html" aria-current="page">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Other tools</li><li aria-current="page">More API routes: rerank, images, audio, files and pass-through</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">Other tools</span><span class="rt" title="Estimated at about 220 words a minute">14 min read</span></p>
+<h1 id="more-api-routes-rerank-images-audio-files-and-pass-through">More API routes: rerank, images, audio, files and pass-through <a class="anchor" href="#more-api-routes-rerank-images-audio-files-and-pass-through" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#which-providers">Which providers</a></li><li><a href="#rerank">Rerank</a></li><li><a href="#moderations-images-and-audio">Moderations, images and audio</a></li><li><a href="#moderation-on-your-machine">Moderation on your machine</a></li><li><a href="#files-and-batches">Files and batches</a><ol><li><a href="#anthropics-message-batches">Anthropic's Message Batches</a></li></ol></li><li><a href="#pass-through-routes">Pass-through routes</a><ol><li><a href="#bedrock-and-vertex">Bedrock and Vertex</a></li></ol></li><li><a href="#technical-details">Technical details</a></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">Besides chat, the proxy's OpenAI-compatible address serves the other routes tools ask for: reranking, moderation,
+images, audio, files and batches. It can also pass a provider's own API through, for a tool that speaks Anthropic's,
+Gemini's or OpenAI's native API. Each one goes to a provider that offers it, with the same access tokens, model lists,
+budgets and usage log as chat.</p>
+<div class="callout c-note" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>Nothing to switch on, except pass-through</span></p><p>Nothing changes for a setup that does not use them: chat works exactly as before, and pass-through routes are off
+until you add one, on the setup page (<strong>Providers</strong>, <strong>Pass-through routes</strong>) or in <code>config.yaml</code>.</p></div>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> More of the OpenAI API at the proxy's address (<code>http://127.0.0.1:11535/v1</code>): <code>/v1/rerank</code>,
+<code>/v1/moderations</code>, <code>/v1/images/...</code>, <code>/v1/audio/...</code>, <code>/v1/files</code> and <code>/v1/batches</code>, and Anthropic's
+<code>/v1/messages/batches</code>. Each goes to the provider
+that serves the model you name. Reranking also works with the built-in search-by-meaning model, on your machine.</li><li><strong>Why you want it.</strong> A tool that needs them (a RAG app that reranks, a script that makes images or transcribes
+audio) points at the proxy like a chat tool does, and its calls show up in the usage log, count against budgets and
+follow each person's model list.</li><li><strong>The clicks.</strong> None. Use a model name the proxy lists, from a provider that offers the route. Pass-through routes
+are the one part you set up, on the setup page or in <code>config.yaml</code> (below).</li></ul></section>
+<h2 id="which-providers">Which providers <a class="anchor" href="#which-providers" aria-label="Link to this heading">#</a></h2>
+<p>A route is sent to the provider that serves the model asked for, at that provider's own address and with its key:</p>
+<div class="tablewrap"><table><thead><tr><th>Provider type</th><th>These routes</th></tr></thead><tbody><tr><td><code>openai-compatible</code> and the local servers (vLLM, llama.cpp, LM Studio, Ollama and others), <code>openrouter</code>, <code>xai</code>, <code>gemini</code>, <code>litellm</code>, a Maple hub (<code>maple</code>)</td><td>Yes, for whatever the server itself offers (a server that has no <code>/rerank</code> answers with its own error)</td></tr><tr><td><code>anthropic</code> with an API key</td><td>Pass-through routes</td></tr><tr><td><code>bedrock</code>, <code>vertex</code></td><td>Pass-through routes only (one model's calls, below)</td></tr><tr><td>GitHub Copilot, Azure, Apple's on-device model</td><td>No. The proxy answers <code>400 route_not_offered</code></td></tr></tbody></table></div>
+<p>If the model asked for is on a provider that does not offer the route, its fallbacks are tried, as for chat.</p>
+<h2 id="rerank">Rerank <a class="anchor" href="#rerank" aria-label="Link to this heading">#</a></h2>
+<p><code>POST /v1/rerank</code> (also <code>/v2/rerank</code>) takes the Cohere and Jina request shape and answers in it:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> http://127.0.0.1:11535/v1/rerank <span class="t-f">-H</span> <span class="t-s">'Content-Type: application/json'</span> <span class="t-f">-d</span> '{
+  <span class="t-s">"model"</span>: <span class="t-s">"builtin"</span>,
+  <span class="t-s">"query"</span>: <span class="t-s">"how do I reset my password"</span>,
+  <span class="t-s">"documents"</span>: [<span class="t-s">"Billing and invoices"</span>, <span class="t-s">"Resetting a forgotten password"</span>, <span class="t-s">"Two-factor sign-in"</span>],
+  <span class="t-s">"top_n"</span>: 2
+}'</code></pre></div>
+<ul><li><strong><code>model: "builtin"</code>, the built-in model's own name, or no model</strong> ranks with the model set up for
+<a href="search-by-meaning.html">search by meaning</a>, on your machine. Its score is how close each document is to the query in
+meaning: good for ordering, not a probability. It is not a dedicated reranking model.</li><li><strong>Any other name</strong> goes to the provider serving it (Jina, Cohere, a vLLM or llama.cpp server with a reranker
+loaded, a LiteLLM gateway), and its answer comes back as that provider gives it.</li><li><code>documents</code> may be strings or objects with <code>text</code>; at most 1,000 per request (256 with the built-in model).</li></ul>
+<h2 id="moderations-images-and-audio">Moderations, images and audio <a class="anchor" href="#moderations-images-and-audio" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Route</th><th>Body</th><th>Notes</th></tr></thead><tbody><tr><td><code>POST /v1/moderations</code></td><td>JSON</td><td>No <code>model</code> means <code>omni-moderation-latest</code>, which must then be a name the proxy serves. The built-in model and local classifiers answer on your machine (<a href="#moderation-on-your-machine">below</a>)</td></tr><tr><td><code>POST /v1/images/generations</code></td><td>JSON</td><td></td></tr><tr><td><code>POST /v1/images/edits</code>, <code>/v1/images/variations</code></td><td>form upload</td><td>Up to 64 MB</td></tr><tr><td><code>POST /v1/audio/speech</code></td><td>JSON</td><td>The audio is streamed back as it arrives</td></tr><tr><td><code>POST /v1/audio/transcriptions</code>, <code>/v1/audio/translations</code></td><td>form upload</td><td>Up to 64 MB</td></tr></tbody></table></div>
+<p>Every request must name a <code>model</code> the proxy serves (an id, an alias, a model group). The proxy sends the provider
+the model's own id.</p>
+<h2 id="moderation-on-your-machine">Moderation on your machine <a class="anchor" href="#moderation-on-your-machine" aria-label="Link to this heading">#</a></h2>
+<p><code>/v1/moderations</code> can also be answered without sending the text to a cloud service: by the proxy's built-in
+guardrails, or by a classification model you run yourself. Off until you set it up, on the setup page (<strong>Models &amp; routing</strong>, fold <strong>Moderation on this machine</strong>, which needs a
+page password) or with <code>moderations:</code> in <code>config.yaml</code>;
+without it, every moderation request goes to a provider as above.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">guardrails:</span>
+<span class="t-k">  - name:</span> no-secrets
+<span class="t-k">    type:</span> secrets
+<span class="t-k">    default_on:</span> <span class="t-n">false</span>        <span class="t-c"># used only by the moderation model below, not on every chat request</span>
+<span class="t-k">  - name:</span> no-pii
+<span class="t-k">    type:</span> pii
+<span class="t-k">    default_on:</span> <span class="t-n">false</span>
+<span class="t-k">moderations:</span>
+<span class="t-k">  builtin:</span> [no-secrets, no-pii]   <span class="t-c"># the model "builtin": these guardrails, run on this machine</span>
+<span class="t-k">  classifiers:</span>
+<span class="t-k">    - name:</span> local-toxicity        <span class="t-c"># the model name callers use</span>
+<span class="t-k">      provider:</span> local-vllm        <span class="t-c"># a configured provider whose server runs the classifier</span>
+<span class="t-k">      model:</span> unitary/toxic-bert   <span class="t-c"># the server's own model id (the name when left out)</span>
+<span class="t-k">      flag:</span> [toxic]               <span class="t-c"># the model's labels that flag an input</span>
+<span class="t-k">      threshold:</span> <span class="t-n">0.5</span>              <span class="t-c"># the score from which a flag label counts (0.5 when left out)</span></code></pre></div>
+<ul><li><strong><code>model: "builtin"</code></strong> runs the guardrails <code>builtin</code> names (built-in types only: <code>secrets</code>, <code>pii</code>, <code>banned_terms</code>,
+<code>regex</code>, <code>size</code>, <code>prompt_injection</code>) on each input. An input is flagged when one of them finds something; each
+guardrail is a category of the answer, with a score of 1 or 0. Nothing leaves the proxy, it costs nothing and, like
+the built-in rerank, writes no usage line. It finds what those guardrails look for (keys, personal data, your words
+and patterns), not harm categories such as hate or violence: for those, use a classifier or a provider's model.
+Anyone who may use the proxy can ask it, and its answer says which of those guardrails found something: name only
+guardrails whose findings you are happy for callers to see.</li><li><strong>A classifier</strong> is a classification model on a server you run: vLLM's <code>/classify</code> (<code>api: classify</code>, the default)
+or Hugging Face Text Embeddings Inference's <code>/predict</code> (<code>api: predict</code>). The proxy sends the texts to that
+provider's server, at the root of its address (not under its <code>/v1</code>), with the provider's key, and answers in the
+moderation shape: each <code>flag</code> label is a category, flagged at or above <code>threshold</code>. Set <code>path</code> when the server
+serves its API elsewhere (it must end in <code>/classify</code> or <code>/predict</code>). It is asked like any request to that provider:
+model lists, budgets and a usage line (surface <code>moderations</code>).</li><li><strong>Text only.</strong> The built-in model and classifiers check strings and <code>{"type": "text"}</code> parts; an image input is
+refused with <code>400</code>. At most 256 inputs per request.</li><li>A guardrail can use any of these as its check: see the <code>moderation</code> type in <a href="guardrails.html">Guardrails</a>.</li></ul>
+<p><strong>Prices for images and audio.</strong> These answers state no price, so a request costs nothing in the usage log until
+you give the model a price per unit, on the setup page (<strong>Providers</strong>, <strong>Model details and cloud accounts</strong>) or in
+<code>config.yaml</code>. The proxy then counts what the request used and records the
+cost as an <strong>estimate</strong> (<code>list_cost_usd</code>, price basis <code>unit_price</code>), which <a href="dollar-budgets.html">dollar budgets</a>
+count:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> openai
+<span class="t-k">    type:</span> openai-compatible
+<span class="t-k">    base_url:</span> https://api.openai.com/v1
+<span class="t-k">    api_key:</span> ${secret:openai}
+<span class="t-k">    models:</span>
+<span class="t-k">      - id:</span> dall-e-3
+<span class="t-k">        unit_price:</span> {per_image_usd: <span class="t-n">0.04</span>}          <span class="t-c"># each image the answer holds</span>
+<span class="t-k">      - id:</span> tts-1
+<span class="t-k">        unit_price:</span> {per_million_chars_usd: <span class="t-n">15</span>}     <span class="t-c"># the characters of the text made into speech</span>
+<span class="t-k">      - id:</span> whisper-1
+<span class="t-k">        unit_price:</span> {per_minute_usd: <span class="t-n">0.006</span>}        <span class="t-c"># the minutes of audio the answer says it transcribed</span></code></pre></div>
+<p>The prices are yours to set: take them from your provider's price page, and check its bill for what you were
+charged. Images are counted from the answer (the images it holds; a streamed answer counts the <code>n</code> asked for);
+speech from the request's <code>input</code>, in characters; transcriptions and translations from the duration the answer
+states (<code>usage.seconds</code>, or <code>duration</code> with <code>response_format: verbose_json</code>). An answer in another format states
+no duration and is not priced. A price the answer states itself (token usage the proxy can price) wins over
+<code>unit_price</code>, and a failed request is not priced.</p>
+<p><strong>Keys in lower case.</strong> A JSON body whose top-level object has two keys that differ only in case, or <code>model</code>,
+<code>input_file_id</code> or <code>body</code> written in another case (<code>"Model"</code>), is refused with <code>400</code>: the proxy and the provider
+must read the same model. The same holds for each line of a batch file and its <code>body</code>.</p>
+<p><strong>Form uploads need an API key header.</strong> A form upload (<code>multipart/form-data</code>) is accepted only with an
+<code>Authorization</code> or <code>x-api-key</code> header, so a web page cannot send one on its own. The OpenAI SDKs always send one; with
+<code>curl</code>, add <code>-H 'Authorization: Bearer maple'</code> (any value on this machine, an access token from another machine).</p>
+<h2 id="files-and-batches">Files and batches <a class="anchor" href="#files-and-batches" aria-label="Link to this heading">#</a></h2>
+<p><code>/v1/files</code> and <code>/v1/batches</code> work as OpenAI's do, on a provider account you name, for example an OpenAI account
+with <code>id: openai</code>:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> http://127.0.0.1:11535/v1/files?provider=openai <span class="t-f">-H</span> <span class="t-s">'Authorization: Bearer maple'</span> \
+  <span class="t-f">-F</span> purpose=batch <span class="t-f">-F</span> file=@requests.jsonl
+<span class="t-k">curl</span> http://127.0.0.1:11535/v1/batches <span class="t-f">-H</span> <span class="t-s">'Content-Type: application/json'</span> \
+  <span class="t-f">-d</span> <span class="t-s">'{"input_file_id": "file-...", "endpoint": "/v1/chat/completions", "completion_window": "24h"}'</span></code></pre></div>
+<ul><li><strong>Name the account</strong> with <code>?provider=&lt;id&gt;</code>, the <code>X-Maple-Provider</code> header, or a <code>provider</code> field in the upload
+form. Calls about a file or batch you made (read, download, delete, cancel, create a batch from a file) find the
+account by themselves.</li><li><strong>Each caller sees only its own.</strong> The proxy remembers who uploaded each file and created each batch (an access
+token, and the person when people are set up). A list shows only yours; someone else's id answers <code>404</code>.</li><li><strong>Batch files are checked.</strong> Every model a batch file names must be one the caller may use, when the file is
+uploaded and again when the batch is created. A file of up to 200 MB is accepted.</li><li><strong>Results.</strong> A completed batch's output and error files are its creator's, readable at
+<code>/v1/files/&lt;id&gt;/content</code> once the batch has been read as completed.</li><li><strong>Usage.</strong> An upload and a batch's creation are lines in the usage log. When a batch is read and has ended
+(completed, or expired or cancelled with some requests finished), its token usage is recorded once, marked as the
+batch service tier, on the batch's first model. Reading a file's or a batch's details is not recorded, so polling
+adds nothing.</li><li><strong>Budgets hold a batch's cost while it runs.</strong> With a dollar budget (an account's, a person's or a team's), a
+batch's <strong>estimated</strong> cost at the batch price is held from its creation: every request's input and its output
+limit (<code>max_tokens</code>, or the same bound as a chat request without one), priced as a chat request's hold is. A
+batch is admitted only when that estimate fits in what is left of the budget. Other requests see the budget as
+if it were spent, until the batch has ended and its usage is recorded. The proxy
+keeps the hold: it stays through a restart, and with several replicas it counts on all of them. When replicas
+share a usage store that refuses a batch's usage, the usage is kept and tried again, the batch stays held, and
+after 10 minutes an <a href="alerts-and-forecasts.html#when-a-batchs-usage-cannot-be-written">alert</a> says so. About 10,000
+batches are held at once, about 1,000 for one caller; another is answered <code>429 too_many_batches</code>.</li><li><strong>A batch the proxy cannot price is refused under a dollar budget.</strong> When a dollar budget applies and the proxy
+has no price for a model the batch names yet (no published list price, no request seen for it), the batch is
+refused with <code>400 batch_unpriced</code>: its cost could not be held against the budget. Send a few of its requests on
+their own first, or run it without a dollar budget.</li><li><strong>A batch whose usage is never read is still counted.</strong> When a batch's results or usage have not been read a day
+after its creation (25 hours), or it is deleted unread, its estimate is recorded in their place, labelled an
+estimate (price basis <code>batch_estimate</code>), and counts against the budgets; reading it later adds nothing. A batch
+that ran without a dollar budget on a model the proxy cannot price gets a line with no figure, so the usage log
+still shows it ran.</li></ul>
+<h3 id="anthropics-message-batches">Anthropic's Message Batches <a class="anchor" href="#anthropics-message-batches" aria-label="Link to this heading">#</a></h3>
+<p><code>/v1/messages/batches</code> works as Anthropic's does, on an Anthropic account with an API key, at both the
+OpenAI-compatible address and the Anthropic-compatible one (<code>http://127.0.0.1:11537</code>), so the Anthropic SDKs'
+<code>messages.batches</code> work pointed at the proxy:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> http://127.0.0.1:11537/v1/messages/batches <span class="t-f">-H</span> <span class="t-s">'Content-Type: application/json'</span> <span class="t-f">-H</span> <span class="t-s">'anthropic-version: 2023-06-01'</span> <span class="t-f">-d</span> '{
+  <span class="t-s">"requests"</span>: [
+    {<span class="t-s">"custom_id"</span>: <span class="t-s">"q1"</span>, <span class="t-s">"params"</span>: {<span class="t-s">"model"</span>: <span class="t-s">"claude-sonnet-5"</span>, <span class="t-s">"max_tokens"</span>: 1024, <span class="t-s">"messages"</span>: [{<span class="t-s">"role"</span>: <span class="t-s">"user"</span>, <span class="t-s">"content"</span>: <span class="t-s">"Hello"</span>}]}}
+  ]}'</code></pre></div>
+<ul><li><strong>Which account.</strong> The one serving the requests' models (a model name the proxy serves, an alias; each is sent
+as the account's own id), which must be one Anthropic account for the whole batch. Or name it with
+<code>?provider=&lt;id&gt;</code> or the <code>X-Maple-Provider</code> header, and use that account's own model ids. A list
+(<code>GET /v1/messages/batches</code>) needs the account named.</li><li><strong>Each caller sees only its own,</strong> as for OpenAI's batches: someone else's batch answers <code>404</code>, a list shows only
+yours. Every model the requests name must be on the caller's model list.</li><li><strong>Results through the proxy.</strong> A batch's <code>results_url</code> is answered as the proxy's own path
+(<code>/v1/messages/batches/&lt;id&gt;/results</code>), so the results are read through the proxy with your proxy token.</li><li><strong>Usage, once.</strong> When the results are read to the end, each model's usage is recorded once, as a line of its
+own (surface <code>batches</code>, the batch service tier), priced at Anthropic's batch price, an estimate. Requests that
+errored, were cancelled or expired cost nothing and are not counted.</li><li><strong>Limits.</strong> A batch of up to 32 MB and 100,000 requests through the proxy (Anthropic takes up to 256 MB); at most
+2 batches created at once, and 32 models in one batch.</li></ul>
+<h2 id="pass-through-routes">Pass-through routes <a class="anchor" href="#pass-through-routes" aria-label="Link to this heading">#</a></h2>
+<p>A pass-through route serves a provider's own API at <code>/passthrough/&lt;name&gt;/</code> on the proxy's OpenAI-compatible
+address. A tool that speaks Anthropic's Messages API, Gemini's <code>generateContent</code> or another native API reaches the
+provider through the proxy: the proxy checks the caller, adds the provider's key, and records what the answer says it
+used. Off until you add one. A body that names an MCP server or connector for the provider to reach is refused,
+here and on the batch routes, unless you allow it (see <a href="mcp-hub.html#providers-own-mcp-connectors">Providers' own MCP connectors</a>). A body that is not
+plain JSON the proxy can read in full is refused when the caller has a model list, since its model cannot be checked.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">passthrough:</span>
+<span class="t-k">  - provider:</span> anthropic           <span class="t-c"># a configured provider's id</span>
+<span class="t-k">    paths:</span> [<span class="t-s">"/v1/messages"</span>]       <span class="t-c"># required: only these paths (and the paths under them)</span>
+<span class="t-k">  - name:</span> gemini-native           <span class="t-c"># optional: the route's name; the provider's id when left out</span>
+<span class="t-k">    provider:</span> gemini
+<span class="t-k">    paths:</span> [<span class="t-s">"/v1beta/models"</span>]
+<span class="t-k">    cost_per_request_usd:</span> <span class="t-n">0.002</span>   <span class="t-c"># optional: an estimated price for an answer that states no usage</span></code></pre></div>
+<p>With that, <code>http://127.0.0.1:11535/passthrough/anthropic/v1/messages</code> is Anthropic's <code>/v1/messages</code>. The version
+in the path (<code>/v1</code>, <code>/v1beta</code>) is matched against the provider's <code>base_url</code>, so it is not repeated.</p>
+<div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>Guardrails do not check these routes</span></p><p>Pass-through routes, like rerank, moderations, images, audio, files and batches, are passed to the provider as
+they are: <a href="guardrails.html">guardrails</a> check chat requests and MCP tool calls only. List only the paths a tool
+needs.</p></div>
+<h3 id="bedrock-and-vertex">Bedrock and Vertex <a class="anchor" href="#bedrock-and-vertex" aria-label="Link to this heading">#</a></h3>
+<p>A route on a <code>bedrock</code> or <code>vertex</code> provider reaches one model's calls, signed with that provider's own cloud
+credentials, exactly as its chat requests are: the proxy signs a Bedrock request with AWS's SigV4 (or sends the
+provider's Bedrock API key), and gives a Vertex request a Google token. A tool that speaks the cloud's own API, or
+an SDK pointed at the route, needs no cloud credentials of its own.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">passthrough:</span>
+<span class="t-k">  - provider:</span> bedrock-us       <span class="t-c"># a type: bedrock provider</span>
+<span class="t-k">    paths:</span> [<span class="t-s">"/model"</span>]
+<span class="t-k">  - provider:</span> vertex-us        <span class="t-c"># a type: vertex provider</span>
+<span class="t-k">    paths:</span> [<span class="t-s">"/publishers"</span>]</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th>Route on</th><th>Paths it forwards</th><th>Example</th></tr></thead><tbody><tr><td><code>bedrock</code></td><td><code>/model/&lt;model id&gt;/</code> and one of <code>invoke</code>, <code>invoke-with-response-stream</code>, <code>converse</code>, <code>converse-stream</code>, <code>count-tokens</code></td><td><code>/passthrough/bedrock-us/model/us.anthropic.claude-sonnet-4-5-20250929-v1:0/converse</code></td></tr><tr><td><code>vertex</code></td><td><code>/publishers/&lt;publisher&gt;/models/&lt;model&gt;:</code> and one of <code>generateContent</code>, <code>streamGenerateContent</code>, <code>countTokens</code>, <code>computeTokens</code>, <code>rawPredict</code>, <code>streamRawPredict</code>, <code>predict</code>; or the same under <code>/v1/projects/&lt;project&gt;/locations/&lt;location&gt;/</code></td><td><code>/passthrough/vertex-us/publishers/google/models/gemini-2.5-pro:generateContent</code></td></tr></tbody></table></div>
+<ul><li><p><strong>This provider's account only.</strong> A Bedrock route reaches the provider's region with its credentials. A Vertex
+route reaches the provider's own project and location: the short form <code>/publishers/...</code> is put there, and a whole
+path that names another project or location is refused.</p></li><li><p><strong>Nothing else of the cloud's API.</strong> Asynchronous invocations, guardrails, endpoints, batch prediction jobs,
+cached contents, tuning and datasets are refused (<code>400</code>), whatever the route's <code>paths</code> say, and so is any method
+but <code>POST</code>. A Bedrock model is named by its id or inference profile id; an ARN (which holds <code>/</code>) cannot be used in
+the path.</p></li><li><p><strong>The model is in the path,</strong> so a person's model list is checked against it, as <code>bedrock-us/&lt;model id&gt;</code>. A
+<code>:</code> in the id may be sent as is or encoded (<code>%3A</code>, as AWS's SDKs send it).</p></li><li><p><strong>Usage.</strong> Converse and InvokeModel answers are read for their tokens, streamed or not (Bedrock's own stream
+framing included), and priced as the provider's chat requests are: Claude models at Anthropic's list price, an
+estimate. A stream that ends before Bedrock reports its usage counts what its events said so far; a Converse
+stream with none is <strong>estimated</strong> from the text it streamed and the request's size (price basis
+<code>stream_estimate</code>). Vertex answers are read in Gemini's and Anthropic's shapes. A Vertex stream is read with or without
+<code>?alt=sse</code>; <code>alt</code> is the only query parameter sent on.</p></li><li><p><strong>The key is the proxy's.</strong> The caller's own <code>Authorization</code>, <code>x-api-key</code>, cookies and forwarding headers are
+never sent on; only the content type, <code>Accept</code>, <code>anthropic-version</code>, <code>anthropic-beta</code> and <code>OpenAI-Beta</code> are. Query
+parameters that carry a key (<code>key</code>, <code>api_key</code> and the like) are dropped.</p></li><li><p><strong>Only the paths you list.</strong> A route forwards only the paths in its <code>paths</code>, and the paths under them.</p></li><li><p><strong>Account administration and kept state are never passed.</strong> Paths under <code>organization</code>, <code>organizations</code> or
+<code>admin</code> are refused, whatever the key can do. So are the routes where an account keeps things for whoever made them
+(files, batches, stored responses, vector stores, fine-tunes, assistants and threads, stored chat completions): every
+caller of the route would see everyone's. Use the proxy's own <code>/v1/files</code> and <code>/v1/batches</code>, which keep each
+caller's apart, and its own <code>/v1/chat/completions</code> and <code>/v1/responses</code> for chat.</p></li><li><p><strong>The same rules as chat.</strong> A request that spends (<code>POST</code>, <code>PUT</code>, <code>PATCH</code>) from someone with a model list must name
+a model on it, in the body's <code>model</code> or in a Gemini path (<code>/models/&lt;model&gt;:...</code>); a person limited to their accounts
+reaches only those. Budgets and rate limits hold as for chat.</p></li><li><p><strong>Cost.</strong> Usage the provider reports (Anthropic, OpenAI and Gemini shapes, streamed or not) is recorded and priced
+as for chat. <code>cost_per_request_usd</code> counts an estimate, labelled as one, against dollar budgets for an answer that
+states no price.</p></li></ul>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Checks, in order:</strong> the surface's guards (address, token, same-origin, rate limit), the person's and team's model
+list and accounts, their rate limits and budgets, then the provider's daily and dollar budgets, exactly as for a
+chat request for the same model. A request is held to the provider it is admitted for.</li><li><strong>Size limits:</strong> JSON bodies 16 MB (pass-through 32 MB, a Message Batch 32 MB), form uploads 64 MB, file uploads
+200 MB (spooled to a temporary file and removed after); at most 16 JSON and pass-through requests, 2 Message
+Batches being created and 4 uploads of each kind at once
+per proxy (more are answered <code>429</code> with <code>Retry-After</code>); an upload sent with an <code>Idempotency-Key</code> is limited to 64 MB; an answer read whole to find its usage is
+capped at 64 MB. Streams and file downloads are passed through as they arrive.</li><li><strong>Answer headers:</strong> only <code>Content-Type</code>, <code>Content-Disposition</code>, <code>Retry-After</code> and the provider's request id are
+passed back.</li><li><strong>Usage log:</strong> each line's <code>surface</code> is <code>rerank</code>, <code>moderations</code>, <code>images</code>, <code>audio</code>, <code>files</code>, <code>batches</code> or
+<code>passthrough</code> (new values of an existing column; no new columns). Rerank and moderation with the built-in model,
+like <code>/v1/embeddings</code>, write no line: they run on your machine and cost nothing.</li><li><strong>Where files and batches are remembered:</strong> <code>files.json</code> in the proxy's config folder, or, with several replicas
+(storage mode <code>central</code>), the shared store every replica reads, encrypted with the storage key. Records are kept
+for 60 days.</li><li><strong>Paths:</strong> a pass-through path must be plain: no <code>..</code> or <code>.</code> segment, no empty segment, no encoded characters, no
+backslash. Anything else is refused before it is sent.</li></ul></section>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a> Point Claude Code, Codex CLI and other tools at the proxy.</li><li><a href="other-tools.html">What the proxy adds for other tools</a> What Claude Code, Codex CLI, OpenCode and others gain through the proxy.</li><li><a href="guardrails.html">Guardrails</a> Block, mask or log secrets, personal data and your own patterns, at the proxy.</li><li><a href="search-by-meaning.html">Search by meaning</a> A small model on your machine that finds things by what they mean.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/other-tools.html" rel="prev"><small>Previous</small>What the proxy adds for other tools</a><a class="next" href="../docs/litellm.html" rel="next"><small>Next</small>Use it with LiteLLM</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#which-providers">Which providers</a></li><li><a href="#rerank">Rerank</a></li><li><a href="#moderations-images-and-audio">Moderations, images and audio</a></li><li><a href="#moderation-on-your-machine">Moderation on your machine</a></li><li><a href="#files-and-batches">Files and batches</a><ol><li><a href="#anthropics-message-batches">Anthropic's Message Batches</a></li></ol></li><li><a href="#pass-through-routes">Pass-through routes</a><ol><li><a href="#bedrock-and-vertex">Bedrock and Vertex</a></li></ol></li><li><a href="#technical-details">Technical details</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

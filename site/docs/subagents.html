@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Subagents · Maple Harness docs</title>
 <meta name="description" content="A subagent is a second session that the main one hands a small, self-contained job to: &quot;find where the retry logic lives&quot;, &quot;review this diff&quot;, &quot;plan the change&quot;. It has its own instructions, its own l">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
@@ -23,62 +24,235 @@
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html" aria-current="page">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html" aria-current="page">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Subagents</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">25 min read</span></p>
 <h1 id="subagents">Subagents <a class="anchor" href="#subagents" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-ones-you-already-have">The ones you already have</a></li><li><a href="#watching-them-work">Watching them work</a></li><li><a href="#make-your-own">Make your own</a></li><li><a href="#settings">Settings</a></li><li><a href="#delegate-to-your-local-claude">Delegate to your local Claude</a><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#choose-which-claude-runs">Choose which <code>claude</code> runs</a></li><li><a href="#extra-options-for-claude-code">Extra options for Claude Code</a></li><li><a href="#checks-before-it-runs">Checks before it runs</a></li><li><a href="#how-it-is-kept-safe">How it is kept safe</a></li></ol></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-ones-you-already-have">The ones you already have</a></li><li><a href="#watching-them-work">Watching them work</a></li><li><a href="#make-your-own">Make your own</a><ol><li><a href="#more-fields">More fields</a></li><li><a href="#notes-of-its-own">Notes of its own</a></li></ol></li><li><a href="#agents-in-the-background">Agents in the background</a></li><li><a href="#the-lineup-the-task-list-you-can-watch">The lineup: the task list you can watch</a></li><li><a href="#how-many-at-once-and-on-which-model">How many at once, and on which model</a></li><li><a href="#settings">Settings</a></li><li><a href="#delegate-to-your-local-claude">Delegate to your local Claude</a><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#choose-which-claude-runs">Choose which <code>claude</code> runs</a></li><li><a href="#extra-options-for-claude-code">Extra options for Claude Code</a></li><li><a href="#checks-before-it-runs">Checks before it runs</a></li><li><a href="#how-it-is-kept-safe">How it is kept safe</a></li></ol></li><li><a href="#see-also">See also</a></li></ol></details>
 
-<p>A subagent is a second session that the main one hands a small, self-contained job to: "find where the retry
+<p class="lede">A subagent is a second session that the main one hands a small, self-contained job to: "find where the retry
 logic lives", "review this diff", "plan the change". It has its own instructions, its own list of tools and
 optionally its own model. It does not see your conversation, and only its final report comes back, so a long
 search stays out of the main conversation.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> A helper the agent hands a small job to ("find where retries happen", "review this diff"). It
 works on its own and only its report comes back.</li><li><strong>Why you want it.</strong> A long search stays out of your conversation, so the main session stays short and cheap.</li><li><strong>What to do.</strong> Nothing: the agent uses them when a job fits. To ask yourself, type <code>@explore</code> and the job. To
-make your own, write a short file, as below. There is no setup page step.</li></ul>
+make your own, write a short file, as below. There is no setup page step.</li></ul></section>
 <h2 id="the-ones-you-already-have">The ones you already have <a class="anchor" href="#the-ones-you-already-have" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Name</th><th>What it does</th></tr></thead><tbody><tr><td><code>general-purpose</code></td><td>Takes any self-contained task. Has the same tools as the main session</td></tr><tr><td><code>explore</code></td><td>Reads and searches the project and answers questions about it. Cannot change anything</td></tr><tr><td><code>plan</code></td><td>Studies the code and returns a step-by-step plan. Cannot change anything</td></tr></tbody></table></div>
 <p>The model uses them by itself when a job fits. To run one yourself, type <code>@</code> and the name, then the job:</p>
-<pre><code class="language-text">@explore where is the retry logic, and what limits it?</code></pre>
+<div class="codeblock"><pre><code class="language-text">@explore where is the retry logic, and what limits it?</code></pre></div>
 <p>Press Tab after the <code>@</code> to complete a name. <code>/agent explore where is the retry logic?</code> does the same.</p>
 <h2 id="watching-them-work">Watching them work <a class="anchor" href="#watching-them-work" aria-label="Link to this heading">#</a></h2>
-<p>While a subagent runs, a small list appears just above the input box (which does not move):</p>
-<pre><code class="language-text">  ● main
+<p>In the conversation, the line under the call that started a subagent says what it is doing while it runs:</p>
+<div class="codeblock"><pre><code class="language-text">● Agent(agent: "explore", task: "find where retries are configured")
+  ⎿  explore · turn 3 · reading the retry code</code></pre></div>
+<p>While a subagent runs, a small list also appears just above the input box (which does not move):</p>
+<div class="codeblock"><pre><code class="language-text">  ● main
   ◯ explore  reading the retry code                    31s · ↓ 339.6k tokens
-  ! plan     waiting for your approval                 12s · ↓ 1.2k tokens</code></pre>
+  ! plan     waiting for your approval                 12s · ↓ 1.2k tokens</code></pre></div>
 <p><code>◯</code> is running, <code>!</code> is waiting for you, <code>✓</code> finished, <code>✗</code> failed or stopped. Press the down arrow from an empty
 input box (or <code>ctrl+t</code> from anywhere) to move into the list, then:</p>
 <ul><li>the arrow keys choose between <code>main</code> and a subagent;</li><li><strong>Enter</strong> on a subagent, or a click on its row, shows what it is doing, live and read-only (<strong>Esc</strong> goes back);</li><li><strong>x</strong>, then <strong>y</strong>, stops the chosen subagent;</li><li><strong>c</strong> folds the list into a count on the status line ("2 agents").</li></ul>
+<p>Commands the agent started in the background, and monitors watching a command's output, have rows after the
+subagents: see <a href="background-commands.html#seeing-and-stopping-them">Background commands and monitors</a>.</p>
 <p>When a subagent needs your approval to write a file or run a command, the question comes to you like any other,
-with the subagent's name in it. Nothing is approved for you. A subagent can never do more than the main session
+with the subagent's name in it. When a subagent needs a decision from you, it can ask you a short multiple-choice
+question, titled with its name (<a href="questions.html">Questions the agent asks you</a>); its row says it is waiting for your
+answer meanwhile. Nothing is approved for you. A subagent can never do more than the main session
 is allowed to do.</p>
 <p>On the phone page, an <strong>agents</strong> button in the status row opens the same list.</p>
 <h2 id="make-your-own">Make your own <a class="anchor" href="#make-your-own" aria-label="Link to this heading">#</a></h2>
-<p>Type <code>/agents</code>. You see every agent with where it lives, and can view, create, edit or delete them. Creating
-one asks where it should live (this project, or all your projects), a name, a description (this is what tells
-the model when to use it), which tools it may use (all, read-only, or a list you tick), which model, a turn
-limit, and its instructions. It writes an ordinary file, and the new agent works straight away.</p>
+<p>Type <code>/agents</code>. You see every agent with where it lives, and can view, create, edit or delete them. Creating one
+walks you through it:</p>
+<ol class="steps"><li><strong>Where it lives:</strong> this project, or all your projects.</li><li><strong>A name and a description.</strong> The description is what tells the model when to use it, so say when, not only
+what ("Reviews a diff for bugs. Use after a change is made.").</li><li><strong>Its tools:</strong> all, read-only, or a list you tick.</li><li><strong>Its model and a turn limit.</strong></li><li><strong>Its instructions</strong>, then save. It writes an ordinary file, and the new agent works straight away.</li></ol>
 <p>The file is the same format Claude Code uses, so you can also write it by hand in <code>.claude/agents/</code> in a project
 or <code>~/.claude/agents/</code> for yourself:</p>
-<pre><code class="language-markdown">---
+<div class="codeblock"><span class="lang">Markdown</span><pre><code class="language-markdown">---
 name: reviewer
 description: Reviews a diff for bugs. Use after a change is made.
 tools: read_file, grep
 model: gpt-4.1
 maxTurns: 12
 ---
-You review code. Report real bugs first, with the file and line, and nothing else.</code></pre>
+You review code. Report real bugs first, with the file and line, and nothing else.</code></pre></div>
 <p>If a project agent and one of yours share a name, the project's is used. Either one replaces a built-in of the
 same name.</p>
+<h3 id="more-fields">More fields <a class="anchor" href="#more-fields" aria-label="Link to this heading">#</a></h3>
+<p>An agent file can say more than that. Claude Code reads the first five of these too; it ignores the Maple ones, so
+one file works in both:</p>
+<div class="codeblock"><span class="lang">Markdown</span><pre><code class="language-markdown">---
+name: tester
+description: Runs the test suites and reports what fails. Use after a change.
+tools: bash, read_file, grep
+disallowedTools: write_file, edit_file
+isolation: worktree
+background: true
+effort: high
+memory: project
+permissions:
+  deny: ["bash(git push*)"]
+  ask: ["bash(rm *)"]
+limits:
+  memory: 4G
+  ai_units: 5
+  tokens: 400000
+  on_budget: ask
+---
+Run the tests you are given and report each failure with its file and line.</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>disallowedTools</code></td><td>Tools taken out of whatever <code>tools</code> allows, by the harness's names or Claude Code's (<code>Bash</code>, <code>Read</code>, <code>Write</code>, <code>Edit</code>, <code>Grep</code>, …). Taking <code>bash</code> away also takes the other ways of running a command (<code>monitor</code>, <code>pane_run</code>, <code>pane_open</code>, <code>agent_start</code>, <code>worktree_open</code>). A name that is not a tool here keeps the agent from being offered</td></tr><tr><td><code>isolation</code></td><td><code>worktree</code>: it always works in its own copy of a git project (also in the foreground). <code>none</code> counts only when your <code>harness.subagents.isolation</code> is <code>none</code> too (an agent file cannot skip the question before its changes are applied). Left out, a background agent that can change files gets a copy, as <code>harness.subagents.isolation</code> says</td></tr><tr><td><code>background</code></td><td><code>true</code>: it starts in the background unless the model asks otherwise</td></tr><tr><td><code>effort</code></td><td>The reasoning effort its model is asked for, such as <code>low</code> or <code>high</code>, like the session's <code>/effort</code>. Sent only when that model takes the level; otherwise the agent's line in the tray says so, and the model's own default is used</td></tr><tr><td><code>memory</code></td><td>A notes folder of its own, kept between its runs: <code>project</code> or <code>local</code> (in the project's <code>.mapleharness/agent-memory/&lt;name&gt;/</code>, which git ignores) or <code>user</code> (<code>agent-memory/&lt;name&gt;/</code> in the config folder, for every project; an agent file that comes from a project keeps its <code>user</code> notes per project instead, so it never reads your own agents' notes). See <a href="#notes-of-its-own">Notes of its own</a></td></tr><tr><td><code>permissions</code> (Maple)</td><td><code>deny</code> and <code>ask</code> lists of <a href="configuration.html">permission patterns</a>. An <code>ask</code> pattern asks you even in auto or yolo mode. There is no <code>allow</code>: an agent's own rules can only narrow what the session allows</td></tr><tr><td><code>limits.memory</code> (Maple)</td><td>The most memory one command it runs may use, such as <code>4G</code>. Never above <code>harness.limits.command_memory</code>; it applies even with the session's caps off. See <a href="memory-limits.html">Memory caps</a></td></tr><tr><td><code>limits.ai_units</code>, <code>limits.tokens</code> (Maple)</td><td>Its budget for one run (a resumed run counts on from the earlier one)</td></tr><tr><td><code>limits.on_budget</code> (Maple)</td><td><code>stop</code> (the default): past its budget it stops, says so, and its task goes back to pending. <code>ask</code>: you are asked once whether it may carry on for as much again</td></tr></tbody></table></div>
+<p>A file whose <code>permissions</code> or <code>limits</code> do not read is not offered to the model at all (running it without them
+would give it more than you meant); <code>/agents</code> shows it with the reason. Editing an agent in <code>/agents</code> keeps these
+fields as the file has them. The <code>delegate</code> tool also takes <code>max_ai_units</code>, which narrows a run's budget further.</p>
+<h3 id="notes-of-its-own">Notes of its own <a class="anchor" href="#notes-of-its-own" aria-label="Link to this heading">#</a></h3>
+<p>In plain words: an agent with <code>memory:</code> remembers what it learned last time (where the tests are, which one is
+flaky, what fixed it) and starts its next run knowing it.</p>
+<ul><li>When it starts, the first part of its <code>MEMORY.md</code> (200 lines or 25 KB at most) is put in its prompt, marked as its
+own earlier writing, not your instructions.</li><li>It reads and writes its notes with one tool, <code>agent_notes</code> (list, read, write, delete), whatever its <code>tools</code>
+line says. The tool takes note names, never paths: a plain file name ending in <code>.md</code>, in that folder only. At most
+64 notes of 64 KB each. A folder reached through a link is not used.</li><li>The tray shows <code>recalled 1 note: testing.md</code> or <code>saved 1 note: testing.md</code> on its row.</li><li><code>agent_notes</code> asks you like any other tool in ask mode; a rule allowing <code>agent_notes</code> lets it through.
+<code>disallowedTools: agent_notes</code> takes it away.</li><li>Only an agent whose name is a plain lowercase name (letters, digits and dashes, as <code>/agents</code> makes them) gets a
+folder; for any other name its line in the tray says the notes are not used.</li><li>The folder is yours to read, edit or delete.</li></ul>
+<div class="callout c-caution" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8z"/><path d="M12 8v5M12 16.5v.01"/></svg><span>Caution</span></p><p>Do not keep secrets in an agent's notes. They are plain files, and the agent reads them back into its prompt,
+which goes to its model.</p></div>
+<h2 id="agents-in-the-background">Agents in the background <a class="anchor" href="#agents-in-the-background" aria-label="Link to this heading">#</a></h2>
+<p>In plain words:</p>
+<ul><li><strong>What it is.</strong> The agent can start a subagent and keep working while it runs, instead of waiting for it. When
+the subagent finishes, its report arrives as a message and the agent carries on with it.</li><li><strong>Why you want it.</strong> Independent pieces of a large task (search one part, change another) go on at the same
+time.</li><li><strong>What to do.</strong> Nothing. The agent decides. Since 3.0 a background agent keeps working after the turn ends,
+and its report wakes the session when it lands: see <a href="background-agents.html">Background agents</a>. <strong>x</strong> in the
+agents list stops one, <strong>X</strong> stops them all, and <strong>m</strong> in an agent's view writes to it (a finished one picks up
+where it left off).</li></ul>
+<p>Background agents show <code>bg</code> in the agents list. Two more things keep several agents out of each other's way:</p>
+<ul><li><strong>A shared task list.</strong> The agent can split the work into tasks, each naming the files it will change, and give
+each subagent its own task. While a task is taken, no other agent (the main one included) may write its files:
+the write is refused and the agent is told who holds the file. A subagent that stops or fails frees its files.
+When a subagent's task fails, stalls or is reported stuck, the main agent is told at once, with why, and
+re-plans it: it gives the task again (to the same agent or another), splits it into smaller tasks, does it
+itself, or asks you. A task goes to subagents at most three times and is split at most two levels deep, so a
+task that keeps failing ends with the main agent or with you, never in a loop. Using the task list (the <code>tasks</code>
+tool) never asks you, in any mode: it changes nothing outside the session. A permission rule you write for
+<code>tasks</code> still decides, and handing work to a subagent (<code>delegate</code>) still asks as before.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-replan-light.webp" alt="A task added with tasks, an Agent call given it, the subagent refused by its backend, the note task t1 blocked, attempt 1 of 3, Re-plan it now, and the agent asking whether to write the tests itself or hand them to an agent again" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-replan-dark.webp" alt="A task added with tasks, an Agent call given it, the subagent refused by its backend, the note task t1 blocked, attempt 1 of 3, Re-plan it now, and the agent asking whether to write the tests itself or hand them to an agent again" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>A subagent's task failed: the agent is told at once and re-plans (here, by asking you).</figcaption>
+</figure>
+<ul><li><strong>Its own copy of the project.</strong> In a git project, a background agent that can change files works in its own
+copy (a git worktree under <code>.mapleharness/worktrees/</code>, which git ignores, or where <code>harness.worktrees.location</code> puts worktrees when you chose a place: see <a href="worktrees.html#agents-in-their-own-copy">Worktrees</a>), started from your files as they are
+now, including changes you have not committed. When it finishes, you are asked whether to apply its changes,
+with the files listed. If you say no, nothing changes in your project and the copy stays where it is, so you can
+look at it. If your own files changed in the meantime in a way that clashes, nothing is applied and the copy is
+kept. Applied changes go to your files only: nothing is committed or staged. <code>bg, own copy</code> in the agents list
+marks these.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-subagents-bg-light.webp" alt="An Agent call starting general-purpose in the background, allowed, the answer saying it runs in its own copy of the project, and a line saying Read was allowed for the subagent; the agents tray lists main and general-purpose with its task and bg, own copy" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-subagents-bg-dark.webp" alt="An Agent call starting general-purpose in the background, allowed, the answer saying it runs in its own copy of the project, and a line saying Read was allowed for the subagent; the agents tray lists main and general-purpose with its task and bg, own copy" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>A background agent in its own copy of the project, in the agents tray.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-worktree-apply-light.webp" alt="The background agent done: the question Allow Apply changes, subagent general-purpose is asking, with [y] yes, [n] no and [v] see all of it and no always, and under it apply its changes to 1 file(s): cmd/api/main.go" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-worktree-apply-dark.webp" alt="The background agent done: the question Allow Apply changes, subagent general-purpose is asking, with [y] yes, [n] no and [v] see all of it and no always, and under it apply its changes to 1 file(s): cmd/api/main.go" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>When it finishes, you are asked before its changes are applied, with the files listed.</figcaption>
+</figure>
+<p>Technical details:</p>
+<ul><li>The question lists the files, marking new ones, deleted ones and ones made executable; deletions, executables
+and files that configure or build the project (dotfiles, CI files, build files) are always named. Changes that
+add or change a symbolic link are never applied. A file tool path that would lead out of the copy into your
+project is refused.</li><li>A kept copy stays until you remove it: <code>git worktree remove &lt;folder&gt;</code> from your project.</li><li>Applying needs your yes, asked each time: the question reads "Allow Apply changes?" and offers no "always" for
+it, in the terminal or on the phone. Not asked in yolo mode or with a permission rule allowing <code>merge_worktree</code>, and even then
+you are asked while the session is shared with other devices. A rule denying
+<code>merge_worktree</code>, or denying <code>write_file</code> or <code>edit_file</code> for one of the files, keeps the changes in the copy
+without asking, and so do the file rules for agents. With nobody there to ask (a run with <code>-p</code>), the changes stay
+in the copy and the final answer says where.</li></ul>
+<div class="callout c-warning" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/></svg><span>A copy, not a cage</span></p><p>The copy keeps agents apart; it is not a security boundary. The agent in it has the same permissions, sandbox
+and file rules as any other, and a shell command starts in the copy but can change folder.</p></div>
+<ul><li>New files you have not added to git are copied in as well (up to 2,000 files and 64 MB). Git's hooks do not
+run when the copy is made, compared or removed.</li><li>An agent that only reads (<code>explore</code>, <code>plan</code>) works in your project directly.</li></ul>
+<h2 id="the-lineup-the-task-list-you-can-watch">The lineup: the task list you can watch <a class="anchor" href="#the-lineup-the-task-list-you-can-watch" aria-label="Link to this heading">#</a></h2>
+<p>In plain words:</p>
+<ul><li><strong>What it is.</strong> The shared task list, on screen. <code>/tasks</code> (or <code>Alt+T</code>, or the palette) opens <strong>The lineup</strong>: every
+task, who is on it (the main agent or a subagent), what it waits for, and what is done. The sidebar lists the
+tasks too, the line above the message box names the one in progress, and the conversation gets one short line
+when a task starts, finishes, gets stuck or is freed by another finishing.</li><li><strong>Why you want it.</strong> When several agents work on one project, you see where the work stands at a glance,
+without asking.</li><li><strong>What to do.</strong> Nothing: the agent keeps it. Open it when you want to look. It comes back when you resume the
+session.</li></ul>
+<p>The agent's own checklist (<code>/ledger</code>, for one large request) is a separate thing and works as before: the task
+list is for coordinating several agents.</p>
+<p>What the lineup shows, for each task: its mark and id, its title, who is on it (or what it waits for) and how long
+it has taken; under the list, the selected task's status, owner, files, check, what it is doing now and its notes.
+The head of the list counts the tasks done, in progress, pending and blocked.</p>
+<div class="tablewrap"><table><thead><tr><th>Mark</th><th>Status</th></tr></thead><tbody><tr><td><code>○</code></td><td>pending: nobody has started it, or it waits for another task</td></tr><tr><td><code>◐</code></td><td>in progress</td></tr><tr><td><code>✓</code></td><td>done</td></tr><tr><td><code>✗</code></td><td>blocked: stuck, with the reason; the main agent re-plans it</td></tr></tbody></table></div>
+<p>Keys in the lineup: <code>↑</code>/<code>↓</code> move, <code>Enter</code> shows all of a task's details, <code>a</code> opens the transcript of the agent on
+it, <code>o</code> changes who has it (below), <code>f</code> shows all, only the open ones, or only the done ones, <code>x</code> then <code>y</code> stops the
+agent on it (its task goes back to the main agent), <code>Esc</code> closes it. Under 80 columns it is a panel above the message
+box instead.</p>
+<p><strong>Changing who has a task.</strong> <code>o</code> on a task, then:</p>
+<ul><li><code>m</code> gives it to the main agent: it is the main agent's now, in progress;</li><li><code>p</code> puts it back as pending, with nobody on it;</li><li>any other key keeps it as it is.</li></ul>
+<p>The main agent is told either way. The agent that had the task keeps running (stop it with <code>x</code> if you want), but can
+no longer update that task. A task that is done cannot be moved. Giving one to the main agent is refused, with the
+reason, while it waits for another task that is not done, or when one of its files is held by another agent's task.</p>
+<p><strong>On the phone.</strong> The agents sheet of the <a href="remote-control.html#using-the-page">remote control page</a> lists the lineup
+too, read-only: each task's status, who is on it and what it waits for. A <code>tasks 3/7</code> chip in the status row counts
+the done ones, and the list is refreshed while a task is in progress.</p>
+<p>Technical details:</p>
+<ul><li>Each task has a title, a description, the files it will change, its status, its owner, the tasks it is
+<strong>blocked by</strong>, and an optional <strong>check</strong>: a command (a test run) that must pass before the task can be called
+done. The harness sees the check pass or fail when any agent runs it; a done without a passing check is refused,
+and the task stays in progress with the reason. A subagent that finishes without its check passing leaves the task
+blocked, for the main agent to re-plan.</li><li>A task cannot start while one it is blocked by is not done; when the last one is done, the line <code>○ t5 unblocked
+(t3 and t4 done)</code> says so. A list of dependencies that would make tasks wait for each other in a circle is refused.</li><li>The list is saved with the session after every turn and comes back with <code>--session</code> or <code>--continue</code>. A task a
+subagent had in progress goes back to pending on resume, with a note, since no subagent survives a restart.</li><li>The model's <code>tasks</code> tool takes <code>list</code>, <code>get</code>, <code>add</code> and <code>update</code> (with a status of <code>pending</code>, <code>in_progress</code>,
+<code>done</code> or <code>blocked</code>, and a short <code>active</code> line of what it is doing); the older <code>claim</code>, <code>done</code>, <code>blocked</code> and
+<code>reopen</code> still work.</li><li><code>Alt+T</code> can be moved with <code>keys.tasks</code> (<a href="configuration.html">Harness settings</a>). In Claude Code, <code>Ctrl+T</code> is the task
+list; in Maple, <code>Ctrl+T</code> is the agents tray.</li></ul>
+<h2 id="how-many-at-once-and-on-which-model">How many at once, and on which model <a class="anchor" href="#how-many-at-once-and-on-which-model" aria-label="Link to this heading">#</a></h2>
+<p><code>harness.subagents.mode</code> sets how subagents run:</p>
+<div class="tablewrap"><table><thead><tr><th>Mode</th><th>What it does</th></tr></thead><tbody><tr><td><code>auto</code> (default)</td><td>Several at once, up to <code>max_parallel</code>, but never more on one model than its backend serves at once when you have said so in <code>capacity</code>. A background agent on your main model, when that model serves one request at a time, runs in the foreground instead: in the background it would only wait for the main agent</td></tr><tr><td><code>parallel</code></td><td>Several at once, up to <code>max_parallel</code>, whatever the backend</td></tr><tr><td><code>sequential</code></td><td>One at a time, never in the background</td></tr><tr><td><code>off</code></td><td>No subagents: a single agent does everything. The model is not offered the delegate tool or the task list, and <code>@agent</code> says subagents are off</td></tr></tbody></table></div>
+<p>A local model that serves one request at a time (llama.cpp started with <code>--parallel 1</code>, or Ollama's default) is
+worth naming in <code>capacity</code>, so subagents on it take turns instead of pushing each other's work out of its memory.</p>
+<p><strong>Sized to your proxy.</strong> In <code>auto</code>, the harness also asks the proxy how many requests each model's backend takes
+at once (the proxy's <code>concurrency</code> settings; what a llama.cpp, vLLM, SGLang or Text Generation Inference server
+reports; what a cloud account's rate limits leave room for; or what the proxy learned from busy answers), at most
+once a minute. What you
+write in <code>capacity</code> always wins. When every model subagents may run on is known, <code>auto</code> runs as many at once as
+those backends serve together (at most 16) instead of the fixed 3; when one is not known, it keeps 3. Setting
+<code>max_parallel</code> fixes the number in every mode. <code>parallel</code> and <code>sequential</code> do not ask.</p>
+<p><strong>Within your budget.</strong> When your proxy has people and budgets set up, with the self view on, <code>auto</code> reads your own
+budget there too:</p>
+<ul><li>with nothing left of a daily or monthly budget, no subagent is started, and the agent is told why;</li><li>with less than a tenth left, subagents run one at a time, and an agent that would run on a cloud model goes to
+<code>spill_model</code> instead when that is a local model (one that costs no AI units);</li><li>with rate limits on your access token, on you or on your team (requests at once, requests a minute), no more
+subagents run at once than those leave room for, keeping one request for the main agent;</li><li>a model with its own limit of requests at once on the proxy runs no more subagents at once than that limit.</li></ul>
+<p>The tenth is a chosen threshold, not a measured one. Without people or budgets on the proxy, nothing changes.</p>
+<p>Subagents can run on another model than the main one: a cloud model for the main session and a small local one for
+searches, for example. An agent's own <code>model:</code> line always wins.</p>
+<p><code>/agents</code> shows the mode, how many run at once and why (<code>max_parallel</code>, <code>what the backends serve</code>, <code>default</code>,
+<code>budget low</code>), what each model serves and where that figure comes from (or <code>unknown</code>), your budget when the proxy
+reports one, the task list's counts, and what each agent has cost in this session.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-agents-capacity-light.webp" alt="/agents: mode auto, up to 2 at once (what the backends serve), capacity: demo-coder 2 (the proxy, configured), tasks: 0 open, 0 claimed, 0 done, 1 blocked, and the agents" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-agents-capacity-dark.webp" alt="/agents: mode auto, up to 2 at once (what the backends serve), capacity: demo-coder 2 (the proxy, configured), tasks: 0 open, 0 claimed, 0 done, 1 blocked, and the agents" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption><code>/agents</code>: how many run at once, and where that figure comes from.</figcaption>
+</figure>
+<p>Technical details:</p>
+<ul><li>The figures come from the proxy's <code>GET /v1/maple/capacity</code> (and, for a proxy whose route does not answer, the
+capacity it reports on its answers and its model list) and, for the budget and rate limits,
+<code>GET /v1/maple/me/usage</code> (<a href="teams.html#the-self-view">the self view</a>), both asked with the session's own token,
+each at most once a minute and given two seconds to answer. A proxy that does not answer one (an older proxy, or no self view) is asked again after a
+minute; until then nothing changes.</li><li>A figure that changes (a llama.cpp server restarted with more slots) applies to agents still waiting for a slot.</li></ul>
 <h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
-<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td><code>harness.<wbr>subagents.<wbr>max_<wbr>parallel</code></td><td data-label="Default"><code>3</code></td><td data-label="Meaning">How many run at the same time when the model hands out several jobs at once</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>max_<wbr>turns</code></td><td data-label="Default"><code>50</code></td><td data-label="Meaning">The most turns any one subagent may take</td></tr></tbody></table></div>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td><code>harness.<wbr>subagents.<wbr>max_<wbr>parallel</code></td><td data-label="Default"><code>3</code> (in <code>auto</code>: what the backends serve, when known)</td><td data-label="Meaning">How many run at the same time when the model hands out several jobs at once. Set, it wins in every mode</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>max_<wbr>turns</code></td><td data-label="Default"><code>50</code></td><td data-label="Meaning">The most turns any one subagent may take</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>mode</code></td><td data-label="Default"><code>auto</code></td><td data-label="Meaning"><code>auto</code>, <code>parallel</code>, <code>sequential</code> or <code>off</code>, as above</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>model</code></td><td data-label="Default">the main model</td><td data-label="Meaning">The model for subagents whose own definition names none</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>read_<wbr>only_<wbr>model</code></td><td data-label="Default"><code>model</code></td><td data-label="Meaning">The model for agents that cannot change anything, such as <code>explore</code> and <code>plan</code></td></tr><tr><td><code>harness.<wbr>subagents.<wbr>spill_<wbr>model</code></td><td data-label="Default">none</td><td data-label="Meaning">In <code>auto</code>, where an agent goes when its own model has no free slot, for example a second backend. Without it, the agent waits</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>capacity</code></td><td data-label="Default">none (in <code>auto</code>: what the proxy reports)</td><td data-label="Meaning">How many requests each model serves at once, by model name. Wins over the proxy's figure</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>isolation</code></td><td data-label="Default"><code>worktree</code></td><td data-label="Meaning"><code>worktree</code> gives a writing background agent its own copy of a git project; <code>none</code> lets it work in the project itself</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>outlive_<wbr>turn</code></td><td data-label="Default"><code>on</code></td><td data-label="Meaning"><code>on</code>: background agents keep working after the turn ends (<a href="background-agents.html">Background agents</a>); <code>off</code>: the turn waits for them, as before 3.0</td></tr></tbody></table></div>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  subagents:</span>
+<span class="t-k">    mode:</span> auto
+<span class="t-k">    read_only_model:</span> my-local-model
+<span class="t-k">    capacity:</span>
+<span class="t-k">      my-local-model:</span> <span class="t-n">1</span></code></pre></div>
 <p>When the model gives out several jobs in one message they run together, and their reports come back in the order
 they were asked. Each subagent's tokens count in your session's total.</p>
 <h2 id="delegate-to-your-local-claude">Delegate to your local Claude <a class="anchor" href="#delegate-to-your-local-claude" aria-label="Link to this heading">#</a></h2>
@@ -101,9 +275,9 @@ remote mode, or through a proxy not checked as yours carries no mark that its re
 the delegate stays off in it. Start a new conversation to use it.</li></ul>
 <h3 id="turn-it-on">Turn it on <a class="anchor" href="#turn-it-on" aria-label="Link to this heading">#</a></h3>
 <p>It is off until you turn it on in your own <code>config.yaml</code> (a project's <code>.mapleharness/config.yaml</code> cannot):</p>
-<pre><code class="language-yaml">harness:
-  delegates:
-    claude_code: on</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  delegates:</span>
+<span class="t-k">    claude_code:</span> <span class="t-n">on</span></code></pre></div>
 <p>The first time it runs in a project, and again whenever that project's Claude settings files change, the harness
 shows you what it is about to run and asks. The question lists what the project's <code>.claude/settings.json</code>,
 <code>.claude/settings.local.json</code> and <code>.mcp.json</code> would run: hooks, helper commands, the environment variables they set
@@ -116,10 +290,10 @@ being asked, nothing runs.</p>
 <h3 id="choose-which-claude-runs">Choose which <code>claude</code> runs <a class="anchor" href="#choose-which-claude-runs" aria-label="Link to this heading">#</a></h3>
 <p>By default the harness runs the <code>claude</code> it finds on your <code>PATH</code>. To run a particular one, name it in your own
 <code>config.yaml</code>:</p>
-<pre><code class="language-yaml">harness:
-  delegates:
-    claude_code: on
-    claude_code_path: ~/.local/bin/claude</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  delegates:</span>
+<span class="t-k">    claude_code:</span> <span class="t-n">on</span>
+<span class="t-k">    claude_code_path:</span> ~/.local/bin/claude</code></pre></div>
 <p>The path must be absolute (<code>~/</code> for your home folder is fine). Before it runs, the harness checks that it exists, is
 a regular executable file and is not inside the project, and that nobody else can change it: it belongs to you (or to
 the system), and neither it nor any folder above it (or above a link to it) can be written by other people; a folder
@@ -128,13 +302,13 @@ file it points to is what runs. A <code>claude</code> found on <code>PATH</code>
 <h3 id="extra-options-for-claude-code">Extra options for Claude Code <a class="anchor" href="#extra-options-for-claude-code" aria-label="Link to this heading">#</a></h3>
 <p><code>claude_code_options</code> adds options to the <code>claude -p</code> command, one per entry, written as <code>--flag value</code> (or
 <code>--flag=value</code>):</p>
-<pre><code class="language-yaml">harness:
-  delegates:
-    claude_code: on
-    claude_code_options:
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  delegates:</span>
+<span class="t-k">    claude_code:</span> <span class="t-n">on</span>
+<span class="t-k">    claude_code_options:</span>
       - --model sonnet
       - --effort high
-      - --append-system-prompt Cite the file and line for every finding.</code></pre>
+      - --append-system-prompt Cite the file and line for every finding.</code></pre></div>
 <p>Only these are allowed, each with a check on its value:</p>
 <div class="tablewrap"><table><thead><tr><th>Option</th><th>What it does</th><th>Accepted values</th></tr></thead><tbody><tr><td><code>--model</code></td><td>The model it uses</td><td>An alias such as <code>sonnet</code> or <code>opus</code>, or a full model name (letters, digits and <code>. _ : @ / -</code>)</td></tr><tr><td><code>--fallback-model</code></td><td>Models to try when the first is overloaded</td><td>Up to 4 model names, comma-separated</td></tr><tr><td><code>--effort</code></td><td>The effort level</td><td><code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code> or <code>max</code></td></tr><tr><td><code>--max-turns</code></td><td>A lower turn limit for each run</td><td>1 up to <code>claude_code_max_turns</code> (20 by default), never above it</td></tr><tr><td><code>--max-budget-usd</code></td><td>Stops a run at this estimated spend</td><td>More than 0, at most 1000</td></tr><tr><td><code>--append-system-prompt</code></td><td>Text added to the end of its instructions</td><td>At most 2000 bytes of plain text (line breaks and tabs allowed, no control characters)</td></tr><tr><td><code>--add-dir</code></td><td>One more folder it may read</td><td>An absolute path (<code>~/</code> allowed) to an existing folder, at most 4; never <code>/</code>, a system folder (<code>/proc</code>, <code>/sys</code>, <code>/dev</code>, <code>/run</code>), your home folder (or a folder holding it), Claude Code's own folder, Maple's settings folder, or a place the sandbox hides (your keys and logins, the session's runtime folder, and your own <code>sandbox.hide</code>). When the run is contained by the sandbox, the folder must also be one the sandbox gives back (<code>sandbox.extra_readonly</code>, or <code>/sandbox allow</code>). With <code>claude_code_project_settings: on</code>, a folder holding a <code>.claude</code> folder is refused. A link is followed once, and the folder it points to is what is passed and shown. It is for reading: edits stay inside the project</td></tr></tbody></table></div>
 <p>Everything else is refused, with the reason. Some of the refused ones, and why:</p>
@@ -184,16 +358,17 @@ grows past a cap. <strong>Esc</strong>, or stopping it from the agents list, sto
 time, across all your sessions. Its output is cleaned of terminal control characters before you see it.</li></ul>
 <p>If it says Claude Code is not installed or not signed in, install it from Anthropic and run <code>claude</code> yourself to
 sign in, then try again.</p>
-<p>Related: <a href="commands.html#agents-and-the-agents-tray">Commands and keys</a> for the agents tray, and
-<a href="saving-tokens.html">See and reduce what a task costs</a> for why a subagent keeps your main conversation small.</p>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="background-agents.html">Background agents</a> Agents that keep working after the turn, and how to talk to them.</li><li><a href="commands.html#agents-and-the-agents-tray">Commands and keys</a> The agents tray, its keys and the palette.</li><li><a href="questions.html">Questions the agent asks you</a> How a subagent asks you for a decision.</li><li><a href="saving-tokens.html">See and reduce what a task costs</a> Why a subagent keeps your main conversation small.</li></ul>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/remote-control.html" rel="prev"><small>Previous</small>Control it from your phone</a><a class="next" href="../docs/language-servers.html" rel="next"><small>Next</small>Language servers</a></div></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/remote-control.html" rel="prev"><small>Previous</small>Control it from your phone</a><a class="next" href="../docs/background-agents.html" rel="next"><small>Next</small>Background agents: out on the ice while you talk</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-ones-you-already-have">The ones you already have</a></li><li><a href="#watching-them-work">Watching them work</a></li><li><a href="#make-your-own">Make your own</a></li><li><a href="#settings">Settings</a></li><li><a href="#delegate-to-your-local-claude">Delegate to your local Claude</a><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#choose-which-claude-runs">Choose which <code>claude</code> runs</a></li><li><a href="#extra-options-for-claude-code">Extra options for Claude Code</a></li><li><a href="#checks-before-it-runs">Checks before it runs</a></li><li><a href="#how-it-is-kept-safe">How it is kept safe</a></li></ol></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#the-ones-you-already-have">The ones you already have</a></li><li><a href="#watching-them-work">Watching them work</a></li><li><a href="#make-your-own">Make your own</a><ol><li><a href="#more-fields">More fields</a></li><li><a href="#notes-of-its-own">Notes of its own</a></li></ol></li><li><a href="#agents-in-the-background">Agents in the background</a></li><li><a href="#the-lineup-the-task-list-you-can-watch">The lineup: the task list you can watch</a></li><li><a href="#how-many-at-once-and-on-which-model">How many at once, and on which model</a></li><li><a href="#settings">Settings</a></li><li><a href="#delegate-to-your-local-claude">Delegate to your local Claude</a><ol><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#choose-which-claude-runs">Choose which <code>claude</code> runs</a></li><li><a href="#extra-options-for-claude-code">Extra options for Claude Code</a></li><li><a href="#checks-before-it-runs">Checks before it runs</a></li><li><a href="#how-it-is-kept-safe">How it is kept safe</a></li></ol></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

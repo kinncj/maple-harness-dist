@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Several edits, patches and renames · Maple Harness docs</title>
+<meta name="description" content="Five tools help the agent change code in bigger steps than one replacement at a time, and find its way around a project the way your editor does: multiedit (several replacements in one file), applypat">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html" aria-current="page">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Several edits, patches and renames</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">7 min read</span></p>
+<h1 id="several-edits-patches-and-renames">Several edits, patches and renames <a class="anchor" href="#several-edits-patches-and-renames" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#several-edits-in-one-file-multi_edit">Several edits in one file: <code>multi_edit</code></a></li><li><a href="#patches-apply_patch">Patches: <code>apply_patch</code></a></li><li><a href="#looking-things-up-lsp_references-and-lsp_symbols">Looking things up: <code>lsp_references</code> and <code>lsp_symbols</code></a></li><li><a href="#renames-lsp_rename">Renames: <code>lsp_rename</code></a></li><li><a href="#approvals-and-rules">Approvals and rules</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">Five tools help the agent change code in bigger steps than one replacement at a time, and find its way around a
+project the way your editor does: <code>multi_edit</code> (several replacements in one file), <code>apply_patch</code> (one patch over
+several files, for the models trained on that format), and three language-server tools, <code>lsp_references</code> (where a
+symbol is used), <code>lsp_symbols</code> (what a file or the whole project declares) and <code>lsp_rename</code> (rename a symbol
+everywhere it is used).</p>
+<p>Each change is shown to you as one diff before anything is written, follows your <code>edit_file</code> rules, and is made
+all or none: if one part cannot be made, nothing is changed.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What they are.</strong> Ways for the agent to make a whole change in one go: several edits to a file, a patch over
+several files, or a rename the language server works out. And two ways to look things up: every place a name is
+used, and every name a file declares.</li><li><strong>Why you want them.</strong> One question for one change instead of five, a diff that shows the whole of it, and a
+rename that changes the right <code>Config</code> and leaves the other <code>Config</code> alone, because the language server knows
+which is which.</li><li><strong>What you do.</strong> Nothing. They ask like <code>edit_file</code> does. The language-server tools need a language server for
+your project's language (see <a href="language-servers.html">Language servers</a>); <code>apply_patch</code> is offered on its own to the
+models that write that format.</li></ul>
+<div class="tablewrap"><table><thead><tr><th>Tool</th><th>Shown as</th><th>What it does</th><th>While planning</th></tr></thead><tbody><tr><td><code>multi_edit</code></td><td>Edit</td><td>Several exact replacements in one file, in order, all or none</td><td>Withheld</td></tr><tr><td><code>apply_patch</code></td><td>Patch</td><td>One patch that adds, changes, moves and deletes files, all or none</td><td>Withheld</td></tr><tr><td><code>lsp_rename</code></td><td>Rename</td><td>Renames a symbol everywhere it is used, as the language server works it out</td><td>Withheld</td></tr><tr><td><code>lsp_references</code></td><td>References</td><td>Every place a symbol is used</td><td>Offered</td></tr><tr><td><code>lsp_symbols</code></td><td>Symbols</td><td>A file's outline, or a search for names across the project</td><td>Offered</td></tr></tbody></table></div>
+<p>The "Shown as" names are what the terminal and the phone app show for each call.</p></section>
+<h2 id="several-edits-in-one-file-multi_edit">Several edits in one file: <code>multi_edit</code> <a class="anchor" href="#several-edits-in-one-file-multi_edit" aria-label="Link to this heading">#</a></h2>
+<p>The agent gives a file and a list of replacements. They are made in order, each against the file as the ones before
+it left it, so a later edit can change text an earlier one wrote. Each piece of text to replace must be found, and
+exactly once unless that edit says "every occurrence". If one is missing or appears twice, the call changes nothing
+and says which edit failed and why: the agent fixes that one and sends them all again.</p>
+<p>You are asked once, with one diff for all of the edits. It is judged like <code>edit_file</code>: the same file limits
+(<code>file_policy</code>), the same rules, and the same compile errors added to the result after it is written.</p>
+<h2 id="patches-apply_patch">Patches: <code>apply_patch</code> <a class="anchor" href="#patches-apply_patch" aria-label="Link to this heading">#</a></h2>
+<p>OpenAI's GPT and Codex models are trained to edit code with patches in a format of their own (the "V4A" format,
+the one Codex uses). When one of them is the model, Maple offers <code>apply_patch</code> so it can work the way it was taught:</p>
+<div class="codeblock"><pre><code class="language-text">*** Begin Patch
+*** Update File: src/app.py
+@@ def greet():
+-    print("hi")
++    print("hello")
+*** Add File: notes/todo.md
++# Notes
+*** Delete File: old/unused.py
+*** End Patch</code></pre></div>
+<ul><li><strong>Who gets it.</strong> <code>harness.tools.apply_patch</code> decides: <code>auto</code> (the default) offers it to the models trained on it,
+told by the model's name (GPT-4.1 and later, GPT-5 and later, o3, o4, Codex models, gpt-oss); <code>on</code> offers it to
+every model; <code>off</code> to none. Other models keep <code>edit_file</code> and <code>multi_edit</code>.</li><li><strong>All or none.</strong> The whole patch is read first, strictly: a line that does not follow the format refuses the
+patch, and the message says which line. Then every change is worked out before anything is written; one that
+does not fit the file (its context lines are not there) refuses the whole patch. If writing a file fails part way,
+the files already written are put back.</li><li><strong>Paths stay in the project.</strong> Paths in a patch are relative to the project folder. An absolute path, a path that
+climbs out with <code>..</code>, and a path that leads out of the project through a link are refused, and so is any file
+your file limits keep the agent away from. One such file refuses the whole patch.</li><li><strong>Deleting a file always asks.</strong> A patch that deletes a file asks you even in auto or yolo mode, and even where an
+<code>edit_file</code> allow rule would let an edit through. Only an allow rule written for <code>apply_patch</code> itself lets a
+deletion through without asking, and the same holds for a subagent's patches. The approval lists each file it
+deletes. A link is not deleted through: a patch deletes files by their own names.</li></ul>
+<h2 id="looking-things-up-lsp_references-and-lsp_symbols">Looking things up: <code>lsp_references</code> and <code>lsp_symbols</code> <a class="anchor" href="#looking-things-up-lsp_references-and-lsp_symbols" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong><code>lsp_references</code></strong> takes a file, a line and a column (1-based, as <code>read_file</code> numbers lines) and lists every
+place that symbol is used, with the line of code at each, sorted by file and line. Add <code>include_declaration: false</code>
+to leave out where it is declared.</li><li><strong><code>lsp_symbols</code></strong> with a <code>path</code> lists what the file declares as an outline: types, functions, methods, fields.
+With a <code>query</code> and no path it searches the whole project for names containing it. With both, it lists the file's
+symbols whose names contain the query.</li></ul>
+<p>Both only read, so plan mode offers them. Results come 100 to a page: the last line says how many there are and
+which <code>page</code> to ask for next, so a name used thousands of times costs one page, not thousands of lines. Files the
+agent may not read are not shown.</p>
+<h2 id="renames-lsp_rename">Renames: <code>lsp_rename</code> <a class="anchor" href="#renames-lsp_rename" aria-label="Link to this heading">#</a></h2>
+<p>The agent names the symbol (a file, line and column) and the new name. The language server works out every edit the
+rename needs, across files, before you are asked. Then:</p>
+<ul><li><strong>You see the whole rename</strong> as one patch: every file, every changed line. Your rules are matched against every
+file in it, so an <code>edit_file</code> deny rule for any of them refuses the rename.</li><li><strong>Every file must be in the project</strong> and allowed for writing. If the server wants to change a file outside the
+project, or one your file limits protect, or wants to create, rename or delete files, the whole rename is refused
+and nothing is changed.</li><li><strong>All or none.</strong> The files are written together; a write that fails puts back the files already written. A file
+that changed on disk after the rename was worked out stops it before anything is written.</li><li><strong>What runs is what you approved.</strong> The rename applies exactly the edits you were shown.</li></ul>
+<p>A new name is one name: one with a space or a control character in it is refused.</p>
+<h2 id="approvals-and-rules">Approvals and rules <a class="anchor" href="#approvals-and-rules" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Your <code>edit_file</code> rules cover them.</strong> With no rule of its own, <code>multi_edit</code>, <code>apply_patch</code> and <code>lsp_rename</code> follow
+your rules for <code>edit_file</code> (and <code>apply_patch</code>, which creates files, your rules for <code>write_file</code> too: the stricter of
+the two). A rule written for the tool itself decides first, but a <code>deny</code> rule for <code>edit_file</code> always wins. So
+<code>edit_file(*/secrets/*)</code> as a deny keeps all of them out of <code>secrets/</code>, and <code>--deny-tool Edit</code> for a run does the
+same.</li><li><strong>A rule matches every file.</strong> For a patch or a rename, a file rule is matched against each file it touches,
+including both ends of a move, and the strictest answer wins.</li><li><strong>When nobody can answer.</strong> In a run nobody watches (<code>--prompt</code>, A2A, a background agent), a question nobody can
+answer is refused, recorded, and the run goes on, as for any tool; your allow rules still let calls through. See
+<a href="approvals.html">Approvals nobody answers</a>.</li><li><strong>The <code>v</code> key</strong> on an approval in the terminal shows the whole change; the phone app shows it as a diff, file by
+file. <code>/changes</code> lists every file these tools changed, with the lines added and removed.</li></ul>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-multi-edit-view-light.webp" alt="v on a multi_edit approval: the whole change, the orders file with edit 1 of 2 and edit 2 of 2, each error message&#x27;s old and new line, and the question Allow Edit? below" width="1000" height="442" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-multi-edit-view-dark.webp" alt="v on a multi_edit approval: the whole change, the orders file with edit 1 of 2 and edit 2 of 2, each error message&#x27;s old and new line, and the question Allow Edit? below" width="1000" height="442" loading="lazy" decoding="async">
+<figcaption><code>v</code> on the approval for several edits: every edit, before you answer. A demo setup with a scripted model.</figcaption>
+</figure>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>harness.<wbr>tools.<wbr>apply_<wbr>patch</code></td><td data-label="Default"><code>auto</code></td><td data-label="What it does"><code>auto</code>: <code>apply_patch</code> is offered to the models trained on its format. <code>on</code>: to every model. <code>off</code>: never</td></tr></tbody></table></div>
+<p>Change it with <code>/settings</code> (under Tools) or in <code>config.yaml</code>:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  tools:</span>
+<span class="t-k">    apply_patch:</span> auto   <span class="t-c"># auto, on or off</span></code></pre></div>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Positions</strong> are 1-based lines and columns, the same numbering <code>read_file</code> shows. Language servers count
+columns in UTF-16 code units; the edits they send back are applied in those units, so a line with emoji or
+accented letters is changed in the right place.</li><li><strong>Patch matching.</strong> Each <code>@@</code> section is looked for after the one before it. An <code>@@ text</code> line first moves past
+the line holding that text (a function header, say). Context lines match exactly, then ignoring spaces at the end
+of a line, then ignoring spaces at both ends; the file's own spacing and line endings (LF or CRLF) are kept.
+<code>*** End of File</code> marks a change at the very end. <code>*** Move to: path</code> after an <code>*** Update File:</code> line moves the
+file. A file may be named only once in a patch.</li><li><strong>Limits.</strong> A patch is at most 4 MB and 200 files; <code>multi_edit</code> takes at most 100 edits; a rename changes at most
+200 files. A worked-out rename waits up to 30 minutes for its approval.</li><li><strong>Binary files</strong> are not patched or renamed in.</li><li><strong>Tested</strong> on Linux, with a scripted language server in the tests. Not yet run against every real language
+server, on macOS or on Windows.</li></ul></section>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul><li><a href="language-servers.html">Language servers</a>: installing one for your language.</li><li><a href="approvals.html">Approvals nobody answers</a>: what happens when nobody can say yes.</li><li><a href="plan-mode.html">Plan mode</a>: what the agent may use while planning.</li><li><a href="configuration.html">Configuration</a>: every setting.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/language-servers.html" rel="prev"><small>Previous</small>Language servers</a><a class="next" href="../docs/search-by-meaning.html" rel="next"><small>Next</small>Search by meaning</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#several-edits-in-one-file-multi_edit">Several edits in one file: <code>multi_edit</code></a></li><li><a href="#patches-apply_patch">Patches: <code>apply_patch</code></a></li><li><a href="#looking-things-up-lsp_references-and-lsp_symbols">Looking things up: <code>lsp_references</code> and <code>lsp_symbols</code></a></li><li><a href="#renames-lsp_rename">Renames: <code>lsp_rename</code></a></li><li><a href="#approvals-and-rules">Approvals and rules</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

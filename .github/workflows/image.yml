@@ -1,0 +1,252 @@
+# The maple-proxy container image and Helm chart, published to GitHub Container Registry when a
+# release of this repository is published.
+#
+# This file is a TEMPLATE copied here at every release, together with infra/ (the Dockerfile and
+# the chart). Do not edit it here.
+#
+# What it does, for the release tag vX.Y.Z:
+#   1. checks the release's SHA256SUMS against its attestation (made by this repository's attest
+#      workflow), as the installers do, then builds infra/docker/Dockerfile at that tag for
+#      linux/amd64 and linux/arm64. The build compiles nothing: it downloads this release's
+#      maple-proxy binaries and refuses them unless SHA256SUMS is the attested file, names this
+#      release (RELEASE_TAG) and carries their checksums;
+#   2. pushes ghcr.io/<owner>/maple-proxy:X.Y.Z, plus X.Y when it is the newest release of X.Y and
+#      latest when it is the latest release (pre-releases get their own tag only), with an SBOM and
+#      build provenance attached;
+#   3. signs the image with Sigstore cosign (keyless: the certificate names this workflow and tag);
+#   4. runs the image for its version, and checks the signature;
+#   5. packages infra/helm/maple-proxy as version X.Y.Z, pushes it to
+#      oci://ghcr.io/<owner>/charts/maple-proxy, and signs it the same way.
+#
+# One-time setup, after the first run: in the owner's Packages, set maple-proxy and charts/maple-proxy
+# to Public (Package settings > Change visibility). Until then, anonymous pulls are refused.
+name: image
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish the image and chart for (vX.Y.Z)"
+        required: true
+
+permissions: {}
+
+concurrency:
+  # One publish at a time for the whole repository: two releases close together cannot race for latest.
+  group: image-publish
+  cancel-in-progress: false
+
+env:
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
+
+jobs:
+  # Decides what to publish, with read access only.
+  plan:
+    name: Work out the tags
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      publish: ${{ steps.tags.outputs.publish }}
+      image: ${{ steps.tags.outputs.image }}
+      version: ${{ steps.tags.outputs.version }}
+      tags: ${{ steps.tags.outputs.tags }}
+    steps:
+      - name: Work out the tags
+        id: tags
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          # Only a release tag: it ends up in image tags and shell commands.
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::not a release tag: $TAG"; exit 1
+          fi
+          # Run by hand, the run must be on that tag (gh workflow run image --ref vX.Y.Z -f tag=vX.Y.Z):
+          # the signing certificate names the run's ref, and users verify against the tag.
+          if [ "$EVENT" = workflow_dispatch ] && [ "$REF" != "refs/tags/${TAG}" ]; then
+            echo "::error::run this on the tag itself: gh workflow run image --ref ${TAG} -f tag=${TAG} (this run is on ${REF})"; exit 1
+          fi
+          v="${TAG#v}"
+          major="${v%%.*}"
+          rest="${v#*.}"
+          minor="${rest%%.*}"
+          # Images and charts exist from 3.0 on; an older line's patch release publishes none.
+          if [ "$major" -lt 3 ]; then
+            echo "::notice::${TAG} is before 3.0: no image or chart is published for it"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          owner=$(printf '%s' "$OWNER" | tr '[:upper:]' '[:lower:]')
+          image="ghcr.io/${owner}/maple-proxy"
+          tags="${image}:${v}"
+          # The release must be published (not a draft) before anything is pushed for it.
+          gh release view "$TAG" --repo "$REPO" --json isDraft --jq 'select(.isDraft|not)|1' | grep -qx 1 \
+            || { echo "::error::$TAG is not a published release of $REPO"; exit 1; }
+          case "$TAG" in
+            *-*) echo "pre-release: only ${image}:${v}" ;;
+            *)
+              # By version order, never by what GitHub marks latest: a patch release of an older line
+              # must not move X.Y or latest back.
+              stable=$(gh api --paginate "repos/${REPO}/releases" \
+                --jq '.[] | select(.draft|not) | select(.prerelease|not) | .tag_name' \
+                | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true)
+              newest_minor=$(printf '%s\n' "$stable" | grep -E "^v${major}\.${minor}\.[0-9]+$" | sort -V | tail -n1)
+              [ "$newest_minor" = "$TAG" ] && tags="${tags},${image}:${major}.${minor}"
+              newest=$(printf '%s\n' "$stable" | sort -V | tail -n1)
+              [ "$newest" = "$TAG" ] && tags="${tags},${image}:latest"
+              ;;
+          esac
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "version=${v}" >> "$GITHUB_OUTPUT"
+          echo "tags=${tags}" >> "$GITHUB_OUTPUT"
+          echo "tags: ${tags}"
+
+  image:
+    name: Build, push and sign the image
+    runs-on: ubuntu-latest
+    needs: plan
+    if: ${{ needs.plan.outputs.publish == 'true' }}
+    permissions:
+      contents: read
+      packages: write
+      # Keyless signing: the workflow's OIDC token gets a short-lived signing certificate.
+      id-token: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+      version: ${{ needs.plan.outputs.version }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: refs/tags/${{ env.TAG }}
+          persist-credentials: false
+
+      # The installers' own check: this release's SHA256SUMS carries an attestation made by this
+      # repository's attest workflow while the release was a draft. The build below is then told the
+      # attested file's digest and refuses any other SHA256SUMS.
+      - name: Check the release's attestation
+        id: sums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p att
+          gh release download "$TAG" --repo "$REPO" --pattern SHA256SUMS --pattern SHA256SUMS.attestation.json --dir att
+          gh attestation verify att/SHA256SUMS --repo "$REPO" --bundle att/SHA256SUMS.attestation.json \
+            --cert-identity "https://github.com/${REPO}/.github/workflows/attest.yml@refs/heads/main" \
+            --source-ref refs/heads/main --deny-self-hosted-runners >/dev/null
+          echo "sha256=$(sha256sum att/SHA256SUMS | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: infra/docker
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            MAPLE_VERSION=${{ env.TAG }}
+            MAPLE_REPO=${{ github.repository }}
+            MAPLE_SUMS_SHA256=${{ steps.sums.outputs.sha256 }}
+          tags: ${{ needs.plan.outputs.tags }}
+          labels: |
+            org.opencontainers.image.title=maple-proxy
+            org.opencontainers.image.description=The Maple Harness model router
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ needs.plan.outputs.version }}
+            org.opencontainers.image.licenses=LicenseRef-Maple-Harness
+          # The SBOM scanner BuildKit runs, pinned by digest like the actions: a moved tag cannot
+          # change what writes the published SBOM.
+          sbom: generator=docker.io/docker/buildkit-syft-scanner:1.12.1@sha256:873a7458c3c8ac8e32c7b796c10e1600b07b963d2aa000a72a2d97aaaa2d6315
+          provenance: mode=max
+          push: true
+
+      - uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
+
+      - name: Sign the image
+        env:
+          REF: ${{ needs.plan.outputs.image }}@${{ steps.build.outputs.digest }}
+        run: cosign sign --yes "$REF"
+
+      - name: Check the image
+        env:
+          REF: ${{ needs.plan.outputs.image }}@${{ steps.build.outputs.digest }}
+          IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/image.yml@refs/tags/${{ env.TAG }}
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          set -euo pipefail
+          cosign verify "$REF" --certificate-identity "$IDENTITY" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com >/dev/null
+          for arch in amd64 arm64; do
+            out=$(docker run --rm --platform "linux/${arch}" "$REF" version)
+            echo "linux/${arch}: ${out}"
+            # "maple-proxy 3.0.0 (commit) go1.x linux/arm64 ...": this release, this architecture.
+            printf '%s' "$out" | head -n1 | grep -Fq "maple-proxy ${VERSION} " \
+              && printf '%s' "$out" | head -n1 | grep -Fq " linux/${arch}" \
+              || { echo "::error::linux/${arch} image reports '${out}', not ${VERSION} for linux/${arch}"; exit 1; }
+          done
+          user=$(docker image inspect "$REF" --format '{{.Config.User}}')
+          [ "$user" = "65532:65532" ] || { echo "::error::the image runs as '${user}', not the non-root 65532"; exit 1; }
+
+  chart:
+    name: Package, push and sign the Helm chart
+    runs-on: ubuntu-latest
+    needs: image
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: refs/tags/${{ env.TAG }}
+          persist-credentials: false
+
+      - uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5.1.0
+        with:
+          version: v3.19.0
+
+      - uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
+
+      - name: Lint, package, push and sign
+        env:
+          VERSION: ${{ needs.image.outputs.version }}
+          DIGEST: ${{ needs.image.outputs.digest }}
+          OWNER: ${{ github.repository_owner }}
+          ACTOR: ${{ github.actor }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          owner=$(printf '%s' "$OWNER" | tr '[:upper:]' '[:lower:]')
+          chart=infra/helm/maple-proxy
+          for v in "$chart"/ci/*-values.yaml; do
+            helm lint "$chart" --strict -f "$v"
+            helm template maple-proxy "$chart" --kube-version 1.31.0 --api-versions monitoring.coreos.com/v1 -f "$v" >/dev/null
+          done
+          # The published chart pins the image it was released with, by digest: a later rebuild of
+          # the tag does not change what this chart version runs.
+          sed -i "s|^  digest: \"\"$|  digest: \"${DIGEST}\"|" "$chart/values.yaml"
+          grep -qx "  digest: \"${DIGEST}\"" "$chart/values.yaml" || { echo "::error::could not pin the image digest in the chart"; exit 1; }
+          helm package "$chart" --version "$VERSION" --app-version "$VERSION" -d out
+          printf '%s' "$GH_TOKEN" | helm registry login ghcr.io -u "$ACTOR" --password-stdin
+          helm push "out/maple-proxy-${VERSION}.tgz" "oci://ghcr.io/${owner}/charts" 2>&1 | tee push.log
+          digest=$(sed -n 's/^Digest: //p' push.log)
+          [ -n "$digest" ] || { echo "::error::helm push printed no digest"; exit 1; }
+          printf '%s' "$GH_TOKEN" | cosign login ghcr.io -u "$ACTOR" --password-stdin
+          cosign sign --yes "ghcr.io/${owner}/charts/maple-proxy@${digest}"

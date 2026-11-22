@@ -1,0 +1,17 @@
+apiVersion: v2
+name: maple-proxy
+description: >-
+  maple-proxy, the Maple Harness model router, on Kubernetes: one replica in disk mode, or several
+  replicas in central mode (PostgreSQL and Redis) or redis mode (one durable Redis), with the
+  optional MCP hub and usage lake jobs.
+type: application
+# Set from the release at packaging time (helm package --version --app-version); these are the
+# values for a chart used straight from the folder.
+version: 3.0.0
+appVersion: "3.0.0"
+# The preStop sleep action needs 1.30.
+kubeVersion: ">=1.30.0-0"
+home: https://kinncj.github.io/maple-harness-dist/
+sources:
+  - https://github.com/kinncj/maple-harness-dist
+keywords: [llm, proxy, openai, anthropic, mcp]

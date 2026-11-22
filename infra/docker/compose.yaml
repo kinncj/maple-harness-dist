@@ -1,7 +1,9 @@
 # One maple-proxy in a container, everything it keeps on one volume.
 #
-#   mkdir -p secrets && printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   mkdir -p -m 700 secrets && printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   chmod 644 secrets/*      # the proxy reads them as user 65532; the folder stays private
 #   MAPLE_VERSION=v2.0.0 docker compose up -d --build
+#   # With Podman, build with a BuildKit pinned by digest (BUILDX_BUILDER; the Docker page has the line)
 #
 # Clients use http://127.0.0.1:11535/v1 (OpenAI) or http://127.0.0.1:11537 (Anthropic) with the
 # token after "laptop=" (prefixed mh_). See the Docker page of the documentation.

@@ -1,0 +1,13 @@
+{{- if has .Values.mode (list "central" "redis") }}
+# config.yaml: the seed copied into the shared store once (PostgreSQL in mode central, Redis in mode
+# redis) or the settings every replica runs, read-only on the setup page (settings.source: file).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "maple.fullname" . }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- .Values.config | nindent 4 }}
+{{- end }}

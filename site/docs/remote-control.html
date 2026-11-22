@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Control it from your phone · Maple Harness docs</title>
-<meta name="description" content="Share a session and drive it from your phone&#x27;s browser or from another machine. You can approve tool calls (with a look at exactly what will change), open several sessions in one list, and start new o">
+<meta name="description" content="Share a session and drive it from your phone&#x27;s browser or from another machine. You can approve tool calls (with a look at exactly what will change), answer the agent&#x27;s questions, open several session">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
@@ -23,21 +24,23 @@
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html" aria-current="page">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html" aria-current="page">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>Your phone</li><li aria-current="page">Control it from your phone</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">Your phone</span><span class="rt" title="Estimated at about 220 words a minute">27 min read</span></p>
 <h1 id="control-it-from-your-phone">Control it from your phone <a class="anchor" href="#control-it-from-your-phone" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#when-nobody-is-at-the-terminal">When nobody is at the terminal</a></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a><ol><li><a href="#phones-tablets-and-foldables">Phones, tablets and foldables</a></li><li><a href="#steer-or-queue-from-the-phone">Steer or queue from the phone</a></li></ol></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li><li><a href="#see-also">See also</a></li></ol></details>
 
-<p>Share a session and drive it from your phone's browser or from another machine. You can approve tool calls
-(with a look at exactly what will change), open several sessions in one list, and start new ones in folders
-you have allowed.</p>
+<p class="lede">Share a session and drive it from your phone's browser or from another machine. You can approve tool calls
+(with a look at exactly what will change), answer the agent's questions, open several sessions in one list, and
+start new ones in folders you have allowed.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> Follow a session from your phone, approve what the agent wants to do (with the exact change in
 front of you), and start new sessions in folders you allowed.</li><li><strong>Why you want it.</strong> Leave your desk while a long task runs, and still answer its questions.</li><li><strong>The clicks.</strong> On the setup page, <strong>Security &amp; access</strong>, <strong>Remote access</strong>: <strong>Turn on</strong>, then add a device: it
@@ -46,14 +49,14 @@ with your phone. Or type <code>/remote</code> in a session. The recommended setu
 <figure>
 <img class="shot shot-light" src="../img/docs/setup-security-tab-light.webp" alt="Security &amp; access: its lead line and the links Remote access, Protect this page and Recent activity; Remote control off with a Turn on button and the port; No devices yet; the question What is this token for? with A phone or browser to follow and drive sessions, A person&#x27;s tools to send model requests and A metrics collector to read /metrics; and the folders devices may start sessions in." width="1000" height="748" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-security-tab-dark.webp" alt="Security &amp; access: its lead line and the links Remote access, Protect this page and Recent activity; Remote control off with a Turn on button and the port; No devices yet; the question What is this token for? with A phone or browser to follow and drive sessions, A person&#x27;s tools to send model requests and A metrics collector to read /metrics; and the folders devices may start sessions in." width="1000" height="748" loading="lazy" decoding="async">
 <figcaption>Remote access before anything is set up. A demo setup.</figcaption>
-</figure>
+</figure></section>
 <h2 id="recommended-setup-tailscale">Recommended setup: Tailscale <a class="anchor" href="#recommended-setup-tailscale" aria-label="Link to this heading">#</a></h2>
 <p>Put the computer and the phone on the same <a href="https://tailscale.com" rel="noopener noreferrer">Tailscale</a> network. Nothing is exposed
 to your local network or the internet, the traffic is already encrypted, and Tailscale can issue a real HTTPS
 certificate for your machine, which is what lets a phone show notifications with the page closed.</p>
 <ol><li>Install Tailscale on the computer and on the phone, signed in to the same tailnet.</li><li>In the Tailscale admin console under <strong>DNS</strong>, make sure MagicDNS is on and turn on <strong>HTTPS Certificates</strong>
 (<a href="https://tailscale.com/kb/1153/enabling-https" rel="noopener noreferrer">how</a>).</li><li>On the computer, start the gateway and allow a folder the phone may work in:
-<pre><code class="language-sh">maple-harness gateway start --workspace ~/code</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> gateway start <span class="t-f">--workspace</span> ~/code</code></pre></div>
 <p>It prints a one-time pairing code, a QR code and an address like
 <code>https://my-computer.example:11541/</code>, where <code>my-computer.example</code> stands for this machine's Tailscale name.
 When Tailscale is signed in, it uses a Tailscale certificate for you.</p></li><li>On the phone, scan the QR code. It signs itself in. Open the address on your phone's Tailscale network,
@@ -66,10 +69,10 @@ Everything works except notifications with the page closed, which browsers refus
 certificate. Never forward the port through your router to the internet.</p>
 <h2 id="sharing-a-session">Sharing a session <a class="anchor" href="#sharing-a-session" aria-label="Link to this heading">#</a></h2>
 <p>Inside a running session, type:</p>
-<pre><code>/remote               share this session
+<div class="codeblock"><pre><code class="language-text">/remote               share this session
 /remote pair phone --code    make a one-time pairing code for a device
 /remote status        where it is, and who is paired
-/remote off           stop sharing this session</code></pre>
+/remote off           stop sharing this session</code></pre></div>
 <p><code>/remote</code> starts the gateway if it is not running. The <strong>gateway</strong> is the one address on your machine that
 lists every shared session, so a phone sees them all. A session shared through it stays shared until you
 turn it off or close the session. To start without any session open, use <code>maple-harness gateway start</code>.</p>
@@ -78,7 +81,7 @@ running, the same way <code>gateway start</code> does: on every network interfac
 network when Tailscale is up), with a Tailscale certificate when Tailscale is signed in (<code>gateway pair</code>) or a
 self-signed one otherwise. When they start it, they print the address it listens on, who can reach it, its
 certificate, and how to stop it:</p>
-<pre><code class="language-sh">maple-harness gateway stop</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> gateway stop</code></pre></div>
 <p>It also stops by itself after ten minutes with no sessions and no one connected. To pair only with a gateway that is
 already running, add <code>--no-start</code> (or set <code>MAPLE_GATEWAY_NO_START=1</code>, for example in a script): with no gateway
 running, the command stops with a message and makes nothing. <code>gateway pair</code> also takes <code>--listen</code> and <code>--tls</code>, as
@@ -111,10 +114,14 @@ folder stays out of its reach even if it asks to run it in an allowed folder, an
 conversation that was saved in another folder. It cannot list your saved conversations with <code>/sessions</code>, since that
 list covers every folder. Devices that are not limited to folders (the default) see and drive every session, as
 before.</p>
+<p><strong>Files and notes from the agent.</strong> The agent can offer a file to your phone (<code>send_file</code>): it shows as a <strong>File
+from the agent</strong> card in the transcript, saved only when you tap <strong>Save</strong>, and only on a device that drives the
+session. A note from the agent (<code>notify_person</code>) is a push that says <code>&lt;project&gt;: note from the agent</code>, never the note,
+which is in the transcript. See <a href="notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a>.</p>
 <p><strong>Watch-only devices.</strong> A device paired with <code>--watch-only</code> can follow sessions and get notifications, but it
-cannot send messages, answer approvals, change the mode or model, run commands, or start and stop sessions:</p>
-<pre><code class="language-sh">maple-harness gateway pair wall-screen --watch-only
-/remote pair tablet --watch-only</code></pre>
+cannot send messages, answer approvals, change the mode or model, run commands, or start and stop sessions (nor save a file the agent offered):</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> gateway pair wall-screen <span class="t-f">--watch-only</span>
+/remote pair tablet <span class="t-f">--watch-only</span></code></pre></div>
 <p>Approvals show on it without buttons, to be answered at the computer or on a device that can approve. Devices
 paired before this option existed keep the access they have. The setup page does not offer the option yet.
 A watch-only device can turn on notifications in up to three browsers, and cannot take over notifications another
@@ -180,10 +187,10 @@ end it sooner:</p>
 <ul><li>on the remote page, <strong>Share</strong> lists the session's shares under <em>Shared now</em>, each marked <em>watch only</em> or
 <em>can drive</em>, with <strong>Stop sharing</strong>;</li><li>the device list on the setup page shows each share with what it can do, the session and when it ends, and
 <strong>Revoke</strong> ends it;</li><li>from a terminal:</li></ul>
-<pre><code class="language-sh">maple-harness gateway shares            # every live share: its id, what it can do, when it ends
-maple-harness gateway unshare &lt;id&gt;      # stop one now</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> gateway shares            <span class="t-c"># every live share: its id, what it can do, when it ends</span>
+<span class="t-k">maple-harness</span> gateway unshare &lt;id&gt;      <span class="t-c"># stop one now</span></code></pre></div>
 <ul><li>inside the session itself:</li></ul>
-<pre><code>/remote share [label] [--for 1h|8h|24h|7d]   make a watch-only link to this session (24h unless you choose)
+<div class="codeblock"><pre><code class="language-text">/remote share [label] [--for 1h|8h|24h|7d]   make a watch-only link to this session (24h unless you choose)
 /remote share [label] --drive                make a link that can drive (8h unless you choose); it explains
                                              what that allows and asks you to repeat it with --confirm
 /remote share [label] --device               pair one of your own devices for this session only (7 days
@@ -191,7 +198,7 @@ maple-harness gateway unshare &lt;id&gt;      # stop one now</code></pre>
                                              and for --confirm-unattended when the session is in auto or
                                              yolo; it shows a QR code only, --typed gives a code to type
 /remote shares                               this session's shares
-/remote unshare &lt;id&gt;                         stop one now</code></pre>
+/remote unshare &lt;id&gt;                         stop one now</code></pre></div>
 <p>A person whose share ends or is stopped is signed out at once, including a page left open.</p>
 <p>Good to know:</p>
 <ul><li>Opening the link in a browser that is already signed in to your remote page keeps your own sign-in and ignores
@@ -257,8 +264,8 @@ seconds) when you:</p>
 working.</p>
 <h2 id="starting-sessions-from-the-phone">Starting sessions from the phone <a class="anchor" href="#starting-sessions-from-the-phone" aria-label="Link to this heading">#</a></h2>
 <p>The <strong>New session</strong> sheet starts a session in a folder you have allowed:</p>
-<pre><code class="language-sh">maple-harness gateway workspaces add ~/code
-maple-harness gateway workspaces list</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> gateway workspaces add ~/code
+<span class="t-k">maple-harness</span> gateway workspaces list</code></pre></div>
 <p>A phone can only start sessions in those folders, and never anywhere else. A folder inside one of them that
 does not exist yet, such as a new project, is created when the session starts. Resuming a saved session whose
 folder has been deleted is refused rather than given an empty folder.</p>
@@ -266,11 +273,27 @@ folder has been deleted is refused rather than given an empty folder.</p>
 <p>Yolo mode allows every tool call that would otherwise ask, without asking. Your <code>deny</code> rules still apply.
 Because a stray tap on a phone is easy, starting a session as yolo from the phone is <strong>off</strong> until you turn
 it on for the machine:</p>
-<pre><code class="language-yaml">harness:
-  remote:
-    allow_yolo: true          # or: maple-harness gateway --allow-yolo</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">harness:</span>
+<span class="t-k">  remote:</span>
+<span class="t-k">    allow_yolo:</span> <span class="t-n">true</span>          <span class="t-c"># or: maple-harness gateway --allow-yolo</span></code></pre></div>
 <p>Restart the gateway after changing it. The sheet then offers <strong>Start in yolo mode</strong>, asks you to tap twice,
 and the session shows a YOLO badge for as long as it is in that mode.</p>
+<h2 id="when-nobody-is-at-the-terminal">When nobody is at the terminal <a class="anchor" href="#when-nobody-is-at-the-terminal" aria-label="Link to this heading">#</a></h2>
+<p><strong>In plain words.</strong> A session with nobody at its terminal asks you only while you can answer, on the phone or in a
+browser. When nobody can, the call is denied at once and the run goes on; nothing is ever approved for you.</p>
+<ul><li><strong><code>maple-harness serve</code> and a remote host without its terminal.</strong> A question about a tool call is asked while a
+phone or browser is connected, or while a device that may drive sessions is paired (it gets a push when the
+gateway's notifications are on). With neither, it is denied at once, recorded as <code>no_person</code>. The model's own
+<a href="questions.html">questions</a> go to a phone or browser only while one is connected.</li><li><strong>How long it waits.</strong> Unanswered, a question is denied after <code>harness.approvals.timeout</code> (10 minutes by default).
+The wait pauses while a phone or browser has the session open.</li><li><strong>Panes.</strong> A <code>pane_run</code> into a pane whose program Maple does not know is put to your phone when one is paired,
+instead of being left to your rules. See <a href="herdr.html#panes-tabs-and-agents-beside-the-session">Which panes pane_run asks about</a>.</li><li><strong>Runs with no terminal show up too.</strong> A <code>maple-harness --prompt</code> run whose standard input is not a terminal, and
+<code>maple-harness a2a serve</code>, appear in the session list as sessions that <strong>take approvals only</strong>, when this
+machine's gateway is already running (<code>maple-harness gateway start</code>, or <code>/remote</code> in a session; such a run never
+starts one) and a device that may drive sessions is paired. You can answer their approvals and interrupt them;
+you cannot send them messages, change their mode or model, or run commands in them. Watch-only devices and
+shared links can read them but not answer.</li></ul>
+<p>Every call refused this way is listed with what would allow it: see
+<a href="approvals.html">Approvals when nobody answers</a>. A push to a real phone for these runs has not been tried.</p>
 <h2 id="notifications">Notifications <a class="anchor" href="#notifications" aria-label="Link to this heading">#</a></h2>
 <p>Turn on <strong>Notify me when this session needs me</strong> in the session sheet. When the page is in the background
 you get a notification, a vibration and a count in the tab title when a session needs approval, stops with an
@@ -282,31 +305,138 @@ desktop notification when a session needs you. Add a <code>harness.notifications
 simply <code>desktop: true</code>, then check with <code>maple-harness notify test</code>.</li><li><strong>About your session devices</strong>: when a <a href="#a-device-for-one-session">device for one session</a> you made pairs, or
 its session is switched to auto or yolo, the device that made it shows a note and gets a notification (if it has
 them on), and the <code>harness.notifications</code> channels are told (the <code>device</code> event). Leave <code>device</code> out of
-<code>harness.notifications.events</code> to stop those messages; the note on the page stays.</li></ul>
+<code>harness.notifications.events</code> to stop those messages; the note on the page stays.</li><li><strong>Calls refused without you</strong>: a tool call denied because nobody answered in time, or nobody could be asked,
+is sent as the <code>refused</code> event (<code>Refused without you</code>), on by default. Leave <code>refused</code> out of
+<code>harness.notifications.events</code> to stop them.</li></ul>
 <h2 id="using-the-page">Using the page <a class="anchor" href="#using-the-page" aria-label="Link to this heading">#</a></h2>
 <ul><li>Replies render as Markdown as they stream: headings, lists, tables and code blocks. Code blocks and tables
 have <strong>Copy</strong> buttons, and each reply has <strong>Copy Markdown</strong>.</li><li><strong>Send with</strong> in the session sheet chooses the key that sends: Ctrl/Cmd+Enter (the default), Enter, Shift+Enter or a
-combination you record. The Send button always works.</li><li>Approvals show the exact command or a diff of the file change before you allow it.</li><li><strong>Host commands.</strong> Type <code>/graph</code>, <code>/memory</code>, <code>/mcp</code>, <code>/jobs</code>, <code>/sessions</code>, <code>/compress</code>, <code>/clear</code>, <code>/effort</code>,
+combination you record. The Send button always works.</li><li>Approvals show the exact command or a diff of the file change before you allow it. Under the buttons the card
+says what each answer covers: <strong>Allow</strong> runs this one call; <strong>Always</strong> allows that tool for the rest of the session
+without asking again. A call that can only be allowed once (a command outside the sandbox, a message estimated
+above your cost limit, applying an agent's changes) has no <strong>Always</strong>, and the card says it asks every time. The
+first answer counts:
+once you answer on the phone, the question leaves the terminal, and the call's line there says who answered
+(<code>allowed on &lt;device&gt;</code> or <code>denied on &lt;device&gt;</code>, with the label the device was paired under).</li><li><strong>Questions.</strong> When the model asks you to choose (<a href="questions.html">Questions the agent asks you</a>), the question is
+a card: a button per option (marked when the agent recommends it), an <strong>Other…</strong> field for your own words, a note
+field, and any preview under <strong>Preview</strong>. With several questions they are all on the one card. <strong>Review answers</strong>
+shows what you picked; <strong>Send answers</strong> sends it. <strong>Skip all</strong> needs a second tap, and the agent then decides. The
+first answer counts, as for approvals: the terminal's line says <code>answered on &lt;device&gt;</code>. A watch-only device sees
+the card but cannot answer; a share that can drive the session can.</li><li><strong>Paused for a provider's limit.</strong> While the session or one of its agents waits for a limit to reset, a banner
+says until when, whose limit and how sure the time is. <strong>Carry on now</strong> tries at once, on a device that drives the
+session; a watch-only device and a shared link see the banner only. A long wait put to you is a card with
+<strong>Wait</strong> and <strong>Stop</strong>. See <a href="limit-resets.html#on-your-phone">When a provider's limit runs out</a>. Technically:
+<code>POST /api/limit/resume</code>, behind the same checks as <code>/api/interrupt</code>, and refused to shared links.</li><li><strong>The lineup.</strong> The <strong>agents</strong> sheet also lists the shared task list (<a href="subagents.html#the-lineup-the-task-list-you-can-watch">The lineup</a>),
+read-only: each task's status, who is on it and what it waits for. A <code>tasks 3/7</code> chip in the status row counts the
+done ones and opens the sheet; it is refreshed while a task is in progress.</li><li><strong>Background agents.</strong> While the session is idle with agents still working, a <code>waiting on 2 agents</code> chip in the
+status row says so and opens the <strong>agents</strong> sheet. There, <strong>Message</strong> on a running agent sends it a note it reads
+at its next step, and <strong>Resume with a message</strong> on a finished one starts it again with its whole conversation and
+your message, as <strong>m</strong> does in the terminal (<a href="background-agents.html#talking-to-an-agent">Background agents</a>). A
+watch-only device and a shared link see the running agents but cannot message them, and neither can a device
+limited to some sessions. Technically: <code>POST
+/api/agents/{id}</code> with <code>{"text": "..."}</code>, behind the same checks as <code>/api/messages</code>.</li><li><strong>An agent's work.</strong> <strong>Its work so far</strong> under an agent opens what it has done, as the terminal's agent view shows
+it: each tool call by its everyday name (<strong>Read</strong>, <strong>Bash</strong>, <strong>Search</strong>) and what it acts on, the result under it,
+a refusal, the agent's own words and its final report. Credentials in its commands are hidden, as they are in</li></ul>
+<p>the conversation. It scrolls in its own box, refreshes while the agent works,
+and <strong>Show earlier lines</strong> goes back further (the computer keeps a run's last 500 lines). A watch-only device can
+read it, as it reads the conversation; a shared link and a device limited to some sessions cannot. Technically:
+<code>GET /api/agents/{id}/transcript?limit=200&amp;skip=0</code> answers the newest <code>limit</code> lines (at most 500, and at most
+256 KB) before the newest <code>skip</code>, with <code>from</code>, <code>total</code> and <code>more</code> for paging back.</p>
+<ul><li><strong>Host commands.</strong> Type <code>/graph</code>, <code>/memory</code>, <code>/mcp</code>, <code>/jobs</code>, <code>/sessions</code>, <code>/compress</code>, <code>/clear</code>, <code>/effort</code>,
 <code>/thinking</code> or <code>/plan</code> as you would in the terminal. The report appears in the conversation in the host's
 own layout and colours, with a <strong>Copy</strong> button; a wide table scrolls sideways on a phone instead of wrapping.
 <code>/help</code> lists them. The model and permission mode are in the session sheet; other commands work in the
-terminal only. What a command prints is shown only on the device that ran it.</li><li>Light and dark themes follow your phone; a toggle overrides them.</li></ul>
+terminal only. What a command prints is shown only on the device that ran it.</li><li>Light and dark themes follow your phone; a toggle overrides them. Animations are off when your device asks
+for reduced motion.</li></ul>
+<h3 id="phones-tablets-and-foldables">Phones, tablets and foldables <a class="anchor" href="#phones-tablets-and-foldables" aria-label="Link to this heading">#</a></h3>
+<p>The page is laid out from the size of the window, so it works the same in a browser tab, a Home Screen app, a
+split-screen window or Stage Manager:</p>
+<ul><li><strong>On a phone</strong> the session list is a drawer (the menu button), the conversation fills the screen, and approvals sit
+above the composer, in thumb reach.</li><li><strong>From about 900 pixels wide</strong> (an iPad Pro 13 in portrait, any iPad in landscape, an unfolded phone on its side)
+the session list stays beside the conversation.</li><li><strong>From about 1100 pixels wide</strong> (an iPad or iPad mini in landscape) a third column shows the session's agents and
+the lineup. Tap an agent to see its task, what it is doing, its model, turns, tokens and time, its work so far,
+and <strong>Message</strong> or <strong>Resume with a message</strong> where your device may send one.</li><li><strong>Glance view</strong> shows the session's state, what waits on you, the task in progress and quick replies (<strong>Yes</strong>,
+<strong>No</strong>, <strong>Carry on</strong>, and <strong>Stop</strong> while it works), with approvals answerable in one tap and the full conversation
+one tap away. It turns on by itself on a small, short screen, such as a folded phone's cover screen; <strong>Glance view</strong>
+in the session sheet turns it on or off for good.</li><li><strong>Foldables.</strong> Where the browser reports the fold (the Viewport Segments API), nothing is drawn across it. Opened
+like a book, the conversation is on one side and what waits on you, the agents and the lineup on the other. Half
+open on a table, the conversation stays above the fold and approvals, the steer or queue choice and the composer
+sit below it. Sheets and the QR scanner stay on one side. Many browsers do not report the fold yet (in Safari it is
+behind a feature flag), and then the page uses the window's size alone. Folding or unfolding keeps the open
+session, a half-typed reply and an open sheet.</li></ul>
+<p><strong>Home Screen app.</strong> Added to the Home Screen, the app opens on a dark launch screen with the maple leaf, sized for
+current iPhones, iPads and the iPhone Duo in both orientations (other screens show the plain background).</p>
+<p><strong>Keys, for a hardware keyboard</strong> (an iPad's, a laptop's): your send key (see <strong>Send with</strong>), <strong>Alt+Enter</strong>
+(Option+Return) to steer a message into the running turn, <strong>Shift+Ctrl/Cmd+Enter</strong> to queue it, <strong>Alt+A</strong>
+(Option+A) to bring the first waiting approval into focus, then <strong>Y</strong> to allow, <strong>A</strong> for always (where offered) and
+<strong>N</strong> to deny, as in the terminal. Those letters answer an approval only while it has the focus, so a stray key
+never does. <strong>/</strong> goes to the composer, <strong>Esc</strong> closes a sheet or the session list.</p>
+<p>The pictures below are real screenshots of the page, taken in a browser emulating each screen size, placed on a generated photo of a generic, unbranded device. The page content is unchanged (only scaled and angled to fit); the devices and the rooms are not real.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/devices/phone-in-hand-light.webp" alt="A phone held in a hand showing a session: Bash and Read calls allowed by work phone, the note steering the running turn, the message keep it short, I only need the routes, and the answer listing the three routes" width="1000" height="1477" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/devices/phone-in-hand-dark.webp" alt="A phone held in a hand showing a session: Bash and Read calls allowed by work phone, the note steering the running turn, the message keep it short, I only need the routes, and the answer listing the three routes" width="1000" height="1477" loading="lazy" decoding="async">
+<figcaption>Phone-sized (390 pixels wide), emulated: the conversation fills the screen and the composer sits at the bottom.</figcaption>
+</figure>
+<figure>
+<img class="shot" src="../img/docs/devices/duo-book.webp" alt="A dual-screen foldable opened flat like a book: the conversation on the left screen, and on the right the details of the agent tester (a3) with Message, the agents and the lineup" width="1000" height="876" loading="lazy" decoding="async">
+<figcaption>iPhone Duo-sized, opened like a book, emulated: the conversation on one side, the agents and the lineup on the other, nothing drawn across the fold.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/devices/duo-tabletop-light.webp" alt="A dual-screen foldable half open on a desk like a small laptop: the conversation on the upright screen, and the approval for Bash ls -la /srv/app with Allow, Always and Deny, the steer or queue choice and the composer on the flat screen" width="1000" height="819" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/devices/duo-tabletop-dark.webp" alt="A dual-screen foldable half open on a desk like a small laptop: the conversation on the upright screen, and the approval for Bash ls -la /srv/app with Allow, Always and Deny, the steer or queue choice and the composer on the flat screen" width="1000" height="819" loading="lazy" decoding="async">
+<figcaption>iPhone Duo-sized, half open on a table, emulated: the conversation stays above the fold, the approval and the composer sit below it.</figcaption>
+</figure>
+<figure>
+<img class="shot" src="../img/docs/devices/duo-cover.webp" alt="A closed foldable held in a hand, its cover screen showing Glance view: 1 approval waiting on you, the quick replies Yes, No, Carry on and Stop, and the approval card for Bash with Allow, Always and Deny" width="1000" height="1134" loading="lazy" decoding="async">
+<figcaption>iPhone Duo cover screen-sized, emulated: on a small, short screen Glance view turns on by itself.</figcaption>
+</figure>
+<figure>
+<img class="shot" src="../img/docs/devices/tablet-mini-portrait.webp" alt="A small tablet upright on a desk showing a session in portrait: the conversation with code blocks and Copy buttons, and the composer at the bottom" width="1000" height="1021" loading="lazy" decoding="async">
+<figcaption>iPad mini-sized, portrait, emulated: one column, as on a phone, with more room.</figcaption>
+</figure>
+<figure>
+<img class="shot" src="../img/docs/devices/tablet-keyboard-landscape.webp" alt="A large tablet in a keyboard case showing three columns: the sessions, the conversation, and the agents and the lineup" width="1000" height="888" loading="lazy" decoding="async">
+<figcaption>iPad-sized, landscape, emulated: from about 1100 pixels wide the agents and the lineup get a third column.</figcaption>
+</figure>
+<p>Tested in Chromium with Playwright at phone, foldable and iPad sizes in both orientations; the fold postures
+(book, tabletop, cover screen), the iPhone Duo and other foldables were tested by emulation only, not on a real
+device, and neither was a real iPad's hardware keyboard.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-approval-elsewhere-light.webp" alt="A Bash call, ls cmd/api internal/orders, marked allowed on work phone in the terminal, with its output under it" width="1000" height="550" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-approval-elsewhere-dark.webp" alt="A Bash call, ls cmd/api internal/orders, marked allowed on work phone in the terminal, with its output under it" width="1000" height="550" loading="lazy" decoding="async">
+<figcaption>In the terminal, a call answered on the phone says which device answered.</figcaption>
+</figure>
+<h3 id="steer-or-queue-from-the-phone">Steer or queue from the phone <a class="anchor" href="#steer-or-queue-from-the-phone" aria-label="Link to this heading">#</a></h3>
+<p>A message you send while the session works does what it would do typed in the terminal: a correction or an addition
+("also handle the empty list") <strong>steers</strong> the work in progress, and a next task ("then update the changelog")
+<strong>queues</strong> for after it. To decide yourself, pick <strong>Steer</strong> or <strong>Queue</strong> above the composer while the session works
+(<strong>Auto</strong> lets the words decide; the choice resets when the turn ends), use the keys above, or start the message
+with <code>/steer</code> or <code>/queue</code>. The page says briefly whether a message was steered in or queued. A steer shows as a note
+when it is taken, and as your message, marked <em>steered in</em>, once the model has it. Steering is covered in
+<a href="commands.html#modes-and-keys">Modes and keys</a>.</p>
+<figure>
+<img class="shot shot-light phone" src="../img/docs/remote-phone-steered-light.webp" alt="A phone showing a session: Bash allowed by work phone, the note steering the running turn (from work phone), the model&#x27;s reply and a Read of cmd/api/main.go allowed by work phone, then the message keep it short, I only need the routes marked steered in, and the answer listing the three routes" width="780" height="1688" loading="lazy" decoding="async"><img class="shot shot-dark phone" src="../img/docs/remote-phone-steered-dark.webp" alt="A phone showing a session: Bash allowed by work phone, the note steering the running turn (from work phone), the model&#x27;s reply and a Read of cmd/api/main.go allowed by work phone, then the message keep it short, I only need the routes marked steered in, and the answer listing the three routes" width="780" height="1688" loading="lazy" decoding="async">
+<figcaption>A message sent from the phone while the model worked, marked <em>steered in</em> once the model had it.</figcaption>
+</figure>
+<p>Technically, <code>POST /api/messages</code> takes an optional <code>mode</code> (<code>auto</code>, the default, <code>steer</code> or <code>queue</code>) and answers
+<code>"steered": true</code> when the message went into the running turn (it then has no turn of its own). The same holds for a
+session started with <code>maple-harness serve</code> and for one shared from the terminal. A terminal attached with
+<code>maple-harness attach</code> still queues what is typed in it while a turn runs.</p>
 <h2 id="attach-from-another-computer">Attach from another computer <a class="anchor" href="#attach-from-another-computer" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">MAPLE_TOKEN=&lt;token&gt; maple-harness attach https://my-computer.example:11541</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh">MAPLE_TOKEN=&lt;token&gt; maple-harness attach https://my-computer.example:11541</code></pre></div>
 <h2 id="if-it-does-not-work">If it does not work <a class="anchor" href="#if-it-does-not-work" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>The phone cannot reach the address.</strong> Check that both devices are on the same Tailscale network, or the
 same local network for the LAN address, and that a firewall is not blocking port 11541.</li><li><strong>Certificate warning on the Tailscale name.</strong> HTTPS certificates are not enabled for your tailnet yet; see
 step 2.</li><li><strong><code>+ New session</code> is refused.</strong> No folder is allowed yet: <code>maple-harness gateway workspaces add &lt;dir&gt;</code>.</li><li>Run <code>maple-harness doctor</code>; it reports which certificate the gateway serves and what that means for
 notifications.</li></ul>
-<p>See also <a href="security.html">Security</a> and <a href="troubleshooting.html">Troubleshooting</a>.</p>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="security.html">Security</a> What Maple protects, by default and when you widen it.</li><li><a href="troubleshooting.html">Troubleshooting</a> Start with the checker, then the usual problems and their fixes.</li><li><a href="proxy-service.html">Keep it running in the background</a> The proxy and the gateway as services that start with your computer.</li><li><a href="questions.html">Questions the agent asks you</a> Short multiple-choice questions when a decision is yours.</li></ul>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/mcp-hub.html" rel="prev"><small>Previous</small>MCP hub (experimental)</a><a class="next" href="../docs/subagents.html" rel="next"><small>Next</small>Subagents</a></div></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/semantic-cache.html" rel="prev"><small>Previous</small>The semantic cache</a><a class="next" href="../docs/subagents.html" rel="next"><small>Next</small>Subagents</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#recommended-setup-tailscale">Recommended setup: Tailscale</a></li><li><a href="#sharing-a-session">Sharing a session</a></li><li><a href="#pairing">Pairing</a></li><li><a href="#sharing-one-session">Sharing one session</a></li><li><a href="#a-device-for-one-session">A device for one session</a></li><li><a href="#starting-sessions-from-the-phone">Starting sessions from the phone</a><ol><li><a href="#starting-in-yolo-mode">Starting in yolo mode</a></li></ol></li><li><a href="#when-nobody-is-at-the-terminal">When nobody is at the terminal</a></li><li><a href="#notifications">Notifications</a></li><li><a href="#using-the-page">Using the page</a><ol><li><a href="#phones-tablets-and-foldables">Phones, tablets and foldables</a></li><li><a href="#steer-or-queue-from-the-phone">Steer or queue from the phone</a></li></ol></li><li><a href="#attach-from-another-computer">Attach from another computer</a></li><li><a href="#if-it-does-not-work">If it does not work</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

@@ -1,0 +1,252 @@
+# maple-proxy on Kubernetes. Three ways to run it, as the Kustomize samples next to this chart:
+#
+#   mode: disk     one replica, everything it keeps on a PersistentVolumeClaim; settings edited on
+#                  the setup page and kept on the volume (the samples' config/single).
+#   mode: central  several replicas sharing PostgreSQL (durable data) and Redis (sessions and shared
+#                  short-lived state); settings kept in PostgreSQL (settings.source: central, the
+#                  samples' config/ha-shared, recommended) or read from the ConfigMap below
+#                  (settings.source: file, config/ha).
+#   mode: redis    several replicas sharing ONE durable Redis (or Valkey) and no PostgreSQL: usage,
+#                  budgets, settings and tokens all live in that Redis (the samples' config/ha-redis).
+#                  Redis must keep an append-only file on a persistent disk and never evict keys
+#                  (appendonly yes, maxmemory-policy noeviction); the proxy refuses one that does not.
+#                  Settings kept in Redis (settings.source: redis, the default here) or read from the
+#                  ConfigMap (file). Each replica keeps its own small data volume (a StatefulSet).
+#                  PostgreSQL and Redis together (mode: central) stay the recommendation.
+#
+# No secret goes in these values. The proxy reads its secrets from a Secret you create (existingSecret):
+# one key per file under /run/secrets/maple, as described in the Kubernetes page of the documentation:
+#
+#   access.proxy_tokens       label=token per line: the tokens clients use (proxy scope)
+#   access.metrics_tokens     optional: label=token per line, for scrapers of /metrics
+#   storage.postgres_dsn      central mode: postgres://user:password@host:5432/db?sslmode=require
+#   storage.redis_url         central and redis modes: redis://:password@host:6379/0 (rediss:// for TLS)
+#   storage.key               central and redis modes: 64 hex characters (openssl rand -hex 32)
+#   provider.<id>.api_key     a provider's API key, referenced as ${secret:provider/<id>/api_key}
+
+# disk, central or redis. redis mode never takes storage.postgres_dsn (the proxy refuses one).
+mode: disk
+
+# disk mode runs exactly one replica (the chart refuses more). central and redis modes: as many as you need.
+replicaCount: 1
+
+image:
+  repository: ghcr.io/kinncj/maple-proxy
+  # Empty: the chart's appVersion, the release this chart was published with.
+  tag: ""
+  # sha256:... pins the exact image; it wins over the tag.
+  digest: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+# REQUIRED: the name of the Secret holding the proxy's files (see the top of this file). The chart
+# never creates it, so no token or password is ever in values or in the release history.
+existingSecret: ""
+
+settings:
+  # central and redis modes. Empty: central in mode central, redis in mode redis.
+  # central (mode central): kept in PostgreSQL, edited on any replica's setup page, every replica
+  # runs that one copy; `config` below is copied in once, when the store is empty.
+  # redis (mode redis): the same, kept in the shared Redis.
+  # file (either mode): `config` below is what every replica runs, read-only on the setup page (GitOps).
+  # The chart refuses central in mode redis, and redis in mode central.
+  source: ""
+  # A replica whose settings differ from most replicas' is reported not ready (central and redis modes).
+  requireSameConfig: true
+
+# config.yaml. central and redis modes: the seed (settings.source: central or redis) or the settings (file). disk mode:
+# not used; settings live on the data volume and are edited on the setup page.
+config: |
+  version: 1
+  server:
+    openai_compat: 0.0.0.0:11535
+    anthropic_compat: 0.0.0.0:11537
+    webui: 127.0.0.1:11539
+    # Behind an ingress or load balancer that adds X-Forwarded-For, list only its own addresses:
+    # trusted_proxies: [10.244.3.0/24]
+  providers: []
+
+# Host names the proxy answers to, besides the Service's own names (added by the chart). Add the
+# name your clients use through an ingress, for example.
+allowedHosts: []
+clusterDomain: cluster.local
+
+# Shown in usage and on the setup page; the same on every replica.
+proxyId: maple-proxy
+
+# Long enough for a running stream to finish after the replica stops taking new requests.
+terminationGracePeriodSeconds: 600
+drainDelay: 5s
+shutdownGrace: 9m
+
+# disk mode: the proxy's data, and the embedding models it downloads, on claims the chart makes
+# (or yours, with existingClaim). central mode keeps no data on a volume. redis mode gives each
+# replica a claim of its own from persistence.data (size, storageClass, accessModes; existingClaim is
+# refused, since one claim cannot serve every replica): there a replica remembers the Redis store it
+# ran on, so it refuses a Redis that lost its data instead of counting from zero, and the newest
+# settings versions it accepted. 1Gi is plenty for that. In central and redis modes each replica
+# downloads the models into its own emptyDir, unless persistence.models.existingClaim names a
+# ReadWriteMany claim that every replica shares.
+persistence:
+  data:
+    size: 5Gi
+    storageClass: ""
+    existingClaim: ""
+    accessModes: [ReadWriteOnce]
+  models:
+    enabled: true
+    size: 10Gi
+    storageClass: ""
+    existingClaim: ""
+    accessModes: [ReadWriteOnce]
+
+service:
+  type: ClusterIP
+  openaiPort: 11535
+  anthropicPort: 11537
+  annotations: {}
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
+
+serviceAccount:
+  create: true
+  name: ""
+  # Workload identity: eks.amazonaws.com/role-arn, iam.gke.io/gcp-service-account or
+  # azure.workload.identity/client-id (see the Kubernetes page of the documentation).
+  annotations: {}
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+  seccompProfile: {type: RuntimeDefault}
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities: {drop: [ALL]}
+
+resources:
+  requests: {cpu: 100m, memory: 256Mi}
+  limits: {memory: 1Gi}
+
+# Extra environment for the proxy container, such as {name: AWS_EC2_METADATA_DISABLED, value: "true"}.
+# A secret goes in as valueFrom.secretKeyRef, never as a value: values end up in the release history.
+extraEnv: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+# central mode: replicas spread across nodes when this is empty.
+topologySpreadConstraints: []
+
+# Who may reach the proxy's ports. Off by default (clients differ per cluster); when on, only the
+# peers in `from` are let in (add your ingress controller and, for metrics, Prometheus).
+networkPolicy:
+  enabled: false
+  # NetworkPolicyPeer entries, such as {namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: ingress}}}.
+  from: []
+
+# Prometheus scraping (Prometheus Operator). Turn the endpoint on in config.yaml
+# (metrics: {prometheus: "on"}) and give the proxy a metrics-scope token in access.metrics_tokens;
+# the same token goes in the Secret named here, which the ServiceMonitor sends as a bearer token.
+metrics:
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    labels: {}
+    tokenSecret:
+      name: ""
+      key: token
+
+# FOR TRYING IT OUT (mode central only): one PostgreSQL with no replication and no backups. In production point
+# storage.postgres_dsn at your managed PostgreSQL and leave this off. Its password comes from
+# existingSecret's `password` key; use the same one in the proxy's storage.postgres_dsn, with host
+# <fullname>-postgres.
+postgres:
+  enabled: false
+  image: postgres:17
+  existingSecret: ""
+  database: maple
+  user: maple
+  size: 5Gi
+  storageClass: ""
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+
+# FOR TRYING IT OUT: one Redis. Its password comes from existingSecret's `password` key.
+# mode central: memory only (sessions and shared caches; losing it signs browsers out of the setup
+#   page and empties caches); storage.redis_url is redis://:PASSWORD@<fullname>-redis:6379/0.
+# mode redis: the durable kind, since it holds everything: a StatefulSet with an append-only file
+#   (appendfsync everysec), maxmemory-policy noeviction and a PersistentVolumeClaim (size, storageClass).
+#   The proxy signs in as the user maple, which cannot run FLUSHALL, CONFIG, DEBUG, SHUTDOWN or other
+#   dangerous commands (the default user is off): storage.redis_url is
+#   redis://maple:PASSWORD@<fullname>-redis:6379/0. No replica and no backups: in production use a
+#   Redis or Valkey that keeps the same settings on a persistent disk, and back up its data folder.
+redis:
+  enabled: false
+  image: redis:7
+  existingSecret: ""
+  # In mode redis a full Redis refuses writes (noeviction): give it room for the usage it keeps
+  # (storage.retention_days) and raise limits.memory with it.
+  maxmemory: 512mb
+  # mode redis only: the claim holding the append-only file.
+  size: 5Gi
+  storageClass: ""
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {memory: 640Mi}
+
+# The MCP hub as its own single replica, with its own Secret (access.mcp_hub_tokens and its
+# servers' keys; never the proxy's). Run MCP servers as their own containers and add them by URL:
+# a stdio server is refused in this image (no sandbox).
+mcpHub:
+  enabled: false
+  existingSecret: ""
+  config: |
+    version: 1
+    mcp_hub:
+      enabled: true
+      listen: 0.0.0.0:11545
+      # Plain http: only behind a TLS-terminating ingress, or inside the cluster for trying it out.
+      insecure_http: true
+      servers: []
+  # Who may reach the hub's port: by default pods in this namespace only. Add your ingress controller or
+  # your clients' namespaces; an empty list lets nobody in.
+  networkPolicy:
+    enabled: true
+    from:
+      - podSelector: {}
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {memory: 512Mi}
+
+# Usage history in a DuckLake (central mode with PostgreSQL): an hourly move and a daily maintenance
+# job on the official DuckDB image, running the SQL the proxy generated for this release (regenerate
+# it after an upgrade: see the Kubernetes page). Its PostgreSQL role comes from existingSecret's
+# `postgres_dsn` key: a role that reads usage and events and writes the maple_lake schema.
+lake:
+  enabled: false
+  image: duckdb/duckdb:1.5.6
+  existingSecret: ""
+  moveSchedule: "17 * * * *"
+  maintainSchedule: "43 3 * * *"
+  # A folder on the claim below, or s3://bucket/prefix (then give credentials with valueFrom.secretKeyRef
+  # entries in lake.extraEnv, never a value written here, or none with workload identity).
+  dataPath: /lake/data
+  size: 20Gi
+  storageClass: ""
+  extraEnv: []
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {memory: 2Gi}

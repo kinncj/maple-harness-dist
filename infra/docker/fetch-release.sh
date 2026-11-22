@@ -33,6 +33,25 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 fetch SHA256SUMS "$tmp/SHA256SUMS" || err "${VERSION} has no SHA256SUMS; refusing unverified binaries"
 
+# MAPLE_SUMS_SHA256: the digest of SHA256SUMS as checked against the release's attestation (by the
+# published image's workflow, or by you with gh attestation verify): any other file is refused.
+if [ -n "${MAPLE_SUMS_SHA256:-}" ]; then
+  [ "$(sha256sum "$tmp/SHA256SUMS" | awk '{print $1}')" = "$MAPLE_SUMS_SHA256" ] \
+    || err "SHA256SUMS is not the attested one (MAPLE_SUMS_SHA256): the release was altered or is not genuine"
+  echo "fetch-release: SHA256SUMS is the attested one"
+fi
+
+# From 3.0 SHA256SUMS lists RELEASE_TAG, naming its own release: an older SHA256SUMS cannot come
+# back under another tag. A release from before has none.
+want_tag=$(awk '$2 == "RELEASE_TAG" || $2 == "*RELEASE_TAG" { print $1; exit }' "$tmp/SHA256SUMS")
+if [ -n "$want_tag" ]; then
+  fetch RELEASE_TAG "$tmp/RELEASE_TAG" || err "${VERSION}'s SHA256SUMS lists RELEASE_TAG, which is missing"
+  [ "$(sha256sum "$tmp/RELEASE_TAG" | awk '{print $1}')" = "$want_tag" ] || err "RELEASE_TAG does not match its checksum"
+  [ "$(tr -d '\r\n' < "$tmp/RELEASE_TAG")" = "$VERSION" ] || err "SHA256SUMS names another release, not ${VERSION}"
+elif [ -n "${MAPLE_SUMS_SHA256:-}" ]; then
+  err "the attested SHA256SUMS names no release (no RELEASE_TAG), which every release from 3.0 has"
+fi
+
 # The signed message is "maple-harness-release-v1\n" + tag + "\n" + the exact bytes of SHA256SUMS.
 if fetch SHA256SUMS.sig "$tmp/SHA256SUMS.sig" 2>/dev/null; then
   field() { awk -F': *' -v k="$1" '$1 == k { print $2; exit }' "$tmp/SHA256SUMS.sig" | tr -d '\r'; }

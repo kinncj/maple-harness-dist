@@ -214,7 +214,7 @@
     "list_cost_usd": {
       "type": "number",
       "minimum": 0,
-      "description": "Estimated: the request priced at the provider's published list prices, whether or not the provider is set up with estimate_cost. What monthly dollar budgets count. Not a bill, separate from ai_units and from cost_estimated: never add them together. Unit: USD. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "Estimated: the request priced at the provider's published list prices, whether or not the provider is set up with estimate_cost (with price_basis reported: the price a LiteLLM gateway reported for it). What monthly dollar budgets count. Not a bill, separate from ai_units and from cost_estimated: never add them together. Unit: USD. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "messages": {
       "type": "integer",
@@ -244,11 +244,11 @@
     },
     "price_basis": {
       "type": "string",
-      "description": "How list_cost_usd was priced: list for the model's own list price, family-highest when the model is not in the price list and was counted at the highest list price of its family. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "How list_cost_usd was priced: list for the model's own list price, family-highest when the model is not in the price list and was counted at the highest list price of its family, reported for the price the provider reported for the call itself (a LiteLLM gateway's x-litellm-response-cost). May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "price_list_version": {
       "type": "string",
-      "description": "The price list list_cost_usd was priced from, such as anthropic-2026-10-11 (the date it was read). May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "The price list list_cost_usd was priced from, such as anthropic-2026-10-11 (the date it was read), or litellm for a price a LiteLLM gateway reported. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "price_source": {
       "type": "string",
@@ -294,6 +294,10 @@
       "type": "string",
       "description": "The model name the client asked for (may be a routing alias such as auto)."
     },
+    "response_cache_kind": {
+      "type": "string",
+      "description": "On a request answered from a cache (cached_response): exact (the response cache: the same request) or semantic (the semantic cache: a latest message close in meaning to an earlier one). May be left out; absent means not answered from a cache. Added in schema version 9: lines written before it do not have it."
+    },
     "response_cache_saved_estimated": {
       "type": "number",
       "minimum": 0,
@@ -307,6 +311,11 @@
       "type": "integer",
       "minimum": 0,
       "description": "The schema version the line was written with. May be left out; absent means 1. Added in schema version 2: lines written before it do not have it."
+    },
+    "semantic_similarity": {
+      "type": "number",
+      "minimum": 0,
+      "description": "On a semantic cache answer: how close in meaning the latest message was to the one the answer was first given to, 0 to 1 (at least the configured threshold). Unit: fraction. May be left out; absent means not a semantic cache answer. Added in schema version 9: lines written before it do not have it."
     },
     "service_tier": {
       "type": "string",
@@ -422,6 +431,10 @@
       "type": "integer",
       "minimum": 0,
       "description": "How many web searches the provider ran on its side for the request. Unit: count. May be left out; absent means none. Added in schema version 6: lines written before it do not have it."
+    },
+    "whole_batch": {
+      "type": "boolean",
+      "description": "Whether the line is a whole batch's usage (its results for one model, or its estimate when its usage was not read), counted in full against dollar budgets. May be left out; absent means false. Added in schema version 9: lines written before it do not have it."
     }
   },
   "required": [

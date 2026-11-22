@@ -3,52 +3,57 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>The proxy and its setup page · Maple Harness docs</title>
-<meta name="description" content="maple-proxy is the program that holds your sign-ins and talks to the models. The agent uses it, and so can any other tool that speaks the OpenAI or Anthropic API. Start it with:">
+<meta name="description" content="maple-proxy is the program that holds your sign-ins and talks to the models. The agent uses it, and so can any other tool that speaks the OpenAI or Anthropic API: one place for your accounts, fallback">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
-<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
 <div class="search" role="search" data-docs="../docs/">
 <label class="sr" for="q">Search the documentation</label>
 <input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html" aria-current="page">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html" aria-current="page">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html" aria-current="page">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/access-control.html">Access control: organizations, roles, keys and end users</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html" aria-current="page">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">The proxy and its setup page</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The proxy</li><li aria-current="page">The proxy and its setup page</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The proxy</span><span class="rt" title="Estimated at about 220 words a minute">59 min read</span></p>
 <h1 id="the-proxy-and-its-setup-page">The proxy and its setup page <a class="anchor" href="#the-proxy-and-its-setup-page" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#the-menu">The menu</a></li><li><a href="#whats-configured">What's configured</a></li><li><a href="#set-up-more">Set up more</a></li><li><a href="#advanced-and-saved-settings-that-wait-for-a-restart">Advanced, and saved settings that wait for a restart</a></li><li><a href="#charts-and-live-figures">Charts and live figures</a></li><li><a href="#what-you-can-do-from-the-configure-tabs">What you can do from the Configure tabs</a></li><li><a href="#filter-the-charts-and-cards">Filter the charts and cards</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#alerts-and-forecasts">Alerts and forecasts</a></li><li><a href="#compare-two-ranges">Compare two ranges</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#mcp-hub-experimental">MCP hub (experimental)</a></li><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#model-groups">Model groups</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#prices-for-each-model">Prices for each model</a></li><li><a href="#discounts">Discounts</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a></li><li><a href="#verified-and-unverified-proxies">Verified and unverified proxies</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#the-menu">The menu</a></li><li><a href="#whats-configured">What's configured</a></li><li><a href="#set-up-more">Set up more</a></li><li><a href="#advanced-and-saved-settings-that-wait-for-a-restart">Advanced, and saved settings that wait for a restart</a></li><li><a href="#charts-and-live-figures">Charts and live figures</a></li><li><a href="#what-you-can-do-from-the-configure-tabs">What you can do from the Configure tabs</a></li><li><a href="#filter-the-charts-and-cards">Filter the charts and cards</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#alerts-and-forecasts">Alerts and forecasts</a></li><li><a href="#compare-two-ranges">Compare two ranges</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#mcp-hub">MCP hub</a></li><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#model-groups">Model groups</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#your-own-rules-for-auto">Your own rules for auto</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#prices-for-each-model">Prices for each model</a></li><li><a href="#discounts">Discounts</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#how-many-requests-a-model-server-takes-at-once">How many requests a model server takes at once</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a></li><li><a href="#verified-and-unverified-proxies">Verified and unverified proxies</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></details>
 
-<p><code>maple-proxy</code> is the program that holds your sign-ins and talks to the models. The agent uses it, and so can
-any other tool that speaks the OpenAI or Anthropic API. Start it with:</p>
-<pre><code class="language-sh">maple-proxy serve</code></pre>
+<p class="lede"><code>maple-proxy</code> is the program that holds your sign-ins and talks to the models. The agent uses it, and so can any
+other tool that speaks the OpenAI or Anthropic API: one place for your accounts, fallbacks when one runs out, and a
+record of what every tool spent, with a setup page in your browser to run it all.</p>
+<p>Start it with:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> serve</code></pre></div>
 <p>It stays in the foreground. Add <code>--logs=true</code> to watch requests, <code>--logs=/path/to.log</code> to keep a record, or
 <code>--logs=stdout</code> when something else (systemd, launchd) is capturing output; <a href="#see-what-auto-chose">See what auto chose</a>
 explains a log line. To keep it running in the
 background, see <a href="proxy-service.html#in-short">Keep it running in the background</a>.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> The proxy is the one program that holds your sign-ins (GitHub Copilot, Claude, your own model
 servers) and talks to the models. Maple Harness uses it, and so can Claude Code, OpenCode or any tool that speaks
 the OpenAI or Anthropic API.</li><li><strong>Why you want it.</strong> One place for your accounts and models; when one account runs out or is down, requests move to
 the next one you chose; and you see what every tool spent.</li><li><strong>How you use it.</strong> Maple Harness starts it for you. Open its setup page at <code>http://127.0.0.1:11539</code> to sign in,
 add a model server or change a setting: <strong>Providers</strong> for accounts, <strong>Models &amp; routing</strong> for what <code>auto</code> means and
-the fallbacks, <strong>Security &amp; access</strong> for a password. Nothing to edit by hand.</li></ul>
+the fallbacks, <strong>Security &amp; access</strong> for a password. Nothing to edit by hand.</li></ul></section>
 <h2 id="what-it-listens-on">What it listens on <a class="anchor" href="#what-it-listens-on" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th>Address</th><th>What it is</th><th>Who may use it</th></tr></thead><tbody><tr><td><code>127.0.0.1:11539</code></td><td>The setup page</td><td>This machine only. It refuses to listen anywhere else</td></tr><tr><td><code>127.0.0.1:11535</code></td><td>OpenAI-compatible API (<code>/v1</code>)</td><td>This machine; other machines only with an access token</td></tr><tr><td><code>127.0.0.1:11537</code></td><td>Anthropic-compatible API</td><td>This machine; other machines only with an access token</td></tr></tbody></table></div>
 <p>The addresses and ports are in the <code>server:</code> section of <code>config.yaml</code>. The proxy picks up changes to its
@@ -75,6 +80,14 @@ Monitoring and MCP hub are not in the menu until they are set up, or until you c
 stays in the menu on that browser until you hide it). A link to one of them always opens it. On a first run, before
 any request has gone through, Overview shows <strong>Get started</strong> instead of charts: your account (sign in to a provider)
 and Auto mode, the same two steps as always.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-tabbar-light.webp" alt="The setup page&#x27;s menu: Watch (Overview, Usage, Costs &amp; budgets, Cache, Health) and Configure (Providers, Models &amp; routing, People &amp; teams, Hubs &amp; chaining, Monitoring, MCP hub, Data &amp; storage, Security &amp; access, Advanced, Set up more), with Find a setting" width="1000" height="121" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-tabbar-dark.webp" alt="The setup page&#x27;s menu: Watch (Overview, Usage, Costs &amp; budgets, Cache, Health) and Configure (Providers, Models &amp; routing, People &amp; teams, Hubs &amp; chaining, Monitoring, MCP hub, Data &amp; storage, Security &amp; access, Advanced, Set up more), with Find a setting" width="1000" height="121" loading="lazy" decoding="async">
+<figcaption>The menu once people, hubs, monitoring and the MCP hub are set up: their tabs join it.</figcaption>
+</figure>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-get-started-light.webp" alt="Get started on a first run: Welcome aboard, eh, three steps; the Account cards for Anthropic (Claude), no key, and GitHub Copilot, signed out; and the Auto mode card with auto-heavy, auto-medium and auto-light not set yet, each saying a request has nowhere to go until a model is chosen" width="1000" height="1266" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-get-started-dark.webp" alt="Get started on a first run: Welcome aboard, eh, three steps; the Account cards for Anthropic (Claude), no key, and GitHub Copilot, signed out; and the Auto mode card with auto-heavy, auto-medium and auto-light not set yet, each saying a request has nowhere to go until a model is chosen" width="1000" height="1266" loading="lazy" decoding="async">
+<figcaption>A first run: Get started, with the account and Auto mode.</figcaption>
+</figure>
 <p>Links from before 2.2 keep working: <code>#tab-settings</code> opens Providers, <code>#tab-auto</code> opens Models &amp; routing, and a link to
 any card opens the tab it is on now.</p>
 <figure>
@@ -91,19 +104,23 @@ a tab. It works with the keyboard (Up and Down move, Escape closes) and with a s
 <p>At the bottom of the Overview, <strong>What's configured</strong> lists the basics, each <strong>on</strong>, <strong>off</strong> or <strong>needs attention</strong>,
 with a link to where it is set: providers, auto mode, the usage log, budgets and alerts, search by meaning, remote
 control and the page password. Features you set up (sharing, hubs, single sign-on, monitoring, central storage, the
-MCP hub) follow. The rest is one line, "Not set up: ...", with a link to <strong>Set up more</strong>. Off is never shown as a
-problem.</p>
+MCP hub) follow, and so do guardrails, the semantic cache and investigations once <code>config.yaml</code> turns them on. The
+rest is one line, "Not set up: ...", with a link to <strong>Set up more</strong>. Off is never shown as a problem.</p>
+<p>A few lines say more than on or off:</p>
+<ul><li><strong>Auto mode</strong> is off when no provider ranks its models and no weight has a model of yours, because <code>auto</code> then
+answers no request; it needs attention when only some weights have one.</li><li><strong>Budgets and alerts</strong> counts people's and teams' budgets as well as each account's.</li><li><strong>Monitoring</strong> is on with content export or a callback alone, and its tab is then shown.</li><li><strong>Semantic cache</strong> needs attention while no model for search by meaning is installed: nothing is answered by meaning
+until one is.</li></ul>
 <figure>
-<img class="shot shot-light" src="../img/docs/setup-configured-light.webp" alt="What&#x27;s configured: Providers needs attention (4 providers; health has set aside lab/lab-coder), Auto mode on, Usage log on (kept 90 days), Budgets and alerts on (1 provider budget, with alerts), Search by meaning off (the built-in model is not installed), Remote control off, Page password off; then Not set up: sharing, hubs, single sign-on, monitoring, central storage, MCP hub, and a Set up more link." width="1000" height="325" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-configured-dark.webp" alt="What&#x27;s configured: Providers needs attention (4 providers; health has set aside lab/lab-coder), Auto mode on, Usage log on (kept 90 days), Budgets and alerts on (1 provider budget, with alerts), Search by meaning off (the built-in model is not installed), Remote control off, Page password off; then Not set up: sharing, hubs, single sign-on, monitoring, central storage, MCP hub, and a Set up more link." width="1000" height="325" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/setup-configured-light.webp" alt="What&#x27;s configured: providers, auto mode, usage log and budgets and alerts on; search by meaning, remote control and the page password off; people and teams needing attention (the proxy listens on this machine only); monitoring, the MCP hub, guardrails and investigations on; the semantic cache needing attention (no model for search by meaning); the A2A gateway on with 2 agents, 1 disabled; then Not set up: hubs, single sign-on, central storage" width="1000" height="598" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-configured-dark.webp" alt="What&#x27;s configured: providers, auto mode, usage log and budgets and alerts on; search by meaning, remote control and the page password off; people and teams needing attention (the proxy listens on this machine only); monitoring, the MCP hub, guardrails and investigations on; the semantic cache needing attention (no model for search by meaning); the A2A gateway on with 2 agents, 1 disabled; then Not set up: hubs, single sign-on, central storage" width="1000" height="598" loading="lazy" decoding="async">
 <figcaption>What's configured in a demo setup: one provider's model server is not running, so Providers needs attention.</figcaption>
 </figure>
 <h3 id="set-up-more">Set up more <a class="anchor" href="#set-up-more" aria-label="Link to this heading">#</a></h3>
 <p><strong>Set up more</strong> is where the features one person does not need begin: <strong>Share this proxy with a team</strong>, <strong>Connect to
 a hub, or serve other proxies</strong>, <strong>Single sign-on for admins</strong>, <strong>Monitoring and alert webhooks</strong>, <strong>Several replicas
-(central storage)</strong> and <strong>MCP hub (experimental)</strong>. Each card says whether it is on and opens its own tab, with a
+(central storage)</strong> and <strong>MCP hub</strong>. Each card says whether it is on and opens its own tab, with a
 step-by-step wizard where there is one.</p>
 <figure>
-<img class="shot shot-light" src="../img/docs/setup-more-light.webp" alt="Set up more: six cards, each off with a Set up button: Share this proxy with a team, Connect to a hub or serve other proxies, Single sign-on for admins, Monitoring and alert webhooks, Several replicas (central storage) with a How it works link, and MCP hub (experimental)." width="1000" height="391" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-more-dark.webp" alt="Set up more: six cards, each off with a Set up button: Share this proxy with a team, Connect to a hub or serve other proxies, Single sign-on for admins, Monitoring and alert webhooks, Several replicas (central storage) with a How it works link, and MCP hub (experimental)." width="1000" height="391" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/setup-more-light.webp" alt="Set up more: six cards, each off with a Set up button: Share this proxy with a team, Connect to a hub or serve other proxies, Single sign-on for admins, Monitoring and alert webhooks, Several replicas (central storage) with a How it works link, and MCP hub." width="1000" height="391" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-more-dark.webp" alt="Set up more: six cards, each off with a Set up button: Share this proxy with a team, Connect to a hub or serve other proxies, Single sign-on for admins, Monitoring and alert webhooks, Several replicas (central storage) with a How it works link, and MCP hub." width="1000" height="391" loading="lazy" decoding="async">
 <figcaption>Set up more on a proxy used by one person: nothing set up yet.</figcaption>
 </figure>
 <h3 id="advanced-and-saved-settings-that-wait-for-a-restart">Advanced, and saved settings that wait for a restart <a class="anchor" href="#advanced-and-saved-settings-that-wait-for-a-restart" aria-label="Link to this heading">#</a></h3>
@@ -177,9 +194,10 @@ Configure tabs say they are read-only and their controls are off; usage and stat
 <figcaption>The Usage tab.</figcaption>
 </figure>
 <h3 id="filter-the-charts-and-cards">Filter the charts and cards <a class="anchor" href="#filter-the-charts-and-cards" aria-label="Link to this heading">#</a></h3>
-<p>Above the data tabs, pick a time range: <strong>Live</strong> (the default), 7, 30 or 90 days, a year, or <strong>Custom</strong> for a range
-of UTC days. With <strong>Live</strong>, the cards show the proxy's own figures since it started, exactly as before, and the
-charts show the last 30 days.</p>
+<p>Above the data tabs, pick a time range: <strong>Live</strong> (the default), <strong>Today</strong>, 7, 30 or 90 days, a year, or <strong>Custom</strong>
+for a range of UTC days. <strong>Live</strong> is today, as it happens: every card and chart covers today, from midnight, local
+time (the same span as <strong>Today</strong>, so the two always agree), and updates as requests arrive. The day buttons count whole
+days from local midnight; the 30-day view and the others are a click away.</p>
 <p><strong>More filters</strong> opens the rest: provider, account, model, token, agent, outcome, error class and auto weight.
 <strong>Provider</strong> is the kind of service that answered (<code>anthropic</code>, <code>github-copilot</code>, <code>openai-compatible</code>...), every
 account of it; <strong>Account</strong> is one configured account (two Copilot accounts are two accounts). Provider appears once
@@ -207,7 +225,7 @@ usual figures, so a slow local model is not called unhealthy for being slow. <co
 (<code>health_failover: on</code>). Then a demoted model moves behind the others already in that request's fallback list;
 nothing is added, and it is tried again once its hold is over.</p>
 <figure>
-<img class="shot shot-light" src="../img/docs/setup-health-light.webp" alt="The Health card: lab/lab-coder demoted after 10 of 10 requests failed as unreachable, the cloud, Copilot and local models healthy with their latency and first-token times, and the failover switch off" width="1000" height="565" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-health-dark.webp" alt="The Health card: lab/lab-coder demoted after 10 of 10 requests failed as unreachable, the cloud, Copilot and local models healthy with their latency and first-token times, and the failover switch off" width="1000" height="565" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/setup-health-light.webp" alt="The Health card: 1 of 9 models not healthy; lab/lab-coder demoted (testing again) because 10 of 10 requests failed as unreachable in the last 10 minutes, with Reset; the other models healthy with their requests, error rate and latency; Reset all and the health_failover switch" width="1000" height="699" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-health-dark.webp" alt="The Health card: 1 of 9 models not healthy; lab/lab-coder demoted (testing again) because 10 of 10 requests failed as unreachable in the last 10 minutes, with Reset; the other models healthy with their requests, error rate and latency; Reset all and the health_failover switch" width="1000" height="699" loading="lazy" decoding="async">
 <figcaption>The Health card in a demo setup: model servers answering, and one that is not running.</figcaption>
 </figure>
 <figure>
@@ -257,13 +275,13 @@ choose the default accounts for everyone else. <code>maple-proxy people</code> d
 <img class="shot shot-light" src="../img/docs/setup-team-tab-light.webp" alt="The People &amp; teams tab: AI units per day by person (most requests in the demo carry no person), requests by team, alice&#x27;s daily budget at 0.588 of 40 AI units and the platform team&#x27;s monthly budget at 2.658 of 2,000 AI units" width="1000" height="543" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-team-tab-dark.webp" alt="The People &amp; teams tab: AI units per day by person (most requests in the demo carry no person), requests by team, alice&#x27;s daily budget at 0.588 of 40 AI units and the platform team&#x27;s monthly budget at 2.658 of 2,000 AI units" width="1000" height="543" loading="lazy" decoding="async">
 <figcaption>The People &amp; teams tab's charts in the same demo setup.</figcaption>
 </figure>
-<h3 id="mcp-hub-experimental">MCP hub (experimental) <a class="anchor" href="#mcp-hub-experimental" aria-label="Link to this heading">#</a></h3>
+<h3 id="mcp-hub">MCP hub <a class="anchor" href="#mcp-hub" aria-label="Link to this heading">#</a></h3>
 <p>Once <code>mcp_hub:</code> is set up in <code>config.yaml</code> (or with <code>maple-proxy mcp-hub add</code>), the <strong>MCP hub</strong> tab shows whether
 the hub is on, its address, and each server with its state and tools. You can switch the hub or a server on and off
 there. Servers cannot be added from the page: a server can be a program the proxy runs, so they are added in a
 terminal or in <code>config.yaml</code>.</p>
 <figure>
-<img class="shot shot-light" src="../img/docs/setup-mcp-hub-light.webp" alt="The MCP hub card: the hub on and serving on this machine, and one HTTP server, docs, running with two tools" width="1000" height="307" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-mcp-hub-dark.webp" alt="The MCP hub card: the hub on and serving on this machine, and one HTTP server, docs, running with two tools" width="1000" height="307" loading="lazy" decoding="async">
+<img class="shot shot-light" src="../img/docs/setup-mcp-hub-light.webp" alt="The MCP hub tab: MCP hub on and serving; the docs server running with 1 tool, 2 prompts and 1 resource, pinned, with a note that 1 tool changed and is held back until accepted; the tracker server running, not signed in yet, with the command to sign the hub in; Add a remote server (https) opened with its name, address, transport and tools fields" width="1000" height="794" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-mcp-hub-dark.webp" alt="The MCP hub tab: MCP hub on and serving; the docs server running with 1 tool, 2 prompts and 1 resource, pinned, with a note that 1 tool changed and is held back until accepted; the tracker server running, not signed in yet, with the command to sign the hub in; Add a remote server (https) opened with its name, address, transport and tools fields" width="1000" height="794" loading="lazy" decoding="async">
 <figcaption>The MCP hub card.</figcaption>
 </figure>
 <h3 id="protect-the-setup-page-with-a-password">Protect the setup page with a password <a class="anchor" href="#protect-the-setup-page-with-a-password" aria-label="Link to this heading">#</a></h3>
@@ -282,9 +300,9 @@ manages. To require one, open <strong>Security &amp; access &gt; Protect this pa
 <code>doctor</code>, the status bar): they use a separate credential that the proxy keeps in your secret store, and they never
 need the password.</li><li><strong>Change it</strong> on the same card; it needs the current password and signs out every other browser.</li><li><strong>Sign out other browsers</strong> ends every session but yours. <strong>Turn off</strong> asks for the password and a confirmation.</li><li>The password itself is never stored, only a slow, salted hash of it, in the Maple Harness config folder.</li></ul>
 <p>From a terminal, as the same user:</p>
-<pre><code class="language-sh">maple-proxy setup-password status   # on or off, and how many browsers are signed in
-maple-proxy setup-password set      # set or change it (asked twice, not shown); signs every browser out
-maple-proxy setup-password reset    # forgot it? removes it, so the page is open again</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> setup-password status   <span class="t-c"># on or off, and how many browsers are signed in</span>
+<span class="t-k">maple-proxy</span> setup-password set      <span class="t-c"># set or change it (asked twice, not shown); signs every browser out</span>
+<span class="t-k">maple-proxy</span> setup-password reset    <span class="t-c"># forgot it? removes it, so the page is open again</span></code></pre></div>
 <p>A running proxy picks these up at once, with no restart.</p>
 <p>What it protects against: other programs and other people's browsers on this computer. It does not protect against
 something running as you that can open a terminal: that could run <code>setup-password reset</code>. That includes a command the
@@ -315,6 +333,15 @@ Anthropic, then a local model. <code>&lt;provider id&gt;/&lt;model&gt;</code> na
 before any output is sent, never for bad credentials or malformed requests, and nothing falls back unless you add a
 rule. Responses from a fallback carry <code>X-Maple-Served-By</code>. See <a href="proxy-settings.html#fallbacks">Fallbacks</a>, and
 <a href="sign-in.html#more-than-one-account">adding a second GitHub Copilot or Anthropic account</a> to set one up.</p>
+<p><strong>A lost connection is tried once more first</strong> (3.0). When the connection to a model's server fails before a
+single byte of its answer arrives (it could not be made, or it was closed or reset before the answer began, as
+happens when a tunnel or a load balancer drops an idle connection), the proxy waits a quarter of a second and asks
+the same server once more, on a new connection, before <code>retries</code> and any fallback. Nothing has reached your tool at
+that point, so it sees only the answer. It is never done once any of the answer has arrived (even a part your tool
+has not seen yet), after a timeout (the server may still be working on the request), or for an answer such as a
+gateway's 502: <code>retries</code> decides those. Both tries are in the usage log: the failed one with its error, the next
+with <code>attempts</code> 2 and <code>route_reason</code> <code>retry:lost-connection</code>. <code>retry_lost_connection: off</code> turns it off (see
+<a href="proxy-settings.html#model-groups">the settings</a>).</p>
 <h3 id="model-groups">Model groups <a class="anchor" href="#model-groups" aria-label="Link to this heading">#</a></h3>
 <p>A model group serves one name from several deployments, such as the same model on two Copilot accounts: each
 request goes to one of them, picked in turn (or by weight, by the fewest requests in flight, or by the fastest recent
@@ -351,7 +378,7 @@ models not chosen by default.</p>
 <img class="shot shot-light" src="../img/docs/setup-auto-mode-light.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="1000" height="955" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-auto-mode-dark.webp" alt="The Auto mode card with nothing set: auto-heavy, auto-medium and auto-light each on Use defaults, with their default fallbacks and a preview of where a request goes" width="1000" height="955" loading="lazy" decoding="async">
 <figcaption>The Auto mode card before you change anything: every weight uses the defaults of the first ranked provider. A demo setup with a stand-in Copilot service.</figcaption>
 </figure>
-<ol><li>To change a weight, choose a model from its dropdown. It lists every model the proxy serves, with its provider
+<ol class="steps"><li>To change a weight, choose a model from its dropdown. It lists every model the proxy serves, with its provider
 and ranking, and each Copilot account's Copilot Auto, as <code>github-copilot/auto (Copilot Auto: Copilot picks)</code>.</li><li>To choose the fallbacks yourself, pick them one by one from <strong>Choose your own fallbacks…</strong>. The arrows reorder
 them, ✕ removes one, and <strong>Default fallbacks</strong> goes back to the defaults.</li><li>Check the preview under the weight, then <strong>Save</strong>. "Saved. The proxy is using it now." means the next request
 uses it; nothing restarts.</li></ol>
@@ -362,13 +389,35 @@ uses it; nothing restarts.</li></ol>
 <p><strong>Use defaults for all</strong> clears every weight (then Save), and <strong>Discard</strong> drops changes you have not saved. If the
 <strong>Proxy settings</strong> card has unsaved changes, save or discard them first. The card writes ordinary <code>model_aliases</code>
 and <code>model_fallbacks</code> entries to <code>config.yaml</code>, keeping its comments. After the save above, the file holds:</p>
-<pre><code class="language-yaml">model_aliases:
-    auto-heavy: github-copilot/auto
-model_fallbacks:
-    auto-heavy:
-        - claude-opus-5</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model_aliases:</span>
+<span class="t-k">    auto-heavy:</span> github-copilot/auto
+<span class="t-k">model_fallbacks:</span>
+<span class="t-k">    auto-heavy:</span>
+        - claude-opus-5</code></pre></div>
 <p>The same entries written by hand work, and the card shows them. A weight with no alias keeps its default model;
 fallbacks given for it replace the default fallbacks.</p>
+<h3 id="your-own-rules-for-auto">Your own rules for auto <a class="anchor" href="#your-own-rules-for-auto" aria-label="Link to this heading">#</a></h3>
+<p>Two optional settings let you steer <code>auto</code> without giving up its judgement for everything else.</p>
+<ul><li><strong>Keyword rules.</strong> When the person's last message contains one of your words, the request goes to the weight you
+chose for it: "typo" or "rename" to light, "architecture" to heavy. Whole words only, in any case ("typo" does not
+match "typos"); a phrase such as "unit test" matches as written. The first rule with a matching word wins, and a
+message that matches no rule is weighed by the proxy as usual. Each request of one message is weighed the same way,
+so one message stays on one model and its prompt cache.</li><li><strong>Several models for one weight.</strong> List them in order. A request goes to the first one that can take it now; when
+the request is too large for its context window, or its provider is not running, the next one of the same weight
+is used before any other weight. The rest of the list, then that weight's own fallbacks, are tried when the model
+chosen cannot answer. The model list shows the weight with the largest window its models state.</li></ul>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">auto_keywords:</span>
+<span class="t-k">  - words:</span> [typo, rename, <span class="t-s">"fix the import"</span>]
+<span class="t-k">    weight:</span> light
+<span class="t-k">  - words:</span> [architecture, design, <span class="t-s">"root cause"</span>]
+<span class="t-k">    weight:</span> heavy
+<span class="t-k">auto_models:</span>
+<span class="t-k">  light:</span> [local-small, local-long-context]   <span class="t-c"># models or aliases the proxy serves, or a model group</span></code></pre></div>
+<p><code>X-Maple-Router</code> says when one of your rules decided: <code>auto: light (keyword "typo") -&gt; auto-light</code>, and which model of
+a weight's list answered and why it was not the first: <code>auto: light -&gt; auto-light: local-long-context (too large for
+local-small)</code>. A weight with <code>auto_models</code> cannot also be set in <code>model_aliases</code>; choose one of the two. Both settings
+are read on the next request after you save <code>config.yaml</code>, with no restart. The keys are listed under
+<a href="proxy-settings.html#auto-rules">Auto rules</a>.</p>
 <h3 id="copilot-auto">Copilot Auto <a class="anchor" href="#copilot-auto" aria-label="Link to this heading">#</a></h3>
 <p>GitHub Copilot's own automatic mode, where Copilot picks the model for each request, is listed as a model of each
 Copilot account: <code>github-copilot/auto</code>, when your account offers it. It never takes the plain name <code>auto</code>, which is
@@ -401,9 +450,9 @@ auto-report</code> prints the same in a terminal.</p>
 request for <code>auto</code> was weighed and which name it went to and, for Copilot Auto, which models Copilot offered and
 which one it chose. For a request for <code>auto</code> that went to the heavy weight, set to Copilot Auto as above (a demo
 setup with a stand-in Copilot service), <code>curl -si</code> printed:</p>
-<pre><code>X-Maple-Prefix-Stabilized: json
+<div class="codeblock"><pre><code class="language-text">X-Maple-Prefix-Stabilized: json
 X-Maple-Router: auto: heavy -&gt; auto-heavy; copilot auto: intent chose claude-haiku-4.5; offered gpt-5-mini, claude-haiku-4.5, claude-sonnet-5
-X-Maple-Served-By: github-copilot/claude-haiku-4.5</code></pre>
+X-Maple-Served-By: github-copilot/claude-haiku-4.5</code></pre></div>
 <p>A request for <code>github-copilot/auto</code> by name gets only the Copilot part of <code>X-Maple-Router</code> (since 2.4.0 it reads
 <code>copilot auto: chose &lt;model&gt; for the turn (&lt;Copilot's reason&gt;)</code> when Copilot chose the model for the turn), and a request for
 <code>auto-light</code> by name gets no <code>X-Maple-Router</code> at all. A <a href="models.html#copilot-fusion">Copilot Fusion</a> High or Max
@@ -420,8 +469,8 @@ more line before it with the weight it was judged to be and the name it went to:
 <figcaption>Four requests from another tool: two for auto, two for Copilot Auto. A demo setup with a stand-in Copilot service, which answers at once with a fixed token count, so the times, tokens and speeds here are the stand-in's.</figcaption>
 </figure>
 <p>Two of those lines, as text:</p>
-<pre><code>2026/10/08 00:08:06 usecase: auto: judged heavy (new instruction); serving it as auto-heavy
-2026/10/08 00:08:06 openai POST /v1/chat/completions 200 9ms  auto-heavy→claude-haiku-4.5@github-copilot · 5→3 tok · 322.9 tok/s</code></pre>
+<div class="codeblock"><pre><code class="language-text">2026/10/08 00:08:06 usecase: auto: judged heavy (new instruction); serving it as auto-heavy
+2026/10/08 00:08:06 openai POST /v1/chat/completions 200 9ms  auto-heavy→claude-haiku-4.5@github-copilot · 5→3 tok · 322.9 tok/s</code></pre></div>
 <div class="tablewrap"><table><thead><tr><th>Part</th><th>What it means</th></tr></thead><tbody><tr><td><code>openai</code></td><td>Which API the request came in on: <code>openai</code> or <code>anthropic</code> (<code>webui</code> for the setup page)</td></tr><tr><td><code>POST /v1/chat/completions 200 9ms</code></td><td>The method, path and status, and how long the whole request took</td></tr><tr><td><code>auto-heavy→claude-haiku-4.5@github-copilot</code></td><td>The name the request was served as, the model that answered, and the provider. For a request for <code>auto</code> the name is the weight it went to; for Copilot Auto it reads <code>github-copilot/auto→</code> and the model Copilot chose. When the name is the model itself, it appears once</td></tr><tr><td><code>5→3 tok</code></td><td>Prompt tokens and answer tokens, as the provider reported them</td></tr><tr><td><code>322.9 tok/s</code></td><td>Answer tokens per second over the whole request</td></tr><tr><td><code>cache partial 3584r/512w</code></td><td>How the provider's prompt cache did (<code>hit</code>, <code>partial</code>, <code>miss</code> or <code>lost</code>), with the tokens read from and written to it. Only when the provider reports its cache</td></tr><tr><td><code>stream</code></td><td>The answer was streamed</td></tr><tr><td><code>cancelled by caller</code></td><td>The tool hung up before the answer was complete</td></tr><tr><td><code>3 tool call(s)</code></td><td>The answer asked for tools</td></tr></tbody></table></div>
 <p>A request that fails also prints the error it was answered with, on the next line. Prompts and answers are never
 written unless you add <code>--log-bodies</code>.</p>
@@ -491,17 +540,17 @@ route (by name, Copilot Auto, or Copilot Fusion High or Max). Exact, with any di
 (a promotion while one runs, else the model's usual Copilot Auto discount).</li><li><strong>Learned</strong>: the prices learned from that model's own requests on this proxy.</li><li><strong>The route's discount on learned prices</strong>: a model with prices learned one way (by name, or through Copilot
 Auto or Fusion) is valued the other way at once, with the route's current discount.</li><li><strong>Configured</strong>: the price you set for the model in <code>config.yaml</code>, or in the model's <strong>⋯</strong> row on the
 <strong>Providers</strong> tab:</li></ol>
-<pre><code class="language-yaml">providers:
-  - id: github-copilot
-    type: github-copilot
-    models:
-      - id: gpt-5.3-codex
-        price:
-          unit: ai_units        # ai_units (GitHub Copilot) or usd
-          input: 175            # per million tokens sent uncached
-          cached_input: 17.5    # per million tokens read from the prompt cache
-          output: 1400          # per million tokens generated
-          # cache_write: ...    # per million tokens written to the cache; leave out when the provider bills none</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> github-copilot
+<span class="t-k">    type:</span> github-copilot
+<span class="t-k">    models:</span>
+<span class="t-k">      - id:</span> gpt-5.3-codex
+<span class="t-k">        price:</span>
+<span class="t-k">          unit:</span> ai_units        <span class="t-c"># ai_units (GitHub Copilot) or usd</span>
+<span class="t-k">          input:</span> <span class="t-n">175</span>            <span class="t-c"># per million tokens sent uncached</span>
+<span class="t-k">          cached_input:</span> <span class="t-n">17.5</span>    <span class="t-c"># per million tokens read from the prompt cache</span>
+<span class="t-k">          output:</span> <span class="t-n">1400</span>          <span class="t-c"># per million tokens generated</span>
+          <span class="t-c"># cache_write: ...    # per million tokens written to the cache; leave out when the provider bills none</span></code></pre></div>
 <p>What each surface does with it:</p>
 <ul><li><strong>The Savings card</strong> values a model with a configured price only in AI units (the account is kept in AI units).
 The price list on the card names where each model's prices came from, and the summary sentence names the models
@@ -520,13 +569,13 @@ what the usage log and your budgets count. If your organisation pays a different
 you can write it down, and the setup page and the reports show what each request costs at your rate <em>beside</em> what
 Copilot charged. It never replaces it.</p>
 <p><strong>The details.</strong> Set a discount on a sign-in (a provider entry), in percent off the list price:</p>
-<pre><code class="language-yaml">providers:
-  - id: github-copilot
-    type: github-copilot
-    discount:
-      percent: 15                           # every request on this sign-in
-      models: {claude-opus-5.5: 20}         # this model, however it was reached
-      tiers: {auto: 10, fusion-high: 25}    # requests Copilot Auto or Copilot Fusion routed</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> github-copilot
+<span class="t-k">    type:</span> github-copilot
+<span class="t-k">    discount:</span>
+<span class="t-k">      percent:</span> <span class="t-n">15</span>                           <span class="t-c"># every request on this sign-in</span>
+<span class="t-k">      models:</span> {claude-opus-5.5: <span class="t-n">20</span>}         <span class="t-c"># this model, however it was reached</span>
+<span class="t-k">      tiers:</span> {auto: <span class="t-n">10</span>, fusion-high: <span class="t-n">25</span>}    <span class="t-c"># requests Copilot Auto or Copilot Fusion routed</span></code></pre></div>
 <p>On the setup page, the same fields are under <strong>Discount</strong> when you edit a GitHub Copilot sign-in (Providers):</p>
 <figure>
 <img class="shot shot-light" src="../img/docs/setup-copilot-discount-light.webp" alt="The Discount fields of a GitHub Copilot sign-in on the setup page: every request 15% off, Copilot Auto and Fusion Standard as above, Copilot Fusion High 25% off, Copilot Fusion Max as above, and a per-model box with one model-id: percent per line; below them, the Copilot Fusion review box, Let the review read files, ticked." width="1000" height="370" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-copilot-discount-dark.webp" alt="The Discount fields of a GitHub Copilot sign-in on the setup page: every request 15% off, Copilot Auto and Fusion Standard as above, Copilot Fusion High 25% off, Copilot Fusion Max as above, and a per-model box with one model-id: percent per line; below them, the Copilot Fusion review box, Let the review read files, ticked." width="1000" height="370" loading="lazy" decoding="async">
@@ -543,37 +592,215 @@ charged at.</li></ul>
 <h3 id="daily-budgets">Daily budgets <a class="anchor" href="#daily-budgets" aria-label="Link to this heading">#</a></h3>
 <p>For each provider you can cap requests per day, AI units per day, or both (days are UTC). At the limit, requests
 are refused or handed to its fallback. Key: <code>budgets</code>. See <a href="proxy-settings.html#budgets">Budgets</a>.</p>
+<h3 id="how-many-requests-a-model-server-takes-at-once">How many requests a model server takes at once <a class="anchor" href="#how-many-requests-a-model-server-takes-at-once" aria-label="Link to this heading">#</a></h3>
+<p>A model server can work on only so many requests at the same time. llama.cpp runs a fixed number of slots; vLLM
+and SGLang work on many at once until their memory is full; a cloud account has rate limits. Sent more, a server
+queues them itself, in the order they came, so a quick question you are waiting on can sit behind a batch job's long
+ones. Tools that run several agents at once (the harness's subagents) want to know the number, so they run as many
+as the server really serves.</p>
+<p>The proxy finds the number in three ways, and you can always set it yourself:</p>
+<ol><li><strong>It asks the server.</strong> For a server on your own machine or network, the proxy reads what the server says about
+itself, at most once a minute and only the counts: llama.cpp's slots, vLLM's and SGLang's running and waiting
+requests and how full their memory is, SGLang's and Text Generation Inference's own limit. vLLM states no fixed
+number, so the proxy works one out (an estimate; see <a href="#how-vllms-number-is-estimated">How vLLM's number is
+estimated</a> below). For a cloud account, it reads the rate limits each answer states
+(Anthropic, OpenAI and services that send the same headers) and works out how many requests at once those leave
+room for at your average request's length and size.</li><li><strong>It learns, when the server says nothing.</strong> Without a setting the proxy holds nothing back, as before. It starts
+holding requests back only on evidence that the server is overloaded:
+<ul><li>the server answers busy (429, 503, 529, overloaded) while several of your requests were running: the proxy lets
+in about half as many, and widens again while answers come back well;</li><li>for a server of your own whose metrics say how full it is (vLLM, SGLang): it holds requests waiting for room with
+its memory nearly full: the proxy lets in the most it was running at that read or the one before (a little less
+when it also preempted requests since then), so the rest wait in the proxy, interactive first, instead of in the
+server. Preemptions alone, read while the server has room again, are not counted: they happened under an earlier
+load, perhaps another program's on the same GPU;</li><li>for a server of your own: its total output falls clearly as more requests run at once: the proxy holds it where
+its total output was highest, and never below what the server itself measured it serves at once. When the
+server's metrics say how full it is (vLLM, SGLang), they must agree: the proxy narrows on falling output only
+when its latest read (under two minutes old) showed the server overloaded, and then never below what the server
+was running. Without that, it keeps the limit: with many more requests waiting in the proxy than it lets in,
+each one runs a little slower (new requests keep starting, and they push each other's prompts out of the
+server's cache), which lowers the total without the server being past what it can take.</li></ul>
+<p>Each request getting slower as more run at once is <strong>not</strong> evidence: a batching server (vLLM, SGLang) works that
+way by design, and produces more in all. A limit learned from the server's metrics or its total output stays where
+the output peaked, and rises at once when the server, no longer overloaded, measures clearly more room. Every
+learned limit is dropped after 30 minutes without new evidence. One request refused on its own, a refusal that
+says when to come back (a per-minute rate limit) and a spent quota are not evidence about how many at once, and a
+cloud account's speed and metrics are never used (they change with everyone else's load). What it learned is kept
+across restarts, and shared between replicas in storage mode central.</p>
+<p><strong>Where it starts</strong> (3.0). With nothing learned, a server of your own whose number the proxy has already measured
+under load (kept for 7 days, across restarts), or estimated from your request sizes calibrated by such a
+measurement, starts from that number instead of no limit, so the first burst after a restart waits in the proxy
+rather than overloading the server. The setup page and <code>GET /v1/maple/capacity</code> show it as learned, <code>from the last
+measurement</code> (with how long ago it was measured) or <code>calibrated estimate</code>. The evidence above then moves it as any
+learned limit; it never goes above the number the server states, it is dropped after 30 minutes without
+evidence (the next request starts from what is known then), and a speed floor (<code>min_request_tps</code>) still starts
+from one. Without a measurement, nothing changes: no limit until there is evidence.</p></li><li><strong>You set it.</strong> A <code>concurrency</code> entry for a provider always wins, as below. To choose its number, measure your
+server: <a href="#measure-your-server">Measure your server</a>.</li></ol>
+<p>With a limit in force (yours or a learned one), the proxy holds the extra requests itself and lets them in as room
+appears: <strong>interactive</strong> requests first, then <strong>batch</strong>, then <strong>background</strong>. A request is interactive unless the
+tool says otherwise with the <code>X-Maple-Priority</code> header (<code>batch</code> or <code>background</code>) or a <code>priority:batch</code> tag. A request
+that waits longer than the queue timeout goes to its fallback, as for a spent budget, or is answered busy (503, with
+<code>Retry-After</code>) when there is none. The queue itself has a bound: at least 32 requests, and 8 for each request let in
+at once, counted from the highest limit in force in the last 10 minutes (or <code>max</code>, when that is higher), so a limit
+the proxy narrowed for a while makes requests wait rather than be refused. Past the bound a request is refused at
+once. The busy answer says which happened: "it was at its limit of 7 request(s) at once for 2m0s" after waiting the
+queue timeout, or "the queue for gpu-box is full (56 waiting at a limit of 7)" when refused at once.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">concurrency:</span>
+<span class="t-k">  my-llama:</span>            <span class="t-c"># a provider id</span>
+<span class="t-k">    mode:</span> backend      <span class="t-c"># use the server's own count (llama.cpp's slots)</span>
+<span class="t-k">  gpu-box:</span>
+<span class="t-k">    mode:</span> adaptive     <span class="t-c"># start low, widen while it keeps up</span>
+<span class="t-k">    max:</span> <span class="t-n">6</span>
+<span class="t-k">  shared-api:</span>
+<span class="t-k">    max:</span> <span class="t-n">4</span>             <span class="t-c"># a fixed limit</span></code></pre></div>
+<ul><li><strong><code>fixed</code></strong> (the default when you set <code>max</code>): at most <code>max</code> at once.</li><li><strong><code>backend</code></strong> (the default without <code>max</code>): as many as the server says it runs at once (llama.cpp's slots,
+SGLang's and Text Generation Inference's limit), at most <code>max</code> when you set it. Until the server says, <code>max</code>, or no
+limit. An estimate (vLLM's) is reported, never enforced, in this mode.</li><li><strong><code>adaptive</code></strong>: starts with one request at a time and lets in one more while the time per generated token holds up
+under the load; it lets in fewer when the time per token gets clearly worse or the server answers that it is busy
+(429 or 503). It never goes above <code>max</code>, the server's slot count, or 8 when neither is known.</li><li><strong>A speed floor</strong> (<code>min_request_tps</code>, with no <code>mode</code>): starts with one request at a time and lets in one more while
+each request still generates at least that many tokens a second, measured from the latest answers that ran with the
+limit full; below it, fewer, in proportion, and that number is not tried again for 30 minutes. <code>max</code> caps it. The
+server answering busy or showing it is overloaded narrows it too. What it learned is kept across restarts.</li></ul>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">concurrency:</span>
+<span class="t-k">  gpu-box:</span>
+<span class="t-k">    min_request_tps:</span> <span class="t-n">100</span>   <span class="t-c"># no answer slower than about 100 tokens a second</span></code></pre></div>
+<p>On the setup page, <strong>Models &amp; routing</strong>, <strong>Routing rules, concurrency and moderation</strong>, <strong>Concurrency</strong> edits these
+entries and shows, for each provider, how many requests it takes at once now, where that comes from (for an
+estimate, how it was made: "measured under load, 2 h ago", "from its cache and the typical request size (9k
+tokens), not measured yet" or "requests at its longest context, not measured yet"), and, when the proxy holds
+requests back, how many are running and waiting.</p>
+<h4 id="how-vllms-number-is-estimated">How vLLM's number is estimated <a class="anchor" href="#how-vllms-number-is-estimated" aria-label="Link to this heading">#</a></h4>
+<p>In plain words: a server that states no number of its own (vLLM, SGLang without its limit) holds as many requests at
+once as fit in its memory, and that depends on how long the requests are. The proxy picks the best figure it has, in
+this order:</p>
+<ol><li><strong>Measured under load.</strong> While the server is working, the proxy sees how many requests run and how much of the
+memory they use, and works out how many would fit. The last such figure is kept (across restarts, and shared
+between replicas in storage mode central) and used while the server is idle. It is replaced by the next one
+measured, and dropped after 7 days without one.</li><li><strong>From your recent request sizes.</strong> Never measured yet (or the last measurement is older than 7 days): the
+server's memory, in tokens, over the size of a typical request you sent it recently, from the usage log. Never
+less than the figure in 3, never more than a limit the server states.</li><li><strong>At its longest context.</strong> With nothing else: how many requests of the model's full context length fit. With a
+long context this is low (a few requests for a 262k context) while agents' requests are usually far shorter.</li></ol>
+<p>Every one of these is an estimate (<code>basis: estimated</code>): reported, not enforced by itself. A measured figure, or one
+from request sizes calibrated by a measurement, is where a server without a <code>concurrency</code> entry starts holding
+requests (<a href="#how-many-requests-a-model-server-takes-at-once">where it starts</a>); a figure from request sizes alone or at the longest context
+never is. Set a <code>concurrency</code> entry to hold requests to a number of your own.</p>
+<p>A running request seldom holds exactly its own size of the server's memory: a model that keeps extra state per
+request holds more, a prompt start shared with other requests less. So when the proxy has both a measurement under
+load and your typical request size, it keeps how much memory each request held per token of its size, for 30 days,
+and uses it in 2: the estimate from request sizes then follows what was measured ("calibrated by a measurement under
+load" on the setup page). <code>maple-proxy tune</code> records it too.</p>
+<p>Technical details:</p>
+<ul><li>"Measured" is the requests running over the share of the KV cache they use (vLLM's <code>vllm:kv_cache_usage_perc</code>,
+SGLang's <code>sglang:token_usage</code>), or what runs when some wait for room. Only a read under real load counts: at least
+two requests running and at least a quarter of the cache in use, and not while requests wait with the cache under
+80% (a burst still starting). A read at the start or the end of a burst, or an idle one, is shown as the idle
+figure (from request sizes or the longest context), never as measured, and never kept. A measured figure is kept
+per provider and model, with its time, in <code>capacity-estimates.json</code> in the config folder, or in Redis in storage
+mode central.</li><li>"Typical request" is the 75th percentile of prompt plus output tokens over the provider's latest 500 requests in the
+last 7 days of the usage log (the model's own when it has at least 20, else any model's on that provider), taken as
+at least 1,024 tokens. Failed requests and answers from the proxy's response cache are left out. At most 32 MB of
+the log is read, newest first, every 10 minutes. With the usage log off, this step is skipped.</li><li>The server's memory in tokens is vLLM's <code>kv_cache_size_tokens</code> (in <code>vllm:cache_config_info</code>), or its requests at the
+longest context times <code>max_model_len</code> when a <code>*_config_info</code> metric carries it; SGLang's <code>max_total_num_tokens</code>.</li><li>The calibration is the server's memory over (the measured figure times the typical request), averaged with the one
+before (each new one moves it by 30%), kept with the measured figure as <code>held_per_token</code>; with it, 2 is the memory
+over (the typical request times that). <code>GET /v1/maple/capacity</code> shows it as <code>held_per_token</code> beside
+<code>typical_request_tokens</code>.</li></ul>
+<p><strong>Ask the proxy.</strong> <code>GET /v1/maple/capacity</code> (on the OpenAI-compatible port, with the same token as any request) lists
+each model in your model list with <code>concurrency</code>, how many requests its server takes at once now (0 when not known);
+<code>source</code>, where that comes from (<code>configured</code>, <code>backend</code>, <code>adaptive</code>, <code>learned</code> or <code>unknown</code>); <code>basis</code>, for
+<code>backend</code> and <code>learned</code>, how (<code>stated</code>, <code>estimated</code>, <code>busy answers</code>, <code>server overloaded</code>, <code>less throughput with more
+at once</code>, <code>from the last measurement</code>, <code>calibrated estimate</code> or <code>rate limit</code>; for the two started from an estimate,
+<code>estimate_from</code> and the fields below say which estimate);
+<code>server</code>, the kind of local server that answered (<code>llama.cpp</code>, <code>vllm</code>, <code>sglang</code> or <code>tgi</code>); for an estimate,
+<code>estimate_from</code> (<code>measured</code>, <code>request_sizes</code> or <code>longest_context</code>, as in <a href="#how-vllms-number-is-estimated">How vLLM's number is
+estimated</a>), with <code>estimate_at</code> and <code>estimate_age_seconds</code> for a measured one and
+<code>typical_request_tokens</code> for one from request sizes; <code>gated</code>, whether the
+proxy holds requests past it; and, when it does and no people are configured, how many requests are in flight and
+waiting at each priority (with people, those counts are everyone's, so they are left out); there <code>gate.throughput</code>
+is the latest comparison of total output the learned rule made: <code>best_at_once</code> and <code>best_tok_s</code> (where total output
+was highest), <code>at_once</code> and <code>tok_s</code> (the level compared), their <code>ratio</code>, the <code>outcome</code> (<code>rising</code>, <code>narrowed</code>, with
+<code>to</code>, or <code>held</code>) and <code>server</code> (<code>overloaded</code> or <code>not overloaded</code>, when its metrics were read in the last two minutes),
+so a narrowing, or a hold, can be explained. <code>?model=&lt;name&gt;</code> asks
+about one model. A tool can size its own parallel work from it. A <code>backend</code> figure from an estimate and a <code>rate
+limit</code> figure are what the server or account can take, not limits the proxy enforces.</p>
+<p>The same figure comes two more ways, without asking: each answer carries <code>X-Maple-Capacity: &lt;n&gt;</code> for the backend
+that answered, and each model in <code>GET /v1/models</code> has <code>"maple": {"capacity": &lt;n&gt;, "capacity_source": "…"}</code>, on the
+OpenAI-compatible port and on the Anthropic one. Both
+leave the figure out while it is not known, and neither waits for a local server to say: one not asked yet is
+asked in the background, and appears on later answers and lists.</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> <span class="t-f">-s</span> <span class="t-f">-H</span> <span class="t-s">"Authorization: Bearer $MAPLE_TOKEN"</span> <span class="t-s">"http://127.0.0.1:11535/v1/maple/capacity?model=qwen3-coder"</span></code></pre></div>
+<p>Technical details:</p>
+<ul><li>The proxy asks a local server <code>GET /slots</code> and <code>/props</code> (llama.cpp), <code>/metrics</code> (vLLM, and SGLang when its metrics
+are on), <code>/get_server_info</code> (SGLang) and <code>/info</code> (Text Generation Inference), with the provider's own address and
+key, two seconds at most, and reads at most 8 MB of an answer. It remembers which kind answered; a server that
+answers none of them is not asked again for ten minutes. Only servers on this machine or your own network (or
+marked <code>local: true</code>) are asked; a cloud address never is. LM Studio and Ollama state no count, so they are learned.</li><li>What the server is working on (<code>backend_busy</code>) is only shown while the last read is under a minute old; an older
+read, being refreshed in the background, shows <code>-1</code> (not known) rather than a count from then.</li><li>The server's own signs of overload are read from vLLM's <code>vllm:num_requests_waiting_by_reason{reason="capacity"}</code>
+(or <code>vllm:num_requests_waiting</code> on a version without reasons) with <code>vllm:kv_cache_usage_perc</code> at 90% or more, and
+SGLang's <code>sglang:num_queue_reqs</code> with <code>sglang:token_usage</code>; <code>vllm:num_preemptions_total</code> rising between two reads
+takes a tenth off, and counts only when the same read shows the memory full. Requests waiting while the memory is
+mostly free (under 80%) are a burst waiting to start, not overload: such a read never lowers the measured figure.</li><li>A limit learned by the rule before 3.0 ("slower with more at once", which could narrow a batching server to a
+quarter of what it serves) is not restored after the upgrade.</li><li>The learned limits are kept in <code>capacity-learned.json</code> in the config folder, or in Redis in storage mode central
+(each replica holds its own requests to the limit). Nothing is learned for a hub (a provider of type <code>maple</code>):
+it holds its own limits, and its busy answers can be about one person's limits there.</li></ul>
+<p>The keys are listed under <a href="proxy-settings.html#concurrency">Concurrency</a>.</p>
+<h4 id="measure-your-server">Measure your server <a class="anchor" href="#measure-your-server" aria-label="Link to this heading">#</a></h4>
+<p>In plain words: <code>maple-proxy tune</code> sends practice requests the size an agent sends to one of your servers, 1, 2, 4, 8,
+16 and 32 at once, measures the total speed, each request's speed and the wait for the first token, and recommends
+three settings, <strong>snappy</strong> (each answer close to its speed alone), <strong>balanced</strong> (most of the total speed) and
+<strong>throughput</strong> (the most total speed), each with the <code>concurrency</code> lines to use. It asks before sending anything.
+The setup page's Concurrency section has the same as <strong>Measure this server</strong>, with <strong>Apply</strong> beside each profile. The
+step by step, with an example, is in <a href="local-gpu.html">Get the most from a local GPU</a>.</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> tune <span class="t-f">--provider</span> gpu-box                      <span class="t-c"># asks, then measures and recommends</span>
+<span class="t-k">maple-proxy</span> tune <span class="t-f">--provider</span> gpu-box <span class="t-f">--min-request-tps</span> 100 <span class="t-f">--yes</span> <span class="t-f">--format</span> json</code></pre></div>
+<p>Technical details:</p>
+<ul><li>The requests go straight to the provider through the proxy's own adapters, never through a running proxy, so they
+are not in the usage log or budgets; nothing is sent to the proxy's ports. Run it while the server is otherwise
+idle: the figures include whatever else it is doing (a level that started with the server busy is marked).</li><li>Flags: <code>--provider</code> (default: the only local provider), <code>--model</code> (default: the provider's first configured model),
+<code>--levels 1,2,4,8,16,32</code>, <code>--prompt-tokens</code> and <code>--output-tokens</code> (default: the typical recent request to it in the
+usage log, else about 9,000 and 650), <code>--reps N</code> (requests per client and level, default 2) or <code>--duration D</code> (per
+level), <code>--budget-requests N</code> (the most requests in all), <code>--min-request-tps N</code> (a speed floor for the snappy
+profile), <code>--reasoning none|low|default</code> (below), <code>--yes</code>, <code>--format text|json</code>.</li><li>It stops early when a level adds less than 5% to the best total so far, when a level has errors, or at the budget.</li><li>A provider that is not a model server of your own (a cloud account, a hub, a LiteLLM router, even at a private
+address) is refused unless <code>--yes</code> and <code>--budget-requests</code> are both given: its requests may be billed or shared. It
+shows the most they could cost at list price when the model's prices are known. The setup page measures servers of
+your own only, one run at a time, its configured models only, at most 64 at once, and stops a run after 90 minutes.</li><li>Without a terminal and without <code>--yes</code>, it prints the plan and exits with status 2.</li><li>For vLLM and SGLang it reads the server's own figures during each level and records what each running request held
+of its memory, for the estimate above (in storage mode central the proxy measures that under load itself).</li><li>Reasoning: a model that thinks by default (Qwen on vLLM, for one) spends an answer's tokens on reasoning, and a
+thinking answer generates at a different speed. So by default (<code>--reasoning none</code>) the requests ask for the least
+reasoning the model supports: its lowest declared effort (<code>none</code>, else <code>minimal</code>, else <code>low</code>), or, for a server of
+your own that takes extra request fields, <code>chat_template_kwargs: {"enable_thinking": false}</code> (Qwen-style templates),
+with <code>reasoning_effort: none</code> for vLLM. <code>--reasoning low</code> sends <code>reasoning_effort: low</code>; <code>--reasoning default</code> sends
+nothing, so it measures what a request that does not say gets. The plan and the result say what was sent, and each
+level records the output tokens the server counted as reasoning separately (<code>reasoning_tokens</code> in <code>--format json</code>).
+The setup page measures with <code>none</code>.</li></ul>
 <h3 id="limits-and-hosts-restart-required">Limits and hosts (restart required) <a class="anchor" href="#limits-and-hosts-restart-required" aria-label="Link to this heading">#</a></h3>
 <p>The <strong>rate limit</strong> (off for this machine, on for other machines by default) and <strong>allowed hosts</strong> (extra names the
 proxy answers to) are read when the proxy starts, so restart it after saving. The <strong>usage log</strong>, one line of counts
 per request, is on by default and applies as soon as you save. See <a href="proxy-settings.html#limits-and-hosts">Limits and hosts</a>,
 <a href="proxy-settings.html#the-usage-log">The usage log</a> and <a href="usage-export.html">Your usage data</a>.</p>
 <p>If you prefer files, all of this lives in <code>config.yaml</code> (usually <code>~/.config/maple-harness/config.yaml</code>):</p>
-<pre><code class="language-yaml">model_fallbacks:
-  cloud: [local]            # cloud and local are model aliases (see Connect a model server)
-context_guard: truncate     # off | truncate | error
-degenerate_guard: true
-budgets:
-  - provider: anthropic
-    max_requests_per_day: 150
-    max_ai_units_per_day: 20
-server:
-  allowed_hosts: [my-computer.example]   # this machine's Tailscale name, or another name clients use
-  rate_limit:
-    requests_per_minute: 120
-    burst: 20
-    max_concurrent: 4
-  usage_ledger: /data/maple/usage.jsonl   # leave it out for the default place; off turns it off
-  usage_retention_days: 90                # days of daily files to keep; 0 keeps everything</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model_fallbacks:</span>
+<span class="t-k">  cloud:</span> [local]            <span class="t-c"># cloud and local are model aliases (see Connect a model server)</span>
+<span class="t-k">context_guard:</span> truncate     <span class="t-c"># off | truncate | error</span>
+<span class="t-k">degenerate_guard:</span> <span class="t-n">true</span>
+<span class="t-k">budgets:</span>
+<span class="t-k">  - provider:</span> anthropic
+<span class="t-k">    max_requests_per_day:</span> <span class="t-n">150</span>
+<span class="t-k">    max_ai_units_per_day:</span> <span class="t-n">20</span>
+<span class="t-k">server:</span>
+<span class="t-k">  allowed_hosts:</span> [my-computer.example]   <span class="t-c"># this machine's Tailscale name, or another name clients use</span>
+<span class="t-k">  rate_limit:</span>
+<span class="t-k">    requests_per_minute:</span> <span class="t-n">120</span>
+<span class="t-k">    burst:</span> <span class="t-n">20</span>
+<span class="t-k">    max_concurrent:</span> <span class="t-n">4</span>
+<span class="t-k">  usage_ledger:</span> /data/maple/usage.jsonl   <span class="t-c"># leave it out for the default place; off turns it off</span>
+<span class="t-k">  usage_retention_days:</span> <span class="t-n">90</span>                <span class="t-c"># days of daily files to keep; 0 keeps everything</span></code></pre></div>
 <p>Saving from the setup page changes only the settings you changed in <code>config.yaml</code>, so comments you added by hand
 stay, except inside the provider list when you move a provider up or down it. Keys are never in it: they stay in your system keyring, and the file holds only a reference.</p>
 <h2 id="using-it-from-another-machine">Using it from another machine <a class="anchor" href="#using-it-from-another-machine" aria-label="Link to this heading">#</a></h2>
 <p>By default only this machine can reach the model APIs. To let another machine on your network use them, set
 the listen address and create an <strong>access token</strong> with the <code>proxy</code> scope on the setup page:</p>
-<pre><code class="language-yaml">server:
-  openai_compat: 0.0.0.0:11535
-  anthropic_compat: 0.0.0.0:11537
-  allowed_hosts: [my-box.local]     # the name other machines use to reach it</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">server:</span>
+<span class="t-k">  openai_compat:</span> 0.0.0.0:<span class="t-n">11535</span>
+<span class="t-k">  anthropic_compat:</span> 0.0.0.0:<span class="t-n">11537</span>
+<span class="t-k">  allowed_hosts:</span> [my-box.local]     <span class="t-c"># the name other machines use to reach it</span></code></pre></div>
 <p>The proxy refuses to start on a non-loopback address until such a token exists, and callers send it as
 <code>Authorization: Bearer &lt;token&gt;</code>. Requests from other machines are rate-limited. The setup page itself never
 listens beyond this machine.</p>
@@ -644,10 +871,10 @@ restarted on the new release by the harness, when it can tell for sure that it s
 the process); one it did not start is never touched.</li><li><strong>Your proxy runs with another settings folder</strong>: start it with this one (the same <code>XDG_CONFIG_HOME</code>, or no
 <code>--config</code> pointing elsewhere for its settings folder), so it has your key.</li><li><strong>Your proxy runs in a container</strong>: the harness can verify it only when the container shares this machine's
 network and your settings folder, and runs as you (the key is readable only by its owner). On Linux, with Docker:
-<pre><code class="language-bash">docker run -d --name maple-proxy --read-only --cap-drop ALL --security-opt no-new-privileges \
-  --tmpfs /tmp --network host --user "$(id -u):$(id -g)" \
-  -v "$HOME/.config/maple-harness:/data/config/maple-harness" \
-  maple-proxy:2.2.0</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-bash"><span class="t-k">docker</span> run <span class="t-f">-d</span> <span class="t-f">--name</span> maple-proxy <span class="t-f">--read-only</span> <span class="t-f">--cap-drop</span> ALL <span class="t-f">--security-opt</span> no-new-privileges \
+  <span class="t-f">--tmpfs</span> /tmp <span class="t-f">--network</span> host <span class="t-f">--user</span> <span class="t-s">"$(id -u):$(id -g)"</span> \
+  <span class="t-f">-v</span> <span class="t-s">"$HOME/.config/maple-harness:/data/config/maple-harness"</span> \
+  maple-proxy:2.2.0</code></pre></div>
 <p>This shares your whole settings folder with the container, sign-ins included. A container on its own network
 (published ports such as <code>-p 127.0.0.1:11535:11535</code>) is reached through a port forward and cannot be verified;
 use one of the two ways below for it.</p></li><li><strong>A CI job</strong>: start the proxy in the job, as the same user with the same settings folder (or let the harness start
@@ -679,29 +906,31 @@ is refused as replaced.</p>
 <h2 id="check-the-cache-yourself">Check the cache yourself <a class="anchor" href="#check-the-cache-yourself" aria-label="Link to this heading">#</a></h2>
 <p>Providers cache the start of a request that they have seen recently, and reading from that cache costs a fraction of
 processing it again. Whether that is working for your account and your model is easy to see:</p>
-<pre><code>maple-proxy cache probe --model gpt-5-mini --yes</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> cache probe <span class="t-f">--model</span> gpt-5-mini <span class="t-f">--yes</span></code></pre></div>
 <p>It sends the same small request twice, a few seconds apart, through the running proxy, and prints what each call
 reported: prompt tokens, tokens read from the cache, tokens written to it, and AI units. It says so plainly when a
 model reports no cache figures, in which case the cache may not be visible from here. Without <code>--yes</code> it sends nothing
 and only says what it would send (two requests of about 6,000 tokens, which may spend a few AI units). <code>--tokens</code>
 changes the size (1,500 to 50,000) and <code>--wait</code> the pause between the two calls. Nothing it prints contains a key.</p>
 <h2 id="other-useful-commands">Other useful commands <a class="anchor" href="#other-useful-commands" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">maple-proxy auth status         # what is signed in
-maple-proxy secrets status      # where each secret is stored (never its value)
-maple-proxy setup-password status   # whether the setup page has a password
-maple-proxy audit tail          # who did what: token changes, refused requests
-maple-proxy token add &lt;label&gt; [--person &lt;id&gt;] [--scope proxy|metrics]   # a token, shown once
-maple-proxy token list          # every token's id, label, scopes and person (never the token)
-maple-proxy token revoke &lt;id&gt;   # revoke a token, and untie it from its person
-maple-proxy update              # install a newer release</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-proxy</span> auth status         <span class="t-c"># what is signed in</span>
+<span class="t-k">maple-proxy</span> secrets status      <span class="t-c"># where each secret is stored (never its value)</span>
+<span class="t-k">maple-proxy</span> setup-password status   <span class="t-c"># whether the setup page has a password</span>
+<span class="t-k">maple-proxy</span> audit tail          <span class="t-c"># who did what: token changes, refused requests</span>
+<span class="t-k">maple-proxy</span> token add &lt;label&gt; [--person &lt;id&gt;] [--scope proxy|metrics|manage|a2a]   <span class="t-c"># a token, shown once</span>
+<span class="t-k">maple-proxy</span> token list          <span class="t-c"># every token's id, label, scopes and person (never the token)</span>
+<span class="t-k">maple-proxy</span> token revoke &lt;id&gt;   <span class="t-c"># revoke a token, and untie it from its person</span>
+<span class="t-k">maple-proxy</span> update              <span class="t-c"># install a newer release</span>
+<span class="t-k">maple-proxy</span> tune <span class="t-f">--provider</span> &lt;id&gt;    <span class="t-c"># measure a server of your own and get concurrency settings</span></code></pre></div>
 </article>
-<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/models.html" rel="prev"><small>Previous</small>Choose a model</a><a class="next" href="../docs/proxy-service.html" rel="next"><small>Next</small>Keep it running in the background</a></div><div class="mset m-teams"><a class="prev" href="../docs/endpoints.html" rel="prev"><small>Previous</small>Connect a model server</a><a class="next" href="../docs/proxy-service.html" rel="next"><small>Next</small>Keep it running in the background</a></div></nav>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/models.html" rel="prev"><small>Previous</small>Choose a model</a><a class="next" href="../docs/local-gpu.html" rel="next"><small>Next</small>Get the most from a local GPU</a></div><div class="mset m-teams"><a class="prev" href="../docs/endpoints.html" rel="prev"><small>Previous</small>Connect a model server</a><a class="next" href="../docs/local-gpu.html" rel="next"><small>Next</small>Get the most from a local GPU</a></div></nav>
 <footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#the-menu">The menu</a></li><li><a href="#whats-configured">What's configured</a></li><li><a href="#set-up-more">Set up more</a></li><li><a href="#advanced-and-saved-settings-that-wait-for-a-restart">Advanced, and saved settings that wait for a restart</a></li><li><a href="#charts-and-live-figures">Charts and live figures</a></li><li><a href="#what-you-can-do-from-the-configure-tabs">What you can do from the Configure tabs</a></li><li><a href="#filter-the-charts-and-cards">Filter the charts and cards</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#alerts-and-forecasts">Alerts and forecasts</a></li><li><a href="#compare-two-ranges">Compare two ranges</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#mcp-hub-experimental">MCP hub (experimental)</a></li><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#model-groups">Model groups</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#prices-for-each-model">Prices for each model</a></li><li><a href="#discounts">Discounts</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a></li><li><a href="#verified-and-unverified-proxies">Verified and unverified proxies</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-it-listens-on">What it listens on</a></li><li><a href="#the-setup-page">The setup page</a><ol><li><a href="#the-menu">The menu</a></li><li><a href="#whats-configured">What's configured</a></li><li><a href="#set-up-more">Set up more</a></li><li><a href="#advanced-and-saved-settings-that-wait-for-a-restart">Advanced, and saved settings that wait for a restart</a></li><li><a href="#charts-and-live-figures">Charts and live figures</a></li><li><a href="#what-you-can-do-from-the-configure-tabs">What you can do from the Configure tabs</a></li><li><a href="#filter-the-charts-and-cards">Filter the charts and cards</a></li><li><a href="#provider-health">Provider health</a></li><li><a href="#alerts-and-forecasts">Alerts and forecasts</a></li><li><a href="#compare-two-ranges">Compare two ranges</a></li><li><a href="#people-and-teams">People and teams</a></li><li><a href="#mcp-hub">MCP hub</a></li><li><a href="#protect-the-setup-page-with-a-password">Protect the setup page with a password</a></li></ol></li><li><a href="#settings-you-may-want">Settings you may want</a><ol><li><a href="#prompt-caching">Prompt caching</a></li><li><a href="#model-aliases">Model aliases</a></li><li><a href="#fallbacks">Fallbacks</a></li><li><a href="#model-groups">Model groups</a></li><li><a href="#auto-mode-at-the-proxy">Auto mode at the proxy</a></li><li><a href="#set-up-auto-mode">Set up auto mode</a></li><li><a href="#your-own-rules-for-auto">Your own rules for auto</a></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#see-what-auto-chose">See what auto chose</a></li><li><a href="#guards">Guards</a></li><li><a href="#keeping-the-cache-useful">Keeping the cache useful</a></li><li><a href="#images-and-browser-snapshots">Images and browser snapshots</a></li><li><a href="#seeing-how-the-cache-is-doing">Seeing how the cache is doing</a></li><li><a href="#seeing-cost-per-session">Seeing cost per session</a></li><li><a href="#seeing-what-it-saves">Seeing what it saves</a></li><li><a href="#prices-for-each-model">Prices for each model</a></li><li><a href="#discounts">Discounts</a></li><li><a href="#daily-budgets">Daily budgets</a></li><li><a href="#how-many-requests-a-model-server-takes-at-once">How many requests a model server takes at once</a></li><li><a href="#limits-and-hosts-restart-required">Limits and hosts (restart required)</a></li></ol></li><li><a href="#using-it-from-another-machine">Using it from another machine</a></li><li><a href="#connect-the-harness-to-a-proxy">Connect the harness to a proxy</a></li><li><a href="#verified-and-unverified-proxies">Verified and unverified proxies</a></li><li><a href="#check-the-cache-yourself">Check the cache yourself</a></li><li><a href="#other-useful-commands">Other useful commands</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

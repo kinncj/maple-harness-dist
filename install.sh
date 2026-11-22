@@ -27,7 +27,7 @@
 # binaries) before it trusts a single hash in it, and refuses to install
 # when it cannot. It needs OpenSSL 3 for that; without it, an already
 # installed maple-harness can do the check; with neither, it stops and says
-# how to proceed. See docs/supply-chain.md.
+# how to proceed. See https://kinncj.github.io/maple-harness/docs/install.html.
 #
 # Environment overrides:
 #   MAPLEHARNESS_VERSION   release tag to install (default: latest)
@@ -353,7 +353,7 @@ KEYS
 
   This is a build of the installer that predates the project's first signed
   release. Get the installer from the release you are installing, or see
-  docs/supply-chain.md. Nothing has been installed." ;;
+  https://kinncj.github.io/maple-harness/docs/install.html. Nothing has been installed." ;;
     esac
     err "this release is signed by key ${keyid}, which this installer does not trust.
 
@@ -411,7 +411,7 @@ if fetch "SHA256SUMS.sig" "${tmp}/SHA256SUMS.sig" 2>/dev/null; then
 
   Either:
     - install OpenSSL 3 (brew install openssl) and run this again, or
-    - verify by hand as docs/supply-chain.md describes, then re-run with --skip-verify.
+    - verify by hand as https://kinncj.github.io/maple-harness/docs/install.html describes, then re-run with --skip-verify.
 
   Nothing has been installed."
   fi
@@ -428,6 +428,83 @@ else
 
   Nothing has been installed. If you are sure about where you got it,
   --skip-verify installs anyway (checksums are still enforced)."
+  fi
+fi
+
+# Where SHA256SUMS comes from: the published repository's own release workflow attests it while the
+# release is a draft (SHA256SUMS.attestation.json, signed through GitHub, logged publicly by
+# Sigstore). With GitHub's gh 2.67 or newer installed, it is checked against that exact workflow on
+# main, no sign-in needed. From 3.0 every release has one, so for those (and for "latest") a missing
+# attestation is refused when gh can check it; an older release has none. Only for the published
+# repository: the check names its workflow.
+ATTEST_REPO="kinncj/maple-harness-dist"
+ATTEST_ID="https://github.com/${ATTEST_REPO}/.github/workflows/attest.yml@refs/heads/main"
+gh_attests() {  # gh is there, knows attestations, and is 2.67.0 or newer (older ones could pass nothing)
+  command -v gh >/dev/null 2>&1 && gh attestation --help >/dev/null 2>&1 || return 1
+  ghv=$(gh --version 2>/dev/null | sed -n 's/^gh version \([0-9][0-9]*\)\.\([0-9][0-9]*\)\..*/\1 \2/p' | head -n1)
+  [ -n "$ghv" ] || return 1
+  set -- $ghv
+  [ "$1" -gt 2 ] || { [ "$1" -eq 2 ] && [ "$2" -ge 67 ]; }
+}
+attest_expected() {  # every release from 3.0 has one: decided by the release's own tag, never by the word "latest"
+  rtag="$SIGNED_TAG"                       # checked by the signature above, when there is one
+  [ -n "$rtag" ] || { [ "$VERSION" != latest ] && rtag="$VERSION"; }
+  if [ -z "$rtag" ]; then                  # "latest": the tag GitHub says it is
+    rtag=$(curl -fsSL -H "Accept: application/vnd.github+json" "${API}/repos/${REPO}/releases/latest" 2>/dev/null \
+      | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1)
+  fi
+  [ -n "$rtag" ] || return 1               # not known (GitHub not answering): a rate limit must not stop installs
+  # Fails closed: only a tag that reads as a version below 3 is spared ("v9-x" or "V9.0.0" is not).
+  case "$rtag" in
+    v[0-9]*|[0-9]*) major=${rtag#v}; major=${major%%[!0-9]*}; [ -n "$major" ] && [ "$major" -lt 3 ] && return 1 ;;
+  esac
+  return 0
+}
+# check_release_tag: the attested SHA256SUMS lists RELEASE_TAG, the file matches, and it names the release.
+check_release_tag() {
+  want=$(awk '$2 == "RELEASE_TAG" || $2 == "*RELEASE_TAG" { print $1; exit }' "${tmp}/SHA256SUMS")
+  [ -n "$want" ] && fetch "RELEASE_TAG" "${tmp}/RELEASE_TAG" 2>/dev/null \
+    || { attest_fail "the attested SHA256SUMS names no release (no RELEASE_TAG), which every release from 3.0 has"; return; }
+  if command -v sha256sum >/dev/null 2>&1; then got=$(sha256sum "${tmp}/RELEASE_TAG" | awk '{print $1}'); else got=$(shasum -a 256 "${tmp}/RELEASE_TAG" | awk '{print $1}'); fi
+  [ "$got" = "$want" ] || { attest_fail "RELEASE_TAG does not match its checksum"; return; }
+  named=$(tr -d '\r\n' < "${tmp}/RELEASE_TAG")
+  if [ -n "$rtag" ] && [ "$named" != "$rtag" ]; then
+    attest_fail "release ${rtag} carries the attested files of release ${named}: an older release's files under a newer name are how a fixed problem comes back"
+  elif [ -z "$rtag" ]; then
+    info "the attested files are release ${named}"
+  fi
+}
+attest_fail() {
+  if [ -n "$SKIP_VERIFY" ]; then
+    printf '%s!%s %s\n' "$RED" "$RESET" "$1; continuing because of --skip-verify."
+  else
+    err "$1.
+
+  The files may not be the ones this project's release workflow published, or gh could not reach
+  Sigstore to check. Nothing has been installed. If you are sure about where you got it,
+  --skip-verify installs anyway (checksums are still enforced)."
+  fi
+}
+repo_norm=$(printf '%s' "$REPO" | tr '[:upper:]' '[:lower:]' | sed 's#^[[:space:]/]*##; s#[[:space:]/]*$##')
+if [ "$repo_norm" = "$ATTEST_REPO" ]; then
+  have_att=""
+  fetch "SHA256SUMS.attestation.json" "${tmp}/SHA256SUMS.attestation.json" 2>/dev/null && [ -s "${tmp}/SHA256SUMS.attestation.json" ] && have_att=1
+  if ! gh_attests; then
+    [ -n "$have_att" ] && info "this release is attested; with GitHub's gh (2.67 or newer) installed, this installer checks that too"
+  elif [ -z "$have_att" ]; then
+    if attest_expected; then
+      attest_fail "this release has no attestation of SHA256SUMS (SHA256SUMS.attestation.json), which every release from 3.0 has"
+    else
+      info "this release is from before attestations; its checksums and signature are what is checked"
+    fi
+  elif aout=$(gh attestation verify "${tmp}/SHA256SUMS" --repo "$ATTEST_REPO" \
+       --bundle "${tmp}/SHA256SUMS.attestation.json" --cert-identity "$ATTEST_ID" \
+       --source-ref refs/heads/main --deny-self-hosted-runners 2>&1); then
+    info "${GREEN}✓${RESET} SHA256SUMS is attested by ${ATTEST_REPO}'s release workflow"
+    # Only releases from 3.0 are attested, and every one names its release: always checked.
+    rtag=""; attest_expected; check_release_tag
+  else
+    attest_fail "the attestation of SHA256SUMS could not be confirmed: $(printf '%s' "$aout" | tail -n 1 | tr -cd '[:print:]' | cut -c1-300)"
   fi
 fi
 

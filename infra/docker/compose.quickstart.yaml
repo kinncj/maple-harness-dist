@@ -1,0 +1,33 @@
+# QUICK START: the published maple-proxy image, alone, everything it keeps on one volume. Nothing is
+# built: the image is pulled from GitHub Container Registry (3.0 and later).
+#
+#   mkdir -p -m 700 secrets && printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   chmod 644 secrets/*      # the proxy reads them as user 65532; the folder stays private
+#   MAPLE_VERSION=3.0.0 docker compose -f compose.quickstart.yaml up -d
+#
+# Clients use http://127.0.0.1:11535/v1 (OpenAI) or http://127.0.0.1:11537 (Anthropic) with the
+# token after "laptop=" (prefixed mh_). compose.yaml is the same with an image you build yourself.
+services:
+  maple-proxy:
+    image: ghcr.io/kinncj/maple-proxy:${MAPLE_VERSION:?set MAPLE_VERSION to a release, such as 3.0.0}
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: [/tmp]
+    ports:
+      - "127.0.0.1:11535:11535"
+      - "127.0.0.1:11537:11537"
+    volumes:
+      - maple-data:/data
+    secrets:
+      - source: proxy_tokens
+        target: /run/secrets/maple/access.proxy_tokens
+    stop_grace_period: 2m
+
+volumes:
+  maple-data: {}
+
+secrets:
+  proxy_tokens:
+    file: ./secrets/proxy_tokens

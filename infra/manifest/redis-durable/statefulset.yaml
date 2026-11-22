@@ -33,13 +33,22 @@ spec:
           # The proxy signs in as the user "maple", which cannot run FLUSHALL, CONFIG, DEBUG,
           # SHUTDOWN or any other dangerous command (INFO stays: the proxy checks durability with
           # it); the default user is off. Add a user of your own for administration.
+          # The users and the password go into a config file in memory, never onto the command line
+          # (where a process list on the node shows it); the settings below follow it as arguments.
+          command:
+            - sh
+            - -c
+            - >-
+              p=$(printf '%s' "$REDIS_PASSWORD") && case "$p" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 &&
+              printf 'user default off\nuser maple on >%s ~* &* +@all -@dangerous +info\n' "$p" > /conf/redis.conf && unset REDIS_PASSWORD p &&
+              exec redis-server /conf/redis.conf "$@"
+            - redis-server
           args: ["--dir", "/data", "--appendonly", "yes", "--appendfsync", "everysec",
-                 "--maxmemory", "1gb", "--maxmemory-policy", "noeviction",
-                 "--user", "default", "off",
-                 "--user", "maple", "on", ">$(REDIS_PASSWORD)", "~*", "&*", "+@all", "-@dangerous", "+info"]
+                 "--maxmemory", "1gb", "--maxmemory-policy", "noeviction"]
           ports: [{name: redis, containerPort: 6379}]
           readinessProbe:
-            exec: {command: ["sh", "-c", "redis-cli --user maple -a \"$REDIS_PASSWORD\" --no-auth-warning ping | grep -q PONG"]}
+            # The password through the environment (REDISCLI_AUTH), not the command line.
+            exec: {command: ["sh", "-c", "REDISCLI_AUTH=\"$(printf '%s' \"$REDIS_PASSWORD\")\" redis-cli --user maple ping | grep -q PONG"]}
             periodSeconds: 5
           resources:
             requests: {cpu: 100m, memory: 256Mi}
@@ -48,7 +57,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities: {drop: [ALL]}
-          volumeMounts: [{name: data, mountPath: /data}]
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - {name: conf, emptyDir: {medium: Memory, sizeLimit: 1Mi}}
   volumeClaimTemplates:
     - metadata: {name: data}
       spec:

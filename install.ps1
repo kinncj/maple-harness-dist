@@ -23,7 +23,7 @@
 # Windows has no built-in Ed25519, so this uses openssl.exe (OpenSSL 3, e.g.
 # the one that ships with Git for Windows) or an already-installed
 # maple-harness.exe; with neither, it stops and says how to proceed. NOTE: this
-# part of the script has not been run on Windows. See docs/supply-chain.md.
+# part of the script has not been run on Windows. See https://kinncj.github.io/maple-harness/docs/install.html.
 #
 # Environment overrides (parameters win over all of them):
 #   MAPLEHARNESS_VERSION   release tag to install (default: latest)
@@ -364,7 +364,7 @@ could not download $asset from release $Version of $Repo.
 this installer has no release key yet (it carries a placeholder), so it cannot verify anything.
 
   Get the installer from the release you are installing, or see
-  docs/supply-chain.md. Nothing has been installed.
+  https://kinncj.github.io/maple-harness/docs/install.html. Nothing has been installed.
 "@
             }
             Fail "this release is signed by key $($f['key']), which this installer does not trust.`n`n  If the project rotated its key, get a newer installer. If you did not expect this, do not install. Nothing has been installed."
@@ -422,10 +422,102 @@ cannot check the release signature: no OpenSSL 3 (openssl.exe) was found, and no
 
   Either:
     - install Git for Windows (it ships OpenSSL 3) or another OpenSSL 3 and run this again, or
-    - verify by hand as docs/supply-chain.md describes, then re-run with -SkipVerify.
+    - verify by hand as https://kinncj.github.io/maple-harness/docs/install.html describes, then re-run with -SkipVerify.
 
   Nothing has been installed.
 "@
+        }
+    }
+
+    # Where SHA256SUMS comes from: the published repository's own release workflow attests it while
+    # the release is a draft (SHA256SUMS.attestation.json, signed through GitHub, logged publicly by
+    # Sigstore). With GitHub's gh 2.67 or newer installed, it is checked against that exact workflow
+    # on main, no sign-in needed. From 3.0 every release has one, so for those (and for "latest") a
+    # missing attestation is refused when gh can check it. Only for the published repository.
+    $attestRepo = 'kinncj/maple-harness-dist'
+    $attestId = "https://github.com/$attestRepo/.github/workflows/attest.yml@refs/heads/main"
+    # Any case, without surrounding slashes or spaces, as GitHub reads it (-eq ignores case).
+    if ($Repo.Trim().Trim('/') -eq $attestRepo) {
+        $attPath = Join-Path $Tmp 'SHA256SUMS.attestation.json'
+        $haveAtt = $true
+        try { Get-Asset -Name 'SHA256SUMS.attestation.json' -Destination $attPath } catch { $haveAtt = $false }
+        if ($haveAtt -and -not ((Test-Path -LiteralPath $attPath) -and (Get-Item -LiteralPath $attPath).Length -gt 0)) { $haveAtt = $false }
+        # gh is there, knows attestations, and is 2.67.0 or newer (older ones could pass nothing).
+        $ghAttests = $false
+        if (Get-Command gh -ErrorAction SilentlyContinue) {
+            $ghv = Invoke-Native { & gh --version 2>$null }
+            if ("$ghv" -match 'gh version (\d+)\.(\d+)\.') {
+                $maj = [int]$Matches[1]; $min = [int]$Matches[2]
+                if ($maj -gt 2 -or ($maj -eq 2 -and $min -ge 67)) {
+                    Invoke-Native { & gh attestation --help *> $null }
+                    $ghAttests = ($LASTEXITCODE -eq 0)
+                }
+            }
+        }
+        # Every release from 3.0 has one: decided by the release's own tag, never by the word "latest".
+        $rtag = if ($signed -and $f -and $f['tag']) { $f['tag'] } elseif ($Version -ne 'latest') { $Version } else { '' }
+        if (-not $rtag) {
+            try { $rtag = (Invoke-RestMethod -Uri "$ApiBase/repos/$Repo/releases/latest" -UseBasicParsing).tag_name } catch { $rtag = '' }
+        }
+        # Fails closed: only a tag that reads as a version below 3 is spared ("v9-x" or "V9.0.0" is
+        # not); a tag that cannot be learnt at all (GitHub not answering) is not refused for that.
+        $expected = $false
+        if ("$rtag") {
+            $expected = -not ("$rtag" -cmatch '^v?(\d+)' -and [int]$Matches[1] -lt 3)
+        }
+        $attestProblem = $null
+        if (-not $ghAttests) {
+            if ($haveAtt) { Write-Info "this release is attested; with GitHub's gh (2.67 or newer) installed, this installer checks that too" }
+        } elseif (-not $haveAtt) {
+            if ($expected) {
+                $attestProblem = 'this release has no attestation of SHA256SUMS (SHA256SUMS.attestation.json), which every release from 3.0 has'
+            } else {
+                Write-Info "this release is from before attestations; its checksums and signature are what is checked"
+            }
+        } else {
+            $aout = Invoke-Native { & gh attestation verify $sumsPath --repo $attestRepo --bundle $attPath --cert-identity $attestId --source-ref refs/heads/main --deny-self-hosted-runners 2>&1 }
+            if ($LASTEXITCODE -eq 0) {
+                Write-Info "SHA256SUMS is attested by $attestRepo's release workflow"
+                # Only releases from 3.0 are attested, and every one names its release (RELEASE_TAG,
+                # listed in SHA256SUMS): an older release's files cannot pass for a newer tag.
+                $wantTag = $null
+                foreach ($line in (Get-Content -Path $sumsPath)) {
+                    $fields = $line.Trim() -split '\s+'
+                    if ($fields.Count -ge 2 -and $fields[1].TrimStart('*') -eq 'RELEASE_TAG') { $wantTag = $fields[0].ToLowerInvariant() }
+                }
+                $tagPath = Join-Path $Tmp 'RELEASE_TAG'
+                $haveTag = $false
+                if ($wantTag) { try { Get-Asset -Name 'RELEASE_TAG' -Destination $tagPath; $haveTag = $true } catch { $haveTag = $false } }
+                if (-not $haveTag) {
+                    $attestProblem = 'the attested SHA256SUMS names no release (no RELEASE_TAG), which every release from 3.0 has'
+                } elseif ((Get-FileHash -Algorithm SHA256 -LiteralPath $tagPath).Hash.ToLowerInvariant() -ne $wantTag) {
+                    $attestProblem = 'RELEASE_TAG does not match its checksum'
+                } else {
+                    $named = (Get-Content -Raw -LiteralPath $tagPath).Trim()
+                    if ("$rtag" -and $named -ne "$rtag") {
+                        $attestProblem = "release $rtag carries the attested files of release ${named}: an older release's files under a newer name are how a fixed problem comes back"
+                    } elseif (-not "$rtag") {
+                        Write-Info "the attested files are release $named"
+                    }
+                }
+            } else {
+                $lastLine = "$(@($aout) | Select-Object -Last 1)" -replace '[\x00-\x1f\x7f]', ''
+                if ($lastLine.Length -gt 300) { $lastLine = $lastLine.Substring(0, 300) }
+                $attestProblem = "the attestation of SHA256SUMS could not be confirmed: $lastLine"
+            }
+        }
+        if ($attestProblem) {
+            if ($SkipVerify) {
+                Write-Host "! $attestProblem; continuing because of -SkipVerify."
+            } else {
+                Fail @"
+$attestProblem.
+
+  The files may not be the ones this project's release workflow published, or gh could not reach
+  Sigstore to check. Nothing has been installed. If you are sure about where you got it,
+  -SkipVerify installs anyway (checksums are still enforced).
+"@
+            }
         }
     }
 

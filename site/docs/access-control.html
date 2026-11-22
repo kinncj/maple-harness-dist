@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en" data-mode="teams" data-page-mode="teams" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Access control: organizations, roles, keys and end users · Maple Harness docs</title>
+<meta name="description" content="A shared proxy can do more than count who used what. This page covers the controls added in 3.0: organizations above teams, roles for the people who manage the proxy, rules per access token, budgets p">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-teams"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="false" tabindex="-1">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="true" tabindex="0">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html" aria-current="true">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details open><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/access-control.html" aria-current="page">Access control: organizations, roles, keys and end users</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details><summary>Get started</summary><ul><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a></li><li>Set it up</li><li aria-current="page">Access control: organizations, roles, keys and end users</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Teams &amp; hubs</span><span class="eb">Set it up</span><span class="rt" title="Estimated at about 220 words a minute">19 min read</span></p>
+<h1 id="access-control-organizations-roles-keys-and-end-users">Access control: organizations, roles, keys and end users <a class="anchor" href="#access-control-organizations-roles-keys-and-end-users" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#who-this-is-for">Who this is for</a></li><li><a href="#organizations">Organizations</a></li><li><a href="#roles">Roles</a></li><li><a href="#key-rules">Key rules</a><ol><li><a href="#a-caller-on-this-machine-without-a-token">A caller on this machine without a token</a></li><li><a href="#a-gateway-that-names-people">A gateway that names people</a></li></ol></li><li><a href="#end-user-budgets">End-user budgets</a></li><li><a href="#budget-windows-and-temporary-increases">Budget windows and temporary increases</a><ol><li><a href="#lifetime-budgets">Lifetime budgets</a></li></ol></li><li><a href="#model-access-groups-and-hidden-models">Model access groups and hidden models</a></li><li><a href="#access-hours">Access hours</a></li><li><a href="#address-allow-lists">Address allow lists</a></li><li><a href="#the-management-api">The management API</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified</a></li><li><a href="#related">Related</a></li></ol></details>
+
+<p class="lede">A shared proxy can do more than count who used what. This page covers the controls added in 3.0: organizations above
+teams, roles for the people who manage the proxy, rules per access token, budgets per end user of your own
+application, budgets over several windows at once, temporary increases, model access groups, hidden models, team
+access hours, address allow lists, and organization, model-alias and spend calls shaped like LiteLLM's management API.</p>
+<div class="callout c-tip" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span>Running Maple for yourself?</span></p><p><strong>You need none of it.</strong> Every setting here is off until you set it, on the setup page (<strong>People &amp; teams</strong>, card
+<strong>Access control</strong>) or in <code>config.yaml</code>, and a proxy without any of them behaves exactly as before. The basics
+(people, teams, tokens, budgets) are in <a href="teams.html">Teams</a>; this page builds on them.</p></div>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>Organizations</strong> group teams. An organization can cap what all its teams spend together and narrow the models they
+may use. A team belongs to at most one organization.</li><li><strong>Roles</strong> say what a person's own token may do through the management API: <code>admin</code>, <code>viewer</code>, <code>org_admin</code>,
+<code>team_admin</code> and <code>member</code>. An <code>org_admin</code> looks after the teams of its organization, a <code>team_admin</code> its own team's
+people, and a <code>member</code> itself and its own keys.</li><li><strong>Key rules</strong> belong to one access token: a budget (AI units, dollars or both), a model list and the addresses it may
+be used from, on top of whatever its person and team already have.</li><li><strong>End-user budgets</strong> are for your own application's customers. Your app names the customer in each request (the
+OpenAI <code>user</code> field, Anthropic's <code>metadata.user_id</code>, or a header you choose) and each customer gets a budget of their
+own. You can also give all of one application's customers a budget they share, so a made-up customer name per
+request cannot get around it.</li><li><strong>Several windows at once:</strong> a budget can hold a daily and a monthly limit and, in dollars, any number of rolling
+windows such as "at most $40 over any 7 days". Every limit must hold.</li><li><strong>Temporary increases</strong> raise a budget until a date and time you give, then it goes back by itself.</li><li><strong>Model access groups</strong> are named sets of models ("cheap", "beta") that you grant to people, teams, organizations and
+keys by name. A group can be <strong>hidden</strong> (<code>discoverable: false</code>): its models are left out of model lists, and whoever
+is allowed them can still use them.</li><li><strong>Access hours</strong> limit when a team may send requests, such as weekdays 08:00 to 18:00 in your time zone.</li><li><strong>Address allow lists</strong> limit where a token, a team or an organization may send requests from.</li></ul>
+<p>Each rule only narrows what is allowed: a key's list cannot widen its team's, and an organization's budget holds
+alongside every team's and person's own.</p>
+<p><strong>To set them up on the setup page:</strong></p>
+<ol class="steps"><li><strong>Protect the page</strong> if you have not: <strong>Security &amp; access</strong>, <strong>Protect this page</strong>. The access-control forms need a
+page password; without one they are read-only.</li><li>Open <strong>People &amp; teams</strong>, card <strong>Access control</strong>. There is one form each for organizations, token rules, end
+users and model access groups.</li><li>Set a person's or team's role, groups, budget windows, addresses and hours on the <strong>People</strong> card.</li><li>Save. The rules apply from the next request; no restart.</li></ol></section>
+<h2 id="who-this-is-for">Who this is for <a class="anchor" href="#who-this-is-for" aria-label="Link to this heading">#</a></h2>
+<p>Read on if one proxy serves several teams or departments, if you hand tokens to programs that should have their own
+cap, if you build an application whose customers each need a spending limit, or if you are moving from LiteLLM and
+want its management calls to keep working. For one person, or a small team that only needs per-person budgets, the
+<a href="teams.html">Teams</a> page is enough.</p>
+<h2 id="organizations">Organizations <a class="anchor" href="#organizations" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">organizations:</span>
+<span class="t-k">  - id:</span> acme
+<span class="t-k">    budget:</span> {monthly_usd: <span class="t-n">500</span>, windows: [{days: <span class="t-n">7</span>, usd: <span class="t-n">150</span>}]}
+<span class="t-k">    models:</span> {allow: [<span class="t-s">"copilot/*"</span>, <span class="t-s">"claude-*"</span>]}
+<span class="t-k">teams:</span>
+<span class="t-k">  - id:</span> web
+<span class="t-k">    organization:</span> acme
+<span class="t-k">  - id:</span> data
+<span class="t-k">    organization:</span> acme</code></pre></div>
+<p>Requests from people in <code>web</code> and <code>data</code> count against <code>acme</code>'s budget as well as their own and their team's. A model
+must be allowed by the organization's list too. An organization's budget can be in AI units and in estimated dollars,
+like a team's. When it is spent, the refusal names the organization without showing its figures, since they are
+everyone's spend.</p>
+<p>People join an organization through their team: there is no separate member list.</p>
+<h2 id="roles">Roles <a class="anchor" href="#roles" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">people:</span>
+  - {id: root, role: admin, tokens: [&lt;token-id&gt;]}
+  - {id: auditor, role: viewer, tokens: [&lt;token-id&gt;]}
+  - {id: alice, team: web, role: org_admin, tokens: [&lt;token-id&gt;]}
+  - {id: bob, team: web, role: team_admin, tokens: [&lt;token-id&gt;]}
+  - {id: carol, team: web}            <span class="t-c"># member, the default</span></code></pre></div>
+<p>With <code>management_api: on</code>, a person's own token (the <code>proxy</code> scope) reaches the management API as far as their role
+does:</p>
+<div class="tablewrap"><table><thead><tr><th>Role</th><th>Organizations, model aliases, spend</th><th>People (<code>/user</code>), teams (<code>/team</code>) and keys (<code>/key</code>)</th></tr></thead><tbody><tr><td><code>admin</code></td><td>changes organizations and model aliases; reads everything</td><td>everything, as a manage token</td></tr><tr><td><code>viewer</code></td><td>reads every organization and all spend</td><td>reads every person, team and key; changes nothing</td></tr><tr><td><code>org_admin</code></td><td>reads its own organization, and the spend of its teams and their people</td><td>reads and changes the teams of its organization, their people and their keys; makes teams (in its organization)</td></tr><tr><td><code>team_admin</code></td><td>reads its own team's spend</td><td>reads its team; adds, changes and removes its team's members and their keys</td></tr><tr><td><code>member</code></td><td>reads its own spend</td><td>reads itself and its own keys; makes, rotates, blocks and deletes its own keys</td></tr></tbody></table></div>
+<p>Some lines nobody below admin crosses: nobody changes themselves (their own keys apart) or a person of their own role
+or above, so a <code>team_admin</code> cannot raise its own budget and an <code>org_admin</code> cannot touch an admin in its organization;
+a <code>team_admin</code> does not change its own team's models, budget or limits (its organization's admin does); a key blocked
+over someone's head (by a higher role) stays blocked until that role or above unblocks it, and until then that person
+cannot make, unblock, rotate or delete any of their keys, from any other key either; a key you block yourself does not
+lock you out. A blocked key shows who blocked it (<code>blocked_by</code>), and the refusal names them; only an admin makes a key with a person of
+its own (a key without a <code>user_id</code>) or moves someone to a team outside the caller's reach, or puts people in a team
+that has no entry of its own yet. A person someone below admin sets up, changes or makes a key for may not have
+looser limits than that someone's own (budget, rates, models), since their key would carry them past their own. A
+key a member makes for themselves expires no later than the key they asked with, and a key with rules of its own
+(<code>keys:</code>) cannot be used to make another; below admin a person holds at most 50 keys. <code>/model/info</code> and <code>/health</code>
+list every deployment, so they are for an admin or a viewer; everyone lists the models they may use at <code>/v1/models</code>.</p>
+<p>A refused call answers <code>403</code> (or <code>404</code> "not yours to see" for something outside your reach, so names cannot be
+guessed), changes nothing (a delete of several things checks them all first), and is written to the audit log. A token
+with the <code>manage</code> scope acts as an admin whether <code>management_api</code> is on or not: see
+<a href="litellm.html#litellms-management-api">LiteLLM's management API</a>. <code>org_admin</code> needs a team in an organization and
+<code>team_admin</code> a team. People handed down by a parent hub hold no role on the proxy below it: roles are set on each proxy
+for its own people.</p>
+<h2 id="key-rules">Key rules <a class="anchor" href="#key-rules" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">keys:</span>
+<span class="t-k">  - token:</span> &lt;token-id&gt;            <span class="t-c"># the id, never the token itself</span>
+<span class="t-k">    budget:</span> {daily_usd: <span class="t-n">5</span>, monthly_usd: <span class="t-n">50</span>}
+<span class="t-k">    models:</span> {allow: [gpt-5-mini]}
+<span class="t-k">    access_groups:</span> [cheap]
+<span class="t-k">    allowed_ips:</span> [10.20.0.0/<span class="t-n">16</span>, 192.0.2.7]
+<span class="t-k">    limits:</span> {requests_per_minute: <span class="t-n">60</span>, input_tokens_per_minute: <span class="t-n">200000</span>, max_concurrent: <span class="t-n">4</span>}</code></pre></div>
+<p>A key's budget can be in AI units (<code>daily_ai_units</code>, <code>monthly_ai_units</code>), in estimated dollars (daily, monthly,
+windows) or both, with a temporary increase of either. Its spend is kept in the proxy's spend store (the spend file on
+one machine, the shared store with several replicas), so a restart keeps it; it is not rebuilt from the usage log,
+so if that store is lost, a key's spend starts again from zero. An AI-unit limit added part way through a month
+counts from when it is set. A key with rules works whether or not people are configured; a request with it is held to
+the key's rules and to its person's and team's.</p>
+<h3 id="a-caller-on-this-machine-without-a-token">A caller on this machine without a token <a class="anchor" href="#a-caller-on-this-machine-without-a-token" aria-label="Link to this heading">#</a></h3>
+<p>On an address that only listens on this machine, a program may leave its token out. Once <code>keys:</code> has rules, that would
+leave the key's rules behind, so such a request is <strong>refused</strong> (<code>401</code>, saying what to do) unless you say otherwise:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">keys:</span>
+<span class="t-k">  - token:</span> local                 <span class="t-c"># the rules a caller on this machine without a token is held to</span>
+<span class="t-k">    budget:</span> {daily_ai_units: <span class="t-n">50</span>}
+<span class="t-k">local_without_token:</span> serve       <span class="t-c"># or refuse; leave it out for the rule above</span></code></pre></div>
+<ul><li>With an entry for token <code>local</code>, such a request is served and held to that entry (budget, models, addresses).</li><li><code>local_without_token: serve</code> serves it without a key's rules, as before; <code>refuse</code> refuses it even with a <code>local</code>
+entry.</li><li>Without <code>keys:</code> (or with only rules a parent hub hands down for its own tokens) nothing changes: a caller on this
+machine without a token is served as always. If you run Maple Harness on the same machine as a proxy with <code>keys:</code>,
+give it a token, or add the <code>local</code> entry.</li></ul>
+<h3 id="a-gateway-that-names-people">A gateway that names people <a class="anchor" href="#a-gateway-that-names-people" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> A gateway in front of the proxy, such as a LiteLLM gateway, sends every request with its one
+token, so the proxy would count all of them as the gateway's. If the gateway's own callers are your people, you can let
+its token say, for each request, which person it is for, out of a list you give: that person's models, budgets and
+limits then apply, and the usage log names them.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">keys:</span>
+<span class="t-k">  - token:</span> &lt;the gateway token's id&gt;
+<span class="t-k">    names_people:</span> [alice, team:platform]        <span class="t-c"># people by id, and every member of a team; no wildcard</span>
+<span class="t-k">    models:</span> {allow: [gpt-5, claude-sonnet-5]}   <span class="t-c"># still holds, for everyone it names</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li>The person is named by their id in <code>people:</code>, in the OpenAI <code>user</code> field where the route has one (chat
+completions, the Responses API, legacy completions, embeddings, images; a <code>user</code> form field on audio), read
+whatever the request's <code>Content-Type</code> says. Everywhere else (the Anthropic surface, reading or deleting a stored
+response, files, batches) the person is named in LiteLLM's <code>x-litellm-end-user-id</code> header; Anthropic's
+<code>metadata.user_id</code>, which Claude Code fills with an id of its own, stays the end user it always was.</li><li>A body over 32 MB from such a token is refused (<code>413</code>), not read as the token's own. The
+request is then that person's: their team, model list, budgets and rate limits, and the usage log line.</li><li>The token's own rules hold as well: its <code>keys:</code> entry, and, when the token belongs to a person, that person's
+rules and budget, which every request it names is charged to as well.</li><li>A <code>user</code> outside the list, one that is no person here, and the <code>local</code> person are all refused with the same
+<code>403 person_not_found</code> and the same words, so the answer never tells whether someone exists. Nothing is charged
+to someone who did not ask. Without a <code>user</code>, the request is the token's, as before.</li><li>What is kept per caller is kept per named person: answers from the response cache, stored Responses API
+conversations (<code>previous_response_id</code>) and <code>Idempotency-Key</code> replays.</li><li>MCP hub tools run in such a request only when both the gateway's token and the named person may have the proxy
+run them (<code>mcp_hub.tool_loop</code>), and only the tools both may use (<code>mcp_hub.people</code>). Servers each person signs in
+to for themselves are left out: the sign-in there would be the gateway's, never the person's.</li><li>Guardrails assigned to the named person or their team run, and so do those assigned to the gateway token's
+person or team, for the request and for its tool calls.</li><li>A request that names nobody is the gateway token's own.</li><li>Address rules (<code>allowed_ips</code>) are the gateway token's, not the named person's: every request arrives from the
+gateway's address, so the person's own address is not something this proxy can see.</li><li>Any other token's <code>user</code> field names an end user only, as it always has (below). <code>names_people</code> is never handed
+down by a parent hub, and a request a proxy below forwarded is never renamed this way.</li></ul>
+<div class="callout c-warning" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/></svg><span>Who can name whom</span></p><p>The <code>user</code> field comes from the gateway: unless the gateway sets it itself from the caller it signed in, any of its
+callers can name anyone on the list, use their models and accounts and spend their budget, and the usage log names
+that person. Use <code>names_people</code> only with a gateway you trust to set <code>user</code> from its own authenticated caller, list
+only the people it serves, and keep the token's own model list (<code>models.allow</code>) and budget as narrow as the gateway
+needs.</p></div>
+<h2 id="end-user-budgets">End-user budgets <a class="anchor" href="#end-user-budgets" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">end_users:</span>
+<span class="t-k">  header:</span> X-End-User             <span class="t-c"># optional; otherwise the body's user field</span>
+<span class="t-k">  default_budget:</span> {daily_usd: <span class="t-n">1</span>}
+<span class="t-k">  shared_default_budget:</span> {daily_usd: <span class="t-n">50</span>, daily_ai_units: <span class="t-n">200</span>}   <span class="t-c"># all of a caller's default end users together</span>
+<span class="t-k">  max_tracked:</span> <span class="t-n">10000</span>             <span class="t-c"># the most end users kept per caller (the default)</span>
+<span class="t-k">  users:</span>
+<span class="t-k">    - id:</span> customer-42
+<span class="t-k">      budget:</span> {monthly_usd: <span class="t-n">20</span>}</code></pre></div>
+<p>The end user is read from the header when one is set and present (only that header, when one is set), else from
+LiteLLM's <code>x-litellm-end-user-id</code> or <code>x-litellm-customer-id</code> header, otherwise from OpenAI's <code>user</code> field or
+Anthropic's <code>metadata.user_id</code>. An id of letters, digits and <code>. _ @ : -</code> up to 64 characters is kept as it is; anything longer or
+odder is kept as a short hash, so it still counts as one end user. A request without an end user has no end-user
+budget. Like a key's, these budgets can be in AI units, dollars or both, and are kept across a restart.</p>
+<p>Each caller's end users are its own: <code>customer-42</code> named with one person's or token's requests and <code>customer-42</code> named
+by another are two end users, so one application cannot spend another's customer's budget. When an end user's budget
+is spent, the refusal names the end user without showing the figures.</p>
+<div class="callout c-important" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M12 7v4M12 13.5v.01"/></svg><span>A guard, not a boundary</span></p><p>End-user budgets are a guard for your application, not a security boundary: whoever holds the token decides the end
+user, and a new name starts a new budget.</p></div>
+<p>Two settings keep that in bounds:</p>
+<ul><li><strong><code>shared_default_budget</code></strong> is one budget that all of a caller's end users on <code>default_budget</code> share (each caller,
+person or token, has its own). A program that names a new end user with every request still stops there. End users
+listed in <code>users</code> with a budget of their own are not counted in it.</li><li><strong><code>max_tracked</code></strong> is how many end users' spend the proxy keeps at once for each caller (10,000 unless you set
+it, at most a million), so one application naming many end users never pushes out another's. Past it, that caller's
+end user seen least recently is forgotten: their spend is dropped, and if they come back
+their <code>default_budget</code> starts afresh. A new end user is always held to <code>default_budget</code>. End users listed in
+<code>users</code> are never forgotten. With several replicas, the shared store keeps each end user's figures until they age
+out instead.</li></ul>
+<p>Use a key budget for the token itself.</p>
+<h2 id="budget-windows-and-temporary-increases">Budget windows and temporary increases <a class="anchor" href="#budget-windows-and-temporary-increases" aria-label="Link to this heading">#</a></h2>
+<p>Any budget (a person's, team's, organization's, key's or end user's) can add rolling dollar windows and a temporary
+increase:</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">budget:</span>
+<span class="t-k">  daily_usd:</span> <span class="t-n">10</span>
+<span class="t-k">  monthly_usd:</span> <span class="t-n">100</span>
+<span class="t-k">  windows:</span>
+    - {days: <span class="t-n">7</span>, usd: <span class="t-n">40</span>}         <span class="t-c"># at most $40 over any 7 days, today included</span>
+<span class="t-k">  temporary:</span>
+<span class="t-k">    daily_usd:</span> <span class="t-n">20</span>                <span class="t-c"># $30 a day ...</span>
+<span class="t-k">    until:</span> <span class="t-s">"2026-12-01T00:00:00Z"</span> <span class="t-c"># ... until then</span></code></pre></div>
+<p>A window counts the last <code>days</code> UTC days, today included, and moves on at 00:00 UTC; windows of 1 to 62 days are
+accepted. A temporary increase adds its amounts to the limits of the same kind that are set (it never adds a limit that
+is not there) and ends at <code>until</code>. On the proxy below a hub, a local entry may add windows (they only narrow) but not
+a temporary increase of a budget the hub hands down.</p>
+<p>Before each request, the proxy reserves what it is expected to cost against every budget it counts against, and
+releases the reservation when the request ends, as for every other budget. Requests already running when a limit is
+reached are not stopped.</p>
+<p>The setup page's <strong>People</strong> card (People &amp; teams tab) shows each person's and team's windows with what their days
+hold so far (estimated, from the usage log), a temporary increase while it lasts, and a lifetime budget with what
+has been spent since it was first counted.</p>
+<figure>
+<img class="shot shot-light" src="../img/docs/setup-people-budgets-light.webp" alt="The People card: alice in team platform, today 0.67 of 40 AI units, the last 7 days $0.03 of $10.00 (estimated, at list prices, through this proxy only), raised until Nov 24 by 20 AI units a day; bob, a lifetime budget that never resets, $0.01 of $500.00 and 0 of 2,000 AI units" width="1000" height="955" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/setup-people-budgets-dark.webp" alt="The People card: alice in team platform, today 0.67 of 40 AI units, the last 7 days $0.03 of $10.00 (estimated, at list prices, through this proxy only), raised until Nov 24 by 20 AI units a day; bob, a lifetime budget that never resets, $0.01 of $500.00 and 0 of 2,000 AI units" width="1000" height="955" loading="lazy" decoding="async">
+<figcaption>A rolling 7-day window and a temporary increase for alice, a lifetime budget for bob (demo data).</figcaption>
+</figure>
+<h3 id="lifetime-budgets">Lifetime budgets <a class="anchor" href="#lifetime-budgets" aria-label="Link to this heading">#</a></h3>
+<p><strong>In plain words.</strong> A budget that never resets: once a person, team, organization, token or end user has spent it,
+they stop until you raise it. LiteLLM's budgets without a <code>budget_duration</code> come across as one.</p>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">people:</span>
+<span class="t-k">  - id:</span> contractor-7
+<span class="t-k">    budget:</span>
+<span class="t-k">      windows:</span>
+        - {period: lifetime, usd: <span class="t-n">500</span>, ai_units: <span class="t-n">2000</span>}   <span class="t-c"># dollars, AI units, or both</span></code></pre></div>
+<p><strong>The technical view.</strong></p>
+<ul><li>It counts everything spent since the spend store first counted it: the days the store still holds, plus a total
+it carries over from the days it no longer holds. Before a day is dropped, its spend is added to that total in the
+same step, so a day is never counted twice or lost, a crash included.</li><li>One machine: the total is in the spend file beside the days. A rebuild from the usage log (no spend file, or
+dollar budgets switched off and on) recomputes only the days the log still holds and keeps the total; switching
+dollar budgets off keeps the total and drops the rest, so what is spent while no dollar budget is set is not
+counted. Losing the spend file loses the total.</li><li>Several replicas (<code>storage.mode: central</code>): the total is in the shared store beside the daily spend, added to by
+retention in one transaction (PostgreSQL) or one script (Redis), so two replicas never add a day twice.</li><li>AI units of people, teams and organizations are kept per day for this while some lifetime budget in AI units is
+set; what they spent before one was set is not in it. Dollars count from when dollar budgets were first counted.</li><li>A spend file that cannot be read (damaged) leaves the totals unknown: lifetime budgets are then refused (<code>503</code>)
+rather than counted from zero, until the file is put right.</li><li>The setup page's People card shows the total spent, read from the same store the budget check reads (the spend file,
+or the shared store with several replicas). While that store cannot be read, it shows the lifetime limit and says
+the total is not shown, never a zero.</li><li><strong>Downgrading</strong> to a release before 3.0 drops the carried total: that release reads and writes the spend without
+it, and prunes old days without adding them to it.</li></ul>
+<h2 id="model-access-groups-and-hidden-models">Model access groups and hidden models <a class="anchor" href="#model-access-groups-and-hidden-models" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model_access_groups:</span>
+  - {id: cheap, models: [<span class="t-s">"copilot/gpt-5-mini"</span>, <span class="t-s">"local/*"</span>]}
+  - {id: beta, models: [<span class="t-s">"preview-*"</span>], discoverable: <span class="t-n">false</span>}
+<span class="t-k">teams:</span>
+  - {id: web, access_groups: [cheap]}</code></pre></div>
+<p>A group's models are added to the model list of whoever is granted it (<code>access_groups</code> on a person, team,
+organization or key). Someone granted only groups may use only their models. A hidden group's models are left out of
+<code>/v1/models</code> and <code>/model/info</code> for everyone; anyone allowed them can still ask for them by name.</p>
+<h2 id="access-hours">Access hours <a class="anchor" href="#access-hours" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">teams:</span>
+<span class="t-k">  - id:</span> support
+<span class="t-k">    access_hours:</span>
+      - {days: [mon, tue, wed, thu, fri], from: <span class="t-s">"08:00"</span>, until: <span class="t-s">"18:00"</span>, timezone: Europe/Berlin}</code></pre></div>
+<p>Outside every window the team's people are refused with <code>403 outside_access_hours</code>, before anything is counted. The
+time zone is an IANA name the machine knows; without one, UTC. Calls through the <a href="a2a.html">A2A gateway</a> are held to the
+same hours.</p>
+<h2 id="address-allow-lists">Address allow lists <a class="anchor" href="#address-allow-lists" aria-label="Link to this heading">#</a></h2>
+<p><code>allowed_ips</code> on a key, a team or an organization lists addresses and ranges (<code>10.0.0.0/8</code>, <code>2001:db8::/32</code>,
+<code>192.0.2.7</code>). A request from anywhere else is refused with <code>403</code> and <code>ip_not_allowed</code>. Behind a load balancer, set
+<code>server.trusted_proxies</code> so the proxy sees the client's own address. On a request a proxy below forwards, the address
+is that proxy's, so a hub checks the lists of the forwarding proxy's chain token and its team, not those of the person
+who asked. The lists hold on the management API and on calls through the <a href="a2a.html">A2A gateway</a> too.</p>
+<h2 id="the-management-api">The management API <a class="anchor" href="#the-management-api" aria-label="Link to this heading">#</a></h2>
+<p>The proxy's OpenAI-compatible address answers LiteLLM-shaped management calls (see
+<a href="litellm.html#litellms-management-api">LiteLLM's management API</a> for <code>/key</code>, <code>/user</code>, <code>/team</code>, <code>/model/info</code> and
+<code>/health</code>). 3.0 adds organizations, model aliases and spend:</p>
+<div class="tablewrap"><table><thead><tr><th>Call</th><th>What it does here</th><th>Who</th></tr></thead><tbody><tr><td><code>POST /organization/new</code>, <code>/organization/update</code>, <code>/organization/delete</code></td><td>organizations (one with teams is not removed)</td><td>admin</td></tr><tr><td><code>GET /organization/info</code>, <code>/organization/list</code></td><td>an organization with its teams and this month's estimated spend</td><td>admin, viewer; an <code>org_admin</code> its own</td></tr><tr><td><code>POST /model/new</code>, <code>/model/update</code>, <code>/model/delete</code></td><td>a model alias: <code>model_name</code> to a model the proxy serves</td><td>admin</td></tr><tr><td><code>GET /spend/logs</code></td><td>spend per day, person, team and model (estimated dollars at list prices), not one row per request; <code>user_id</code>, <code>team_id</code>, <code>start_date</code>, <code>end_date</code></td><td>each role its own, as in the table above</td></tr><tr><td><code>GET /global/spend</code></td><td>this month's estimated spend through this proxy</td><td>admin, viewer</td></tr></tbody></table></div>
+<p>A token with the <code>manage</code> scope can always call them, as an admin. A person's own token (the <code>proxy</code> scope) can when
+<code>management_api: on</code> is set and the person has a role. How the fields map:</p>
+<div class="tablewrap"><table><thead><tr><th>LiteLLM field</th><th>Maple</th></tr></thead><tbody><tr><td><code>organization_id</code> (or <code>organization_alias</code>)</td><td>the organization's id</td></tr><tr><td><code>models</code></td><td><code>models.allow</code>; a name that is a model access group goes to <code>access_groups</code></td></tr><tr><td><code>max_budget</code> with <code>budget_duration</code> <code>1d</code> / <code>30d</code> (or <code>1mo</code>) / another number of days</td><td><code>daily_usd</code> / <code>monthly_usd</code> / a window of that many days; <code>max_budget: 0</code> clears it</td></tr><tr><td><code>model_name</code>, <code>litellm_params.model</code></td><td>the alias and the model it points at</td></tr></tbody></table></div>
+<p>A field these routes cannot honour (a lifetime budget without a duration, <code>tpm_limit</code>, <code>metadata</code>, provider keys in
+<code>litellm_params</code>, and anything else not in the table) is refused with <code>400</code> naming it, rather than ignored. Accounts and
+their keys are added on the setup page, never through this API. Spend is estimated at list prices from the usage log;
+with the usage log off it is <code>null</code>, never a <code>0</code> that is not real.</p>
+<p>These routes keep the proxy's other guards: a call a browser sends from another site is refused, bad tokens are
+throttled per address, each token is limited to 120 calls a minute (on <code>/key</code>, <code>/user</code> and <code>/team</code> too), a write must be JSON of at most 64 KiB, and every
+change and every refusal (a bad token, a role that does not reach, an address list, too many calls) is written to the
+audit log by ids only, a refusal at most once a minute per address and token with a count of the rest. Changes go through the same checks and save as the setup page's, so
+a change the setup page would refuse is refused here too, and without the setup page (<code>server.webui</code> empty) they are
+refused.</p>
+<h2 id="the-settings">The settings <a class="anchor" href="#the-settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Key</th><th>What it is</th></tr></thead><tbody><tr><td><code>organizations[]</code></td><td data-label="What it is"><code>id</code>, <code>budget</code>, <code>models.allow</code>, <code>access_groups</code>, <code>allowed_ips</code></td></tr><tr><td><code>teams[]<wbr>.<wbr>organization</code>, <code>teams[]<wbr>.<wbr>access_<wbr>groups</code>, <code>teams[]<wbr>.<wbr>allowed_<wbr>ips</code>, <code>teams[]<wbr>.<wbr>access_<wbr>hours[]</code></td><td data-label="What it is">a team's organization, groups, addresses and hours (<code>days</code>, <code>from</code>, <code>until</code>, <code>timezone</code>)</td></tr><tr><td><code>people[].role</code>, <code>people[]<wbr>.<wbr>access_<wbr>groups</code></td><td data-label="What it is">a person's role and groups</td></tr><tr><td><code>keys[]</code></td><td data-label="What it is"><code>token</code> (the id, or <code>local</code> for a caller on this machine without one), <code>budget</code> (AI units and dollars), <code>models.allow</code>, <code>access_groups</code>, <code>allowed_ips</code></td></tr><tr><td><code>local_<wbr>without_<wbr>token</code></td><td data-label="What it is"><code>serve</code> or <code>refuse</code>: a request on this machine without a token while <code>keys:</code> has rules (refused unless <code>keys:</code> has a <code>local</code> entry)</td></tr><tr><td><code>end_users</code></td><td data-label="What it is"><code>header</code>, <code>default_budget</code>, <code>shared_default_budget</code>, <code>max_tracked</code>, <code>users[]</code> (<code>id</code>, <code>budget</code>)</td></tr><tr><td><code>model_<wbr>access_<wbr>groups[]</code></td><td data-label="What it is"><code>id</code>, <code>models</code>, <code>discoverable</code></td></tr><tr><td><code>budget.<wbr>windows[]</code>, <code>budget.<wbr>temporary</code></td><td data-label="What it is">on every budget: <code>days</code> and <code>usd</code>; <code>daily_ai_units</code>, <code>monthly_ai_units</code>, <code>daily_usd</code>, <code>monthly_usd</code> and <code>until</code></td></tr><tr><td><code>management_api</code></td><td data-label="What it is"><code>on</code> lets people's roles reach the management API; <code>off</code> (the default) leaves it to a manage token</td></tr></tbody></table></div>
+<p>They are set on the setup page, in <code>config.yaml</code>, or through the management API, and take effect with the next request.
+On the page, <strong>People &amp; teams</strong>, card <strong>Access control</strong> has one form each for organizations, token rules, end users,
+model access groups, and the roles, groups, budget windows, addresses and hours of the people and teams on the People
+card; <code>management_api</code> and <code>local_without_token</code> are on <strong>Advanced</strong>. All of these decide who may use what, so they
+need a page password (<strong>Security &amp; access</strong>, <strong>Protect this page</strong>): without one they are shown read-only, and the raw
+configuration editor refuses the same changes. Entries a parent hub hands down stay read-only here. With several
+replicas they are shared like the rest of the settings, and the budgets are counted in the shared store.</p>
+<h2 id="what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified <a class="anchor" href="#what-is-not-covered-and-what-is-not-verified" aria-label="Link to this heading">#</a></h2>
+<ul><li>In a chain, a hub hands down its people, teams and organizations, with their access groups turned into the models
+in them, and the <code>keys:</code> rules of the tokens it hands down; a proxy below never widens them. A local organization of
+the same id may only narrow one (budget, models, addresses); anything else is reported as a conflict, the hub's
+applies, and the proxy's own people in its own teams of that organization are refused until it is resolved. A proxy
+of an older release below a newer hub ignores the organizations and key rules it is handed. A local team can only
+name an organization this proxy lists, so to put one in a handed-down organization, list it locally (an entry with
+just its id narrows nothing).</li><li>A local entry over one a hub hands down may narrow <code>allowed_ips</code>, and add access hours or an organization where the
+hub sets none; anything else is reported as a conflict.</li><li><code>/spend/logs</code> gives daily totals, not one row per request.</li><li>A key's and an end user's AI units are counted from when their limit is set; they cannot be rebuilt from the usage
+log.</li><li>On the A2A gateway, address lists and access hours hold; model lists and budgets do not apply, since a call to an
+agent spends no model.</li><li>Organization spend after a restart on one machine is rebuilt from the teams' spend in the usage log, as the teams
+are in organizations now.</li><li>The PostgreSQL side of the shared store was not run for these budgets here (Redis was, with a stand-in); a real
+PostgreSQL, real multi-replica runs, a real chain of machines for the organizations handed down, and LiteLLM's own
+client against the role-scoped management API are not verified.</li></ul>
+<h2 id="related">Related <a class="anchor" href="#related" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="teams.html">Teams</a> People, teams, access tokens, budgets and rate limits on one proxy.</li><li><a href="teams-and-hubs.html">Share Maple with a team</a> Hubs, people and fallbacks, from one shared proxy to a hub of hubs.</li><li><a href="dollar-budgets.html">Monthly dollar budgets</a> A monthly allowance for an Anthropic API account, and what happens when it is spent.</li><li><a href="guardrails.html">Guardrails</a> Block, mask or log secrets, personal data and your own patterns, at the proxy.</li><li><a href="proxy-settings.html">Proxy settings</a> Every card on the setup page and every key in <code>config.yaml</code>.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-teams"><a class="prev" href="../docs/teams.html" rel="prev"><small>Previous</small>Teams</a><a class="next" href="../docs/chaining.html" rel="next"><small>Next</small>Chain proxies into hubs</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#who-this-is-for">Who this is for</a></li><li><a href="#organizations">Organizations</a></li><li><a href="#roles">Roles</a></li><li><a href="#key-rules">Key rules</a><ol><li><a href="#a-caller-on-this-machine-without-a-token">A caller on this machine without a token</a></li><li><a href="#a-gateway-that-names-people">A gateway that names people</a></li></ol></li><li><a href="#end-user-budgets">End-user budgets</a></li><li><a href="#budget-windows-and-temporary-increases">Budget windows and temporary increases</a><ol><li><a href="#lifetime-budgets">Lifetime budgets</a></li></ol></li><li><a href="#model-access-groups-and-hidden-models">Model access groups and hidden models</a></li><li><a href="#access-hours">Access hours</a></li><li><a href="#address-allow-lists">Address allow lists</a></li><li><a href="#the-management-api">The management API</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#what-is-not-covered-and-what-is-not-verified">What is not covered, and what is not verified</a></li><li><a href="#related">Related</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

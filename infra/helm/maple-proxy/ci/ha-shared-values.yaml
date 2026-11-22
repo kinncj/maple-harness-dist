@@ -1,0 +1,7 @@
+# config/ha-shared: three replicas, central mode, settings kept in PostgreSQL, sample databases.
+mode: central
+replicaCount: 3
+existingSecret: maple-proxy
+postgres: {enabled: true, existingSecret: maple-postgres}
+redis: {enabled: true, existingSecret: maple-redis}
+mcpHub: {enabled: true, existingSecret: maple-mcp-hub}

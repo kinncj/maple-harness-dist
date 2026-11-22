@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1.7
-#
 # maple-proxy in a container, built from a published release (nothing is compiled here):
 #
 #   docker buildx build --build-arg MAPLE_VERSION=v2.0.0 \
@@ -21,12 +19,15 @@ FROM --platform=$BUILDPLATFORM debian:bookworm-slim AS fetch
 ARG MAPLE_VERSION
 ARG TARGETARCH
 ARG MAPLE_REPO=kinncj/maple-harness-dist
+# Optional: the digest of the release's SHA256SUMS as checked against its attestation (the published
+# image's workflow passes it); any other SHA256SUMS is then refused.
+ARG MAPLE_SUMS_SHA256=
 RUN test -n "$MAPLE_VERSION" || { echo "set --build-arg MAPLE_VERSION=vX.Y.Z (a published release)"; exit 1; }
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl openssl \
  && rm -rf /var/lib/apt/lists/*
 COPY fetch-release.sh /usr/local/bin/fetch-release.sh
-RUN MAPLE_REPO="$MAPLE_REPO" fetch-release.sh "$MAPLE_VERSION" "$TARGETARCH" /out \
+RUN MAPLE_REPO="$MAPLE_REPO" MAPLE_SUMS_SHA256="$MAPLE_SUMS_SHA256" fetch-release.sh "$MAPLE_VERSION" "$TARGETARCH" /out \
  && mkdir -p /out/data
 
 # distroless/static: CA certificates, the nonroot user (65532), time zones; no shell.

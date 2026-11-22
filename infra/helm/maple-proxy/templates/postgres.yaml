@@ -1,0 +1,99 @@
+{{- if .Values.postgres.enabled }}
+{{- $name := printf "%s-postgres" (include "maple.fullname" .) -}}
+{{- $sel := include "maple.selectorLabels" (dict "ctx" . "component" "postgres") -}}
+# FOR TRYING IT OUT: one PostgreSQL with no replication and no backups. In production use your
+# managed PostgreSQL (with backups) and point storage.postgres_dsn at it.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "postgres") | nindent 4 }}
+spec:
+  serviceName: {{ $name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "maple.componentLabels" (dict "ctx" . "component" "postgres") | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      # The official image runs as its postgres user (999) when started as it.
+      securityContext: {runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: postgres
+          image: {{ .Values.postgres.image }}
+          env:
+            - {name: POSTGRES_USER, value: {{ .Values.postgres.user | quote }}}
+            - {name: POSTGRES_DB, value: {{ .Values.postgres.database | quote }}}
+            - {name: PGDATA, value: /var/lib/postgresql/data/pgdata}
+            # From the file, not a variable: the image reads it without its trailing newline (a
+            # password made with openssl rand ... > file has one), so it matches storage.postgres_dsn.
+            - {name: POSTGRES_PASSWORD_FILE, value: /run/secrets/postgres/password}
+          ports: [{name: postgres, containerPort: 5432}]
+          readinessProbe:
+            exec: {command: ["pg_isready", "-U", {{ .Values.postgres.user | quote }}, "-d", {{ .Values.postgres.database | quote }}]}
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.postgres.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql/data}
+            # The server's socket folder, writable by that user.
+            - {name: run, mountPath: /var/run/postgresql}
+            - {name: password, mountPath: /run/secrets/postgres, readOnly: true}
+      volumes:
+        - {name: run, emptyDir: {}}
+        - name: password
+          secret:
+            secretName: {{ .Values.postgres.existingSecret | quote }}
+            items: [{key: password, path: password}]
+            defaultMode: 0440
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec:
+        accessModes: [ReadWriteOnce]
+        {{- with .Values.postgres.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources: {requests: {storage: {{ .Values.postgres.size }}}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- $sel | nindent 4 }}
+  ports: [{name: postgres, port: 5432, targetPort: postgres}]
+---
+# Only the proxy (and the lake jobs) may reach PostgreSQL: anyone who can write its tables can
+# change budgets, settings and tokens of every replica.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              {{- include "maple.selectorLabels" (dict "ctx" . "component" "proxy") | nindent 14 }}
+        - podSelector:
+            matchLabels:
+              {{- include "maple.selectorLabels" (dict "ctx" . "component" "lake") | nindent 14 }}
+      ports: [{port: 5432}]
+{{- end }}

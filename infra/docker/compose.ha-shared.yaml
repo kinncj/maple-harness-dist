@@ -6,7 +6,7 @@
 # cannot confirm it runs the current copy reports itself not ready. For trying it out: in
 # production use your managed PostgreSQL and Redis, with backups.
 #
-#   mkdir -p secrets
+#   mkdir -p -m 700 secrets
 #   printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
 #   openssl rand -hex 32 > secrets/storage_key
 #   openssl rand -hex 24 > secrets/postgres_password
@@ -14,7 +14,9 @@
 #   printf 'redis://:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
 #   printf 'postgres://maple:%s@postgres:5432/maple?sslmode=disable' "$(cat secrets/postgres_password)" > secrets/postgres_dsn
 #   cp /path/to/your/config.yaml config.yaml     # the settings to start from
+#   chmod 644 secrets/*      # the proxy reads them as user 65532; the folder stays private
 #   MAPLE_VERSION=v2.2.0 docker compose -f compose.ha-shared.yaml up -d --build
+#   # With Podman, build with a BuildKit pinned by digest (BUILDX_BUILDER; the Docker page has the line)
 #
 # Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
 x-proxy: &proxy
@@ -27,7 +29,9 @@ x-proxy: &proxy
   read_only: true
   cap_drop: [ALL]
   security_opt: ["no-new-privileges:true"]
-  tmpfs: [/tmp, /data]
+  # mode=1777: Podman mounts a tmpfs owned by root without it, which the proxy (user 65532) cannot
+  # write; Docker uses 1777 already.
+  tmpfs: ["/tmp:mode=1777", "/data:mode=1777"]
   volumes: ["./config.yaml:/etc/maple/config.yaml:ro"]
   depends_on:
     postgres: {condition: service_healthy}
@@ -96,7 +100,15 @@ services:
     image: redis:7
     restart: unless-stopped
     secrets: [redis_password]
-    command: ["sh", "-c", "exec redis-server --requirepass \"$$(cat /run/secrets/redis_password)\" --save '' --appendonly no --maxmemory 512mb --maxmemory-policy volatile-lru"]
+    # The password goes into a config file in memory, never onto the command line (where a process
+    # list on the host shows it).
+    user: "999:999"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    # Writable by the redis user: mode, not uid/gid, which Podman refuses. The config file is 0600 (umask 077).
+    tmpfs: ["/conf:mode=1777", "/data:mode=1777"]
+    command: ["sh", "-c", "p=$$(cat /run/secrets/redis_password) && case \"$$p\" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 && printf 'requirepass \"%s\"\\n' \"$$p\" > /conf/redis.conf && exec redis-server /conf/redis.conf --save '' --appendonly no --maxmemory 512mb --maxmemory-policy volatile-lru"]
 
 volumes:
   pg-data: {}

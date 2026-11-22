@@ -21,7 +21,13 @@ spec:
           env:
             - name: REDIS_PASSWORD
               valueFrom: {secretKeyRef: {name: redis, key: password}}
-          args: ["--requirepass", "$(REDIS_PASSWORD)", "--save", "", "--appendonly", "no", "--maxmemory", "512mb", "--maxmemory-policy", "volatile-lru"]
+          # The password goes into a config file in memory, never onto the command line (where a process
+          # list on the node shows it).
+          command: ["sh", "-c"]
+          args:
+            - >-
+              REDIS_PASSWORD=$(printf '%s' "$REDIS_PASSWORD") && case "$REDIS_PASSWORD" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 && printf 'requirepass "%s"\n' "$REDIS_PASSWORD" > /conf/redis.conf && unset REDIS_PASSWORD &&
+              exec redis-server /conf/redis.conf --save '' --appendonly no --maxmemory 512mb --maxmemory-policy volatile-lru
           ports: [{name: redis, containerPort: 6379}]
           resources:
             requests: {cpu: 50m, memory: 128Mi}
@@ -30,5 +36,9 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities: {drop: [ALL]}
-          volumeMounts: [{name: data, mountPath: /data}]
-      volumes: [{name: data, emptyDir: {}}]
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - {name: data, emptyDir: {}}
+        - {name: conf, emptyDir: {medium: Memory, sizeLimit: 1Mi}}

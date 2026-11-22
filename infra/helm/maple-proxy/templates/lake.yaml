@@ -1,0 +1,101 @@
+{{- if .Values.lake.enabled }}
+{{- $name := printf "%s-lake" (include "maple.fullname" .) -}}
+{{- $root := . -}}
+# Usage history for analysis in a DuckLake: the catalog in its own schema of the same PostgreSQL, the
+# data files on a volume (or S3). PostgreSQL stays the live database; the lake keeps everything.
+# The SQL is what `maple-proxy usage lake --emit-sql move|maintain` writes for this release.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}-sql
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+data:
+  move.sql: |
+    {{- .Files.Get "files/lake/move.sql" | nindent 4 }}
+  maintain.sql: |
+    {{- .Files.Get "files/lake/maintain.sql" | nindent 4 }}
+---
+{{- if not (hasPrefix "s3://" .Values.lake.dataPath) }}
+# The lake's data files, when they are kept on a volume rather than S3.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.lake.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources: {requests: {storage: {{ .Values.lake.size }}}}
+---
+{{- end }}
+{{- range $job := list (dict "name" "move" "schedule" $root.Values.lake.moveSchedule "backoff" 2 "deadline" 3000) (dict "name" "maintain" "schedule" $root.Values.lake.maintainSchedule "backoff" 1 "deadline" 7200) }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $name }}-{{ $job.name }}
+  labels:
+    {{- include "maple.labels" $root | nindent 4 }}
+spec:
+  schedule: {{ $job.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: {{ $job.backoff }}
+      activeDeadlineSeconds: {{ $job.deadline }}
+      template:
+        metadata:
+          labels:
+            {{- include "maple.componentLabels" (dict "ctx" $root "component" "lake") | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            fsGroup: 65532
+            seccompProfile: {type: RuntimeDefault}
+          containers:
+            - name: duckdb
+              image: {{ $root.Values.lake.image }}
+              command: ["duckdb", "-bail", "-c", ".read /sql/{{ $job.name }}.sql"]
+              env:
+                - {name: HOME, value: /work}
+                - name: MAPLE_POSTGRES_DSN
+                  valueFrom: {secretKeyRef: {name: {{ $root.Values.lake.existingSecret | quote }}, key: postgres_dsn}}
+                - {name: MAPLE_LAKE_DATA_PATH, value: {{ $root.Values.lake.dataPath | quote }}}
+                {{- with $root.Values.lake.extraEnv }}
+                {{- toYaml . | nindent 16 }}
+                {{- end }}
+              resources:
+                {{- toYaml $root.Values.lake.resources | nindent 16 }}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: {drop: [ALL]}
+              volumeMounts:
+                - {name: sql, mountPath: /sql, readOnly: true}
+                {{- if not (hasPrefix "s3://" $root.Values.lake.dataPath) }}
+                - {name: lake, mountPath: /lake}
+                {{- end }}
+                - {name: work, mountPath: /work}
+          volumes:
+            - name: sql
+              configMap: {name: {{ $name }}-sql}
+            {{- if not (hasPrefix "s3://" $root.Values.lake.dataPath) }}
+            - name: lake
+              persistentVolumeClaim: {claimName: {{ $name }}}
+            {{- end }}
+            - name: work
+              emptyDir: {}
+---
+{{- end }}
+{{- end }}

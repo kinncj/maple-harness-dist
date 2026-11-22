@@ -1,0 +1,106 @@
+{{- if .Values.mcpHub.enabled }}
+{{- $name := printf "%s-mcp-hub" (include "maple.fullname" .) -}}
+{{- $sel := include "maple.selectorLabels" (dict "ctx" . "component" "mcp-hub") -}}
+# The hub's config.yaml. Off loopback the hub needs TLS (tls_cert, tls_key) or insecure_http behind a
+# TLS-terminating ingress, and every request an mcp-hub token. A stdio server (a command the hub
+# would run) is refused in this image: run each MCP server as its own container and add it by URL.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- .Values.mcpHub.config | nindent 4 }}
+---
+# ONE replica: its servers are processes and sessions that live on one machine. Clients connect to
+# this Service; the proxy replicas do not serve the hub.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "mcp-hub") | nindent 4 }}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "maple.componentLabels" (dict "ctx" . "component" "mcp-hub") | nindent 8 }}
+      annotations:
+        checksum/config: {{ .Values.mcpHub.config | sha256sum }}
+    spec:
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: maple-mcp-hub
+          image: {{ include "maple.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["mcp-hub", "serve"]
+          env:
+            - {name: MAPLE_CONFIG, value: /etc/maple/config.yaml}
+          ports: [{name: mcp, containerPort: 11545}]
+          resources:
+            {{- toYaml .Values.mcpHub.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: tmp, mountPath: /tmp}
+            - {name: config, mountPath: /etc/maple, readOnly: true}
+            - {name: secrets, mountPath: /run/secrets/maple, readOnly: true}
+      volumes:
+        # The hub's access file starts empty: its tokens come from its Secret's access.mcp_hub_tokens
+        # at every start, and a line taken out of it is revoked while it runs.
+        - {name: data, emptyDir: {}}
+        - {name: tmp, emptyDir: {medium: Memory, sizeLimit: 64Mi}}
+        - name: config
+          configMap: {name: {{ $name }}}
+        # Its own Secret, never the proxy's (which holds the database password and the storage key).
+        - name: secrets
+          secret: {secretName: {{ .Values.mcpHub.existingSecret | quote }}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- $sel | nindent 4 }}
+  ports: [{name: mcp, port: 11545, targetPort: mcp}]
+{{- if .Values.mcpHub.networkPolicy.enabled }}
+---
+# Only the listed peers reach the hub: its tokens travel in plain http inside the cluster.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "maple.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- $sel | nindent 6 }}
+  policyTypes: [Ingress]
+  {{- if .Values.mcpHub.networkPolicy.from }}
+  ingress:
+    - from:
+        {{- toYaml .Values.mcpHub.networkPolicy.from | nindent 8 }}
+      ports: [{port: 11545}]
+  {{- else }}
+  ingress: []
+  {{- end }}
+{{- end }}
+{{- end }}

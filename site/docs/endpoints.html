@@ -3,48 +3,52 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-rKxfh2L7ieROhSkRr2Bo2Ek53cEgwA6uqHPnwEBQAS0='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Connect a model server · Maple Harness docs</title>
-<meta name="description" content="Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio, vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editin">
+<meta name="description" content="Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio, vLLM, llama.cpp, an MLX server, or another. Add one from the setup page in three clicks or b">
 <meta name="theme-color" content="#E4572E">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../docs/docs.css?v=b4423c6d">
-<script>(function(){var r=document.documentElement;r.classList.add('js');try{r.setAttribute('data-theme',localStorage.getItem('maple-theme')==='dark'?'dark':'light')}catch(e){r.setAttribute('data-theme','light')}var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
 <button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
-<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span><span class="mset m-teams"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
 <div class="search" role="search" data-docs="../docs/">
 <label class="sr" for="q">Search the documentation</label>
 <input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
 <kbd aria-hidden="true">/</kbd>
 <ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
 </div>
-<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg></button>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
 </header>
 <div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
 <div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
 <div class="layout">
-<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html" aria-current="page">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-inside.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html" aria-current="page">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub (experimental)</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details open><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html" aria-current="page">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div><div class="mset m-teams"><div class="sections-m"><a href="../docs/teams-and-hubs.html">Teams &amp; hubs</a><a href="../docs/whats-new-3.0.html" aria-current="true">Get started</a><a href="../docs/proxy.html">Guides</a><a href="../docs/observability.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Teams &amp; hubs</summary><ul><li><a href="../docs/teams-and-hubs.html">Share Maple with a team: hubs, people and fallbacks</a></li><li class="grp"><span>Set it up</span><ul><li><a href="../docs/teams.html">Teams</a></li><li><a href="../docs/access-control.html">Access control: organizations, roles, keys and end users</a></li><li><a href="../docs/chaining.html">Chain proxies into hubs</a></li><li><a href="../docs/single-sign-on.html">Single sign-on for the setup page</a></li><li><a href="../docs/developer-access.html">How developers sign in</a></li></ul></li><li class="grp"><span>Deploy</span><ul><li><a href="../docs/kubernetes.html">Run the proxy on Kubernetes</a></li></ul></li></ul></details><details open><summary>Get started</summary><ul><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html" aria-current="page">Connect a model server</a></li></ul></details><details><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
 <main id="main" class="doc" tabindex="-1">
-<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-inside.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div></nav>
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/whats-new-3.0.html">Get started</a></li><li aria-current="page">Connect a model server</li></ol></div></nav>
 <article>
+<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
 <h1 id="connect-a-model-server">Connect a model server <a class="anchor" href="#connect-a-model-server" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#codex-cli">Codex CLI</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></details>
 
-<p>Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio,
-vLLM, llama.cpp, an MLX server, or another. You can add one from the setup page or by editing the
-configuration file.</p>
+<p class="lede">Any server that speaks the OpenAI API can be a provider: Ollama, LM Studio, oMLX, Lemonade, Unsloth Studio,
+vLLM, llama.cpp, an MLX server, or another. Add one from the setup page in three clicks or by editing the
+configuration file, and every tool that uses the proxy can use its models, with the proxy's fallbacks, budgets and
+usage log.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
 <h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
 <ul><li><strong>What it is.</strong> A model server is a program on your computer or network that runs models itself: Ollama,
 LM Studio, oMLX, Lemonade, Unsloth, vLLM, llama.cpp and others.</li><li><strong>Why you want it.</strong> Your own models cost nothing per request, and your code never leaves your machine.</li><li><strong>The clicks.</strong> On the setup page, <strong>Providers</strong>, <strong>Find local models</strong>: every server running on this machine is
 listed with <strong>Add it</strong>. For one elsewhere, <strong>+ Add provider</strong>, pick the type, <strong>Detect models</strong>, and save. It
-applies at once.</li></ul>
+applies at once.</li></ul></section>
 <h2 id="from-the-setup-page">From the setup page <a class="anchor" href="#from-the-setup-page" aria-label="Link to this heading">#</a></h2>
-<ol><li>Open <code>http://127.0.0.1:11539</code>, go to <strong>Providers</strong> and choose <strong>+ Add provider</strong>.</li><li>Pick the type. The usual address for that server is filled in.</li><li>Press <strong>Detect models</strong> to list what the server has loaded, then save.</li></ol>
+<ol class="steps"><li>Open <code>http://127.0.0.1:11539</code>, go to <strong>Providers</strong> and choose <strong>+ Add provider</strong>.</li><li>Pick the type. The usual address for that server is filled in.</li><li>Press <strong>Detect models</strong> to list what the server has loaded, then save.</li></ol>
 <p>It applies immediately. No restart is needed.</p>
 <h2 id="find-the-servers-already-running">Find the servers already running <a class="anchor" href="#find-the-servers-already-running" aria-label="Link to this heading">#</a></h2>
 <p>If a model server is already running on this computer, the proxy can find it and add it for you.</p>
@@ -71,35 +75,40 @@ is left out, and you are told which. Adding a server never takes over requests m
 goes to it.</li></ul>
 <h2 id="by-hand">By hand <a class="anchor" href="#by-hand" aria-label="Link to this heading">#</a></h2>
 <p>Add a provider to <code>~/.config/maple-harness/config.yaml</code>:</p>
-<pre><code class="language-yaml">providers:
-  - id: ollama
-    type: ollama
-    base_url: http://127.0.0.1:11434/v1
-    optional: true
-    models:
-      - id: qwen3-coder
-        alias: local
-        supports_tools: true</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> ollama
+<span class="t-k">    type:</span> ollama
+<span class="t-k">    base_url:</span> http://127.0.0.1:<span class="t-n">11434</span>/v1
+<span class="t-k">    optional:</span> <span class="t-n">true</span>
+<span class="t-k">    models:</span>
+<span class="t-k">      - id:</span> qwen3-coder
+<span class="t-k">        alias:</span> local
+<span class="t-k">        supports_tools:</span> <span class="t-n">true</span></code></pre></div>
 <div class="tablewrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>id</code></td><td>A name for this provider</td></tr><tr><td><code>type</code></td><td>What kind of server it is (table below)</td></tr><tr><td><code>base_url</code></td><td>The server's address <strong>including</strong> <code>/v1</code> (Lemonade uses <code>/api/v1</code>)</td></tr><tr><td><code>optional: true</code></td><td>If the server is not running, skip it instead of failing to start. Good for anything auto-detected</td></tr><tr><td><code>models[].id</code></td><td>The model's name as the server knows it</td></tr><tr><td><code>models[].alias</code></td><td>A short name you can use in <code>/model</code> and in other tools</td></tr><tr><td><code>models[].supports_tools</code></td><td>Whether the model can call tools, which the agent needs</td></tr><tr><td><code>models[].context_window</code></td><td>Usually leave this out: the proxy asks the server. Set it only if the server does not say</td></tr><tr><td><code>api_key</code></td><td>For servers that need one (see below)</td></tr></tbody></table></div>
 <h2 id="types-and-their-usual-addresses">Types and their usual addresses <a class="anchor" href="#types-and-their-usual-addresses" aria-label="Link to this heading">#</a></h2>
 <div class="tablewrap"><table><thead><tr><th><code>type</code></th><th>Server</th><th>Address</th></tr></thead><tbody><tr><td><code>ollama</code></td><td>Ollama</td><td><code>http://127.0.0.1:11434/v1</code></td></tr><tr><td><code>lmstudio</code></td><td>LM Studio</td><td><code>http://127.0.0.1:1234/v1</code></td></tr><tr><td><code>omlx</code></td><td>oMLX (Apple silicon)</td><td><code>http://127.0.0.1:8000/v1</code></td></tr><tr><td><code>lemonade</code></td><td>Lemonade Server (AMD)</td><td><code>http://127.0.0.1:13305/api/v1</code></td></tr><tr><td><code>unsloth</code></td><td>Unsloth Studio (expects an API key)</td><td><code>http://127.0.0.1:8888/v1</code></td></tr><tr><td><code>openrouter</code></td><td>OpenRouter (an API key; <a href="sign-in.html#openrouter">sign in to make one</a>)</td><td><code>https://openrouter.ai/api/v1</code></td></tr><tr><td><code>xai</code></td><td>Grok, through xAI's API (an API key; <a href="sign-in.html#grok-xai-api-key">sign in</a>)</td><td><code>https://api.x.ai/v1</code></td></tr><tr><td><code>gemini</code></td><td>The Gemini API (a Google AI Studio key; <a href="sign-in.html#gemini-api-google-ai-studio-key">read its free-tier notice</a>)</td><td><code>https://generativelanguage.googleapis.com/v1beta/openai</code></td></tr><tr><td><code>litellm</code></td><td>A LiteLLM gateway (a LiteLLM key; see <a href="litellm.html">Use it with LiteLLM</a>)</td><td><code>http://127.0.0.1:4000/v1</code>, or your gateway's address</td></tr><tr><td><code>openai-compatible</code></td><td>Anything else that speaks the OpenAI API</td><td>you set it</td></tr><tr><td><code>apple-foundation-models</code></td><td>Apple's on-device model (macOS 26, Apple silicon)</td><td>none</td></tr></tbody></table></div>
 <p>GitHub Copilot and Anthropic are signed in, not addressed: see <a href="sign-in.html">Sign in</a>.</p>
 <h2 id="api-keys">API keys <a class="anchor" href="#api-keys" aria-label="Link to this heading">#</a></h2>
 <p>If a server needs a key, do not paste it into the file. Refer to it:</p>
-<pre><code class="language-yaml">providers:
-  - id: my-server
-    type: openai-compatible
-    base_url: https://models.example.com/v1
-    api_key: ${env:MY_SERVER_KEY}        # read from an environment variable
-    # api_key: ${secret:my-server-key}   # or from your system keyring</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">providers:</span>
+<span class="t-k">  - id:</span> my-server
+<span class="t-k">    type:</span> openai-compatible
+<span class="t-k">    base_url:</span> https://models.example.com/v1
+<span class="t-k">    api_key:</span> ${env:MY_SERVER_KEY}        <span class="t-c"># read from an environment variable</span>
+    <span class="t-c"># api_key: ${secret:my-server-key}   # or from your system keyring</span></code></pre></div>
 <p>A key you type on the setup page is stored in the keyring for you.</p>
 <h2 id="use-your-models-from-other-tools">Use your models from other tools <a class="anchor" href="#use-your-models-from-other-tools" aria-label="Link to this heading">#</a></h2>
 <p>Any tool that speaks the OpenAI or Anthropic API can use the proxy. For what a tool gains from it (every model the
 proxy serves, fallbacks, budgets, the usage log and prompt caching) and what stays in Maple Harness, see
 <a href="other-tools.html">What the proxy adds for other tools</a>. Point it at the proxy's addresses:</p>
-<div class="tablewrap"><table><thead><tr><th>API</th><th>Address</th><th>Path</th></tr></thead><tbody><tr><td>OpenAI-compatible (chat completions and the Responses API)</td><td><code>http://127.0.0.1:11535/v1</code></td><td>give it <strong>with</strong> <code>/v1</code></td></tr><tr><td>Anthropic-compatible</td><td><code>http://127.0.0.1:11537</code></td><td>give it <strong>without</strong> <code>/v1</code>: the tool adds it</td></tr></tbody></table></div>
-<pre><code class="language-sh"># anything OpenAI-compatible
-OPENAI_BASE_URL=http://127.0.0.1:11535/v1</code></pre>
+<div class="tablewrap"><table><thead><tr><th>API</th><th>Address</th><th>Path</th></tr></thead><tbody><tr><td>OpenAI-compatible (chat completions, the Responses API, and the legacy completions route)</td><td><code>http://127.0.0.1:11535/v1</code></td><td>give it <strong>with</strong> <code>/v1</code></td></tr><tr><td>Anthropic-compatible</td><td><code>http://127.0.0.1:11537</code></td><td>give it <strong>without</strong> <code>/v1</code>: the tool adds it</td></tr></tbody></table></div>
+<p>The OpenAI-compatible address also serves rerank, moderations, images, audio, files and batches, and pass-through
+routes to a provider's own API: see <a href="more-endpoints.html">More API routes</a>.</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-c"># anything OpenAI-compatible</span>
+OPENAI_BASE_URL=http://127.0.0.1:11535/v1</code></pre></div>
+<p><strong>Legacy completions.</strong> <code>POST /v1/completions</code>, which some older tools still call, sends the prompt to the model as
+one message and answers with text completions, streamed or not. One prompt and one answer per request: <code>n</code>,
+<code>best_of</code>, <code>echo</code>, <code>logprobs</code> and <code>suffix</code> are refused rather than answered differently.</p>
 <p><strong>Which model.</strong> Use a name the proxy lists: a model's <code>id</code>, or its alias. <code>local</code> is the alias from the example
 above. See every name with <code>curl http://127.0.0.1:11535/v1/models</code>, or on the setup page. To give a tool a fixed name
 for a model, add it under <code>model_aliases:</code> in the configuration; to let the proxy choose, see
@@ -109,78 +118,88 @@ Tools on <strong>other machines</strong> need an access token in its place: see
 <a href="proxy.html#using-it-from-another-machine">Using it from another machine</a>.</p>
 <h3 id="claude-code">Claude Code <a class="anchor" href="#claude-code" aria-label="Link to this heading">#</a></h3>
 <p>Claude Code speaks the Anthropic API. Set these in your shell, or in the <code>env</code> block of <code>~/.claude/settings.json</code>:</p>
-<pre><code class="language-sh">export ANTHROPIC_BASE_URL=http://127.0.0.1:11537
-export ANTHROPIC_AUTH_TOKEN=maple            # any value on this machine
-export ANTHROPIC_MODEL=local                 # the model for the session
-export ANTHROPIC_DEFAULT_HAIKU_MODEL=local   # the model for its background tasks
-claude</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">export</span> ANTHROPIC_BASE_URL=http://127.0.0.1:11537
+<span class="t-k">export</span> ANTHROPIC_AUTH_TOKEN=maple            <span class="t-c"># any value on this machine</span>
+<span class="t-k">export</span> ANTHROPIC_MODEL=local                 <span class="t-c"># the model for the session</span>
+<span class="t-k">export</span> ANTHROPIC_DEFAULT_HAIKU_MODEL=local   <span class="t-c"># the model for its background tasks</span>
+<span class="t-k">claude</span></code></pre></div>
 <p>Without <code>ANTHROPIC_DEFAULT_HAIKU_MODEL</code>, Claude Code asks the proxy for its own small model by name for background
 work, which fails unless the proxy serves that name.</p>
 <p>The Anthropic-compatible address also answers <code>GET /v1/models</code> (the models you may use, in Anthropic's shape, for
-tools that discover models from a gateway) and <code>POST /v1/messages/count_tokens</code>. The count is the proxy's own
-estimate from the request's size, not the provider's count, and the response header <code>X-Maple-Token-Count:
-estimated</code> says so.</p>
+tools that discover models from a gateway) and <code>POST /v1/messages/count_tokens</code>, which says how many input tokens
+a request would take without sending it.</p>
+<ul><li><strong>In plain words:</strong> when the model is served by your Anthropic account, the proxy asks Anthropic for the real
+count (Anthropic does not charge for it). For any other model, when Anthropic does not answer in time, when that
+account's budget on this proxy is spent, or when many counts are already running, you get the proxy's own
+estimate from the request's size instead. You never get an error just because the count could not be asked; the
+response header <code>X-Maple-Token-Count</code> says <code>provider</code> or <code>estimated</code>.</li><li><strong>Technically:</strong> the answer is Anthropic's shape, <code>{"input_tokens": N}</code>. The count follows the same rules as a
+request for that model (aliases, model groups, fallbacks, the people and team model lists, access tokens), and is
+counted on the account the request would be sent to first, as you sent it (before any trimming the proxy would
+do when sending, so it can be a little higher than what is sent); a model you may not use gets the same <code>403
+permission_error</code> a request would. Counts are not requests: they are not written to the usage log and use none of
+a budget or of a person's or team's rate limit. The address's own rate limit (<code>server.rate_limit</code>) counts them like
+any other call. Claude on Amazon Bedrock or Google Vertex, and models on OpenAI-compatible servers, are estimated.</li></ul>
 <h3 id="opencode">OpenCode <a class="anchor" href="#opencode" aria-label="Link to this heading">#</a></h3>
 <p>Add a provider to <code>~/.config/opencode/opencode.json</code>:</p>
-<pre><code class="language-json">{
-  "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "maple": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Maple",
-      "options": { "baseURL": "http://127.0.0.1:11535/v1" },
-      "models": {
-        "local": { "name": "local" }
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"$schema"</span>: <span class="t-s">"https://opencode.ai/config.json"</span>,
+  <span class="t-k">"provider"</span>: {
+    <span class="t-k">"maple"</span>: {
+      <span class="t-k">"npm"</span>: <span class="t-s">"@ai-sdk/openai-compatible"</span>,
+      <span class="t-k">"name"</span>: <span class="t-s">"Maple"</span>,
+      <span class="t-k">"options"</span>: { <span class="t-k">"baseURL"</span>: <span class="t-s">"http://127.0.0.1:11535/v1"</span> },
+      <span class="t-k">"models"</span>: {
+        <span class="t-k">"local"</span>: { <span class="t-k">"name"</span>: <span class="t-s">"local"</span> }
       }
     }
   },
-  "model": "maple/local"
-}</code></pre>
+  <span class="t-k">"model"</span>: <span class="t-s">"maple/local"</span>
+}</code></pre></div>
 <p>Each key under <code>models</code> is a name the proxy lists. Pick one with <code>/models</code>, or <code>opencode run -m maple/local "..."</code>.</p>
 <h3 id="pi">pi <a class="anchor" href="#pi" aria-label="Link to this heading">#</a></h3>
 <p>Add a provider to <code>~/.pi/agent/models.json</code>:</p>
-<pre><code class="language-json">{
-  "providers": {
-    "maple": {
-      "baseUrl": "http://127.0.0.1:11535/v1",
-      "api": "openai-completions",
-      "apiKey": "maple",
-      "models": [
-        { "id": "local" }
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"providers"</span>: {
+    <span class="t-k">"maple"</span>: {
+      <span class="t-k">"baseUrl"</span>: <span class="t-s">"http://127.0.0.1:11535/v1"</span>,
+      <span class="t-k">"api"</span>: <span class="t-s">"openai-completions"</span>,
+      <span class="t-k">"apiKey"</span>: <span class="t-s">"maple"</span>,
+      <span class="t-k">"models"</span>: [
+        { <span class="t-k">"id"</span>: <span class="t-s">"local"</span> }
       ]
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>pi needs the <code>apiKey</code> to show the models; any value works on this machine. Pick a model with <code>/model</code>, or
 <code>pi --model maple/local</code>.</p>
 <h3 id="github-copilot-cli">GitHub Copilot CLI <a class="anchor" href="#github-copilot-cli" aria-label="Link to this heading">#</a></h3>
 <p>Copilot CLI's bring-your-own-model mode is set with environment variables, and needs no GitHub sign-in:</p>
-<pre><code class="language-sh">export COPILOT_PROVIDER_BASE_URL=http://127.0.0.1:11535/v1
-export COPILOT_MODEL=local
-copilot</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">export</span> COPILOT_PROVIDER_BASE_URL=http://127.0.0.1:11535/v1
+<span class="t-k">export</span> COPILOT_MODEL=local
+<span class="t-k">copilot</span></code></pre></div>
 <p>Leave <code>COPILOT_PROVIDER_TYPE</code> and <code>COPILOT_PROVIDER_WIRE_API</code> at their defaults (<code>openai</code> and <code>completions</code>). For a
 proxy on another machine, put the access token in <code>COPILOT_PROVIDER_API_KEY</code>.</p>
 <h3 id="hermes">Hermes <a class="anchor" href="#hermes" aria-label="Link to this heading">#</a></h3>
 <p>Hermes Agent (Nous Research) reads its model from <code>~/.hermes/config.yaml</code> (or <code>$HERMES_HOME/config.yaml</code>). Point a
 custom endpoint at the proxy:</p>
-<pre><code class="language-yaml">model:
-  provider: custom
-  base_url: http://127.0.0.1:11535/v1
-  api_key: maple        # any value on this machine
-  default: local</code></pre>
+<div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">model:</span>
+<span class="t-k">  provider:</span> custom
+<span class="t-k">  base_url:</span> http://127.0.0.1:<span class="t-n">11535</span>/v1
+<span class="t-k">  api_key:</span> maple        <span class="t-c"># any value on this machine</span>
+<span class="t-k">  default:</span> local</code></pre></div>
 <p><code>hermes model</code> (choose <strong>Custom endpoint</strong>) writes the same settings for you. Hermes needs a model with at least
 64,000 tokens of context. For a proxy on another machine, put the access token in <code>api_key</code>.</p>
 <h3 id="codex-cli">Codex CLI <a class="anchor" href="#codex-cli" aria-label="Link to this heading">#</a></h3>
 <p>Codex speaks the OpenAI Responses API, which the proxy serves at the same OpenAI-compatible address. Add a provider
 to <code>~/.codex/config.toml</code> (or <code>$CODEX_HOME/config.toml</code>):</p>
-<pre><code class="language-toml">model = "local"
-model_provider = "maple"
-
-[model_providers.maple]
-name = "Maple"
-base_url = "http://127.0.0.1:11535/v1"
-wire_api = "responses"
-env_key = "MAPLE_API_KEY"   # any value on this machine: export MAPLE_API_KEY=maple</code></pre>
+<div class="codeblock"><span class="lang">TOML</span><pre><code class="language-toml"><span class="t-k">model</span> = <span class="t-s">"local"</span>
+<span class="t-k">model_provider</span> = <span class="t-s">"maple"</span>
+<span class="t-h">
+[model_providers.maple]</span>
+<span class="t-k">name</span> = <span class="t-s">"Maple"</span>
+<span class="t-k">base_url</span> = <span class="t-s">"http://127.0.0.1:11535/v1"</span>
+<span class="t-k">wire_api</span> = <span class="t-s">"responses"</span>
+<span class="t-k">env_key</span> = <span class="t-s">"MAPLE_API_KEY"</span>   <span class="t-c"># any value on this machine: export MAPLE_API_KEY=maple</span></code></pre></div>
 <p><code>model</code> is a name the proxy lists. Codex warns that it has no metadata for a name it does not know, and then uses
 its defaults; it works. For a proxy on another machine, put the access token in <code>MAPLE_API_KEY</code>.</p>
 <p>What the proxy does with Codex's requests:</p>
@@ -199,8 +218,8 @@ know the name and assumes a 200,000-token window for it, which is fine for Fusio
 Harness's read_file and grep), Copilot Fusion's review may use them to read your files; see
 <a href="models.html#copilot-fusion">Copilot Fusion</a>.</p>
 <h2 id="check-it">Check it <a class="anchor" href="#check-it" aria-label="Link to this heading">#</a></h2>
-<pre><code class="language-sh">curl http://127.0.0.1:11535/v1/models          # your models
-maple-harness doctor                           # checks the install and each provider</code></pre>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">curl</span> http://127.0.0.1:11535/v1/models          <span class="t-c"># your models</span>
+<span class="t-k">maple-harness</span> doctor                           <span class="t-c"># checks the install and each provider</span></code></pre></div>
 <p>If <strong>Detect models</strong> finds nothing, the server is usually not running or the address is missing its <code>/v1</code>.</p>
 <p>If <strong>Find local models</strong> finds nothing:</p>
 <ul><li>The server is not running, or it is still loading a model and does not answer within about a second and a
@@ -212,8 +231,9 @@ half. Try again.</li><li>It listens on a port other than its usual one, or only 
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#codex-cli">Codex CLI</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#from-the-setup-page">From the setup page</a></li><li><a href="#find-the-servers-already-running">Find the servers already running</a></li><li><a href="#by-hand">By hand</a></li><li><a href="#types-and-their-usual-addresses">Types and their usual addresses</a></li><li><a href="#api-keys">API keys</a></li><li><a href="#use-your-models-from-other-tools">Use your models from other tools</a><ol><li><a href="#claude-code">Claude Code</a></li><li><a href="#opencode">OpenCode</a></li><li><a href="#pi">pi</a></li><li><a href="#github-copilot-cli">GitHub Copilot CLI</a></li><li><a href="#hermes">Hermes</a></li><li><a href="#codex-cli">Codex CLI</a></li><li><a href="#copilot-fusion-in-these-tools">Copilot Fusion in these tools</a></li></ol></li><li><a href="#check-it">Check it</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
-<script src="../docs/site.js?v=4ef5025e" defer></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
 </body>
 </html>

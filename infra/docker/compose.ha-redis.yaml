@@ -9,13 +9,15 @@
 # that, change settings on any replica's setup page. Each proxy keeps its own data folder on a
 # volume, where it remembers the newest settings version it accepted and the Redis store it runs on.
 #
-#   mkdir -p secrets
+#   mkdir -p -m 700 secrets
 #   printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
 #   openssl rand -hex 32 > secrets/storage_key
 #   openssl rand -hex 24 > secrets/redis_password
 #   printf 'redis://maple:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
 #   cp /path/to/your/config.yaml config.yaml     # the settings to start from
+#   chmod 644 secrets/*      # the proxy reads them as user 65532; the folder stays private
 #   MAPLE_VERSION=v2.3.1 docker compose -f compose.ha-redis.yaml up -d --build
+#   # With Podman, build with a BuildKit pinned by digest (BUILDX_BUILDER; the Docker page has the line)
 #
 # Clients use http://127.0.0.1:8080/v1 (OpenAI) with the token after "laptop=".
 x-proxy: &proxy
@@ -79,10 +81,14 @@ services:
     # The proxies sign in as "maple", a user that cannot run FLUSHALL, CONFIG, DEBUG, SHUTDOWN or any
     # other dangerous command (INFO stays: the proxy checks durability with it); the default user is
     # off. Add a user of your own for administration.
-    command: ["sh", "-c", "exec redis-server --dir /data --appendonly yes --appendfsync everysec --maxmemory 1gb --maxmemory-policy noeviction --user default off --user maple on \">$$(cat /run/secrets/redis_password)\" '~*' '&*' +@all -@dangerous +info"]
+    # The users and the password go into a config file in memory, never onto the command line (where a
+    # process list on the host shows it).
+    tmpfs: ["/conf:mode=0700"]
+    command: ["sh", "-c", "p=$$(cat /run/secrets/redis_password) && case \"$$p\" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 && printf 'user default off\\nuser maple on >%s ~* &* +@all -@dangerous +info\\n' \"$$p\" > /conf/redis.conf && exec redis-server /conf/redis.conf --dir /data --appendonly yes --appendfsync everysec --maxmemory 1gb --maxmemory-policy noeviction"]
     volumes: ["redis-data:/data"]
     healthcheck:
-      test: ["CMD", "sh", "-c", "redis-cli --user maple -a \"$$(cat /run/secrets/redis_password)\" --no-auth-warning ping | grep -q PONG"]
+      # The password through the environment (REDISCLI_AUTH), not the command line.
+      test: ["CMD", "sh", "-c", "REDISCLI_AUTH=\"$$(cat /run/secrets/redis_password)\" redis-cli --user maple ping | grep -q PONG"]
       interval: 5s
       retries: 20
 

@@ -157,7 +157,7 @@
     "list_cost_usd": {
       "type": "number",
       "minimum": 0,
-      "description": "Estimated: the request priced at the provider's published list prices, whether or not the provider is set up with estimate_cost. What monthly dollar budgets count. Not a bill, separate from ai_units and from cost_estimated: never add them together. Unit: USD. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "Estimated: the request priced at the provider's published list prices, whether or not the provider is set up with estimate_cost (with price_basis reported: the price a LiteLLM gateway reported for it). What monthly dollar budgets count. Not a bill, separate from ai_units and from cost_estimated: never add them together. Unit: USD. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "messages": {
       "type": "integer",
@@ -187,11 +187,11 @@
     },
     "price_basis": {
       "type": "string",
-      "description": "How list_cost_usd was priced: list for the model's own list price, family-highest when the model is not in the price list and was counted at the highest list price of its family. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "How list_cost_usd was priced: list for the model's own list price, family-highest when the model is not in the price list and was counted at the highest list price of its family, reported for the price the provider reported for the call itself (a LiteLLM gateway's x-litellm-response-cost). May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "price_list_version": {
       "type": "string",
-      "description": "The price list list_cost_usd was priced from, such as anthropic-2026-10-11 (the date it was read). May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
+      "description": "The price list list_cost_usd was priced from, such as anthropic-2026-10-11 (the date it was read), or litellm for a price a LiteLLM gateway reported. May be left out; absent means not priced. Added in schema version 6: lines written before it do not have it."
     },
     "priced": {
       "type": "boolean",

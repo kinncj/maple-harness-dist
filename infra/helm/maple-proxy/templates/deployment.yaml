@@ -1,0 +1,194 @@
+{{- include "maple.validate" . -}}
+{{- /* $central: several replicas sharing their state (mode central or redis); $redis: mode redis. */ -}}
+{{- $central := has .Values.mode (list "central" "redis") -}}
+{{- $redis := eq .Values.mode "redis" -}}
+{{- $source := include "maple.settingsSource" . -}}
+{{- $fullname := include "maple.fullname" . -}}
+apiVersion: apps/v1
+{{- if $redis }}
+# mode redis: a StatefulSet, so each replica keeps its data folder on a claim of its own. There it
+# remembers the Redis store it ran on (a restarted replica refuses a Redis that lost its data instead
+# of counting from zero) and the newest settings versions it accepted.
+kind: StatefulSet
+{{- else }}
+kind: Deployment
+{{- end }}
+metadata:
+  name: {{ $fullname }}
+  labels:
+    {{- include "maple.componentLabels" (dict "ctx" . "component" "proxy") | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  {{- if $redis }}
+  serviceName: {{ $fullname }}
+  podManagementPolicy: Parallel
+  updateStrategy: {type: RollingUpdate}
+  {{- else if $central }}
+  strategy:
+    rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+  {{- else }}
+  # One writer of the volume at a time.
+  strategy: {type: Recreate}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "maple.selectorLabels" (dict "ctx" . "component" "proxy") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "maple.componentLabels" (dict "ctx" . "component" "proxy") | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        # A change of config.yaml rolls the replicas.
+        checksum/config: {{ .Values.config | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "maple.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if $central }}
+      topologySpreadConstraints:
+        {{- if .Values.topologySpreadConstraints }}
+        {{- toYaml .Values.topologySpreadConstraints | nindent 8 }}
+        {{- else }}
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              {{- include "maple.selectorLabels" (dict "ctx" . "component" "proxy") | nindent 14 }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: maple-proxy
+          image: {{ include "maple.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["serve"]
+          ports:
+            - {name: openai, containerPort: 11535}
+            - {name: anthropic, containerPort: 11537}
+          env:
+            - name: MAPLE_PROXY_INSTANCE
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+            - {name: MAPLE_PROXY_ID, value: {{ .Values.proxyId | quote }}}
+            - {name: MAPLE_ALLOWED_HOSTS, value: {{ include "maple.allowedHosts" . | quote }}}
+            - {name: MAPLE_DRAIN_DELAY, value: {{ .Values.drainDelay | quote }}}
+            - {name: MAPLE_SHUTDOWN_GRACE, value: {{ .Values.shutdownGrace | quote }}}
+            - {name: MAPLE_EMBEDDINGS_DIR, value: /models}
+            {{- if $central }}
+            - {name: MAPLE_STORAGE_MODE, value: {{ .Values.mode }}}
+            - {name: MAPLE_SETTINGS_SOURCE, value: {{ $source | quote }}}
+            {{- if and (eq $source "file") $redis }}
+            # Settings from the ConfigMap, read-only on the setup page. Mounted into the data folder:
+            # a replica in mode redis keeps its memory of the store next to its config.yaml.
+            - {name: MAPLE_CONFIG, value: /data/config.yaml}
+            {{- else if eq $source "file" }}
+            # Settings from the ConfigMap, read-only on the setup page.
+            - {name: MAPLE_CONFIG, value: /etc/maple/config.yaml}
+            {{- else }}
+            # Copied into the shared store once, when it holds no settings yet.
+            - {name: MAPLE_SETTINGS_SEED, value: /etc/maple/config.yaml}
+            {{- end }}
+            - {name: MAPLE_READY_REQUIRES_SAME_CONFIG, value: {{ .Values.settings.requireSameConfig | toString | quote }}}
+            {{- if not $redis }}
+            - {name: MAPLE_POSTGRES_DSN, value: "${secret:storage/postgres_dsn}"}
+            {{- end }}
+            - {name: MAPLE_REDIS_URL, value: "${secret:storage/redis_url}"}
+            - {name: MAPLE_STORAGE_KEY, value: "${secret:storage/key}"}
+            {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: models, mountPath: /models}
+            - {name: tmp, mountPath: /tmp}
+            - {name: secrets, mountPath: /run/secrets/maple, readOnly: true}
+            {{- if and $redis (eq $source "file") }}
+            - {name: config, mountPath: /data/config.yaml, subPath: config.yaml, readOnly: true}
+            {{- else if $central }}
+            - {name: config, mountPath: /etc/maple, readOnly: true}
+            {{- end }}
+          startupProbe:
+            httpGet: {path: /healthz, port: openai}
+            periodSeconds: 2
+            failureThreshold: 60
+          livenessProbe:
+            httpGet: {path: /healthz, port: openai}
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {path: /readyz, port: openai}
+            periodSeconds: 5
+          lifecycle:
+            # Endpoints are removed while the replica still serves.
+            preStop: {sleep: {seconds: 5}}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+      volumes:
+        {{- if $redis }}
+        {{- /* data: the volumeClaimTemplates below, one claim per replica. */}}
+        {{- else if $central }}
+        - name: data
+          emptyDir: {}
+        {{- else }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.data.existingClaim | default (printf "%s-data" $fullname) }}
+        {{- end }}
+        {{- if and $central .Values.persistence.models.existingClaim }}
+        # A ReadWriteMany claim: the models are downloaded once for every replica.
+        - name: models
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.models.existingClaim }}
+        {{- else if and (not $central) .Values.persistence.models.enabled }}
+        - name: models
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.models.existingClaim | default (printf "%s-models" $fullname) }}
+        {{- else }}
+        # Each replica downloads an embedding model on first use into its own folder.
+        - name: models
+          emptyDir: {}
+        {{- end }}
+        - name: tmp
+          emptyDir: {medium: Memory, sizeLimit: 64Mi}
+        - name: secrets
+          secret: {secretName: {{ .Values.existingSecret | quote }}}
+        {{- if $central }}
+        - name: config
+          configMap: {name: {{ $fullname }}}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if $redis }}
+  volumeClaimTemplates:
+    # No labels here: a StatefulSet's claim templates cannot change on upgrade.
+    - metadata: {name: data}
+      spec:
+        accessModes: {{ toJson .Values.persistence.data.accessModes }}
+        {{- with .Values.persistence.data.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources: {requests: {storage: {{ .Values.persistence.data.size }}}}
+  {{- end }}

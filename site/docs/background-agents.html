@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Background agents: out on the ice while you talk · Maple Harness docs</title>
+<meta name="description" content="Since 3.0 an agent the model starts in the background keeps working after the turn ends. You can go on talking to the main agent, or leave it idle, and each background agent&#x27;s report comes back later ">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html" aria-current="page">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Background agents: out on the ice while you talk</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
+<h1 id="background-agents-out-on-the-ice-while-you-talk">Background agents: out on the ice while you talk <a class="anchor" href="#background-agents-out-on-the-ice-while-you-talk" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-you-see">What you see</a></li><li><a href="#talking-to-an-agent">Talking to an agent</a></li><li><a href="#stopping-agents">Stopping agents</a></li><li><a href="#when-you-quit-with-agents-out">When you quit with agents out</a></li><li><a href="#after-a-restart">After a restart</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a><ol><li><a href="#the-tools-the-model-uses">The tools the model uses</a></li><li><a href="#how-a-report-reaches-the-model">How a report reaches the model</a></li><li><a href="#safety">Safety</a></li></ol></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">Since 3.0 an agent the model starts in the background keeps working after the turn ends. You can go on talking
+to the main agent, or leave it idle, and each background agent's report comes back later on its own: it lands in
+the conversation and wakes the main agent, which reads it and carries on. A finished agent can be given a
+follow-up and picks up where it left off, with everything it already knew.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> Helpers that keep working while you and the main agent move on. When one is done, its report
+arrives by itself and the main agent reads it.</li><li><strong>Why you want it.</strong> A long search, a test run or a second opinion no longer holds the conversation up. You
+keep the main agent free for the next thing.</li><li><strong>What to do.</strong> Nothing: it is on by default. To get the old behaviour (the turn waits for every background
+agent before it ends), set <code>harness.subagents.outlive_turn: off</code> in <code>/settings</code>.</li><li><strong>Where to look.</strong> <code>Ctrl+T</code> opens the agents tray: who is out, for how long, and doing what.</li></ul></section>
+<h2 id="what-you-see">What you see <a class="anchor" href="#what-you-see" aria-label="Link to this heading">#</a></h2>
+<p>When a turn ends with agents still working, one line says so, and the line under the input box keeps saying it
+while the session is idle:</p>
+<div class="codeblock"><pre><code class="language-text">◯ 2 agents still out on the ice · their reports land here when they are done
+⏵⏵ ask mode (shift+tab to cycle: ask → auto)  ·  ◯ waiting on 2 agents</code></pre></div>
+<p>When an agent finishes and nothing else is running, its report appears as one line and the main agent starts
+a turn to read it:</p>
+<div class="codeblock"><pre><code class="language-text">◯ explore (a1) finished · found 42 files  ↳ wakes the agent</code></pre></div>
+<p>While a turn is already running, the report reaches the main agent at its next step instead. A long-running agent
+also sends a short progress note now and then (at most every three minutes, and only when it has done something
+since the last one). While nothing runs, a note is only shown to you; the main agent gets the report itself.</p>
+<p>The agents tray (<code>ctrl+t</code>, or Down from an empty input box) lists every agent with how long it has run and what it
+is doing.</p>
+<h2 id="talking-to-an-agent">Talking to an agent <a class="anchor" href="#talking-to-an-agent" aria-label="Link to this heading">#</a></h2>
+<p>Open an agent from the tray (Enter on its row) to see its transcript. Press <strong>m</strong> to write to it:</p>
+<ul><li>an agent that is still running reads your message at its next step;</li><li>a finished agent is <strong>resumed</strong>: it starts again in the background with its whole conversation, and your
+message at the end. Its new report comes back like the first one.</li></ul>
+<p>The view's title says <code>talking to explore</code> while you write, so it is never mistaken for the main input. Enter
+sends, Esc drops what you wrote.</p>
+<p>The main agent can do the same with its tools (below), so "check that edge case too" can go to the agent that
+already knows the code.</p>
+<div class="callout c-note" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>What can be resumed</span></p><p>An agent <strong>you</strong> stopped is not resumed; start a new one instead. Only the newest 20 finished agents keep their
+conversation for resuming (each up to 2 MB of text); older ones say so.</p></div>
+<p>Those limits are chosen, not measured. Those 20 are saved with the session, so
+they can still be resumed after you quit and start it again: see <a href="#after-a-restart">After a restart</a>.</p>
+<p>From your phone, the <strong>agents</strong> sheet does the same: <strong>Message</strong> on a running agent, <strong>Resume with a message</strong> on a
+finished one. See <a href="remote-control.html#using-the-page">Remote control</a>.</p>
+<h2 id="stopping-agents">Stopping agents <a class="anchor" href="#stopping-agents" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th>Where</th><th>What it does</th></tr></thead><tbody><tr><td><code>x</code> on an agent in the tray, then <code>y</code></td><td>Stops that agent</td></tr><tr><td><code>X</code> in the tray, then <code>y</code></td><td>Stops every agent still running</td></tr><tr><td>The palette (<code>ctrl+p</code>): <strong>Stop all agents</strong></td><td>The same</td></tr><tr><td><strong>Esc</strong></td><td>Stops the main agent's turn, and an agent it waits for in the foreground; background agents keep working (with <code>outlive_turn: off</code>, Esc stops them too)</td></tr><tr><td><code>/clear</code></td><td>Stops running agents too, with a note: their reports would belong to the conversation you cleared</td></tr><tr><td>Quitting</td><td>The first Ctrl-C names the agents still working; the second stops them and quits, and <strong>k</strong> quits and keeps them working (below)</td></tr></tbody></table></div>
+<p>A stopped agent's task on the <a href="subagents.html#the-lineup-the-task-list-you-can-watch">lineup</a> goes back to pending,
+with a note saying why, so another agent (or the main one) can take it. If it worked in its own copy of the
+project, the copy is kept.</p>
+<h2 id="when-you-quit-with-agents-out">When you quit with agents out <a class="anchor" href="#when-you-quit-with-agents-out" aria-label="Link to this heading">#</a></h2>
+<p>In plain words:</p>
+<ul><li><strong>What it is.</strong> You want to close the terminal, but an agent is halfway through a long job. You can let it
+finish instead of stopping it.</li><li><strong>Why you want it.</strong> An hour of work does not have to be thrown away because it is time to go home.</li><li><strong>What to do.</strong> The steps below.</li></ul>
+<ol class="steps"><li>Press <strong>Ctrl-C</strong> once. The line under the input box names the agents still working.</li><li>Press <strong>k</strong> to quit and keep them working (or type <code>/quit keep</code>). Press <strong>Ctrl-C</strong> again instead to stop them
+and quit, as before.</li><li>Later, start the session again with <code>maple-harness --session &lt;name&gt;</code>: their reports are waiting in it.</li></ol>
+<p>What the terminal says when you press <strong>k</strong>:</p>
+<div class="codeblock"><pre><code class="language-text">◯ 1 agent(s) keep working: tester (a3).
+  Their reports are saved in session spendline-api: maple-harness --session spendline-api picks them up.
+  This terminal stays busy until they finish, at most until 18:40 (harness.subagents.keep_timeout).
+  You may close it: they keep working. Ctrl-C here, or kill 41207, stops them. maple-harness agents lists this session as finishing.
+  Anything they ask your approval for is refused, since nobody is here to answer.</code></pre></div>
+<ul><li>Each report is added to the conversation and saved as it lands. The next <code>maple-harness --session &lt;name&gt;</code>
+starts with the reports there, and the main agent reads them with your next message.</li><li><code>maple-harness agents</code> lists the session as <code>finishing</code> while its agents work. It takes no messages then.</li><li>Closing the terminal does not stop them. Ctrl-C in that terminal, <code>kill &lt;pid&gt;</code>, or <code>keep_timeout</code> (30 minutes by
+default) stops them; they are saved as stopped when the session ended, so you can resume them later.</li></ul>
+<div class="callout c-warning" role="note"><p class="callout-t"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.01"/></svg><span>Nobody is there to say yes</span></p><p><strong>k</strong> is not offered while an agent waits for your approval or a question waits for your answer: answer it
+first. From the moment you press it, anything they would ask you is refused: a tool call that would wait for
+your yes is turned down, and the agent carries on without it. Calls your permission rules already allow are not
+asked, so they still run.</p></div>
+<p>Technical details: the session's own process stays alive without its interface until the agents finish, so they
+keep their copies of the project, their <a href="memory-limits.html">memory caps</a> and their limits. Every approval they
+would ask for is refused, and so is every question to you (it settles as "nobody is here"). The phone or browser
+connected to the session is let go when you quit. A <code>--prompt</code> run, <code>--repl</code> and <code>--rpc</code> never get here: their turns
+wait for their agents before they end.</p>
+<h2 id="after-a-restart">After a restart <a class="anchor" href="#after-a-restart" aria-label="Link to this heading">#</a></h2>
+<p>The finished agents' conversations (the newest 20, each up to 2 MB of text) are saved beside the session, in a
+file readable by you only, whenever they change. Start the session again with <code>--session &lt;name&gt;</code> and they are
+back under their old ids, marked as from before the restart. Ask the main agent to follow up ("ask the tester
+to check the rounding too"): its <code>agent_message</code> resumes that agent with its whole conversation. On the phone,
+the agents sheet lists them under <strong>Finished</strong>, each with <strong>Resume with a message</strong>. The terminal's tray shows an
+agent only while it runs and for a short while after, so a resumed one shows there again once it runs. An agent that was still working when the session
+ended was stopped then, and is saved as such; resuming it tells it that changes it made in its own copy of the
+project were not applied, so it checks the files before it carries on. An agent you stopped yourself stays
+stopped. The file goes when the session is removed (<code>maple-harness sessions rm</code>, or <code>cleanup</code>).</p>
+<h2 id="settings">Settings <a class="anchor" href="#settings" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table class="ref"><thead><tr><th>Setting</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td><code>harness.<wbr>subagents.<wbr>outlive_<wbr>turn</code></td><td data-label="Default"><code>on</code></td><td data-label="Meaning"><code>on</code>: background agents keep working after the turn, and their reports wake the session. <code>off</code>: the turn waits for every background agent before it ends, as before 3.0</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>keep_<wbr>after_<wbr>exit</code></td><td data-label="Default"><code>offer</code></td><td data-label="Meaning"><code>offer</code>: quitting with agents still working offers <strong>k</strong> to keep them working. <code>off</code>: quitting always stops them</td></tr><tr><td><code>harness.<wbr>subagents.<wbr>keep_<wbr>timeout</code></td><td data-label="Default"><code>30m</code></td><td data-label="Meaning">How long kept agents may work after you quit: <code>10m</code>, <code>30m</code>, <code>1h</code>, <code>2h</code> or <code>4h</code></td></tr></tbody></table></div>
+<p>This applies in the full-screen terminal, and to a session you drive from your phone or another device. A
+<code>--prompt</code> run, the plain REPL (<code>--repl</code>) and <code>--rpc</code> always wait for their agents before the turn ends, so
+nothing exits or goes idle with work still out.</p>
+<section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
+<h3 id="the-tools-the-model-uses">The tools the model uses <a class="anchor" href="#the-tools-the-model-uses" aria-label="Link to this heading">#</a></h3>
+<p>The same four tools that reach other agents on your machine reach this session's own agents, by their id (<code>a3</code>),
+by <code>name#id</code> (<code>tester#a3</code>), or by a name only one agent has:</p>
+<div class="tablewrap"><table><thead><tr><th>Tool</th><th>On one of this session's agents</th></tr></thead><tbody><tr><td><code>agent_read</code></td><td>Its state, its transcript so far, and its report once finished. On a background command or monitor (<code>bg_1</code>, <code>mon_1</code>): its last output lines</td></tr><tr><td><code>agent_wait</code></td><td>Waits until it finishes, with a timeout (default 5 minutes, at most 30). <code>targets</code> waits for whichever of several finishes first. A report returned here does not arrive again as a message</td></tr><tr><td><code>agent_message</code></td><td>Steers a running agent, or resumes a finished one in the background with its whole conversation (also one saved before a restart)</td></tr><tr><td><code>agent_stop</code></td><td>Stops it cleanly, with an optional reason kept in its transcript; no report follows. Also stops a background command or monitor. In ask mode it asks you first, as <code>kill_shell</code> does (a rule allowing <code>agent_stop</code> lets it through)</td></tr></tbody></table></div>
+<p>Only the main agent can stop or message this session's agents: a subagent may read the others, never stop or
+restart them, and never targets itself.</p>
+<h3 id="how-a-report-reaches-the-model">How a report reaches the model <a class="anchor" href="#how-a-report-reaches-the-model" aria-label="Link to this heading">#</a></h3>
+<p>A report is added at the end of the conversation (so the provider's prompt cache keeps working), opened by a note
+saying it is the report of work the agent started, not your words. Several reports that arrive while one turn
+runs are read at its next step.</p>
+<h3 id="safety">Safety <a class="anchor" href="#safety" aria-label="Link to this heading">#</a></h3>
+<ul><li>A background agent has the same permissions as before: every tool call that would ask you still asks, in the
+terminal or on your phone, labelled with the agent's name, even after the turn that started it has ended. The
+tools that act outside the session (typing into a pane or another agent, starting one, a monitor) ask in auto and
+yolo mode too, as they do for the main agent.</li><li>A turn started by a report is held, like a turn another agent's message starts: in auto or yolo mode its tool
+calls still ask you. Your own allow rules still apply.</li><li>An agent started during such a held turn (or while serving <a href="a2a.html">A2A</a>) stays held for its whole life, even
+after that turn has ended, and so does an agent resumed or steered from one. Its questions can only be answered
+by you, never over the control socket.</li><li>A report is marked as the agent's information, not instructions. An agent's transcript is shown without any
+terminal control sequences.</li><li>Letting an agent go past its budget is asked each time, never "always".</li><li>An agent's own limits (memory, budget, permissions) come from its file: see
+<a href="subagents.html#make-your-own">Make your own</a>.</li><li>When the session ends, every agent still running is stopped, and the terminal says which, unless you chose to
+keep them working (<a href="#when-you-quit-with-agents-out">above</a>): then nobody can approve anything they ask for, so
+those calls are refused.</li><li>From the phone, only a device paired to drive this computer can message an agent: not a watch-only device, a
+shared link, or a device limited to some sessions. The message goes through the same checks as any other the
+page sends, and the agent reads it as from you on that device ("Message from the person (on work phone)").</li></ul></section>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="subagents.html">Subagents</a> The helpers themselves, the lineup they share, and how to write your own.</li><li><a href="background-commands.html">Background commands and monitors</a> Long commands and log watches that tell the agent when they end.</li><li><a href="memory-limits.html">Memory caps and heavy runs</a> What keeps a room full of agents from eating your RAM.</li><li><a href="questions.html">Questions the agent asks you</a> How an agent asks when it needs a decision from you.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/subagents.html" rel="prev"><small>Previous</small>Subagents</a><a class="next" href="../docs/questions.html" rel="next"><small>Next</small>Questions the agent asks you</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-you-see">What you see</a></li><li><a href="#talking-to-an-agent">Talking to an agent</a></li><li><a href="#stopping-agents">Stopping agents</a></li><li><a href="#when-you-quit-with-agents-out">When you quit with agents out</a></li><li><a href="#after-a-restart">After a restart</a></li><li><a href="#settings">Settings</a></li><li><a href="#technical-details">Technical details</a><ol><li><a href="#the-tools-the-model-uses">The tools the model uses</a></li><li><a href="#how-a-report-reaches-the-model">How a report reaches the model</a></li><li><a href="#safety">Safety</a></li></ol></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

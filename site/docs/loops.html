@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" data-mode="single" data-page-mode="single" data-modes="single teams" data-release="2.6.3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-BF8lQhtgeVCXDlPr5OC9tiAB7YDSzscaFtbbCEHELko='; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Loops · Maple Harness docs</title>
+<meta name="description" content="A loop is the agent going round again and again until something is done, instead of you typing &quot;keep going&quot; each time. Maple Harness has four kinds: a goal it works toward turn after turn until a chec">
+<meta name="theme-color" content="#E4572E">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css?v=442b69d1">
+<script>(function(){var r=document.documentElement;r.classList.add('js');var t;try{t=localStorage.getItem('maple-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme-auto','')}r.setAttribute('data-theme',t);var p=r.getAttribute('data-page-mode');try{if(p==='both'){var m=localStorage.getItem('maple-docs-mode');if(m&&(' '+r.getAttribute('data-modes')+' ').indexOf(' '+m+' ')>=0)r.setAttribute('data-mode',m)}else if(p)localStorage.setItem('maple-docs-mode',p)}catch(e){}try{var v=r.getAttribute('data-release');if(v&&localStorage.getItem('maple-release-dismissed')===v)r.classList.add('rel-off')}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+<header class="top">
+<button type="button" class="icon menu-btn" id="menu" aria-controls="side" aria-expanded="false" aria-label="Documentation menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<a class="brand" href="../index.html"><img src="../img/logo.svg" alt="Maple Harness home" width="118" height="30"></a>
+<nav class="sections" aria-label="Documentation sections"><span class="mset m-single"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></span></nav>
+<div class="search" role="search" data-docs="../docs/">
+<label class="sr" for="q">Search the documentation</label>
+<input id="q" type="search" placeholder="Search docs" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false">
+<kbd aria-hidden="true">/</kbd>
+<ul class="results" id="results" role="listbox" aria-label="Search results" hidden></ul>
+</div>
+<button type="button" class="icon theme" id="theme" aria-label="Colour theme" title="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><g class="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="i-auto"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></g></svg></button>
+</header>
+<div class="relbar" role="region" aria-label="New release"><p>Maple Harness 2.6.3 released! <a href="https://github.com/kinncj/maple-harness-dist/releases/tag/v2.6.3" rel="noopener">What's new<span class="sr"> in 2.6.3</span></a></p><button type="button" class="relx" id="relx" aria-label="Dismiss the 2.6.3 release notice" title="Dismiss"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<div class="modebar"><div class="modes" role="tablist" aria-label="Documentation for"><a class="mode" role="tab" data-m="single" href="../docs/index.html" aria-selected="true" tabindex="0">Single user</a><a class="mode" role="tab" data-m="teams" href="../docs/teams-and-hubs.html" aria-selected="false" tabindex="-1">Teams &amp; hubs</a></div><p class="mode-blurb mset m-single">One person, one machine: the agent, the proxy and your own usage.</p><p class="mode-blurb mset m-teams">Several people, from one shared proxy up to a hub of hubs.</p></div><div class="scrim" id="scrim"></div>
+<div class="layout">
+<nav class="side" id="side" aria-label="Documentation"><div class="mset m-single"><div class="sections-m"><a href="../docs/index.html">Get started</a><a href="../docs/proxy.html" aria-current="true">Guides</a><a href="../docs/saving-tokens.html">Cost and usage</a><a href="../docs/commands.html">Reference</a><a href="../docs/troubleshooting.html">Help</a></div><a class="side-new" href="../docs/whats-new-3.0.html"><span class="side-new-dot" aria-hidden="true"></span>What&#x27;s new in 3.0</a><details><summary>Get started</summary><ul><li><a href="../docs/index.html">Overview</a></li><li><a href="../docs/whats-new-3.0.html">What&#x27;s new in 3.0</a></li><li><a href="../docs/whats-inside.html">What&#x27;s inside Maple</a></li><li><a href="../docs/install.html">Install</a></li><li><a href="../docs/upgrading-to-3.0.html">Upgrading to 3.0</a></li><li><a href="../docs/upgrading-to-2.0.html">Upgrading to 2.0</a></li><li><a href="../docs/which-setup.html">Which setup do I need?</a></li><li><a href="../docs/getting-started.html">Your first session</a></li><li><a href="../docs/sign-in.html">Sign in</a></li><li><a href="../docs/clouds.html">Azure and Google Cloud</a></li><li><a href="../docs/bedrock.html">Amazon Bedrock</a></li><li><a href="../docs/endpoints.html">Connect a model server</a></li><li><a href="../docs/models.html">Choose a model</a></li></ul></details><details open><summary>Guides</summary><ul><li class="grp"><span>The proxy</span><ul><li><a href="../docs/proxy.html">The proxy and its setup page</a></li><li><a href="../docs/local-gpu.html">Get the most from a local GPU</a></li><li><a href="../docs/proxy-service.html">Keep it running in the background</a></li><li><a href="../docs/docker.html">Run the proxy in Docker</a></li><li><a href="../docs/mcp-hub.html">MCP hub</a></li><li><a href="../docs/guardrails.html">Guardrails</a></li><li><a href="../docs/semantic-cache.html">The semantic cache</a></li></ul></li><li class="grp"><span>Your phone</span><ul><li><a href="../docs/remote-control.html">Control it from your phone</a></li></ul></li><li class="grp"><span>The agent</span><ul><li><a href="../docs/subagents.html">Subagents</a></li><li><a href="../docs/background-agents.html">Background agents: out on the ice while you talk</a></li><li><a href="../docs/questions.html">Questions the agent asks you</a></li><li><a href="../docs/plan-mode.html">Plan mode</a></li><li><a href="../docs/web-and-files.html">Web pages, downloads and finding files</a></li><li><a href="../docs/notes-files-and-resources.html">Notes, files, MCP resources and loading tools</a></li><li><a href="../docs/approvals.html">Approvals when nobody answers</a></li><li><a href="../docs/background-commands.html">Background commands and monitors</a></li><li><a href="../docs/scheduling.html">Scheduled work</a></li><li><a href="../docs/worktrees.html">Worktrees</a></li><li><a href="../docs/loops.html" aria-current="page">Loops</a></li><li><a href="../docs/limit-resets.html">When a provider&#x27;s limit runs out</a></li><li><a href="../docs/language-servers.html">Language servers</a></li><li><a href="../docs/editing-tools.html">Several edits, patches and renames</a></li><li><a href="../docs/search-by-meaning.html">Search by meaning</a></li><li><a href="../docs/sandbox.html">The shell sandbox</a></li><li><a href="../docs/memory-limits.html">Memory caps and heavy runs</a></li></ul></li><li class="grp"><span>Other tools</span><ul><li><a href="../docs/endpoints.html#use-your-models-from-other-tools">Use your models from other tools</a></li><li><a href="../docs/other-tools.html">What the proxy adds for other tools</a></li><li><a href="../docs/more-endpoints.html">More API routes: rerank, images, audio, files and pass-through</a></li><li><a href="../docs/litellm.html">Use it with LiteLLM</a></li><li><a href="../docs/mcp.html">Give other tools this project&#x27;s knowledge</a></li><li><a href="../docs/rpc.html">Drive it from another program</a></li><li><a href="../docs/a2a.html">Agents that call agents (A2A)</a></li><li><a href="../docs/herdr.html">Use it with herdr</a></li><li><a href="../docs/tmux.html">Use it with tmux</a></li></ul></li></ul></details><details><summary>Cost and usage</summary><ul><li><a href="../docs/saving-tokens.html">See and reduce what a task costs</a></li><li><a href="../docs/cost.html">What /cost tells you</a></li><li><a href="../docs/three-es.html">Settings by goal</a></li><li><a href="../docs/observability.html">See and filter your usage</a></li><li><a href="../docs/metrics-and-telemetry.html">Metrics and telemetry export</a></li><li><a href="../docs/content-export.html">Content export and callbacks</a></li><li><a href="../docs/health.html">Provider health</a></li><li><a href="../docs/alerts-and-forecasts.html">Alerts and forecasts</a></li><li><a href="../docs/investigations.html">Investigations</a></li><li><a href="../docs/dollar-budgets.html">Monthly dollar budgets</a></li><li><a href="../docs/usage-export.html">Your usage data</a></li><li><a href="../docs/proof.html">Check it yourself</a><ul><li><a href="../docs/bench.html">Measure with bench</a></li></ul></li><li class="grp"><span>Your data</span><ul><li><a href="../docs/your-data.html">Your data: where it lives and how to query it</a></li><li><a href="../docs/querying.html">Query your usage</a></li><li><a href="../docs/data-lake.html">The Maple data lake (DuckLake)</a></li></ul></li></ul></details><details><summary>Reference</summary><ul><li><a href="../docs/commands.html">Commands and keys</a></li><li><a href="../docs/configuration.html">Harness settings</a></li><li><a href="../docs/proxy-settings.html">Proxy settings</a></li></ul></details><details><summary>Help</summary><ul><li><a href="../docs/troubleshooting.html">Troubleshooting</a></li><li><a href="../docs/security.html">Security</a></li><li><a href="../docs/glossary.html">Glossary</a></li><li><a href="../docs/license.html">Licence</a></li><li><a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Release notes <span aria-hidden="true">↗</span></a></li></ul></details></div></nav>
+<main id="main" class="doc" tabindex="-1">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">Guides</a></li><li>The agent</li><li aria-current="page">Loops</li></ol></div></nav>
+<article>
+<p class="eyebrow"><span class="eb">Guides</span><span class="eb">The agent</span><span class="rt" title="Estimated at about 220 words a minute">11 min read</span></p>
+<h1 id="loops">Loops <a class="anchor" href="#loops" aria-label="Link to this heading">#</a></h1>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-goal-keep-going-until-it-holds">A goal: keep going until it holds</a><ol><li><a href="#three-ways-to-check-a-goal">Three ways to check a goal</a></li><li><a href="#its-limits">Its limits</a></li><li><a href="#see-it-clear-it">See it, clear it</a></li></ol></li><li><a href="#a-goal-from-a-script">A goal from a script</a></li><li><a href="#a-stop-hook-that-sends-it-back">A Stop hook that sends it back</a></li><li><a href="#a-scheduled-loop-come-back-every-so-often">A scheduled loop: come back every so often</a></li><li><a href="#unattended-a-shell-loop-or-a-durable-job">Unattended: a shell loop or a durable job</a></li><li><a href="#how-it-differs-from-claude-code">How it differs from Claude Code</a></li><li><a href="#technical-notes">Technical notes</a></li><li><a href="#see-also">See also</a></li></ol></details>
+
+<p class="lede">A loop is the agent going round again and again until something is done, instead of you typing "keep going" each
+time. Maple Harness has four kinds: a <strong>goal</strong> it works toward turn after turn until a check passes, a <strong>Stop hook</strong>
+that sends it back to work, a <strong>scheduled loop</strong> that comes back every so often, and a <strong>shell loop</strong> that runs it
+again from a script. This page says when to reach for which, gives a recipe for each, and says plainly where it differs
+from Claude Code's.</p>
+<section class="panel panel-plain" aria-labelledby="in-plain-words"><p class="panel-tag" aria-hidden="true">The short version</p>
+<h2 id="in-plain-words">In plain words <a class="anchor" href="#in-plain-words" aria-label="Link to this heading">#</a></h2>
+<ul><li><strong>What it is.</strong> You hand off one thing. With a goal, you hand off <em>the stop condition</em>: "keep going until
+<code>go test ./...</code> passes". With a scheduled loop, <em>the trigger</em>: "every ten minutes, check the PR". With a Stop hook,
+<em>the check</em>: your own script decides whether the agent may stop. With a shell loop, <em>the whole run</em>: a script starts
+the agent, reads how it ended, and starts it again.</li><li><strong>Why you want it.</strong> You stop being the one who types "continue" after every turn, and the loop stops itself when
+the work is done, not when you notice. The cheapest loops have a check a program can run, like a test command, so
+"done" is a fact, not the model's opinion.</li><li><strong>What to do.</strong> For most work: <code>/goal --check "&lt;the command that proves it&gt;" &lt;what done looks like&gt;</code>. For work
+that happens outside your project (a CI run, a deploy, a review queue): <code>/loop 10m --until "&lt;check&gt;" &lt;prompt&gt;</code>.</li><li><strong>What stays the same.</strong> A loop changes no permission. Its turns ask exactly as yours do, and your deny rules,
+the <a href="sandbox.html">sandbox</a> and the <a href="memory-limits.html">memory caps</a> all apply. Every loop has limits it cannot raise
+itself, and the guards that stop a stuck agent still stop it, loop or no loop.</li></ul>
+<div class="tablewrap"><table><thead><tr><th>Loop</th><th>You hand off</th><th>Use it when</th><th>In Maple Harness</th></tr></thead><tbody><tr><td>Turn by turn</td><td>Nothing</td><td>Exploring, deciding</td><td>An ordinary message; a <a href="commands.html#your-own-commands-and-skills">skill</a> that says how to check the work</td></tr><tr><td>Goal</td><td>The stop condition</td><td>You know what done looks like</td><td><code>/goal</code>, or a Stop hook</td></tr><tr><td>Scheduled</td><td>The trigger</td><td>The work arrives on a schedule, or outside the project</td><td><code>/loop</code>, <code>/schedule</code>, the <code>wakeup</code> tool</td></tr><tr><td>Unattended</td><td>The prompt</td><td>Recurring, well-defined work</td><td>A <a href="scheduling.html#durable-jobs">durable job</a>, or a shell loop around <code>--prompt</code></td></tr></tbody></table></div></section>
+<h2 id="a-goal-keep-going-until-it-holds">A goal: keep going until it holds <a class="anchor" href="#a-goal-keep-going-until-it-holds" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><pre><code class="language-text">/goal --check "go test ./..." all tests in the project pass, and no test file is deleted</code></pre></div>
+<p>The first turn starts at once, with the condition as its direction. When the turn ends, the harness runs the check.
+If it fails, the agent gets another turn on its own, told what the check printed (the end of it, where a test run says
+what failed). When the check passes, the goal is met and the loop stops:</p>
+<div class="codeblock"><pre><code class="language-text">◎ goal set: all tests in the project pass, and no test file is deleted (checked by: `go test ./...` exits 0; at most 20 turns)
+◎ goal not met yet (turn 1 of 20): `go test ./...` failed: --- FAIL: TestOrderTotal …
+◎ goal not met yet (turn 2 of 20): `go test ./...` failed: --- FAIL: TestRefund …
+◎ goal met after 3 turns (0.42 AI units): `go test ./...` passed</code></pre></div>
+<figure>
+<img class="shot shot-light" src="../img/docs/tui-goal-light.webp" alt="A goal checked by go test: goal set, the first turn reads the new test, goal not met yet (turn 1 of 20) with the failing test&#x27;s output, the second turn edits the error message and runs the tests, then goal met after 2 turns: go test passed" width="1000" height="733" loading="lazy" decoding="async"><img class="shot shot-dark" src="../img/docs/tui-goal-dark.webp" alt="A goal checked by go test: goal set, the first turn reads the new test, goal not met yet (turn 1 of 20) with the failing test&#x27;s output, the second turn edits the error message and runs the tests, then goal met after 2 turns: go test passed" width="1000" height="733" loading="lazy" decoding="async">
+<figcaption>A goal against a test the person had just written: not met after turn 1, met after turn 2. A demo setup with a scripted model.</figcaption>
+</figure>
+<p>While a goal is active, the status bar shows the turn in progress, <code>goal: turn 2/20</code> while the second turn works
+(<code>goal 2/20</code>, or just <code>◎</code>, when the bar is short of room: it shrinks before it pushes anything else off), the lineup
+(<code>/tasks</code>) has a <strong>Goal</strong> group, and your phone's status strip shows it too.</p>
+<h3 id="three-ways-to-check-a-goal">Three ways to check a goal <a class="anchor" href="#three-ways-to-check-a-goal" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table><thead><tr><th>Option</th><th>The goal holds when</th><th>Best for</th></tr></thead><tbody><tr><td><code>--check "&lt;command&gt;"</code></td><td>The command exits 0, run in the project folder after each turn</td><td>Anything a program can prove: tests, a build, a linter, <code>git status --porcelain</code> being empty</td></tr><tr><td><code>--says "&lt;phrase&gt;"</code></td><td>The turn's final answer contains the phrase, word for word</td><td>A completion promise: the agent is told to say it only when it is true</td></tr><tr><td>Neither</td><td>The model, asked in a request of its own, judges it from what the conversation shows</td><td>Goals no command can check ("the README explains the install")</td></tr></tbody></table></div>
+<p>You can give both <code>--check</code> and <code>--says</code>; then both must hold. Prefer <code>--check</code>: it is deterministic, spends no AI units,
+and cannot be talked into "done". The model's judgement reads only what the conversation shows (it runs nothing), so
+write such a goal as something the agent's own output can prove, and expect it to cost a little each turn: that
+request is counted in the goal's AI units and in <code>/cost</code>.</p>
+<h3 id="its-limits">Its limits <a class="anchor" href="#its-limits" aria-label="Link to this heading">#</a></h3>
+<div class="tablewrap"><table><thead><tr><th>Option</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>--max N</code></td><td><code>20</code></td><td>At most this many turns in all, the first one included (1 to 100). Past it the goal ends, not met</td></tr><tr><td><code>--budget AIU</code></td><td>none</td><td>At most this many AI units, its checks included (above 0, at most 100). Checked after each turn, so one turn can go over</td></tr></tbody></table></div>
+<p>And these, which you do not set:</p>
+<ul><li><strong>No progress, three times.</strong> A turn that makes no tool call, or one that changes nothing while the check says
+exactly what it said before, is not progress. Three in a row pause the goal: it stays set, and your next message
+carries on toward it.</li><li><strong>The guards win.</strong> When a turn ends because the agent was stuck (the same failure again and again, the same steps
+round and round), the goal pauses instead of sending it back in. A goal never overrides a guard.</li><li><strong>An error pauses it.</strong> A turn that failed, or that you stopped, pauses the goal. Nothing papers over an error.</li><li><strong>Background work first.</strong> When a turn ends while its <a href="background-agents.html">background agents</a> or
+<a href="background-commands.html">commands</a> still run, the check waits for the turn their reports start.</li></ul>
+<h3 id="see-it-clear-it">See it, clear it <a class="anchor" href="#see-it-clear-it" aria-label="Link to this heading">#</a></h3>
+<ul><li><code>/goal</code> shows the goal: its condition, how it is checked, the turns and AI units so far, how long it has run and
+the newest check's reason. After a goal ends it shows the last one and how it ended (<code>met</code>, <code>impossible</code>,
+<code>max_turns</code>, <code>budget</code> or <code>cleared</code>).</li><li><code>/goal clear</code> ends it (<code>stop</code>, <code>off</code>, <code>reset</code>, <code>none</code> and <code>cancel</code> work too).</li><li><code>--resume</code>, <code>--continue</code> and <code>--session</code> bring an active goal back with the session, paused, with its turn count,
+clock and spend started afresh: your next message carries on toward it. A durable run, an A2A agent, <code>--rpc</code> and
+<code>serve</code> never bring one back.</li></ul>
+<p>One goal at a time: a new <code>/goal</code> replaces the one before. Only you set a goal, typed in the message box or on the
+command line, and only your own messages carry a paused one on. A phone, another agent, or a scheduled job's prompt
+cannot set one, and a scheduled turn or a wake-up does not carry a paused one on.</p>
+<h2 id="a-goal-from-a-script">A goal from a script <a class="anchor" href="#a-goal-from-a-script" aria-label="Link to this heading">#</a></h2>
+<p><code>--prompt</code> runs the whole goal loop in one call and exits when it ends:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> <span class="t-f">--prompt</span> <span class="t-s">'/goal --check "npm test" --max 10 the checkout tests pass'</span>
+<span class="t-k">echo</span> $?    <span class="t-c"># 0 when the goal was met, 5 when it was not</span></code></pre></div>
+<p>The goal's lines go to the error stream (<code>◎ goal not met yet …</code>), the final answer to standard output, and
+<code>--json-summary</code> gets a <code>goal</code> object: <code>outcome</code>, <code>turns</code> and <code>ai_units</code>. <code>--json-journal</code> records each check as a
+guard line (<code>goal_continue</code>, <code>goal_met</code>, <code>goal_pause</code> and so on), so a long run can be read afterwards.</p>
+<h2 id="a-stop-hook-that-sends-it-back">A Stop hook that sends it back <a class="anchor" href="#a-stop-hook-that-sends-it-back" aria-label="Link to this heading">#</a></h2>
+<p>A Stop hook is a command the harness runs each time the agent is about to stop. It can block the stop and say what
+is left, and the agent takes one more turn with that as its direction. Unlike a goal, it lives in a hooks file, so it
+applies to every session in that project. It answers in any of these ways, the same as for Claude Code:</p>
+<div class="tablewrap"><table><thead><tr><th>The hook</th><th>Means</th></tr></thead><tbody><tr><td>prints <code>{"decision": "block", "reason": "two tests still fail"}</code></td><td>One more turn, told the reason</td></tr><tr><td>exits with status 2, the reason on its error output</td><td>One more turn, told the reason</td></tr><tr><td>prints <code>{"continue": true, "reason": "..."}</code> (a harness hooks file only)</td><td>One more turn, told the reason</td></tr><tr><td>anything else</td><td>The agent stops as usual</td></tr></tbody></table></div>
+<p>Its input (JSON on standard input) carries <code>stop_hook_active</code>, <code>true</code> when this stop follows a turn a hook asked for,
+and <code>last_assistant_message</code>, the final answer's text (its end, at most 8 KB), so a hook can look for a phrase without
+reading a transcript. In a Claude Code settings file, <code>{"continue": true}</code> keeps Claude Code's meaning (carry on as
+usual) and asks for nothing.</p>
+<p>A recipe, <code>.mapleharness/hooks.json</code>:</p>
+<div class="codeblock"><span class="lang">JSON</span><pre><code class="language-json">{
+  <span class="t-k">"Stop"</span>: [
+    {<span class="t-k">"type"</span>: <span class="t-s">"command"</span>, <span class="t-k">"command"</span>: <span class="t-s">"out=$(go test ./... 2&gt;&amp;1) || { printf '%s\\n' \"$out\" | tail -20 &gt;&amp;2; exit 2; }"</span>}
+  ]
+}</code></pre></div>
+<p><strong>Its limits.</strong> At most 20 extra turns after one message, and at most three in a row that make no tool call: a hook
+re-prompting an agent that only talks is a stuck loop, and is no longer obeyed. Both say so in a line. Hooks run as
+you, outside the sandbox, like every <a href="configuration.html#hook-files">hook</a>: a project's hooks run only after you trust
+it. For a longer loop, use a goal, whose limits you set.</p>
+<h2 id="a-scheduled-loop-come-back-every-so-often">A scheduled loop: come back every so often <a class="anchor" href="#a-scheduled-loop-come-back-every-so-often" aria-label="Link to this heading">#</a></h2>
+<div class="codeblock"><pre><code class="language-text">/loop 10m --until "gh pr checks 123" check PR 123, answer new review comments and fix what fails</code></pre></div>
+<p>It runs now, then every ten minutes. After each of its turns the check runs, and once it passes the loop is removed on
+its own:</p>
+<div class="codeblock"><pre><code class="language-text">◷ Loop s1a2b3c: now, then every 10m until `gh pr checks 123` passes (next 15:10) for up to 7 days.
+◷ Loop s1a2b3c is done after 4 runs: `gh pr checks 123` passed. Beauty, eh.</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th>Option</th><th>The loop ends when</th></tr></thead><tbody><tr><td><code>--until "&lt;command&gt;"</code></td><td>The command exits 0 after one of its turns</td></tr><tr><td><code>--says "&lt;phrase&gt;"</code></td><td>One of its turns' answers contains the phrase</td></tr><tr><td><code>--max N</code></td><td>It has run N times (1 to 1000)</td></tr><tr><td><code>--budget AIU</code></td><td>Its turns have spent this many AI units</td></tr></tbody></table></div>
+<p><code>/schedule</code> and the lineup show where it stands (<code>until </code>gh pr checks 123<code> passes · 2/10 runs</code>), and the last check's
+result. Without <code>--until</code>, a <code>/loop</code> runs until you delete it or its seven days are up. A loop's later turns are
+<a href="scheduling.html#when-a-job-fires">held turns</a>: you are not asking for that work right now, so its tools ask even in
+auto or yolo mode.</p>
+<p><strong>Self-paced.</strong> <code>/loop</code> without an interval lets the agent pick when to look again, with its <code>wakeup</code> tool (one minute
+to an hour), and end the loop by not setting another. <code>--until</code> needs an interval: for "keep going until it holds"
+with no waiting in between, use a goal.</p>
+<p><strong>Watching rather than polling.</strong> For something that prints as it goes (a log, <code>gh run watch</code>), the agent's
+<a href="background-commands.html">monitor</a> fits better than a loop: it wakes the agent only on the lines that matter, with
+no turn spent looking in between. Inside one
+turn, checking the same thing again is fine for a while as long as its answer keeps changing (a build going from queued
+to running); the same call with the same answer twice in a row is a stuck loop, and the turn stops.</p>
+<p>All of <a href="scheduling.html">Scheduled work</a> applies: a session-only loop fires only while the session is open and idle,
+and a missed fire is not caught up.</p>
+<h2 id="unattended-a-shell-loop-or-a-durable-job">Unattended: a shell loop or a durable job <a class="anchor" href="#unattended-a-shell-loop-or-a-durable-job" aria-label="Link to this heading">#</a></h2>
+<p><strong>A shell loop</strong> keeps its state in a named session, so each run carries on from the last one's conversation:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">until</span> go test ./... &gt;/dev/null 2&gt;&amp;1; <span class="t-k">do</span>
+  maple-harness <span class="t-f">--session</span> fix-tests <span class="t-f">--prompt</span> <span class="t-s">"carry on fixing the failing tests"</span> || <span class="t-k">break</span>
+<span class="t-k">done</span></code></pre></div>
+<p>Or let one run do it all, and branch on how it ended:</p>
+<div class="codeblock"><span class="lang">Shell</span><pre><code class="language-sh"><span class="t-k">maple-harness</span> <span class="t-f">--session</span> nightly <span class="t-f">--json-summary</span> run.json \
+  <span class="t-f">--prompt</span> <span class="t-s">'/goal --check "make check" --max 15 --budget 3 make check passes'</span>
+<span class="t-k">case</span> $? in
+  0) echo <span class="t-s">"done"</span> ;;
+  5) echo <span class="t-s">"goal not met: see run.json"</span> ;;
+  3) echo <span class="t-s">"stuck on the same failure"</span> ;;
+  4) echo <span class="t-s">"a call was refused because nobody answered"</span> ;;   <span class="t-c"># with --refusal-exit-code</span>
+<span class="t-k">esac</span></code></pre></div>
+<p>Nobody is there to answer questions, so a tool call your rules do not allow is refused, recorded, and the run goes on
+without it (see <a href="approvals.html">Approvals when nobody answers</a>). Give the run what it needs for one run with
+<code>--allow-tool "bash(make check*)"</code>.</p>
+<p><strong>A durable job</strong> runs on your system's own timer, even with the harness closed: see
+<a href="scheduling.html#durable-jobs">Durable jobs</a>. Its prompt is sent as a message, never read as a command, so it cannot
+start a goal, and a durable run does not bring back the session's goal either: a check command runs without asking,
+so it must be one you set where you are. A durable run is held to its own budget and time limit instead.</p>
+<h2 id="how-it-differs-from-claude-code">How it differs from Claude Code <a class="anchor" href="#how-it-differs-from-claude-code" aria-label="Link to this heading">#</a></h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>Claude Code</th><th>Maple Harness</th></tr></thead><tbody><tr><td><code>/goal</code>'s check</td><td>A small, fast model judges the condition each turn</td><td>A command (<code>--check</code>) or a phrase (<code>--says</code>) when you give one, deterministic, with no AI units spent on it; otherwise the session's own model judges, in a request counted in its AI units</td></tr><tr><td>A turn limit</td><td>Written into the condition ("or stop after 20 turns")</td><td><code>--max</code> (20 by default) and <code>--budget</code>, enforced by the harness</td></tr><tr><td>A stuck goal</td><td>Stops after several turns with no tool use</td><td>Pauses after three turns with no tool call, or no change and the same check result; a guard's stop pauses it too</td></tr><tr><td>Errors during a goal</td><td>Some clear it, some retry on their own</td><td>Any error pauses it; your next message carries on</td></tr><tr><td>Idle check-ins</td><td>Checks in on long background work</td><td>None: the check waits for the turn the background reports start</td></tr><tr><td><code>/loop</code> ending on its own</td><td>The agent stops a self-paced loop; a fixed one runs until cancelled</td><td><code>--until</code>, <code>--says</code>, <code>--max</code> and <code>--budget</code> on a fixed <code>/loop</code>; a self-paced one ends when the agent sets no wake-up</td></tr><tr><td>Bare <code>/loop</code>, <code>loop.md</code></td><td>A built-in upkeep prompt</td><td>Not supported: <code>/loop</code> needs a prompt</td></tr><tr><td>Routines in the cloud</td><td><code>/schedule</code></td><td>None. <a href="scheduling.html#durable-jobs">Durable jobs</a> run on your own machine</td></tr><tr><td>Stop hooks</td><td><code>decision: block</code>, exit 2, <code>stop_hook_active</code>; a block cap of eight in a row</td><td>The same answers and inputs, plus <code>last_assistant_message</code>; at most three in a row without a tool call, 20 per message</td></tr></tbody></table></div>
+<section class="panel panel-tech" aria-labelledby="technical-notes"><p class="panel-tag" aria-hidden="true">For the curious</p>
+<h2 id="technical-notes">Technical notes <a class="anchor" href="#technical-notes" aria-label="Link to this heading">#</a></h2>
+<ul><li>A goal's next turn, and a hook's, are messages appended at the end of the conversation, so the provider's prompt
+cache keeps matching. The model's judgement of a goal is a separate request with no tools.</li><li>A goal's check command and a loop's <code>--until</code> run in the project folder without asking, so they are contained as
+the agent's commands are when nobody approves them (<code>harness.sandbox.when_unattended</code> applies, see
+<a href="sandbox.html">Sandbox</a>), under the per-user process cap and the <a href="memory-limits.html">memory cap</a> for one command, for at
+most ten minutes (then everything they started is stopped), with the last 16 KB of their output kept. What a check
+printed reaches the next turn marked as output to read, not instructions.</li><li>The goal is saved with the session (its condition and checks only) and restored, paused, by <code>--resume</code>,
+<code>--continue</code> and <code>--session</code>, in the full-screen interface and <code>--prompt</code> runs.</li><li><code>--prompt</code> exit statuses: 0 finished (with <code>/goal</code>: the goal met), 3 stopped on the same failure, 4 a refusal
+(with <code>--refusal-exit-code</code>), 5 the goal not met. See <a href="commands.html#command-line-flags">Command-line flags</a>.</li></ul>
+<p>Tested on Linux, with the real program against a scripted model: a goal that iterates and then stops on its check, in
+a <code>--prompt</code> run and in the full-screen interface in tmux; a goal that stops at its turn limit with status 5; a
+<code>/loop --until</code> whose first run passes its check; and a shell loop on one session. macOS and Windows have not been
+tried, nor a real model working a goal, nor a durable job whose prompt is a goal.</p></section>
+<h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
+<ul class="cards-grid"><li><a href="scheduling.html">Scheduled work</a> <code>/loop</code>, <code>/schedule</code>, wake-ups and durable jobs.</li><li><a href="background-commands.html">Background commands and monitors</a> Wait for slow things without polling.</li><li><a href="approvals.html">Approvals when nobody answers</a> What an unattended loop does with a question.</li><li><a href="commands.html">Commands and keys</a> <code>/goal</code>, <code>/loop</code> and the <code>--prompt</code> exit statuses.</li><li><a href="configuration.html#hook-files">Harness settings</a> Hook files, and what a hook can answer.</li></ul>
+</article>
+<nav class="pn" aria-label="Previous and next pages"><div class="mset m-single"><a class="prev" href="../docs/worktrees.html" rel="prev"><small>Previous</small>Worktrees</a><a class="next" href="../docs/limit-resets.html" rel="next"><small>Next</small>When a provider&#x27;s limit runs out</a></div></nav>
+<footer class="foot"><p class="links">Maple Harness documentation · Copyright © 2026 Kinn Coelho Juliao ·
+<a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
+<p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
+</main>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#a-goal-keep-going-until-it-holds">A goal: keep going until it holds</a><ol><li><a href="#three-ways-to-check-a-goal">Three ways to check a goal</a></li><li><a href="#its-limits">Its limits</a></li><li><a href="#see-it-clear-it">See it, clear it</a></li></ol></li><li><a href="#a-goal-from-a-script">A goal from a script</a></li><li><a href="#a-stop-hook-that-sends-it-back">A Stop hook that sends it back</a></li><li><a href="#a-scheduled-loop-come-back-every-so-often">A scheduled loop: come back every so often</a></li><li><a href="#unattended-a-shell-loop-or-a-durable-job">Unattended: a shell loop or a durable job</a></li><li><a href="#how-it-differs-from-claude-code">How it differs from Claude Code</a></li><li><a href="#technical-notes">Technical notes</a></li><li><a href="#see-also">See also</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../docs/site.js?v=5691519b" defer></script>
+</body>
+</html>

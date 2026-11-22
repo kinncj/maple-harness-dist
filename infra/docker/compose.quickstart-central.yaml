@@ -1,0 +1,95 @@
+# QUICK START: the published maple-proxy image with PostgreSQL and Redis (storage mode central), one
+# proxy. The same layout several replicas use, on one machine: add replicas and a load balancer as in
+# compose.ha-shared.yaml when you need them. For trying it out: in production use your managed
+# PostgreSQL and Redis, with backups.
+#
+#   mkdir -p -m 700 secrets
+#   printf 'laptop=%s\n' "$(openssl rand -hex 24)" > secrets/proxy_tokens
+#   openssl rand -hex 32 > secrets/storage_key
+#   openssl rand -hex 24 > secrets/postgres_password
+#   openssl rand -hex 24 > secrets/redis_password
+#   printf 'redis://:%s@redis:6379/0' "$(cat secrets/redis_password)" > secrets/redis_url
+#   printf 'postgres://maple:%s@postgres:5432/maple?sslmode=disable' "$(cat secrets/postgres_password)" > secrets/postgres_dsn
+#   chmod 644 secrets/*      # the proxy reads them as user 65532; the folder stays private
+#   MAPLE_VERSION=3.0.0 docker compose -f compose.quickstart-central.yaml up -d
+#
+# Clients use http://127.0.0.1:11535/v1 (OpenAI) or http://127.0.0.1:11537 (Anthropic) with the
+# token after "laptop=" (prefixed mh_). The settings are kept in PostgreSQL, starting from the
+# defaults; to replace them with a config.yaml of yours (--force: the defaults are already stored):
+#   docker compose -f compose.quickstart-central.yaml run --rm -v "$PWD/config.yaml:/etc/maple/import.yaml:ro" \
+#     maple-proxy storage import-config --from /etc/maple/import.yaml --force
+services:
+  maple-proxy:
+    image: ghcr.io/kinncj/maple-proxy:${MAPLE_VERSION:?set MAPLE_VERSION to a release, such as 3.0.0}
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    # mode=1777: Podman mounts a tmpfs owned by root without it, which the proxy (user 65532) cannot
+    # write; Docker uses 1777 already.
+    tmpfs: ["/tmp:mode=1777", "/data:mode=1777"]
+    ports:
+      - "127.0.0.1:11535:11535"
+      - "127.0.0.1:11537:11537"
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_started}
+    environment:
+      MAPLE_STORAGE_MODE: central
+      # Settings kept in PostgreSQL, edited with storage import-config or on the setup page.
+      MAPLE_SETTINGS_SOURCE: central
+      MAPLE_PROXY_ID: maple-proxy
+      MAPLE_PROXY_INSTANCE: maple-proxy-1
+      MAPLE_ALLOWED_HOSTS: localhost
+      MAPLE_POSTGRES_DSN: $${secret:storage/postgres_dsn}
+      MAPLE_REDIS_URL: $${secret:storage/redis_url}
+      MAPLE_STORAGE_KEY: $${secret:storage/key}
+    secrets:
+      - source: proxy_tokens
+        target: /run/secrets/maple/access.proxy_tokens
+      - source: storage_key
+        target: /run/secrets/maple/storage.key
+      - source: postgres_dsn
+        target: /run/secrets/maple/storage.postgres_dsn
+      - source: redis_url
+        target: /run/secrets/maple/storage.redis_url
+    stop_grace_period: 10m
+
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: maple
+      POSTGRES_DB: maple
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes: ["pg-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "maple", "-d", "maple"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    secrets: [redis_password]
+    # The password goes into a config file in memory, never onto the command line (where a process
+    # list on the host shows it).
+    user: "999:999"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    # Writable by the redis user: mode, not uid/gid, which Podman refuses. The config file is 0600 (umask 077).
+    tmpfs: ["/conf:mode=1777", "/data:mode=1777"]
+    command: ["sh", "-c", "p=$$(cat /run/secrets/redis_password) && case \"$$p\" in ''|*[!A-Za-z0-9._~+/=-]*) echo 'the Redis password must be letters, digits and ._~+/=- only' >&2; exit 1;; esac && umask 077 && printf 'requirepass \"%s\"\\n' \"$$p\" > /conf/redis.conf && exec redis-server /conf/redis.conf --save '' --appendonly no --maxmemory 512mb --maxmemory-policy volatile-lru"]
+
+volumes:
+  pg-data: {}
+
+secrets:
+  proxy_tokens: {file: ./secrets/proxy_tokens}
+  storage_key: {file: ./secrets/storage_key}
+  postgres_password: {file: ./secrets/postgres_password}
+  postgres_dsn: {file: ./secrets/postgres_dsn}
+  redis_password: {file: ./secrets/redis_password}
+  redis_url: {file: ./secrets/redis_url}

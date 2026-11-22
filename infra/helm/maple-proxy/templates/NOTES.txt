@@ -1,0 +1,55 @@
+{{- $f := include "maple.fullname" . -}}
+{{- $source := include "maple.settingsSource" . -}}
+maple-proxy {{ .Chart.AppVersion }} is installed in {{ .Values.mode }} mode ({{ .Values.replicaCount }} replica{{ if gt (int .Values.replicaCount) 1 }}s{{ end }}).
+
+Inside the cluster, clients use:
+  OpenAI-compatible:     http://{{ $f }}.{{ .Release.Namespace }}.svc:{{ .Values.service.openaiPort }}/v1
+  Anthropic-compatible:  http://{{ $f }}.{{ .Release.Namespace }}.svc:{{ .Values.service.anthropicPort }}
+with a token from the Secret {{ .Values.existingSecret }} (access.proxy_tokens), prefixed mh_.
+
+The setup page listens on each pod's loopback only:
+{{- if eq .Values.mode "redis" }}
+  kubectl -n {{ .Release.Namespace }} port-forward pod/{{ $f }}-0 11539:11539
+{{- else }}
+  kubectl -n {{ .Release.Namespace }} port-forward deploy/{{ $f }} 11539:11539
+{{- end }}
+then open http://127.0.0.1:11539 (if a Maple proxy runs on this machine, 11539 is its setup page:
+forward another local port, such as 21539:11539).
+{{- if eq .Values.mode "central" }}
+
+Central mode: the Secret also needs storage.postgres_dsn, storage.redis_url and storage.key.
+{{- if .Values.postgres.enabled }}
+  The sample PostgreSQL is {{ $f }}-postgres:5432 (database {{ .Values.postgres.database }}, user {{ .Values.postgres.user }}).
+{{- end }}
+{{- if .Values.redis.enabled }}
+  The sample Redis is {{ $f }}-redis:6379.
+{{- end }}
+{{- if eq $source "central" }}
+Settings are kept in PostgreSQL: the ConfigMap's config.yaml is copied in once, at the first start;
+after that, change them on any replica's setup page.
+{{- else }}
+Settings come from the ConfigMap and are read-only on the setup page: change `config` and upgrade.
+{{- end }}
+{{- end }}
+{{- if eq .Values.mode "redis" }}
+
+Storage mode redis: everything is kept in one Redis, with no PostgreSQL. The Secret also needs
+storage.redis_url and storage.key (no storage.postgres_dsn: the proxy refuses one in this mode).
+Redis must run with appendonly yes and maxmemory-policy noeviction on a persistent volume, or the
+replicas refuse to start; back up its data folder. Each replica keeps its own data claim
+(data-{{ $f }}-N): keep them, they let a restarted replica notice a Redis that lost its data.
+{{- if .Values.redis.enabled }}
+  The sample Redis (durable, for trying it out) is {{ $f }}-redis:6379; sign in as the user maple:
+  redis://maple:PASSWORD@{{ $f }}-redis:6379/0
+{{- end }}
+{{- if eq $source "redis" }}
+Settings are kept in Redis: the ConfigMap's config.yaml is copied in once, at the first start;
+after that, change them on any replica's setup page.
+{{- else }}
+Settings come from the ConfigMap and are read-only on the setup page: change `config` and upgrade.
+{{- end }}
+{{- end }}
+{{- if .Values.mcpHub.enabled }}
+
+MCP hub: http://{{ $f }}-mcp-hub.{{ .Release.Namespace }}.svc:11545 with a token from {{ .Values.mcpHub.existingSecret }}.
+{{- end }}
