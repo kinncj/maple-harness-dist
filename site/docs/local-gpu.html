@@ -28,9 +28,9 @@
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/proxy.html">The proxy</a></li><li>Models and providers</li><li aria-current="page">Get the most from a local GPU</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/proxy.html">The proxy</a></li><li>Models and providers</li><li aria-current="page">Get the most from a local GPU</li></ol></div></nav>
 <article>
-<p class="eyebrow"><span class="eb">The proxy</span><span class="eb">Models and providers</span><span class="rt" title="Estimated at about 220 words a minute">8 min read</span></p>
+<p class="eyebrow"><span class="eb">The proxy</span><span class="eb">Models and providers</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
 <h1 id="get-the-most-from-a-local-gpu">Get the most from a local GPU <a class="anchor" href="#get-the-most-from-a-local-gpu" aria-label="Link to this heading">#</a></h1>
-<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#speculative-decoding">Speculative decoding</a></li><li><a href="#a-speed-floor-instead-of-a-number">A speed floor instead of a number</a></li><li><a href="#an-example-measured">An example, measured</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#several-servers-of-one-model">Several servers of one model</a></li><li><a href="#technical-details">Technical details</a></li></ol></details>
+<details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#speculative-decoding">Speculative decoding</a></li><li><a href="#a-speed-floor-instead-of-a-number">A speed floor instead of a number</a></li><li><a href="#an-example-measured">An example, measured</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#several-servers-of-one-model">Several servers of one model</a></li><li><a href="#a-prompt-cut-to-fit-the-context">A prompt cut to fit the context</a></li><li><a href="#technical-details">Technical details</a></li></ol></details>
 
 <p class="lede">A model server on your own GPU (vLLM, SGLang, llama.cpp) can work on several requests at the same time. Up to a
 point, more at once means more work done in all; past it, every request just waits longer. This page shows how to
@@ -120,6 +120,20 @@ suggests it when it sees a group over two or more of your servers with another s
 <p>On the setup page: <strong>Model groups</strong>, the group's strategy <strong>Cache-aware</strong>, with its settings under it. It does nothing
 for one server. When it helps and when it does not, what each request's <code>route_reason</code> says, and the settings:
 <a href="proxy-settings.html#model-groups">Model groups</a>.</p>
+<h2 id="a-prompt-cut-to-fit-the-context">A prompt cut to fit the context <a class="anchor" href="#a-prompt-cut-to-fit-the-context" aria-label="Link to this heading">#</a></h2>
+<p>In plain words: a model server holds only so much of a conversation at once (its context). When a request is longer,
+some servers cut it and answer anyway. The model then never sees the start of its instructions or tools, and its
+answers go wrong in odd ways. Ollama's default context is small on a machine with under 24 GB of graphics memory
+(4,096 tokens), shorter than an agent's first request. When the harness or the proxy sees a reply counted at less
+than was sent, it says so once, with what to do:</p>
+<ul><li>start Ollama with a larger context, for example <code>OLLAMA_CONTEXT_LENGTH=16384 ollama serve</code>, or set <code>num_ctx</code> in a
+Modelfile (Ollama's OpenAI-compatible endpoint has no per-request setting for it);</li><li>or, if the machine cannot hold more, set <code>context_window</code> on the model in the proxy's config, so requests are fitted
+to it instead of being cut.</li></ul>
+<p>A larger context needs more memory and takes longer to read on every request.</p>
+<p>Technically: a cut is recognised from the reply's input count. With a <code>context_window</code> configured for the model, it is
+a count no larger than that window for a request clearly larger. With none, it is the count Ollama reports when it cuts
+a prompt to its context (half the context plus two tokens: 2,050 for 4,096), for a request about that long or longer.
+The harness says it once per model in a session, and the proxy writes it once per model to its log.</p>
 <section class="panel panel-tech" aria-labelledby="technical-details"><p class="panel-tag" aria-hidden="true">For the curious</p>
 <h2 id="technical-details">Technical details <a class="anchor" href="#technical-details" aria-label="Link to this heading">#</a></h2>
 <ul><li>The requests go straight to the provider with the proxy's own adapters, not through a running proxy: they do not
@@ -148,7 +162,7 @@ and the keys under <a href="proxy-settings.html#concurrency">Concurrency</a>.</p
 <a href="../docs/license.html">Licence</a> · <a href="../index.html">Home</a> · <a href="https://github.com/kinncj/maple-harness-dist/releases" rel="noopener">Releases</a></p>
 <p class="sig">Made with <span role="img" aria-label="love">❤️</span> by Kinn Coelho Juliao in Ottawa, eh — fuelled by double-doubles, bud. <span role="img" aria-label="maple leaf">🍁</span></p></footer>
 </main>
-<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#speculative-decoding">Speculative decoding</a></li><li><a href="#a-speed-floor-instead-of-a-number">A speed floor instead of a number</a></li><li><a href="#an-example-measured">An example, measured</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#several-servers-of-one-model">Several servers of one model</a></li><li><a href="#technical-details">Technical details</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
+<aside class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#speculative-decoding">Speculative decoding</a></li><li><a href="#a-speed-floor-instead-of-a-number">A speed floor instead of a number</a></li><li><a href="#an-example-measured">An example, measured</a></li><li><a href="#subagents">Subagents</a></li><li><a href="#several-servers-of-one-model">Several servers of one model</a></li><li><a href="#a-prompt-cut-to-fit-the-context">A prompt cut to fit the context</a></li><li><a href="#technical-details">Technical details</a></li></ol><a class="totop" href="#main">Back to the top <span aria-hidden="true">↑</span></a></aside>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../docs/site.js?v=05287fac" defer></script>
