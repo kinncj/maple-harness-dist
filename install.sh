@@ -451,7 +451,7 @@ attest_expected() {  # every release from 3.0 has one: decided by the release's 
   [ -n "$rtag" ] || { [ "$VERSION" != latest ] && rtag="$VERSION"; }
   if [ -z "$rtag" ]; then                  # "latest": the tag GitHub says it is
     rtag=$(curl -fsSL -H "Accept: application/vnd.github+json" "${API}/repos/${REPO}/releases/latest" 2>/dev/null \
-      | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1)
+      | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1) || rtag=""   # pipefail: a curl error is "not known"
   fi
   [ -n "$rtag" ] || return 1               # not known (GitHub not answering): a rate limit must not stop installs
   # Fails closed: only a tag that reads as a version below 3 is spared ("v9-x" or "V9.0.0" is not).
@@ -502,7 +502,7 @@ if [ "$repo_norm" = "$ATTEST_REPO" ]; then
        --source-ref refs/heads/main --deny-self-hosted-runners 2>&1); then
     info "${GREEN}✓${RESET} SHA256SUMS is attested by ${ATTEST_REPO}'s release workflow"
     # Only releases from 3.0 are attested, and every one names its release: always checked.
-    rtag=""; attest_expected; check_release_tag
+    rtag=""; attest_expected || true; check_release_tag   # an unknown tag is fine here (set -e)
   else
     attest_fail "the attestation of SHA256SUMS could not be confirmed: $(printf '%s' "$aout" | tail -n 1 | tr -cd '[:print:]' | cut -c1-300)"
   fi
