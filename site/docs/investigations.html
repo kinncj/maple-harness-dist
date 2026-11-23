@@ -28,7 +28,7 @@
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/saving-tokens.html">Cost &amp; usage</a></li><li>Watch it</li><li aria-current="page">Investigations</li></ol></div><div class="mset m-teams"><ol><li><a href="../docs/teams-and-hubs.html">Docs</a></li><li><a href="../docs/dollar-budgets.html">Cost &amp; usage</a></li><li>Watch it</li><li aria-current="page">Investigations</li></ol></div></nav>
 <article>
-<p class="eyebrow"><span class="eb">Cost &amp; usage</span><span class="eb">Watch it</span><span class="rt" title="Estimated at about 220 words a minute">9 min read</span></p>
+<p class="eyebrow"><span class="eb">Cost &amp; usage</span><span class="eb">Watch it</span><span class="rt" title="Estimated at about 220 words a minute">10 min read</span></p>
 <h1 id="investigations">Investigations <a class="anchor" href="#investigations" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#what-is-checked">What is checked</a></li><li><a href="#where-you-see-them">Where you see them</a></li><li><a href="#looking-at-the-requests-behind-a-finding">Looking at the requests behind a finding</a></li><li><a href="#who-may-see-them">Who may see them</a></li><li><a href="#with-several-replicas">With several replicas</a></li><li><a href="#the-settings">The settings</a></li><li><a href="#how-long-findings-are-kept">How long findings are kept</a></li><li><a href="#what-it-cannot-tell-you">What it cannot tell you</a></li><li><a href="#not-yet-verified">Not yet verified</a></li><li><a href="#related">Related</a></li></ol></details>
 
@@ -82,9 +82,9 @@ cost in US dollars is used instead (at least US$5), and the finding says it is a
 points or more against the 7 days before (at least 200,000 input tokens on each side), counted as the Cache page counts
 its hit rate. And the share of requests the response cache answered, for one model, falling by 10 points or more (at
 least 50 requests on each side).</p>
-<p><strong>Provider health.</strong> An account's failure rate over the last 24 hours rising by 10 points or more against the 7 days
-before, and its median time to the first token of streamed answers at 2 times or more of what it was, and at least one
-second (at least 20 requests on each side).</p>
+<p><strong>Provider health.</strong> Either of two findings, each on its own: an account's failure rate over the last 24 hours rising
+by 10 points or more against the 7 days before, or its median time to the first token of streamed answers at 2 times or
+more of what it was, and at least one second (at least 20 requests on each side).</p>
 <p>The checks that compare with earlier days need history: at least three of the days before must hold requests, and a
 subject needs at least three of them to be judged. Until then the check says it was <strong>not judged</strong>, and why, rather than
 reporting nothing.</p>

@@ -127,8 +127,8 @@ leave the key's rules behind, so such a request is <strong>refused</strong> (<co
 <span class="t-k">  - token:</span> local                 <span class="t-c"># the rules a caller on this machine without a token is held to</span>
 <span class="t-k">    budget:</span> {daily_ai_units: <span class="t-n">50</span>}
 <span class="t-k">local_without_token:</span> serve       <span class="t-c"># or refuse; leave it out for the rule above</span></code></pre></div>
-<ul><li>With an entry for token <code>local</code>, such a request is served and held to that entry (budget, models, addresses).</li><li><code>local_without_token: serve</code> serves it without a key's rules, as before; <code>refuse</code> refuses it even with a <code>local</code>
-entry.</li><li>Without <code>keys:</code> (or with only rules a parent hub hands down for its own tokens) nothing changes: a caller on this
+<ul><li>With an entry for token <code>local</code>, such a request is served and held to that entry (budget, models, addresses).</li><li><code>local_without_token: serve</code> serves it; with a <code>local</code> entry it is still held to that entry. <code>refuse</code> refuses it
+even with a <code>local</code> entry.</li><li>Without <code>keys:</code> (or with only rules a parent hub hands down for its own tokens) nothing changes: a caller on this
 machine without a token is served as always. If you run Maple Harness on the same machine as a proxy with <code>keys:</code>,
 give it a token, or add the <code>local</code> entry.</li></ul>
 <h3 id="a-gateway-that-names-people">A gateway that names people <a class="anchor" href="#a-gateway-that-names-people" aria-label="Link to this heading">#</a></h3>
@@ -163,7 +163,7 @@ only the people it serves, and keep the token's own model list (<code>models.all
 needs.</p></div>
 <h2 id="end-user-budgets">End-user budgets <a class="anchor" href="#end-user-budgets" aria-label="Link to this heading">#</a></h2>
 <div class="codeblock"><span class="lang">YAML</span><pre><code class="language-yaml"><span class="t-k">end_users:</span>
-<span class="t-k">  header:</span> X-End-User             <span class="t-c"># optional; otherwise the body's user field</span>
+<span class="t-k">  header:</span> X-End-User             <span class="t-c"># optional; otherwise LiteLLM's end-user headers, then the body's user field</span>
 <span class="t-k">  default_budget:</span> {daily_usd: <span class="t-n">1</span>}
 <span class="t-k">  shared_default_budget:</span> {daily_usd: <span class="t-n">50</span>, daily_ai_units: <span class="t-n">200</span>}   <span class="t-c"># all of a caller's default end users together</span>
 <span class="t-k">  max_tracked:</span> <span class="t-n">10000</span>             <span class="t-c"># the most end users kept per caller (the default)</span>
