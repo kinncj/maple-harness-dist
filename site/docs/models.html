@@ -33,7 +33,7 @@
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Choose a model</li></ol></div></nav>
 <article>
-<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">13 min read</span></p>
+<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">14 min read</span></p>
 <h1 id="choose-a-model">Choose a model <a class="anchor" href="#choose-a-model" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li><li><a href="#see-also">See also</a></li></ol></details>
 
@@ -208,7 +208,16 @@ without notice. If Copilot cannot plan a task (it refuses, or answers in a way M
 goes through Copilot Auto instead of failing and is billed as Copilot Auto. It says so everywhere: Maple Harness's
 story of the turn ("Copilot could not plan it, so Copilot Auto answered"), the usage log (<code>fusion_phase</code> and
 <code>fusion_outcome</code> are <code>fallback</code>), the setup page, and <code>X-Maple-Router</code> ("in place of Copilot Fusion High, because
-…"). Maple asks for a plan again after ten minutes.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
+…"). Maple asks for a plan again after ten minutes.</li><li><strong>A model Copilot picks that your account may not use.</strong> Copilot can pick a model your plan or your organisation's
+policy leaves out; Copilot answers such a request with <code>no_available_model_endpoints</code> or <code>model_not_supported</code>. Some
+models give the same answer when they are asked on the wrong endpoint (the <code>mai-code-2</code> models work only on
+Copilot's Responses endpoint), so Maple first asks the model there, and from then on sends it there. If the model
+still refuses, the request goes on at once to another model Copilot offers (for High and Max, to Copilot Auto), so
+you get an answer instead of an error. Maple remembers the model as not available to that sign-in for a day, or until
+your Copilot plan changes or a request for that model works again, and leaves it out meanwhile. The refused call has
+its own line in the usage log with the error class <code>model not available to this account</code>, the route says which model
+was passed over, and <code>/v1/models</code> lists the model as not available when it is one of your configured models. A request for such a model by name goes to your
+<code>model_fallbacks</code>, if you set any.</li><li>Fallbacks, budgets and the "out of quota, tried last" rule treat it as one model, whichever model Copilot chose.
 What a request costs is recorded as Copilot reports it, like any other model; nothing here says it costs more or
 less than choosing a model yourself.</li></ul>
 <h2 id="a-default-model">A default model <a class="anchor" href="#a-default-model" aria-label="Link to this heading">#</a></h2>
