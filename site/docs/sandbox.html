@@ -83,9 +83,13 @@ it needed.</p>
 <ul><li><strong>Allow the path for this session:</strong> <code>/sandbox allow ~/.ssh</code> makes it readable (read-only). Add <code>--write</code> to make a
 folder writable. Every contained command can then read what you allowed, so allow the one folder a task needs.
 It refuses the root folder, your home folder, any folder that contains a hidden one (allowing it would un-hide
-that too), the Maple Harness settings folder and your session's runtime folder.</li><li><strong>Allow it permanently:</strong> add <code>--save</code>, for example <code>/sandbox allow ~/bin --write --save</code>. That adds the path, made
+that too), the Maple Harness settings folder and your session's runtime folder; with <code>--write</code>, also a folder
+that holds your shell startup or login files.</li><li><strong>Allow it permanently:</strong> add <code>--save</code>, for example <code>/sandbox allow ~/bin --write --save</code>. That adds the path, made
 absolute, to <code>sandbox.extra_readonly</code> (or <code>sandbox.extra_writable</code> with <code>--write</code>) in your <code>config.yaml</code>. You can
-also edit those lists directly. For folders that hold logins or keys, the note only suggests the session form.</li><li><strong>Run that one command outside the sandbox.</strong> Ask the model to; it retries the command marked to run outside the
+also edit those lists directly. An entry the command would refuse is not applied: the harness says so when it
+starts and in <code>/sandbox</code>. A writable folder may not hold your shell startup or login files (<code>~/.bashrc</code>,
+autostart, your systemd user units) unless it names that place itself. For folders that hold logins or keys, the
+note only suggests the session form.</li><li><strong>Run that one command outside the sandbox.</strong> Ask the model to; it retries the command marked to run outside the
 sandbox. You are asked to approve each run, even in <code>auto</code> or <code>yolo</code> mode, the question says the command runs
 outside the sandbox, and "always" is not offered for it. It is refused when nobody can approve (a session with no
 one at the keyboard, or a helper agent with no way to ask you), while the session is shared with other devices,
