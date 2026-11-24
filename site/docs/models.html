@@ -28,7 +28,7 @@
 <main id="main" class="doc" tabindex="-1">
 <nav class="crumbs" aria-label="Breadcrumb"><div class="mset m-single"><ol><li><a href="../docs/index.html">Docs</a></li><li><a href="../docs/index.html">Get started</a></li><li aria-current="page">Choose a model</li></ol></div></nav>
 <article>
-<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">14 min read</span></p>
+<p class="eyebrow"><span class="eb">Get started</span><span class="rt" title="Estimated at about 220 words a minute">15 min read</span></p>
 <h1 id="choose-a-model">Choose a model <a class="anchor" href="#choose-a-model" aria-label="Link to this heading">#</a></h1>
 <details class="toc-inline"><summary>On this page</summary><ol><li><a href="#in-plain-words">In plain words</a></li><li><a href="#automatic-choice">Automatic choice</a><ol><li><a href="#auto-in-other-tools-through-the-proxy">Auto in other tools, through the proxy</a></li></ol></li><li><a href="#copilot-auto">Copilot Auto</a></li><li><a href="#copilot-fusion">Copilot Fusion</a></li><li><a href="#a-default-model">A default model</a></li><li><a href="#effort-and-thinking">Effort and thinking</a></li><li><a href="#see-also">See also</a></li></ol></details>
 
@@ -226,6 +226,14 @@ serve and prints a one-line note listing the real names.</p>
 <div class="codeblock"><pre><code class="language-text">/effort             list the levels this model accepts
 /thinking off       spend no reasoning tokens
 /plan               read-only mode: the answer is a plan</code></pre></div>
+<p><strong>On a model server you run</strong> (vLLM, SGLang, llama.cpp, Ollama, LM Studio and the others), these work too. A model
+that thinks at length by default, such as Qwen, answers much sooner with <code>/effort low</code> or <code>/thinking off</code>, at the
+price of harder problems. The proxy offers <code>none</code>, <code>low</code>, <code>medium</code> and <code>high</code> for such a model unless its
+<code>effort_levels</code> setting names others; a model that does not read them answers as it always does.</p>
+<p>Technically: off is sent as <code>chat_template_kwargs: {"enable_thinking": false}</code> and <code>reasoning_effort: "none"</code>, a level
+as <code>reasoning_effort</code>, and a token budget as <code>thinking_token_budget</code> (vLLM). A server that refuses one of these by name
+is asked again without it, and the proxy remembers that for the model. Nothing is sent when nobody asked, so the
+server's own default stands.</p>
 <h2 id="see-also">See also <a class="anchor" href="#see-also" aria-label="Link to this heading">#</a></h2>
 <ul class="cards-grid"><li><a href="configuration.html#model-choice">Harness settings: Model choice</a> Every model setting, with its default.</li><li><a href="proxy-settings.html#fallbacks">Fallbacks</a> Another model or account when one cannot answer.</li><li><a href="saving-tokens.html">See and reduce what a task costs</a> Why long tasks cost what they do, and the settings that help.</li><li><a href="endpoints.html">Connect a model server</a> Ollama, llama.cpp, vLLM, LM Studio and other tools, through the proxy.</li></ul>
 </article>
